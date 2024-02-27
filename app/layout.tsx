@@ -1,8 +1,13 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
+import Navigation from './components/common/navigation';
+import clsx from 'clsx';
 
-const inter = Inter({ subsets: ['latin'] });
+const NotoSansKR = Noto_Sans_KR({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
 
 export const metadata: Metadata = {
   title: '단페스타 2024',
@@ -15,8 +20,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>{children}</body>
+    <html lang='ko'>
+      <body className={clsx(NotoSansKR.className, 'px-5')}>
+        <div className='max-w-[400px] m-auto'>
+          <Navigation
+            title={'DANFESTA 2024'}
+            description='2024 단국대학교 대동제'
+          />
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
