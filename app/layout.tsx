@@ -3,6 +3,7 @@ import { Noto_Sans_KR } from 'next/font/google';
 import './globals.css';
 import Navigation from './components/common/navigation';
 import clsx from 'clsx';
+import Providers from './providers';
 
 const NotoSansKR = Noto_Sans_KR({
   subsets: ['latin'],
@@ -22,13 +23,15 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={clsx(NotoSansKR.className, 'px-5')}>
-        <div className='max-w-[400px] m-auto'>
-          <Navigation
-            title={'DANFESTA 2024'}
-            description='2024 단국대학교 대동제'
-          />
-          {children}
-        </div>
+        <Providers>
+          <div className='max-w-[400px] m-auto'>
+            <Navigation
+              title={'DANFESTA 2024'}
+              description='2024 단국대학교 대동제'
+            />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );
