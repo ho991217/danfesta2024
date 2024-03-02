@@ -24,6 +24,7 @@
 html,
 body {
   max-width: 100vw;
+  height: 100svh;
   overflow-x: hidden;
   touch-action: pan-x pan-y;
 }
@@ -36,6 +37,18 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+input {
+  outline: none;
+  font-size: 14px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
 @layer utilities {

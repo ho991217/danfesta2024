@@ -1,4 +1,4 @@
-import TicketTile from './components/home/ticket-tile';
+import { TicketTile } from '@components/home';
 
 export default function Home() {
   return (

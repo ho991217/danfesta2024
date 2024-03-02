@@ -1,4 +1,4 @@
-import { getOS } from '@/app/utils';
+import { getOS } from '@app/utils';
 import QrScanner from '@/public/qr-scanner.svg';
 
 export default function TicketTile() {

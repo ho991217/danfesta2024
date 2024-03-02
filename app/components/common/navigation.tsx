@@ -1,3 +1,7 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
 const Hamburger = () => (
   <svg
     width='35'
@@ -27,14 +31,37 @@ const Hamburger = () => (
   </svg>
 );
 
-type NavigationProps = {
+type NaviationItems = {
+  path: string;
   title: string;
   description: string;
 };
 
-export default function Navigation({ title, description }: NavigationProps) {
+const items: NaviationItems[] = [
+  {
+    path: '/',
+    title: 'danfesta'.toUpperCase(),
+    description: '단국대학교 2024 대동제',
+  },
+  {
+    path: '/login',
+    title: '로그인',
+    description: '서비스를 이용하려면 로그인해주세요.',
+  },
+];
+
+export default function Navigation() {
+  const pathname = usePathname();
+
+  const { title, description } = items.find(
+    (item) => item.path === pathname
+  ) || {
+    title: '404',
+    description: 'Not found',
+  };
+
   return (
-    <nav className='flex w-full justify-between pt-5 pb-8'>
+    <nav className='flex w-full justify-between pt-5 pb-8 h-[110px]'>
       <div className='flex flex-col justify-start'>
         <h1 className='font-bold text-2xl'>{title}</h1>
         <span className='text-neutral-500 dark:text-neutral-300 text-sm'>

@@ -13,6 +13,7 @@ const NotoSansKR = Noto_Sans_KR({
 export const metadata: Metadata = {
   title: '단페스타 2024',
   description: '단국대학교 대동제 2024 공식 홈페이지 입니다.',
+  viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0',
 };
 
 export default function RootLayout({
@@ -24,11 +25,8 @@ export default function RootLayout({
     <html lang='ko'>
       <body className={clsx(NotoSansKR.className, 'px-5')}>
         <Providers>
-          <div className='max-w-[400px] m-auto'>
-            <Navigation
-              title={'DANFESTA 2024'}
-              description='2024 단국대학교 대동제'
-            />
+          <div className='max-w-[400px] m-auto h-[calc(100svh-110px)]'>
+            <Navigation />
             {children}
           </div>
         </Providers>
