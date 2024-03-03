@@ -1,3 +1,10 @@
+const transition = {
+  type: 'spring',
+  stiffness: 150,
+  damping: 20,
+  duration: 0.01,
+};
+
 export const variants = {
   button: {
     initial: {
@@ -8,12 +15,7 @@ export const variants = {
       scale: 0.99,
       filter: 'brightness(0.9)',
     },
-    transition: {
-      type: 'spring',
-      stiffness: 150,
-      damping: 20,
-      duration: 0.01,
-    },
+    transition,
   },
   input: {
     initial: {
@@ -24,11 +26,6 @@ export const variants = {
       scale: 0.99,
       filter: 'brightness(0.9)',
     },
-    transition: {
-      type: 'spring',
-      stiffness: 150,
-      damping: 20,
-      duration: 0.01,
-    },
+    transition,
   },
 };

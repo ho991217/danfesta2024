@@ -1,21 +1,10 @@
 import { motion } from 'framer-motion';
 import { forwardRef } from 'react';
 import { AiFillExclamationCircle } from 'react-icons/ai';
+import { variants } from './motion';
 
-type ToastProps = Readonly<{
+type ToastProps = {
   children: string;
-}>;
-
-const transition = {
-  type: 'spring',
-  duration: 0.1,
-  stiffness: 200,
-  damping: 20,
-};
-
-const variants = {
-  hidden: { opacity: 0, y: 100, x: '50%' },
-  visible: { opacity: 1, y: 0, x: '50%' },
 };
 
 /**
@@ -32,7 +21,7 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
     <motion.div
       ref={ref}
       variants={variants}
-      transition={transition}
+      transition={variants.transition}
       initial='hidden'
       animate='visible'
       exit='hidden'
