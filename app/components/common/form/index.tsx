@@ -54,11 +54,13 @@ function Input({ className, ...props }: InputProps) {
   );
 }
 
-Form.TextInput = function TextInput(props: Omit<InputProps, 'type'>) {
+type InputSubComponents = Omit<InputProps, 'type'>;
+
+Form.Text = function TextInput(props: InputSubComponents) {
   return <Input type='text' {...props} />;
 };
 
-Form.ID = function IDInput(props: Omit<InputProps, 'type'>) {
+Form.ID = function IDInput(props: InputSubComponents) {
   const [value, setValue] = useState('');
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -78,7 +80,7 @@ Form.ID = function IDInput(props: Omit<InputProps, 'type'>) {
   );
 };
 
-Form.Password = function PasswordInput(props: Omit<InputProps, 'type'>) {
+Form.Password = function PasswordInput(props: InputSubComponents) {
   return <Input type='password' {...props} />;
 };
 
