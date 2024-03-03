@@ -54,11 +54,11 @@ function Input({ className, ...props }: InputProps) {
   );
 }
 
-Form.TextInput = function TextInput(props: HTMLAttributes<HTMLInputElement>) {
-  return <Input type='text' />;
+Form.TextInput = function TextInput(props: Omit<InputProps, 'type'>) {
+  return <Input type='text' {...props} />;
 };
 
-Form.ID = function IDInput(props: HTMLAttributes<HTMLInputElement>) {
+Form.ID = function IDInput(props: Omit<InputProps, 'type'>) {
   const [value, setValue] = useState('');
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -73,14 +73,13 @@ Form.ID = function IDInput(props: HTMLAttributes<HTMLInputElement>) {
       inputMode='numeric'
       value={value}
       onChange={handleChange}
+      {...props}
     />
   );
 };
 
-Form.Password = function PasswordInput(
-  props: HTMLAttributes<HTMLInputElement>
-) {
-  return <Input type='password' />;
+Form.Password = function PasswordInput(props: Omit<InputProps, 'type'>) {
+  return <Input type='password' {...props} />;
 };
 
 Form.Button = function Button({
@@ -91,44 +90,32 @@ Form.Button = function Button({
   to = '',
 }: ButtonProps) {
   const MotionLink = motion(Link);
+  const motionProps = {
+    variants: variants.button,
+    initial: 'initial',
+    whileTap: 'active',
+    className: clsx(
+      'w-full rounded-md h-10 px-4 flex items-center justify-center',
+      variant === 'filled' && 'bg-primary text-neutral-50',
+      variant === 'outlined' && 'border border-primary',
+      variant === 'transparent' &&
+        'text-neutral-500 bg-white dark:text-neutral-500 dark:bg-black',
+      className
+    ),
+  };
 
   if (type === 'link') {
     if (!to) throw new Error('`to` prop is required when type is link');
+
     return (
-      <MotionLink
-        variants={variants.button}
-        initial='initial'
-        whileTap={variant === 'transparent' ? 'activeTransparent' : 'active'}
-        className={clsx(
-          'w-full rounded-md h-10 px-4 flex items-center justify-center',
-          variant === 'filled' && 'bg-primary text-neutral-50',
-          variant === 'outlined' && 'border border-primary',
-          variant === 'transparent' &&
-            'text-neutral-500 dark:text-neutral-300 active:bg-neutral-200',
-          className
-        )}
-        href={to}
-      >
+      <MotionLink href={to} {...motionProps}>
         {children}
       </MotionLink>
     );
   }
 
   return (
-    <motion.button
-      variants={variants.button}
-      type={type}
-      initial='initial'
-      whileTap={variant === 'transparent' ? 'activeTransparent' : 'active'}
-      className={clsx(
-        'w-full rounded-md h-10 px-4',
-        variant === 'filled' && 'bg-primary text-neutral-50',
-        variant === 'outlined' && 'border border-primary',
-        variant === 'transparent' &&
-          'text-neutral-500 dark:text-neutral-300 active:bg-neutral-200',
-        className
-      )}
-    >
+    <motion.button type={type} {...motionProps}>
       {children}
     </motion.button>
   );

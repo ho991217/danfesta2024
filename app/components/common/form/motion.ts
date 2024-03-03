@@ -2,13 +2,11 @@ export const variants = {
   button: {
     initial: {
       scale: 1,
+      filter: 'brightness(1)',
     },
     active: {
       scale: 0.99,
-    },
-    activeTransparent: {
-      scale: 0.99,
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
+      filter: 'brightness(0.9)',
     },
     transition: {
       type: 'spring',
@@ -24,7 +22,7 @@ export const variants = {
     },
     active: {
       scale: 0.99,
-      filter: 'brightness(0.95)',
+      filter: 'brightness(0.9)',
     },
     transition: {
       type: 'spring',
