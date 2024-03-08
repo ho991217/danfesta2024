@@ -8,7 +8,7 @@ export default function Home() {
   const { open, close, isOpen } = useBottomSheet();
   return (
     <main>
-      <TicketTile />
+      {/* <TicketTile /> */}
       <button onClick={open}>Open bottom sheet</button>
       <BottomSheet isOpen={isOpen} onDismiss={close}>
         <div>Bottom sheet content</div>

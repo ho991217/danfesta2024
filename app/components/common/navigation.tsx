@@ -63,7 +63,9 @@ export default function Navigation() {
   return (
     <nav className='flex w-full justify-between pt-5 pb-8 h-[110px]'>
       <div className='flex flex-col justify-start'>
-        <h1 className='font-bold text-2xl'>{title}</h1>
+        <h1 role='gnb-heading' className='font-bold text-2xl'>
+          {title}
+        </h1>
         <span className='text-neutral-500 dark:text-neutral-300 text-sm'>
           {description}
         </span>
