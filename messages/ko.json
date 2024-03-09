@@ -1,7 +1,11 @@
 {
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, ko {🇰🇷 한국어} en {🇺🇸 English} other {Unknown}}"
+  },
   "GNB": {
-    "home": "단국대학교 2024 대동제",
-    "login": "로그인이 필요합니다."
+    "title": "DANFESTA 2024",
+    "description": "단국대학교 2024 대동제"
   },
   "Home": {
     "description": "단국대학교 2024 대동제"

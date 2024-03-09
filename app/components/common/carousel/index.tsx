@@ -63,6 +63,9 @@ function Tile({ src, alt }: TileProps) {
         alt={alt}
         className='absolute left-0 right-0 top-0 bottom-0'
         objectFit='cover'
+        placeholder='blur'
+        quality={100}
+        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=='
         fill
       />
       <div className='absolute p-4 flex flex-col justify-between h-1/3 left-4 right-4 bottom-4 bg-neutral-700 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-0 text-white shadow-lg'>

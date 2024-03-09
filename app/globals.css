@@ -33,6 +33,7 @@ body {
 }
 
 body {
+  overflow-x: hidden;
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
   user-select: none;

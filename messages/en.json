@@ -1,7 +1,11 @@
 {
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "locale": "{locale, select, ko {🇰🇷 한국어} en {🇺🇸 English} other {Unknown}}"
+  },
   "GNB": {
-    "home": "DKU festa 2024",
-    "login": "Login to DKU festa 2024"
+    "title": "DANFESTA 2024",
+    "description": "Welcome to Danfesta 2024!"
   },
   "Home": {
     "description": "DKU festa 2024"

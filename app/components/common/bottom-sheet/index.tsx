@@ -51,7 +51,8 @@ export default function BottomSheet({
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'hidden';
     }
   }, [isOpen]);
 
