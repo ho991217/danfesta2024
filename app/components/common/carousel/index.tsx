@@ -27,30 +27,31 @@ export default function Carousel({ images }: CarouselProps) {
   const locale = useLocale();
 
   return (
-    <div
-      className='absolute left-0 right-0 overflow-hidden px-6 mx-auto'
-      ref={emblaRef}
+    <NextIntlClientProvider
+      messages={locale === 'en' ? en : ko}
+      timeZone='Asia/Seoul'
+      formats={{
+        dateTime: {
+          short: {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          },
+        },
+      }}
+      locale={locale}
     >
-      <div className='flex gap-4'>
-        <NextIntlClientProvider
-          messages={locale === 'en' ? en : ko}
-          formats={{
-            dateTime: {
-              short: {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              },
-            },
-          }}
-          locale={locale}
-        >
+      <div
+        className='absolute left-0 right-0 overflow-hidden px-6 mx-auto'
+        ref={emblaRef}
+      >
+        <div className='flex gap-4'>
           {images.map((tile, index) => (
             <Tile key={index} src={tile.src} alt={tile.alt} />
           ))}
-        </NextIntlClientProvider>
+        </div>
       </div>
-    </div>
+    </NextIntlClientProvider>
   );
 }
 
