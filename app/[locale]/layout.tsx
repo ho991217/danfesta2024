@@ -24,7 +24,7 @@ export default function LocaleLayout({
     <html lang={locale}>
       <body className={clsx(NotoSansKR.className, 'px-5')}>
         <Providers>
-          <div className='max-w-[400px] m-auto h-[calc(100svh-110px)]'>
+          <div className='max-w-[600px] m-auto h-[calc(100svh-110px)]'>
             <Navigation title='DANFESTA 2024' description={t('home')} />
             {children}
           </div>

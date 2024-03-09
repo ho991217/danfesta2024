@@ -7,8 +7,11 @@
     "description": "DKU festa 2024"
   },
   "LineupTile": {
-    "title": "Check Lineups",
+    "title": "Check Out Line-Ups",
     "seeAll": "See all"
+  },
+  "Carousel": {
+    "nextup": "Next up"
   },
   "Login": {
     "title": "Login",

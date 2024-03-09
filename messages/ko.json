@@ -10,6 +10,9 @@
     "title": "라인업 알아보기",
     "seeAll": "더보기"
   },
+  "Carousel": {
+    "nextup": "공연 예정 아티스트"
+  },
   "Login": {
     "title": "로그인",
     "username": "학번",
