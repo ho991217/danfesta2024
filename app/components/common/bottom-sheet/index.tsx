@@ -21,6 +21,8 @@ interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
   expandTo?: Height;
 }
 
+const DRAG_TRESHOLD = 5;
+
 export default function BottomSheet({
   isOpen,
   children,
@@ -40,52 +42,24 @@ export default function BottomSheet({
   };
 
   const handleDragend = (_: Event, info: PanInfo) => {
-    if (info.offset.y > 5) onDismiss();
-    else if (info.offset.y < -5 && expandTo !== undefined) {
-      if (height !== 'auto' && expandTo) setCurrentHeight(expandTo);
-    }
+    if (info.offset.y > DRAG_TRESHOLD) onDismiss();
+    else if (info.offset.y < -DRAG_TRESHOLD) expand();
+
     setDragging(false);
   };
 
-  const preventScroll = useCallback(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflowY = 'auto';
-      document.body.style.overflowX = 'hidden';
-    }
-  }, [isOpen]);
+  const expand = () => {
+    if (expandTo !== undefined && height !== 'auto') setCurrentHeight(expandTo);
+  };
 
-  const preventTouchMove = useCallback(() => {
-    if (dragging) {
-      document.body.addEventListener('touchmove', (e) => e.preventDefault(), {
-        passive: false,
-      });
-    } else {
-      document.body.removeEventListener('touchmove', (e) => e.preventDefault());
-    }
-  }, [dragging]);
-
-  const resetHeight = useCallback(() => {
+  useEffect(() => {
     if (!isOpen) setCurrentHeight(height);
   }, [isOpen, height]);
-
-  useEffect(() => {
-    preventScroll();
-  }, [isOpen, preventScroll]);
-
-  useEffect(() => {
-    preventTouchMove();
-  }, [dragging, preventTouchMove]);
-
-  useEffect(() => {
-    resetHeight();
-  }, [isOpen, resetHeight]);
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className='relative h-full w-full touch-pan-x touch-pan-y'>
+        <div className='relative h-full w-full touch-none'>
           <motion.div
             drag
             dragConstraints={{

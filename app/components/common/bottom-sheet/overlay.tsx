@@ -9,8 +9,7 @@ type Props = {
 export default function Overlay({ onClick, darker }: Props) {
   return (
     <motion.div
-      // className={styles.overlay}
-      className='fixed inset-0 bg-black backdrop-filter backdrop-blur-sm z-10 brightness-75'
+      className='fixed inset-0 bg-black backdrop-filter backdrop-blur-sm z-20 brightness-75 touch-none'
       variants={variants.overlay}
       initial='hidden'
       animate={darker ? 'darker' : 'visible'}
