@@ -1,0 +1,19 @@
+{
+  "GNB": {
+    "home": "DKU festa 2024",
+    "login": "Login to DKU festa 2024"
+  },
+  "Home": {
+    "description": "DKU festa 2024"
+  },
+  "LineupTile": {
+    "title": "Check Lineups",
+    "seeAll": "See all"
+  },
+  "Login": {
+    "title": "Login",
+    "username": "StudentId",
+    "password": "Password",
+    "login": "Login"
+  }
+}

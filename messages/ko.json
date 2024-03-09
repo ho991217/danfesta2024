@@ -1,0 +1,19 @@
+{
+  "GNB": {
+    "home": "단국대학교 2024 대동제",
+    "login": "로그인이 필요합니다."
+  },
+  "Home": {
+    "description": "단국대학교 2024 대동제"
+  },
+  "LineupTile": {
+    "title": "라인업 알아보기",
+    "seeAll": "더보기"
+  },
+  "Login": {
+    "title": "로그인",
+    "username": "학번",
+    "password": "비밀번호",
+    "login": "로그인"
+  }
+}
