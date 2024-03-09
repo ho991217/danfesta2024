@@ -1,9 +1,6 @@
 import { useTranslations } from 'next-intl';
-import { Link } from '@lib/navigation';
-import dynamic from 'next/dynamic';
-import { TileProps } from '../common/carousel';
-
-const Carousel = dynamic(() => import('../common/carousel'));
+import Carousel, { type TileProps } from '../common/carousel';
+import TileHeader from './tile-header';
 
 const data: TileProps[] = [
   {
@@ -25,13 +22,11 @@ export default function LineupTile() {
 
   return (
     <div className='w-full'>
-      <div className='w-full flex justify-between items-end mb-4'>
-        <h3 className='text-2xl font-bold'>{t('title')}</h3>
-        <Link href='/lineup' className='text-base font-normal text-primary'>
-          {t('seeAll')}
-        </Link>
-      </div>
-      <div>
+      <TileHeader>
+        <TileHeader.Head>{t('title')}</TileHeader.Head>
+        <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll>
+      </TileHeader>
+      <div className='w-full aspect-[3/4] relative'>
         <Carousel images={data} />
       </div>
     </div>

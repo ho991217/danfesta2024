@@ -1,11 +1,12 @@
-import { useTranslations } from 'next-intl';
-import LineupTile from '../components/home/lineup-tile';
+import dynamic from 'next/dynamic';
+import { TicketTile } from '../components/home';
+const LineupTile = dynamic(() => import('../components/home/lineup-tile'));
 
 export default function Home() {
-  const t = useTranslations('Home');
   return (
-    <div>
+    <div className='flex flex-col gap-4'>
       <LineupTile />
+      <TicketTile />
     </div>
   );
 }

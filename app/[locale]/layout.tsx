@@ -1,7 +1,6 @@
 import { Noto_Sans_KR } from 'next/font/google';
 import clsx from 'clsx';
 import Providers from '../providers';
-import { getOS } from '../utils';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 
@@ -24,7 +23,7 @@ export default function LocaleLayout({
     <html lang={locale}>
       <body className={clsx(NotoSansKR.className, 'px-5')}>
         <Providers>
-          <div className='max-w-[600px] m-auto h-[calc(100svh-110px)]'>
+          <div className='max-w-[600px] min-w-[320px] m-auto h-[calc(100svh-110px)]'>
             <Navigation title='DANFESTA 2024' description={t('home')} />
             {children}
           </div>

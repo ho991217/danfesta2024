@@ -14,7 +14,7 @@ export default function Navigation({
   description: string;
 }) {
   return (
-    <nav className='flex w-full justify-between items-center pt-5 pb-8 h-[110px]'>
+    <nav className='flex w-full justify-between items-center pt-5 pb-8 h-[100px]'>
       <div className='flex flex-col justify-start'>
         <h1 className='font-bold text-lg'>{title}</h1>
         <span className='text-neutral-500 dark:text-neutral-400 text-sm font-normal'>

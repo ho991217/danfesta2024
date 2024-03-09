@@ -102,7 +102,7 @@ export default function BottomSheet({
             exit='hidden'
             variants={variants.bottomSheet.container}
             transition={transition.container}
-            className='z-50 fixed bg-neutral-50 dark:bg-neutral-900 rounded-xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl'
+            className='z-50 fixed bg-neutral-50 dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl'
           >
             <div
               onPointerDown={startDrag}

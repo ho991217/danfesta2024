@@ -41,11 +41,8 @@ export default function Carousel({ images }: CarouselProps) {
       }}
       locale={locale}
     >
-      <div
-        className='absolute left-0 right-0 overflow-hidden px-6 mx-auto'
-        ref={emblaRef}
-      >
-        <div className='flex gap-4'>
+      <div className='absolute left-0 right-0' ref={emblaRef}>
+        <div className='flex gap-3'>
           {images.map((tile, index) => (
             <Tile key={index} src={tile.src} alt={tile.alt} />
           ))}
@@ -68,7 +65,7 @@ function Tile({ src, alt }: TileProps) {
         objectFit='cover'
         fill
       />
-      <div className='absolute p-4 flex flex-col justify-between h-[30%] left-6 right-6 bottom-6 bg-neutral-700 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-0 text-white shadow-lg'>
+      <div className='absolute p-4 flex flex-col justify-between h-1/3 left-4 right-4 bottom-4 bg-neutral-700 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-0 text-white shadow-lg'>
         <span className='text-xs flex gap-2 items-center'>
           <FiHeart color='white' />
           {t('nextup')}

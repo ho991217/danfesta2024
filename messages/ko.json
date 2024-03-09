@@ -10,6 +10,15 @@
     "title": "라인업 알아보기",
     "seeAll": "더보기"
   },
+  "TicketTile": {
+    "title": "나의 티켓",
+    "subtitle": "단페스타 모바일 티켓 시스템",
+    "ticketStatus": "티켓 유무",
+    "haveTicket": "있음",
+    "noTicket": "없음",
+    "notice": "입장시 티켓 확인이 필요합니다. 인증 절차 중 확인이 불가할 경우 입장이 제한될 수 있습니다.",
+    "tapToSee": "탭하여 확인"
+  },
   "Carousel": {
     "nextup": "공연 예정 아티스트"
   },

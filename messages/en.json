@@ -10,6 +10,15 @@
     "title": "Check Out Line-Ups",
     "seeAll": "See all"
   },
+  "TicketTile": {
+    "title": "Your Tickets",
+    "subtitle": "Danfesta Mobile Ticket System",
+    "ticketStatus": "Ticket Status",
+    "haveTicket": "Available",
+    "noTicket": "No Ticket",
+    "notice": "We will check your ticket and ID when you enter. If we cannnot identify your id, entry may be restricted.",
+    "tapToSee": "Tap to see"
+  },
   "Carousel": {
     "nextup": "Next up"
   },
