@@ -1,6 +1,6 @@
 export * from './getOS';
 export * from './isAndroid';
-export * from './isIos';
+export * from './isIOS';
 export * from './isMobileWeb';
 export * from './isServer';
 export * from './isKakaoTalkBrowser';

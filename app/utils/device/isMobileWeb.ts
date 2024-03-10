@@ -1,5 +1,5 @@
 import { isAndroid } from './isAndroid';
-import { isIOS } from './isIos';
+import { isIOS } from './isIOS';
 import { isServer } from './isServer';
 
 /**
