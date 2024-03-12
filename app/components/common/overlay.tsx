@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { variants } from './motion';
+import { variants } from './bottom-sheet/motion';
 
 type Props = {
   onClick: () => void;

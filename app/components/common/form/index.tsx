@@ -110,6 +110,7 @@ Form.Text = function TextInput({
 
 Form.ID = function IDInput({
   name = 'studentId',
+  className,
   ...props
 }: InputSubComponents) {
   return (

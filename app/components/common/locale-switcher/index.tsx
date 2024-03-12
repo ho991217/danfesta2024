@@ -1,11 +1,12 @@
-import { useTranslations } from 'next-intl';
-import { getLocale } from 'next-intl/server';
+'use client';
+
+import { useLocale, useTranslations } from 'next-intl';
 import { locales } from '@lib/navigation';
 import LocaleSwitcherSelect from './locale-switcher-select';
 
-export default async function LocaleSwitcher() {
+export default function LocaleSwitcher() {
   const t = useTranslations('LocaleSwitcher');
-  const locale = await getLocale();
+  const locale = useLocale();
 
   return (
     <LocaleSwitcherSelect defaultValue={locale} label={t('label')}>

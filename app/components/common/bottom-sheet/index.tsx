@@ -10,7 +10,7 @@ import {
 import { PointerEvent, useCallback, useEffect, useState } from 'react';
 
 import { variants, transition } from './motion';
-import Overlay from './overlay';
+import Overlay from '../overlay';
 import { Height } from './types';
 
 interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
