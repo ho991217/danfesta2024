@@ -44,10 +44,14 @@ async function post<Req, Res>(
   });
 
   if (!response.ok) {
-    if (response.status === 401) {
-      redirect('/ko/login');
+    switch (response.status) {
+      case 401:
+        redirect('/ko/login');
+      case 400:
+        throw new Error('잘못된 요청입니다.');
+      default:
+        throw new Error();
     }
-    throw new Error();
   }
   const json = (await response.json()) as Res;
 

@@ -24,7 +24,7 @@ export default function LoginPage() {
           placeholder='비밀번호'
         />
         <Form.Group className='mt-4'>
-          <Form.Button type='submit' animateOnClick>
+          <Form.Button type='submit' variant='bottom'>
             로그인
           </Form.Button>
           <Form.Button
