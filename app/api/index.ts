@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { API_ROUTES, API_URL } from '../constants';
 import { DeepValueOf } from '../utils';
+import { redirect } from 'next/navigation';
 
 type ErrorResponse = {
   timestamp: string;
@@ -16,7 +17,7 @@ type APIOptions = {
 };
 
 async function get<Res>(
-  path: DeepValueOf<typeof API_ROUTES>,
+  path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions
 ) {
   const response = await fetch(`${API_URL}${path}`, {
@@ -27,6 +28,9 @@ async function get<Res>(
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      redirect('/ko/login');
+    }
     const json = (await response.json()) as ErrorResponse;
     throw new Error(json.message[0]);
   }
@@ -36,7 +40,7 @@ async function get<Res>(
 }
 
 async function post<Req, Res>(
-  path: DeepValueOf<typeof API_ROUTES>,
+  path: DeepValueOf<typeof API_ROUTES> | string,
   data: Req,
   options?: APIOptions
 ) {
@@ -50,6 +54,9 @@ async function post<Req, Res>(
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      redirect('/ko/login');
+    }
     const json = (await response.json()) as ErrorResponse;
     throw new Error(json.message[0]);
   }

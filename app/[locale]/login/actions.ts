@@ -15,7 +15,7 @@ export type AuthRes = {
   refreshToken: string;
 };
 
-export default async function authenticate(data: AuthReq) {
+export async function authenticate(data: AuthReq) {
   try {
     const { accessToken, refreshToken } = await api.post<AuthReq, AuthRes>(
       API_ROUTES.user.login,

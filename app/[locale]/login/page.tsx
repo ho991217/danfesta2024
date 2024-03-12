@@ -1,7 +1,7 @@
 'use client';
 
 import { Form } from '@components/common';
-import authenticate, { type AuthReq } from './actions';
+import { type AuthReq, authenticate } from './actions';
 import useToastStore from '@/app/stores/toast-state';
 
 export default function LoginPage() {

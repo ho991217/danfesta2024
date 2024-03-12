@@ -11,4 +11,7 @@ export const API_ROUTES = {
     login: '/user/login',
     signup: '/user/signup',
   },
+  ticket: {
+    reservation: '/ticket/reservation',
+  },
 } as const;
