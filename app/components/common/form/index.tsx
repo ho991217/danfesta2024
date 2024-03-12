@@ -5,16 +5,36 @@ import { HTMLAttributes, HTMLInputTypeAttribute, useState } from 'react';
 import { MotionProps, motion } from 'framer-motion';
 import { variants } from './motion';
 import Link from 'next/link';
+import {
+  ChangeHandler,
+  FieldValues,
+  FormProvider,
+  RegisterOptions,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 
-type FormProps = HTMLAttributes<HTMLFormElement>;
+type FormProps<TFieldValues extends FieldValues> = Omit<
+  HTMLAttributes<HTMLFormElement>,
+  'onSubmit'
+> & {
+  onSubmit: SubmitHandler<TFieldValues>;
+};
 
 type InputProps = {
   className?: string;
+  name: string;
   type: HTMLInputTypeAttribute;
   pattern?: string;
   inputMode?: HTMLAttributes<HTMLInputElement>['inputMode'];
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: ChangeHandler;
+  options?: RegisterOptions;
+};
+
+type InputSubComponents = Omit<InputProps, 'type' | 'name'> & {
+  name?: string;
 };
 
 type ButtonProps = MotionProps & {
@@ -25,21 +45,33 @@ type ButtonProps = MotionProps & {
   variant?: 'filled' | 'outlined' | 'transparent';
 };
 
-export default function Form({ children, className, ...props }: FormProps) {
+export default function Form<T extends FieldValues>({
+  children,
+  className,
+  onSubmit,
+  ...props
+}: FormProps<T>) {
+  const method = useForm<T>();
+
   return (
-    <form
-      className={clsx(
-        'flex flex-col items-center justify-start w-full',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </form>
+    <FormProvider {...method}>
+      <form
+        onSubmit={method.handleSubmit(onSubmit)}
+        className={clsx(
+          'flex flex-col items-center justify-start w-full',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </form>
+    </FormProvider>
   );
 }
 
-function Input({ className, ...props }: InputProps) {
+function Input({ className, name, options, ...props }: InputProps) {
+  const { register } = useFormContext();
+
   return (
     <motion.input
       variants={variants.input}
@@ -50,38 +82,49 @@ function Input({ className, ...props }: InputProps) {
         className
       )}
       {...props}
+      {...register(name, options)}
     />
   );
 }
 
-type InputSubComponents = Omit<InputProps, 'type'>;
-
-Form.Text = function TextInput(props: InputSubComponents) {
-  return <Input type='text' {...props} />;
+Form.Text = function TextInput({
+  name = 'text',
+  ...props
+}: InputSubComponents) {
+  return <Input type='text' name={name} {...props} />;
 };
 
-Form.ID = function IDInput(props: InputSubComponents) {
-  const [value, setValue] = useState('');
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.value.length > 8) return;
-    setValue(e.target.value);
-  }
-
+Form.ID = function IDInput({ name = 'id', ...props }: InputSubComponents) {
   return (
     <Input
+      name={name}
       type='number'
       pattern='^[0-9]{8}$'
       inputMode='numeric'
-      value={value}
-      onChange={handleChange}
+      options={{
+        minLength: 8,
+        maxLength: 8,
+        pattern: /^[0-9]{8}$/,
+        onChange(event) {
+          const { value } = event.target;
+          if (isNaN(Number(value)) || value === 'e') return;
+          const { length } = value;
+
+          if (length > 8) {
+            event.target.value = value.slice(0, 8);
+          }
+        },
+      }}
       {...props}
     />
   );
 };
 
-Form.Password = function PasswordInput(props: InputSubComponents) {
-  return <Input type='password' {...props} />;
+Form.Password = function PasswordInput({
+  name = 'password',
+  ...props
+}: InputSubComponents) {
+  return <Input type='password' name={name} {...props} />;
 };
 
 Form.Button = function Button({
@@ -131,7 +174,7 @@ Form.Group = function Group({
   return (
     <div
       className={clsx(
-        'flex flex-col items-center justify-start w-full',
+        'flex flex-col items-center justify-start w-full gap-1',
         className
       )}
       {...props}
