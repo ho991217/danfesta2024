@@ -3,15 +3,6 @@ import { API_ROUTES, API_URL } from '../constants';
 import { DeepValueOf } from '../utils';
 import { redirect } from 'next/navigation';
 
-type ErrorResponse = {
-  timestamp: string;
-  trackingId: string;
-  statusCode: number;
-  status: string;
-  code: string;
-  message: string[];
-};
-
 type APIOptions = {
   withCredential?: boolean;
 };
@@ -31,8 +22,7 @@ async function get<Res>(
     if (response.status === 401) {
       redirect('/ko/login');
     }
-    const json = (await response.json()) as ErrorResponse;
-    throw new Error(json.message[0]);
+    throw new Error();
   }
   const json = (await response.json()) as Res;
 
@@ -57,8 +47,7 @@ async function post<Req, Res>(
     if (response.status === 401) {
       redirect('/ko/login');
     }
-    const json = (await response.json()) as ErrorResponse;
-    throw new Error(json.message[0]);
+    throw new Error();
   }
   const json = (await response.json()) as Res;
 

@@ -11,19 +11,28 @@ export default function LoginPage() {
     try {
       await authenticate(data);
     } catch (error) {
-      const { message } = error as Error;
-      open(message ?? '로그인에 실패했습니다.');
+      open('로그인에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
   return (
-    <section className='h-full w-full flex flex-col justify-between'>
-      <Form className='flex flex-col mb-10 gap-4' onSubmit={onSubmit}>
-        <Form.ID />
-        <Form.Password />
-        <Form.Group>
-          <Form.Button type='submit'>로그인</Form.Button>
-          <Form.Button type='link' to='/signup' variant='transparent'>
+    <section className='w-full flex flex-col justify-end items-center'>
+      <Form className='flex flex-col gap-2' onSubmit={onSubmit}>
+        <Form.ID label='단국대학교 포털 아이디' placeholder='32123456' />
+        <Form.Password
+          label='단국대학교 포털 비밀번호'
+          placeholder='비밀번호'
+        />
+        <Form.Group className='mt-4'>
+          <Form.Button type='submit' animateOnClick>
+            로그인
+          </Form.Button>
+          <Form.Button
+            type='link'
+            to='/signup'
+            variant='transparent'
+            animateOnClick
+          >
             회원가입
           </Form.Button>
         </Form.Group>

@@ -4,6 +4,7 @@ import api from '@app/api';
 import { API_ROUTES, COOKIE_KEYS } from '@app/constants';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
+import { getLocale } from 'next-intl/server';
 
 export type AuthReq = {
   studentId: string;
@@ -16,6 +17,7 @@ export type AuthRes = {
 };
 
 export async function authenticate(data: AuthReq) {
+  const locale = await getLocale();
   try {
     const { accessToken, refreshToken } = await api.post<AuthReq, AuthRes>(
       API_ROUTES.user.login,
@@ -31,8 +33,8 @@ export async function authenticate(data: AuthReq) {
       secure: isProduction,
     });
 
-    redirect('/ko');
+    redirect(`/${locale}`);
   } catch (error) {
-    throw error;
+    return error;
   }
 }

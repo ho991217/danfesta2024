@@ -26,8 +26,10 @@ type InputProps = {
   className?: string;
   name: string;
   type: HTMLInputTypeAttribute;
+  label?: string;
   pattern?: string;
   inputMode?: HTMLAttributes<HTMLInputElement>['inputMode'];
+  placeholder?: string;
   value?: string;
   onChange?: ChangeHandler;
   options?: RegisterOptions;
@@ -40,9 +42,11 @@ type InputSubComponents = Omit<InputProps, 'type' | 'name'> & {
 type ButtonProps = MotionProps & {
   className?: string;
   children: React.ReactNode;
+  onClick?: () => void;
   type?: 'submit' | 'reset' | 'button' | 'link';
   to?: string;
-  variant?: 'filled' | 'outlined' | 'transparent';
+  variant?: 'filled' | 'outlined' | 'transparent' | 'bottom';
+  animateOnClick?: boolean;
 };
 
 export default function Form<T extends FieldValues>({
@@ -69,21 +73,31 @@ export default function Form<T extends FieldValues>({
   );
 }
 
-function Input({ className, name, options, ...props }: InputProps) {
+function Input({ className, name, options, label, ...props }: InputProps) {
   const { register } = useFormContext();
 
   return (
-    <motion.input
-      variants={variants.input}
-      initial='initial'
-      whileTap='active'
-      className={clsx(
-        'bg-neutral-200 w-full rounded-md h-12 px-4 dark:bg-neutral-700',
-        className
+    <div className='flex w-full flex-col gap-2'>
+      {label && (
+        <label
+          htmlFor={name}
+          className='text-xs dark:text-neutral-500 text-neutral-700'
+        >
+          {label}
+        </label>
       )}
-      {...props}
-      {...register(name, options)}
-    />
+      <motion.input
+        variants={variants.input}
+        initial='initial'
+        whileTap='active'
+        className={clsx(
+          'bg-neutral-200 w-full rounded-md h-12 px-4 dark:bg-neutral-800 dark:placeholder-neutral-500 placeholder-neutral-700',
+          className
+        )}
+        {...props}
+        {...register(name, options)}
+      />
+    </div>
   );
 }
 
@@ -94,7 +108,10 @@ Form.Text = function TextInput({
   return <Input type='text' name={name} {...props} />;
 };
 
-Form.ID = function IDInput({ name = 'studentId', ...props }: InputSubComponents) {
+Form.ID = function IDInput({
+  name = 'studentId',
+  ...props
+}: InputSubComponents) {
   return (
     <Input
       name={name}
@@ -133,18 +150,22 @@ Form.Button = function Button({
   variant = 'filled',
   type = 'button',
   to = '',
+  onClick,
+  animateOnClick = false,
 }: ButtonProps) {
   const MotionLink = motion(Link);
   const motionProps = {
     variants: variants.button,
     initial: 'initial',
-    whileTap: 'active',
+    whileTap: animateOnClick ? 'dimmedAndSmaller' : 'dimmed',
     className: clsx(
-      'w-full rounded-md h-10 px-4 flex items-center justify-center',
+      'w-full rounded-md h-12 px-4 flex items-center justify-center',
       variant === 'filled' && 'bg-primary text-neutral-50',
       variant === 'outlined' && 'border border-primary',
       variant === 'transparent' &&
-        'text-neutral-500 bg-white dark:text-neutral-500 dark:bg-black',
+        'text-neutral-500 dark:text-neutral-500 bg-transparent',
+      variant === 'bottom' &&
+        'fixed bottom-0 bg-primary text-neutral-50 rounded-none',
       className
     ),
   };
@@ -153,14 +174,14 @@ Form.Button = function Button({
     if (!to) throw new Error('`to` prop is required when type is link');
 
     return (
-      <MotionLink href={to} {...motionProps}>
+      <MotionLink href={to} {...motionProps} onClick={onClick}>
         {children}
       </MotionLink>
     );
   }
 
   return (
-    <motion.button type={type} {...motionProps}>
+    <motion.button type={type} {...motionProps} onClick={onClick}>
       {children}
     </motion.button>
   );
