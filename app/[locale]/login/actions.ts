@@ -1,17 +1,38 @@
 'use server';
 
-import { getOS } from '@/app/utils';
+import api from '@app/api';
+import { API_ROUTES, COOKIE_KEYS } from '@app/constants';
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
-export type AuthData = {
-  id: string;
+export type AuthReq = {
+  studentId: string;
   password: string;
 };
 
-export default async function authenticate({ id, password }: AuthData) {
-  const os = getOS();
-  return {
-    status: 200,
-    message: 'success',
-    data: os,
-  };
+export type AuthRes = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+export default async function authenticate(data: AuthReq) {
+  try {
+    const { accessToken, refreshToken } = await api.post<AuthReq, AuthRes>(
+      API_ROUTES.user.login,
+      data
+    );
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    cookies().set(COOKIE_KEYS.accessToken, accessToken, {
+      secure: isProduction,
+    });
+
+    cookies().set(COOKIE_KEYS.refreshToken, refreshToken, {
+      secure: isProduction,
+    });
+
+    redirect('/ko');
+  } catch (error) {
+    throw error;
+  }
 }

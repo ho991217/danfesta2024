@@ -1,14 +1,21 @@
 'use client';
 
 import { Form } from '@components/common';
-import authenticate, { AuthData } from './actions';
-import { FormEvent } from 'react';
+import authenticate, { type AuthReq } from './actions';
+import useToastStore from '@/app/stores/toast-state';
 
 export default function LoginPage() {
-  const onSubmit = async (data: AuthData) => {
-    const response = await authenticate(data);
-    console.log(response);
+  const { open } = useToastStore();
+
+  const onSubmit = async (data: AuthReq) => {
+    try {
+      await authenticate(data);
+    } catch (error) {
+      const { message } = error as Error;
+      open(message ?? '로그인에 실패했습니다.');
+    }
   };
+
   return (
     <section className='h-full w-full flex flex-col justify-between'>
       <Form className='flex flex-col mb-10 gap-4' onSubmit={onSubmit}>

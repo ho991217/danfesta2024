@@ -94,7 +94,7 @@ Form.Text = function TextInput({
   return <Input type='text' name={name} {...props} />;
 };
 
-Form.ID = function IDInput({ name = 'id', ...props }: InputSubComponents) {
+Form.ID = function IDInput({ name = 'studentId', ...props }: InputSubComponents) {
   return (
     <Input
       name={name}
