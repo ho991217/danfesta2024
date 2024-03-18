@@ -33,4 +33,5 @@ jobs:
     - name: Build
       run: |
         yarn add react-scripts
+        npm install -save react-scripts --legacy-peer-deps
         CI=false npm run build
