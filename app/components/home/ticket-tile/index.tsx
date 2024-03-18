@@ -10,18 +10,20 @@ export default function TicketTile() {
         <TileHeader>
           <TileHeader.Head>{t('title')}</TileHeader.Head>
         </TileHeader>
-        <div className='w-full h-32 bg-neutral-900 flex justify-between p-4 rounded-xl'>
+        <div className='w-full h-32 bg-neutral-300 dark:bg-neutral-900 flex justify-between p-4 rounded-xl'>
           <div className='text-neutral-50 h-full flex flex-col justify-between'>
-            <h4 className='font-bold text-sm'>{t('subtitle')}</h4>
+            <h4 className='font-bold text-sm dark:text-neutral-50 text-neutral-900'>
+              {t('subtitle')}
+            </h4>
             <div className='flex flex-col gap-0'>
-              <span className='text-[11px] text-neutral-500 leading-[0.8rem]'>
+              <span className='text-[11px] dark:text-neutral-500 text-neutral-900 leading-[0.8rem]'>
                 {t('ticketStatus')}
               </span>
               <h3 className='text-primary font-bold text-base'>
                 {t('haveTicket')}
               </h3>
             </div>
-            <span className='text-[8px] text-neutral-500 leading-[8px] max-w-60'>
+            <span className='text-[8px] dark:text-neutral-500 text-neutral-600 leading-[8px] max-w-60'>
               {t('notice')}
             </span>
           </div>

@@ -1,3 +1,5 @@
+'use client';
+
 import { useLocale, useTranslations } from 'next-intl';
 import { locales } from '@lib/navigation';
 import LocaleSwitcherSelect from './locale-switcher-select';

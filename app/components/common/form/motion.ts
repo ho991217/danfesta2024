@@ -11,8 +11,12 @@ export const variants = {
       scale: 1,
       filter: 'brightness(1)',
     },
-    active: {
+    dimmedAndSmaller: {
       scale: 0.99,
+      filter: 'brightness(0.9)',
+    },
+    dimmed: {
+      scale: 1,
       filter: 'brightness(0.9)',
     },
     transition,

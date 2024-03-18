@@ -13,10 +13,10 @@ export default function TicketButton({ label }: TicketButtonProps) {
   return (
     <>
       <button
-        className='text-white font-bold text-[10px] text-center flex flex-col gap-[5px] items-center'
+        className='dark:text-white text-neutral-900 font-bold text-[10px] text-center flex flex-col gap-[5px] items-center'
         onClick={open}
       >
-        <div className='bg-neutral-800 w-[80px] h-[80px] rounded-lg flex items-center justify-center'>
+        <div className='dark:bg-neutral-800 bg-neutral-400 w-[80px] h-[80px] rounded-lg flex items-center justify-center'>
           <QrScanner />
         </div>
         {label}

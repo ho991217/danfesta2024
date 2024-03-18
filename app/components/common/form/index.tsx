@@ -5,83 +5,144 @@ import { HTMLAttributes, HTMLInputTypeAttribute, useState } from 'react';
 import { MotionProps, motion } from 'framer-motion';
 import { variants } from './motion';
 import Link from 'next/link';
+import {
+  ChangeHandler,
+  FieldValues,
+  FormProvider,
+  RegisterOptions,
+  SubmitHandler,
+  useForm,
+  useFormContext,
+} from 'react-hook-form';
 
-type FormProps = HTMLAttributes<HTMLFormElement>;
+type FormProps<TFieldValues extends FieldValues> = Omit<
+  HTMLAttributes<HTMLFormElement>,
+  'onSubmit'
+> & {
+  onSubmit: SubmitHandler<TFieldValues>;
+};
 
 type InputProps = {
   className?: string;
+  name: string;
   type: HTMLInputTypeAttribute;
+  label?: string;
   pattern?: string;
   inputMode?: HTMLAttributes<HTMLInputElement>['inputMode'];
+  placeholder?: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: ChangeHandler;
+  options?: RegisterOptions;
+};
+
+type InputSubComponents = Omit<InputProps, 'type' | 'name'> & {
+  name?: string;
 };
 
 type ButtonProps = MotionProps & {
   className?: string;
   children: React.ReactNode;
+  onClick?: () => void;
   type?: 'submit' | 'reset' | 'button' | 'link';
   to?: string;
-  variant?: 'filled' | 'outlined' | 'transparent';
+  variant?: 'filled' | 'outlined' | 'transparent' | 'bottom';
+  animateOnClick?: boolean;
 };
 
-export default function Form({ children, className, ...props }: FormProps) {
+export default function Form<T extends FieldValues>({
+  children,
+  className,
+  onSubmit,
+  ...props
+}: FormProps<T>) {
+  const method = useForm<T>();
+
   return (
-    <form
-      className={clsx(
-        'flex flex-col items-center justify-start w-full',
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </form>
+    <FormProvider {...method}>
+      <form
+        onSubmit={method.handleSubmit(onSubmit)}
+        className={clsx(
+          'flex flex-col items-center justify-start w-full',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </form>
+    </FormProvider>
   );
 }
 
-function Input({ className, ...props }: InputProps) {
+function Input({ className, name, options, label, ...props }: InputProps) {
+  const { register } = useFormContext();
+
   return (
-    <motion.input
-      variants={variants.input}
-      initial='initial'
-      whileTap='active'
-      className={clsx(
-        'bg-neutral-200 w-full rounded-md h-12 px-4 dark:bg-neutral-700',
-        className
+    <div className='flex w-full flex-col gap-2'>
+      {label && (
+        <label
+          htmlFor={name}
+          className='text-xs dark:text-neutral-500 text-neutral-700'
+        >
+          {label}
+        </label>
       )}
-      {...props}
-    />
+      <motion.input
+        variants={variants.input}
+        initial='initial'
+        whileTap='active'
+        className={clsx(
+          'bg-neutral-200 w-full rounded-md h-12 px-4 dark:bg-neutral-800 dark:placeholder-neutral-500 placeholder-neutral-700',
+          className
+        )}
+        {...props}
+        {...register(name, options)}
+      />
+    </div>
   );
 }
 
-type InputSubComponents = Omit<InputProps, 'type'>;
-
-Form.Text = function TextInput(props: InputSubComponents) {
-  return <Input type='text' {...props} />;
+Form.Text = function TextInput({
+  name = 'text',
+  ...props
+}: InputSubComponents) {
+  return <Input type='text' name={name} {...props} />;
 };
 
-Form.ID = function IDInput(props: InputSubComponents) {
-  const [value, setValue] = useState('');
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.value.length > 8) return;
-    setValue(e.target.value);
-  }
-
+Form.ID = function IDInput({
+  name = 'studentId',
+  className,
+  ...props
+}: InputSubComponents) {
   return (
     <Input
+      name={name}
       type='number'
       pattern='^[0-9]{8}$'
       inputMode='numeric'
-      value={value}
-      onChange={handleChange}
+      options={{
+        minLength: 8,
+        maxLength: 8,
+        pattern: /^[0-9]{8}$/,
+        onChange(event) {
+          const { value } = event.target;
+          if (isNaN(Number(value)) || value === 'e') return;
+          const { length } = value;
+
+          if (length > 8) {
+            event.target.value = value.slice(0, 8);
+          }
+        },
+      }}
       {...props}
     />
   );
 };
 
-Form.Password = function PasswordInput(props: InputSubComponents) {
-  return <Input type='password' {...props} />;
+Form.Password = function PasswordInput({
+  name = 'password',
+  ...props
+}: InputSubComponents) {
+  return <Input type='password' name={name} {...props} />;
 };
 
 Form.Button = function Button({
@@ -90,18 +151,22 @@ Form.Button = function Button({
   variant = 'filled',
   type = 'button',
   to = '',
+  onClick,
+  animateOnClick = false,
 }: ButtonProps) {
   const MotionLink = motion(Link);
   const motionProps = {
     variants: variants.button,
     initial: 'initial',
-    whileTap: 'active',
+    whileTap: animateOnClick ? 'dimmedAndSmaller' : 'dimmed',
     className: clsx(
-      'w-full rounded-md h-10 px-4 flex items-center justify-center',
+      'w-full rounded-md h-12 px-4 flex items-center justify-center',
       variant === 'filled' && 'bg-primary text-neutral-50',
       variant === 'outlined' && 'border border-primary',
       variant === 'transparent' &&
-        'text-neutral-500 bg-white dark:text-neutral-500 dark:bg-black',
+        'text-neutral-500 dark:text-neutral-500 bg-transparent',
+      variant === 'bottom' &&
+        'fixed bottom-0 bg-primary text-neutral-50 rounded-none',
       className
     ),
   };
@@ -110,14 +175,14 @@ Form.Button = function Button({
     if (!to) throw new Error('`to` prop is required when type is link');
 
     return (
-      <MotionLink href={to} {...motionProps}>
+      <MotionLink href={to} {...motionProps} onClick={onClick}>
         {children}
       </MotionLink>
     );
   }
 
   return (
-    <motion.button type={type} {...motionProps}>
+    <motion.button type={type} {...motionProps} onClick={onClick}>
       {children}
     </motion.button>
   );
@@ -131,7 +196,7 @@ Form.Group = function Group({
   return (
     <div
       className={clsx(
-        'flex flex-col items-center justify-start w-full',
+        'flex flex-col items-center justify-start w-full gap-1',
         className
       )}
       {...props}
