@@ -3,5 +3,5 @@ import { redirect } from 'next/navigation';
 
 export default async function Page() {
   const locale = await getLocale();
-  redirect(`/${locale}/signup/student-verification`);
+  redirect(`/${locale}/signup/studentId`);
 }

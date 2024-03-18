@@ -1,7 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
-import { HTMLAttributes, HTMLInputTypeAttribute, useState } from 'react';
+import {
+  ForwardedRef,
+  HTMLAttributes,
+  HTMLInputTypeAttribute,
+  forwardRef,
+  useState,
+} from 'react';
 import { MotionProps, motion } from 'framer-motion';
 import { variants } from './motion';
 import {
@@ -15,7 +21,7 @@ import {
 } from 'react-hook-form';
 import Button from '../button';
 
-type FormProps<TFieldValues extends FieldValues> = Omit<
+export type FormProps<TFieldValues extends FieldValues> = Omit<
   HTMLAttributes<HTMLFormElement>,
   'onSubmit'
 > & {
@@ -33,7 +39,7 @@ type InputProps = {
   value?: string;
   onChange?: ChangeHandler;
   options?: RegisterOptions;
-  wrapperMotionProps?: MotionProps;
+  required?: boolean;
 };
 
 type InputSubComponents = Omit<InputProps, 'type' | 'name'> & {
@@ -53,7 +59,7 @@ export default function Form<T extends FieldValues>({
       <form
         onSubmit={method.handleSubmit(onSubmit)}
         className={clsx(
-          'flex flex-col items-center justify-start w-full',
+          'flex flex-col items-center justify-start w-full gap-6',
           className
         )}
         {...props}
@@ -64,18 +70,15 @@ export default function Form<T extends FieldValues>({
   );
 }
 
-function Input({
-  className,
-  name,
-  options,
-  label,
-  wrapperMotionProps,
-  ...props
-}: InputProps) {
+const Input = forwardRef<HTMLInputElement, InputProps>(function (
+  { className, name, options, label, ...props },
+  reference
+) {
   const { register } = useFormContext();
+  const { ref, ...rest } = register(name, options);
 
   return (
-    <motion.div className='flex w-full flex-col gap-2' {...wrapperMotionProps}>
+    <div className='flex w-full flex-col gap-2'>
       {label && (
         <label
           htmlFor={name}
@@ -85,6 +88,16 @@ function Input({
         </label>
       )}
       <motion.input
+        ref={(e) => {
+          ref(e);
+          if (reference) {
+            if (typeof reference === 'function') {
+              reference(e);
+            } else {
+              reference.current = e;
+            }
+          }
+        }}
         variants={variants.input}
         initial='initial'
         whileTap='active'
@@ -93,11 +106,14 @@ function Input({
           className
         )}
         {...props}
-        {...register(name, options)}
+        {...rest}
       />
-    </motion.div>
+    </div>
   );
-}
+});
+
+Input.displayName = 'Input';
+Form.Input = Input;
 
 Form.Text = function TextInput({
   name = 'text',
@@ -109,10 +125,12 @@ Form.Text = function TextInput({
 Form.ID = function IDInput({
   name = 'studentId',
   className,
+  onChange,
   ...props
 }: InputSubComponents) {
   return (
     <Input
+      required
       name={name}
       type='number'
       pattern='^[0-9]{8}$'
@@ -129,6 +147,7 @@ Form.ID = function IDInput({
           if (length > 8) {
             event.target.value = value.slice(0, 8);
           }
+          onChange?.(event);
         },
       }}
       {...props}
@@ -136,12 +155,15 @@ Form.ID = function IDInput({
   );
 };
 
-Form.Password = function PasswordInput({
-  name = 'password',
-  ...props
-}: InputSubComponents) {
-  return <Input type='password' name={name} {...props} />;
-};
+const Password = forwardRef<HTMLInputElement, InputSubComponents>(function (
+  { name = 'password', ...props },
+  ref
+) {
+  return <Input ref={ref} type='password' name={name} required {...props} />;
+});
+
+Password.displayName = 'Password';
+Form.Password = Password;
 
 Form.Button = Button;
 

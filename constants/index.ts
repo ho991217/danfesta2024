@@ -10,6 +10,9 @@ export const API_ROUTES = {
     me: '/user',
     login: '/user/login',
     signup: '/user/signup',
+    dku: {
+      verify: '/user/dku/verify',
+    },
   },
   ticket: {
     reservation: '/ticket/reservation',
