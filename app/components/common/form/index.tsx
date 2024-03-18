@@ -166,7 +166,7 @@ Form.Button = function Button({
       variant === 'transparent' &&
         'text-neutral-500 dark:text-neutral-500 bg-transparent',
       variant === 'bottom' &&
-        'fixed bottom-0 bg-primary text-neutral-50 rounded-none',
+        'absolute bottom-0 bg-primary text-neutral-50 rounded-none',
       className
     ),
   };

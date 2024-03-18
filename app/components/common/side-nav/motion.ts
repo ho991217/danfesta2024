@@ -1,5 +1,5 @@
 export const transition = {
-  type: 'tween',
+  type: 'easeInOut',
   duration: 0.2,
 };
 

@@ -11,10 +11,11 @@ async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions
 ) {
+  const cookie = cookies().getAll();
   const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
     headers: {
-      ...(options?.withCredential && { Cookie: cookies().toString() }),
+      ...(options?.withCredential && { Cookie: cookie.toString() }),
     },
   });
 
@@ -34,11 +35,12 @@ async function post<Req, Res>(
   data: Req,
   options?: APIOptions
 ) {
+  const cookie = cookies().getAll();
   const response = await fetch(`${API_URL}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredential && { Cookie: cookies().toString() }),
+      ...(options?.withCredential && { Cookie: cookie.toString() }),
     },
     body: JSON.stringify(data),
   });

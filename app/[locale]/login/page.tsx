@@ -3,9 +3,11 @@
 import { Form } from '@components/common';
 import { type AuthReq, authenticate } from './actions';
 import useToastStore from '@/app/stores/toast-state';
+import { useLocale } from 'next-intl';
 
 export default function LoginPage() {
   const { open } = useToastStore();
+  const locale = useLocale();
 
   const onSubmit = async (data: AuthReq) => {
     try {
@@ -29,7 +31,7 @@ export default function LoginPage() {
           </Form.Button>
           <Form.Button
             type='link'
-            to='/signup'
+            to={`/${locale}/signup`}
             variant='transparent'
             animateOnClick
           >

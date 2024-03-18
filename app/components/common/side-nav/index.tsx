@@ -39,12 +39,13 @@ export default function SideNav({ isOpen, setIsOpen }: SideNavProps) {
                   onClick={() => {
                     cookies.remove(COOKIE_KEYS.accessToken);
                     setLoggedIn(false);
+                    setIsOpen(false);
                   }}
                 >
                   로그아웃
                 </span>
               ) : (
-                <Link href={'/ko/login'}>
+                <Link href={'/ko/login'} onClick={() => setIsOpen(false)}>
                   <span className='text-neutral-400'>로그인</span>
                 </Link>
               )}

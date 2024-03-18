@@ -22,7 +22,7 @@ export default function LocaleLayout({
     <html lang={locale}>
       <body className={clsx(NotoSansKR.className, 'px-5 scrollbar-hide')}>
         <Providers>
-          <div className='max-w-[600px] min-w-[320px] m-auto h-full'>
+          <div className='max-w-[600px] min-w-[320px] m-auto h-[100dvh]'>
             <NextIntlClientProvider
               locale={locale}
               timeZone='Asia/Seoul'
