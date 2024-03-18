@@ -1,7 +1,7 @@
 {
   "LocaleSwitcher": {
-    "label": "Change language",
-    "locale": "{locale, select, ko {🇰🇷 한국어} en {🇺🇸 English} other {Unknown}}"
+    "label": "language",
+    "locale": "{locale, select, ko {Korean} en {English} other {Unknown}}"
   },
   "GNB": {
     "title": "DANFESTA 2024",

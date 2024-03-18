@@ -1,4 +1,4 @@
-import ToastProvider from './components/common/toast/toast-provider';
+import ToastProvider from '../components/common/toast/toast-provider';
 import { CookiesProvider } from 'next-client-cookies/server';
 
 type ProvidersProps = Readonly<{

@@ -1,10 +1,6 @@
 import { Noto_Sans_KR } from 'next/font/google';
 import clsx from 'clsx';
 import Providers from '../providers';
-import Navigation from '@components/common/navigation';
-import { NextIntlClientProvider } from 'next-intl';
-import ko from '@/messages/ko.json';
-import en from '@/messages/en.json';
 
 const NotoSansKR = Noto_Sans_KR({
   subsets: ['latin'],
@@ -20,16 +16,9 @@ export default function LocaleLayout({
 }) {
   return (
     <html lang={locale}>
-      <body className={clsx(NotoSansKR.className, 'px-5 scrollbar-hide')}>
+      <body className={clsx(NotoSansKR.className, 'scrollbar-hide')}>
         <Providers>
-          <div className='max-w-[600px] min-w-[320px] m-auto h-[100dvh]'>
-            <NextIntlClientProvider
-              locale={locale}
-              timeZone='Asia/Seoul'
-              messages={locale === 'ko' ? ko : en}
-            >
-              <Navigation />
-            </NextIntlClientProvider>
+          <div className='max-w-[600px] min-w-[320px] m-auto px-5 pt-5 h-[100dvh] overflow-x-hidden'>
             {children}
           </div>
         </Providers>
