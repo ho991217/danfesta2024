@@ -1,8 +1,7 @@
 import { Children, isValidElement, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { variants } from './motion';
-
-type NonEmptyArray<T> = [T, ...T[]];
+import { NonEmptyArray } from '@/types/util';
 
 type StepType = Readonly<NonEmptyArray<string>>;
 
@@ -54,7 +53,8 @@ export const Step = <Steps extends StepType>({
 }: StepProps<Steps>) => {
   useEffect(() => {
     onEnter?.();
-  }, [onEnter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <motion.div

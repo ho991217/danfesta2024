@@ -16,11 +16,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { TransformerSubtitle } from '@/components/signup/header';
 
 const steps = ['학번', '비밀번호'] as const;
 
 type Steps = (typeof steps)[number];
 
+// TODO: 밸리데이션 추가할 것
 export default function Page() {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
@@ -49,22 +51,28 @@ export default function Page() {
     }
   };
 
+  useEffect(() => {
+    const t = requestAnimationFrame(() => {
+      if (passwordRef.current) {
+        passwordRef.current.focus();
+      }
+    });
+    return () => cancelAnimationFrame(t);
+  }, [step]);
+
   return (
     <AnimatePresence initial={false}>
       <Header>
         <Header.Title>단국대학교 재학생 인증</Header.Title>
-        <Header.Subtitle>{josa(`${step}#{를}`)} 입력해주세요.</Header.Subtitle>
+        <Header.Subtitle>
+          {step === '학번' && <TransformerSubtitle text='학번을' />}
+          {step === '비밀번호' && <TransformerSubtitle text='비밀번호를' />}
+          <div className='ml-1'>입력해주세요.</div>
+        </Header.Subtitle>
       </Header>
       <Form<DKUPortalAuthInfo> onSubmit={handleSubmit}>
         <Funnel<typeof steps> step={step} steps={steps}>
-          <Funnel.Step
-            name='비밀번호'
-            onEnter={() => {
-              if (passwordRef.current) {
-                passwordRef.current.focus();
-              }
-            }}
-          >
+          <Funnel.Step name='비밀번호'>
             <Form.Password
               ref={passwordRef}
               label='단국대학교 포털 비밀번호'

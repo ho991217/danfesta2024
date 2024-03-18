@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 type PropsWithChildren = { children?: React.ReactNode };
 
 export default function Header({ children }: PropsWithChildren) {
@@ -9,5 +11,17 @@ Header.Title = function Title({ children }: PropsWithChildren) {
 };
 
 Header.Subtitle = function Subtitle({ children }: PropsWithChildren) {
-  return <p className='text-base'>{children}</p>;
+  return <div className='text-base flex'>{children}</div>;
 };
+
+export function TransformerSubtitle({ text }: { text: string }) {
+  return (
+    <motion.div
+      initial={{ y: '-20%', opacity: 0, scale: 0.98 }}
+      animate={{ y: 0, opacity: 1, scale: 1 }}
+      transition={{ duration: 1, type: 'spring' }}
+    >
+      {text}
+    </motion.div>
+  );
+}

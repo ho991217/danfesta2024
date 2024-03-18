@@ -13,6 +13,10 @@ export const API_ROUTES = {
     dku: {
       verify: '/user/dku/verify',
     },
+    sms: {
+      send: (token: string) => `/user/sms/${token}`,
+      verify: (token: string) => `/user/sms/verify/${token}`,
+    },
   },
   ticket: {
     reservation: '/ticket/reservation',
