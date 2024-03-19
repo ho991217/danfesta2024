@@ -30,9 +30,9 @@ jobs:
       run: |
         touch ./$ENV_NAME
         echo "$ENV" > ./$ENV_NAME
+        
     - name: Build
       run: |
         yarn add react-scripts
-        npm install -save react-scripts --legacy-peer-deps
-        CI=false npm run build
+        CI=false yarn build -save react-scripts
       shell: bash
