@@ -44,7 +44,7 @@ export default function Button({
         variant === 'transparent' &&
           'text-neutral-500 dark:text-neutral-500 bg-white dark:bg-[#0C0C0C]',
         variant === 'bottom' &&
-          'absolute bottom-5 left-5 right-5 w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
+          'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
         disabled && 'bg-neutral-500 cursor-not-allowed',
         className
       )}
