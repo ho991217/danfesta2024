@@ -1,10 +1,10 @@
 import { MotionProps, motion } from 'framer-motion';
 import { variants } from './motion';
-import clsx from 'clsx';
 import PulseLoader from 'react-spinners/PulseLoader';
-import { twMerge } from 'tailwind-merge';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-type ButtonProps = MotionProps & {
+export type ButtonProps = MotionProps & {
   className?: string;
   children: React.ReactNode;
   onClick?: () => void;
@@ -15,6 +15,30 @@ type ButtonProps = MotionProps & {
   variant?: 'filled' | 'outlined' | 'transparent' | 'bottom';
   animateOnClick?: boolean;
 };
+
+const buttonVariants = cva(
+  'w-full rounded-md h-12 px-4 flex items-center justify-center',
+  {
+    variants: {
+      variant: {
+        filled: 'bg-primary text-neutral-50',
+        outlined: 'border border-primary',
+        transparent:
+          'text-neutral-500 dark:text-neutral-500 bg-white dark:bg-[#0C0C0C]',
+        bottom:
+          'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
+      },
+      disabled: {
+        true: 'bg-neutral-500',
+        false: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'filled',
+      disabled: false,
+    },
+  }
+);
 
 export default function Button({
   className,
@@ -37,17 +61,7 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={isLoading || disabled}
-      className={twMerge(
-        'w-full rounded-md h-12 px-4 flex items-center justify-center',
-        variant === 'filled' && 'bg-primary text-neutral-50',
-        variant === 'outlined' && 'border border-primary',
-        variant === 'transparent' &&
-          'text-neutral-500 dark:text-neutral-500 bg-white dark:bg-[#0C0C0C]',
-        variant === 'bottom' &&
-          'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
-        disabled && 'bg-neutral-500 cursor-not-allowed',
-        className
-      )}
+      className={cn(buttonVariants({ variant, disabled }), className)}
       {...motionProps}
     >
       {isLoading ? <PulseLoader size={8} color='#f0f0f0' /> : children}

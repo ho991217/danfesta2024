@@ -8,8 +8,7 @@ import { AnimatePresence } from 'framer-motion';
 import { DKUPortalAuthInfo, verifyDKUStudent } from './action';
 import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
-import { josa } from 'josa';
-import { isStudentId } from '@/utils/validators';
+import { isStudentId } from '@/lib/utils/validators';
 import {
   Accordion,
   AccordionContent,
@@ -17,12 +16,23 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { TransformerSubtitle } from '@/components/signup/header';
+import { z } from 'zod';
+import useToastStore from '@/stores/toast-state';
 
-const steps = ['학번', '비밀번호'] as const;
+const steps = ['학번', '비밀번호', '약관동의'] as const;
 
 type Steps = (typeof steps)[number];
 
-// TODO: 밸리데이션 추가할 것
+export const verificationSchema = z.object({
+  dkuStudentId: z
+    .string({ required_error: '학번을 입력해주세요.' })
+    .length(8, '학번은 8자리로 입력해주세요.')
+    .startsWith('3', '학번은 3으로 시작합니다.'),
+  dkuPassword: z.string({ required_error: '비밀번호를 입력해주세요.' }),
+});
+
+export type VerificationSchema = z.infer<typeof verificationSchema>;
+
 export default function Page() {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
@@ -32,14 +42,32 @@ export default function Page() {
   const isLastStep = currentStep === steps.length;
   const router = useRouter();
   const locale = useLocale();
+  const { open: openToast } = useToastStore();
+
+  const verify = async (dkuData: DKUPortalAuthInfo) => {
+    try {
+      setIsLoading(true);
+      const { signupToken } = await verifyDKUStudent(dkuData);
+      setIsLoading(false);
+      close();
+      router.push(`/${locale}/signup/phone?token=${signupToken}`);
+    } catch (error) {
+      const e = error as Error;
+      openToast(e.message);
+    }
+  };
 
   const handleSubmit = async (dkuData: DKUPortalAuthInfo) => {
-    setIsLoading(true);
-    const { signupToken } = await verifyDKUStudent(dkuData);
-
-    close();
-    setIsLoading(false);
-    router.push(`/${locale}/signup/phone?token=${signupToken}`);
+    switch (step) {
+      case '학번':
+        onNext(steps[currentStep]);
+        break;
+      case '비밀번호':
+        onNext(steps[currentStep]);
+        break;
+      case '약관동의':
+        verify(dkuData);
+    }
   };
 
   const onNext = (currentStep: Steps) => {
@@ -70,7 +98,10 @@ export default function Page() {
           <div className='ml-1'>입력해주세요.</div>
         </Header.Subtitle>
       </Header>
-      <Form<DKUPortalAuthInfo> onSubmit={handleSubmit}>
+      <Form<VerificationSchema>
+        onSubmit={handleSubmit}
+        schema={verificationSchema}
+      >
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name='비밀번호'>
             <Form.Password
@@ -93,21 +124,16 @@ export default function Page() {
               }}
             />
           </Funnel.Step>
+          <Funnel.Step name='약관동의' onEnter={open}>
+            <BottomSheet isOpen={isOpen} onDismiss={close} header='이용동의'>
+              <Terms />
+              <Form.Button isLoading={isLoading}>동의</Form.Button>
+            </BottomSheet>
+          </Funnel.Step>
         </Funnel>
-        <Form.Button
-          type={isLastStep ? 'submit' : 'button'}
-          variant='bottom'
-          disabled={isLoading}
-          onClick={() => onNext(steps[currentStep])}
-        >
+        <Form.Button variant='bottom' disabled={isLoading}>
           다음
         </Form.Button>
-        <BottomSheet isOpen={isOpen} onDismiss={close} header='이용동의'>
-          <Terms />
-          <Form.Button type='submit' isLoading={isLoading}>
-            동의
-          </Form.Button>
-        </BottomSheet>
       </Form>
     </AnimatePresence>
   );

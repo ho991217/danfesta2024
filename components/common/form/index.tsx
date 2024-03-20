@@ -2,13 +2,12 @@
 
 import clsx from 'clsx';
 import {
-  ForwardedRef,
   HTMLAttributes,
   HTMLInputTypeAttribute,
   forwardRef,
-  useState,
+  useEffect,
 } from 'react';
-import { MotionProps, motion } from 'framer-motion';
+import { AnimatePresence, motion, useAnimate } from 'framer-motion';
 import { variants } from './motion';
 import {
   ChangeHandler,
@@ -19,13 +18,16 @@ import {
   useForm,
   useFormContext,
 } from 'react-hook-form';
-import Button from '../button';
+import Button, { ButtonProps } from '../button';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ZodType } from 'zod';
 
 export type FormProps<TFieldValues extends FieldValues> = Omit<
   HTMLAttributes<HTMLFormElement>,
   'onSubmit'
 > & {
   onSubmit: SubmitHandler<TFieldValues>;
+  schema: ZodType<TFieldValues>;
 };
 
 type InputProps = {
@@ -50,9 +52,14 @@ export default function Form<T extends FieldValues>({
   children,
   className,
   onSubmit,
+  schema,
   ...props
 }: FormProps<T>) {
-  const method = useForm<T>();
+  const method = useForm<T>({
+    resolver: zodResolver(schema),
+    mode: 'onChange',
+    delayError: 500,
+  });
 
   return (
     <FormProvider {...method}>
@@ -74,8 +81,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
   { className, name, options, label, ...props },
   reference
 ) {
-  const { register } = useFormContext();
+  const { register, formState } = useFormContext();
   const { ref, ...rest } = register(name, options);
+  const { errors } = formState;
 
   return (
     <div className='flex w-full flex-col gap-2'>
@@ -108,6 +116,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
         {...props}
         {...rest}
       />
+      <AnimatePresence initial>
+        {errors[name]?.message && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className='text-xs text-red-500 dark:text-red-400'
+          >
+            {errors[name]?.message?.toString()}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 });
@@ -130,18 +151,13 @@ Form.ID = function IDInput({
 }: InputSubComponents) {
   return (
     <Input
-      required
       name={name}
       type='number'
       pattern='^[0-9]{8}$'
       inputMode='numeric'
       options={{
-        minLength: 8,
-        maxLength: 8,
-        pattern: /^[0-9]{8}$/,
         onChange(event) {
           const { value } = event.target;
-          if (isNaN(Number(value)) || value === 'e') return;
           const { length } = value;
 
           if (length > 8) {
@@ -159,13 +175,33 @@ const Password = forwardRef<HTMLInputElement, InputSubComponents>(function (
   { name = 'password', ...props },
   ref
 ) {
-  return <Input ref={ref} type='password' name={name} required {...props} />;
+  return <Input ref={ref} type='password' name={name} {...props} />;
 });
 
 Password.displayName = 'Password';
 Form.Password = Password;
 
-Form.Button = Button;
+Form.Button = function ButtonComponent({
+  children,
+  disabled,
+  variant,
+  isLoading,
+}: ButtonProps) {
+  const { register, formState } = useFormContext();
+  const { isSubmitting, isValid, isDirty } = formState;
+
+  return (
+    <Button
+      type='submit'
+      isLoading={isLoading}
+      variant={variant ? 'bottom' : variant}
+      disabled={!isValid || !isDirty || isSubmitting || disabled}
+      {...register('submit')}
+    >
+      {children}
+    </Button>
+  );
+};
 
 Form.Group = function Group({
   children,

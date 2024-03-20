@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { API_ROUTES, API_URL } from '../constants';
-import { DeepValueOf } from '../utils';
+import { DeepValueOf } from '../lib/utils';
 import { redirect } from 'next/navigation';
 
 type APIOptions = {
