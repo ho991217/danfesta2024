@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
-import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Analytics } from '@vercel/analytics/react';
 
 // export const metadata: Metadata = {
 //   title: '단페스타 2024',
@@ -22,11 +20,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <>
-      {children}
-      <SpeedInsights />
-      <Analytics />
-    </>
-  );
+  return <html>{children}</html>;
 }

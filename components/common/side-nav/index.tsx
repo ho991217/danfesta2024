@@ -29,15 +29,11 @@ export default function SideNav() {
       <SheetContent className='bg-white dark:bg-[#0C0C0C] dark:border-[#181818] flex flex-col justify-between'>
         <SheetDescription className='flex flex-col items-end gap-10'>
           <ul className='flex flex-col items-end gap-4'>
-            <Link href='/' className='hover:underline'>
-              <SheetClose>홈</SheetClose>
-            </Link>
-            <a href='#' className='hover:underline'>
-              About
-            </a>
-            <a href='#' className='hover:underline'>
-              Contact
-            </a>
+            <li>
+              <Link href='/' className='hover:underline'>
+                <SheetClose>홈</SheetClose>
+              </Link>
+            </li>
           </ul>
           <AuthButton
             loggedIn={loggedIn}
@@ -73,6 +69,7 @@ function AuthButton({
           로그아웃
         </SheetClose>
       </If.Then>
+
       <If.Else>
         <Link href={'/ko/login'}>
           <SheetClose className='text-neutral-400 flex items-center gap-2'>

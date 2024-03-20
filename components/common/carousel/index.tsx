@@ -61,8 +61,7 @@ function Tile({ src, alt }: TileProps) {
       <Image
         src={src}
         alt={alt}
-        className='absolute left-0 right-0 top-0 bottom-0'
-        objectFit='cover'
+        className='absolute left-0 right-0 top-0 bottom-0 object-cover'
         placeholder='blur'
         quality={100}
         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=='
