@@ -18,6 +18,12 @@ import {
   useForm,
   useFormContext,
 } from 'react-hook-form';
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from '@/components/ui/input-otp';
 import Button, { ButtonProps } from '../button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType } from 'zod';
@@ -202,6 +208,34 @@ Form.Button = function ButtonComponent({
     >
       {children}
     </Button>
+  );
+};
+
+Form.SMSCode = function SMSCodeInput({
+  name = 'code',
+  className,
+}: InputSubComponents) {
+  return (
+    <InputOTP
+      name={name}
+      className={className}
+      maxLength={6}
+      render={({ slots }) => (
+        <>
+          <InputOTPGroup>
+            {slots.slice(0, 3).map((slot, index) => (
+              <InputOTPSlot key={index} {...slot} />
+            ))}
+          </InputOTPGroup>
+          <InputOTPSeparator className='text-2xl' />
+          <InputOTPGroup>
+            {slots.slice(3).map((slot, index) => (
+              <InputOTPSlot key={index + 3} {...slot} />
+            ))}
+          </InputOTPGroup>
+        </>
+      )}
+    />
   );
 };
 

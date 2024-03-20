@@ -4,7 +4,10 @@ import api from '@/api';
 import { API_ROUTES } from '@/constants';
 import { SMSCodeSchema } from './schema';
 
-export async function sendSMSCode({ phoneNumber, token }: SMSCodeSchema) {
+export async function sendSMSCode({
+  phoneNumber,
+  token,
+}: SMSCodeSchema & { token: string }) {
   try {
     await api.post(API_ROUTES.user.sms.send(token), { phoneNumber });
   } catch (error) {

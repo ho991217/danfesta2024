@@ -8,36 +8,47 @@ import { Form } from '@/components/common';
 import { useState } from 'react';
 import { sendSMSCode } from './action';
 import { useBottomSheet } from '@/hooks';
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from '@/components/ui/input-otp';
 import { SMSCodeSchema, smsCodeSchema } from './schema';
+import useToastStore from '@/stores/toast-state';
 
 const steps = ['전화번호', '인증번호'] as const;
 
 type Steps = (typeof steps)[number];
 
 export default function Page() {
+  const [loading, setLoading] = useState(false);
   const [BottomSheet, openBT, closeBT] = useBottomSheet();
   const [step, setStep] = useState<Steps>('전화번호');
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
   const searchParams = useSearchParams();
+  const { open } = useToastStore();
+
   const token = searchParams.get('token');
   if (!token) {
     throw new Error('토큰이 필요합니다.');
   }
 
+  const handleSubmit = async ({ phoneNumber }: SMSCodeSchema) => {
+    switch (step) {
+      case '전화번호':
+        setLoading(true);
+        await sendSMSCode({ phoneNumber, token });
+        setLoading(false);
+        open('인증번호가 발송되었습니다.');
+        onNext(step);
+        break;
+      case '인증번호':
+        break;
+    }
+  };
+
   const onNext = async (currentStep: Steps) => {
     if (isLastStep) return;
     if (currentStep === '전화번호') {
-      await sendSMSCode({ phoneNumber: '010-8916-4754', token });
       setStep('인증번호');
+      openBT();
     } else if (currentStep === '인증번호') {
-      open();
     }
   };
 
@@ -50,61 +61,34 @@ export default function Page() {
           <div className='ml-1'>입력해주세요.</div>
         </Header.Subtitle>
       </Header>
-      <Form
-        onSubmit={(v) => {
-          console.log(v);
-        }}
-        schema={smsCodeSchema}
-      >
-        <Funnel<typeof steps> step={step} steps={steps}>
-          <Funnel.Step name='인증번호'>
-            <Form.Text
-              name='code'
-              placeholder='숫자 4자리'
-              label='발송된 인증번호 입력'
-            />
-          </Funnel.Step>
-          <Funnel.Step name='전화번호'>
+      <Funnel<typeof steps> step={step} steps={steps}>
+        <Funnel.Step name='전화번호'>
+          <Form onSubmit={handleSubmit} schema={smsCodeSchema}>
             <Form.Text
               name='phoneNumber'
               label='사용자 전화번호'
-              placeholder='010-0000-0000'
+              placeholder='01012345678'
             />
-          </Funnel.Step>
-        </Funnel>
-        <Form.Button
-          variant='bottom'
-          type={isLastStep ? 'submit' : 'button'}
-          onClick={() => onNext(steps[currentStep])}
-        >
-          다음
-        </Form.Button>
-        <BottomSheet>
-          <span className='text-sm'>
-            휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
-          </span>
-          <InputOTP
-            className='mx-1 mt-4 mb-10'
-            maxLength={6}
-            render={({ slots }) => (
-              <>
-                <InputOTPGroup>
-                  {slots.slice(0, 3).map((slot, index) => (
-                    <InputOTPSlot key={index} {...slot} />
-                  ))}
-                </InputOTPGroup>
-                <InputOTPSeparator className='text-2xl' />
-                <InputOTPGroup>
-                  {slots.slice(3).map((slot, index) => (
-                    <InputOTPSlot key={index + 3} {...slot} />
-                  ))}
-                </InputOTPGroup>
-              </>
-            )}
-          />
+            <Form.Button variant='bottom' isLoading={loading}>
+              다음
+            </Form.Button>
+          </Form>
+        </Funnel.Step>
+      </Funnel>
+      <BottomSheet
+        onDismiss={() => {
+          setStep('전화번호');
+          closeBT();
+        }}
+      >
+        <span className='text-sm'>
+          휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
+        </span>
+        <Form onSubmit={handleSubmit} schema={smsCodeSchema}>
+          <Form.SMSCode placeholder='숫자 6자리' label='발송된 인증번호 입력' />
           <Form.Button type='submit'>확인</Form.Button>
-        </BottomSheet>
-      </Form>
+        </Form>
+      </BottomSheet>
     </AnimatePresence>
   );
 }

@@ -116,7 +116,13 @@ export default function Page() {
           </Funnel.Step>
         </Funnel>
 
-        <BottomSheet header='이용동의'>
+        <BottomSheet
+          header='이용동의'
+          onDismiss={() => {
+            setStep('비밀번호');
+            closeBT();
+          }}
+        >
           <Terms />
           <Form.Button isLoading={isLoading}>동의</Form.Button>
         </BottomSheet>
