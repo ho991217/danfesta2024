@@ -2,11 +2,7 @@
 
 import api from '@/api';
 import { API_ROUTES } from '@/constants';
-
-export type DKUPortalAuthInfo = {
-  dkuStudentId: string;
-  dkuPassword: string;
-};
+import { DKUVerificationSchema } from './schema';
 
 type DKUResponse = {
   signupToken: string;
@@ -19,8 +15,8 @@ type DKUResponse = {
   };
 };
 
-export async function verifyDKUStudent(req: DKUPortalAuthInfo) {
-  const data = await api.post<DKUPortalAuthInfo, DKUResponse>(
+export async function verifyDKUStudent(req: DKUVerificationSchema) {
+  const data = await api.post<DKUVerificationSchema, DKUResponse>(
     API_ROUTES.user.dku.verify,
     req
   );

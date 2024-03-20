@@ -7,13 +7,13 @@ import {
   PanInfo,
   useDragControls,
 } from 'framer-motion';
-import { PointerEvent, useCallback, useEffect, useState } from 'react';
+import { PointerEvent, useEffect, useState } from 'react';
 
 import { variants, transition } from './motion';
 import Overlay from '../overlay';
 import { Height } from './types';
 
-interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
   onDismiss: () => void;
   header?: React.ReactNode | string;

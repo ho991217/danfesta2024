@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { BottomSheet, Form } from '@/components/common';
+import { Form } from '@/components/common';
 import { Funnel, Header } from '@/components/signup';
 import { useBottomSheet } from '@/hooks';
 import { AnimatePresence } from 'framer-motion';
-import { DKUPortalAuthInfo, verifyDKUStudent } from './action';
+import { verifyDKUStudent } from './action';
 import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { isStudentId } from '@/lib/utils/validators';
@@ -16,27 +16,17 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { TransformerSubtitle } from '@/components/signup/header';
-import { z } from 'zod';
 import useToastStore from '@/stores/toast-state';
+import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
 
 type Steps = (typeof steps)[number];
 
-export const verificationSchema = z.object({
-  dkuStudentId: z
-    .string({ required_error: '학번을 입력해주세요.' })
-    .length(8, '학번은 8자리로 입력해주세요.')
-    .startsWith('3', '학번은 3으로 시작합니다.'),
-  dkuPassword: z.string({ required_error: '비밀번호를 입력해주세요.' }),
-});
-
-export type VerificationSchema = z.infer<typeof verificationSchema>;
-
 export default function Page() {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
-  const { open, isOpen, close } = useBottomSheet();
+  const [BottomSheet, openBT, closeBT] = useBottomSheet();
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
@@ -44,12 +34,12 @@ export default function Page() {
   const locale = useLocale();
   const { open: openToast } = useToastStore();
 
-  const verify = async (dkuData: DKUPortalAuthInfo) => {
+  const verify = async (dkuData: DKUVerificationSchema) => {
     try {
       setIsLoading(true);
       const { signupToken } = await verifyDKUStudent(dkuData);
       setIsLoading(false);
-      close();
+      closeBT();
       router.push(`/${locale}/signup/phone?token=${signupToken}`);
     } catch (error) {
       const e = error as Error;
@@ -57,11 +47,9 @@ export default function Page() {
     }
   };
 
-  const handleSubmit = async (dkuData: DKUPortalAuthInfo) => {
+  const handleSubmit = async (dkuData: DKUVerificationSchema) => {
     switch (step) {
       case '학번':
-        onNext(steps[currentStep]);
-        break;
       case '비밀번호':
         onNext(steps[currentStep]);
         break;
@@ -75,7 +63,8 @@ export default function Page() {
     if (currentStep === '학번') {
       setStep('비밀번호');
     } else if (currentStep === '비밀번호') {
-      open();
+      setStep('약관동의');
+      openBT();
     }
   };
 
@@ -98,9 +87,10 @@ export default function Page() {
           <div className='ml-1'>입력해주세요.</div>
         </Header.Subtitle>
       </Header>
-      <Form<VerificationSchema>
+      <Form
         onSubmit={handleSubmit}
-        schema={verificationSchema}
+        schema={dkuVerificationSchema}
+        validateOn='onChange'
       >
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name='비밀번호'>
@@ -124,16 +114,14 @@ export default function Page() {
               }}
             />
           </Funnel.Step>
-          <Funnel.Step name='약관동의' onEnter={open}>
-            <BottomSheet isOpen={isOpen} onDismiss={close} header='이용동의'>
-              <Terms />
-              <Form.Button isLoading={isLoading}>동의</Form.Button>
-            </BottomSheet>
-          </Funnel.Step>
         </Funnel>
-        <Form.Button variant='bottom' disabled={isLoading}>
-          다음
-        </Form.Button>
+
+        <BottomSheet header='이용동의'>
+          <Terms />
+          <Form.Button isLoading={isLoading}>동의</Form.Button>
+        </BottomSheet>
+
+        <Form.Button variant='bottom'>다음</Form.Button>
       </Form>
     </AnimatePresence>
   );

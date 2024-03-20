@@ -5,19 +5,15 @@ import { API_ROUTES, COOKIE_KEYS } from '@/constants';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { getLocale } from 'next-intl/server';
-
-export type AuthReq = {
-  studentId: string;
-  password: string;
-};
+import { AuthInfoSchema } from './schema';
 
 export type AuthRes = {
   accessToken: string;
   refreshToken: string;
 };
 
-export async function authenticate(data: AuthReq) {
-  const { accessToken, refreshToken } = await api.post<AuthReq, AuthRes>(
+export async function authenticate(data: AuthInfoSchema) {
+  const { accessToken, refreshToken } = await api.post<AuthInfoSchema, AuthRes>(
     API_ROUTES.user.login,
     data
   );

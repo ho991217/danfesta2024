@@ -2,7 +2,7 @@ import LocaleSwitcher from '../locale-switcher';
 import Link from 'next/link';
 import { COOKIE_KEYS } from '@/constants';
 import { useState } from 'react';
-import { useCookies } from 'next-client-cookies';
+import { Cookies, useCookies } from 'next-client-cookies';
 import {
   Sheet,
   SheetClose,
@@ -54,7 +54,7 @@ function AuthButton({
 }: {
   loggedIn: boolean;
   setLoggedIn: (loggedIn: boolean) => void;
-  cookies: any;
+  cookies: Cookies;
 }) {
   return (
     <If condition={loggedIn}>

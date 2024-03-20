@@ -4,7 +4,7 @@ import { Funnel, Header } from '@/components/signup';
 import { AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
-import { BottomSheet, Form } from '@/components/common';
+import { Form } from '@/components/common';
 import { useState } from 'react';
 import { sendSMSCode } from './action';
 import { useBottomSheet } from '@/hooks';
@@ -14,13 +14,14 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { SMSCodeSchema, smsCodeSchema } from './schema';
 
 const steps = ['전화번호', '인증번호'] as const;
 
 type Steps = (typeof steps)[number];
 
 export default function Page() {
-  const { open, isOpen, close } = useBottomSheet();
+  const [BottomSheet, openBT, closeBT] = useBottomSheet();
   const [step, setStep] = useState<Steps>('전화번호');
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
@@ -53,6 +54,7 @@ export default function Page() {
         onSubmit={(v) => {
           console.log(v);
         }}
+        schema={smsCodeSchema}
       >
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name='인증번호'>
@@ -73,12 +75,11 @@ export default function Page() {
         <Form.Button
           variant='bottom'
           type={isLastStep ? 'submit' : 'button'}
-          // disabled={isLoading}
           onClick={() => onNext(steps[currentStep])}
         >
           다음
         </Form.Button>
-        <BottomSheet isOpen={isOpen} onDismiss={close}>
+        <BottomSheet>
           <span className='text-sm'>
             휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
           </span>
@@ -90,7 +91,7 @@ export default function Page() {
                 <InputOTPGroup>
                   {slots.slice(0, 3).map((slot, index) => (
                     <InputOTPSlot key={index} {...slot} />
-                  ))}{' '}
+                  ))}
                 </InputOTPGroup>
                 <InputOTPSeparator className='text-2xl' />
                 <InputOTPGroup>

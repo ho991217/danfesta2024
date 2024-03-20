@@ -28,6 +28,7 @@ export type FormProps<TFieldValues extends FieldValues> = Omit<
 > & {
   onSubmit: SubmitHandler<TFieldValues>;
   schema: ZodType<TFieldValues>;
+  validateOn?: 'onSubmit' | 'onBlur' | 'onChange' | 'onTouched' | 'all';
 };
 
 type InputProps = {
@@ -53,11 +54,12 @@ export default function Form<T extends FieldValues>({
   className,
   onSubmit,
   schema,
+  validateOn = 'onSubmit',
   ...props
 }: FormProps<T>) {
   const method = useForm<T>({
     resolver: zodResolver(schema),
-    mode: 'onChange',
+    mode: validateOn,
     delayError: 500,
   });
 
