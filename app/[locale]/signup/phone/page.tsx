@@ -53,7 +53,7 @@ export default function Page() {
   };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       <Header>
         <Header.Title>단국대학교 재학생 인증</Header.Title>
         <Header.Subtitle>
@@ -63,7 +63,11 @@ export default function Page() {
       </Header>
       <Funnel<typeof steps> step={step} steps={steps}>
         <Funnel.Step name='전화번호'>
-          <Form onSubmit={handleSubmit} schema={smsCodeSchema}>
+          <Form
+            onSubmit={handleSubmit}
+            schema={smsCodeSchema}
+            validateOn='onChange'
+          >
             <Form.Text
               name='phoneNumber'
               label='사용자 전화번호'
