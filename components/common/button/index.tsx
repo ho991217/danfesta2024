@@ -16,7 +16,7 @@ export type ButtonProps = MotionProps & {
   animateOnClick?: boolean;
 };
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   'w-full rounded-md h-12 px-4 flex items-center justify-center',
   {
     variants: {

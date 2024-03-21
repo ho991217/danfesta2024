@@ -5,11 +5,18 @@ import { AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
 import { Form } from '@/components/common';
-import { useState } from 'react';
-import { sendSMSCode } from './action';
+import { useEffect, useRef, useState } from 'react';
+import { sendSMSCode, verifySMSCode } from './action';
 import { useBottomSheet } from '@/hooks';
-import { SMSCodeSchema, smsCodeSchema } from './schema';
-import useToastStore from '@/stores/toast-state';
+import {
+  type PhoneNumberSchema,
+  type SMSCodeSchema,
+  phoneNumberSchema,
+  smsCodeSchema,
+  tokenSchema,
+} from './schema';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
 
 const steps = ['전화번호', '인증번호'] as const;
 
@@ -22,24 +29,39 @@ export default function Page() {
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
   const searchParams = useSearchParams();
-  const { open } = useToastStore();
+  const codeRef = useRef<HTMLInputElement>(null);
 
   const token = searchParams.get('token');
-  if (!token) {
-    throw new Error('토큰이 필요합니다.');
+  const validToken = tokenSchema.safeParse({ token });
+  const locale = useLocale();
+  const router = useRouter();
+
+  if (!token || !validToken.success) {
+    throw new Error('비정상적인 토큰입니다.');
   }
 
-  const handleSubmit = async ({ phoneNumber }: SMSCodeSchema) => {
-    switch (step) {
-      case '전화번호':
-        setLoading(true);
-        await sendSMSCode({ phoneNumber, token });
-        setLoading(false);
-        open('인증번호가 발송되었습니다.');
-        onNext(step);
-        break;
-      case '인증번호':
-        break;
+  const handlePhoneNumberSubmit = async ({
+    phoneNumber,
+  }: PhoneNumberSchema) => {
+    setLoading(true);
+    await sendSMSCode({ phoneNumber, token });
+    setLoading(false);
+
+    onNext(step);
+    openBT();
+  };
+
+  const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
+    try {
+      setLoading(true);
+      await verifySMSCode({ code, token });
+      
+      closeBT();
+      setLoading(false);
+      router.push(`/${locale}/signup/success`);
+    } catch (error) {
+      setLoading(false);
+      throw error;
     }
   };
 
@@ -51,6 +73,12 @@ export default function Page() {
     } else if (currentStep === '인증번호') {
     }
   };
+
+  useEffect(() => {
+    if (codeRef.current && step === '인증번호') {
+      codeRef.current.focus();
+    }
+  }, [codeRef, step]);
 
   return (
     <AnimatePresence initial={false}>
@@ -64,8 +92,8 @@ export default function Page() {
       <Funnel<typeof steps> step={step} steps={steps}>
         <Funnel.Step name='전화번호'>
           <Form
-            onSubmit={handleSubmit}
-            schema={smsCodeSchema}
+            onSubmit={handlePhoneNumberSubmit}
+            schema={phoneNumberSchema}
             validateOn='onChange'
           >
             <Form.Text
@@ -80,17 +108,50 @@ export default function Page() {
         </Funnel.Step>
       </Funnel>
       <BottomSheet
+        header='인증번호 입력'
         onDismiss={() => {
           setStep('전화번호');
           closeBT();
         }}
       >
-        <span className='text-sm'>
-          휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
-        </span>
-        <Form onSubmit={handleSubmit} schema={smsCodeSchema}>
-          <Form.SMSCode placeholder='숫자 6자리' label='발송된 인증번호 입력' />
-          <Form.Button type='submit'>확인</Form.Button>
+        <Form
+          className='flex flex-col gap-0 mt-1'
+          onSubmit={handleSMSCodeSubmit}
+          schema={smsCodeSchema}
+        >
+          <Form.SMSCode
+            ref={codeRef}
+            placeholder='숫자 6자리'
+            label='발송된 인증번호 입력'
+            onChange={(v) => {
+              console.log(v);
+              if (v.length === 6) {
+                setLoading(true);
+                handleSMSCodeSubmit({ code: v });
+                setLoading(false);
+              }
+              return v;
+            }}
+          />
+          <span className='text-xs mt-4'>
+            휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
+          </span>
+          {/* <Button
+            type='button'
+            className='mt-6'
+            variant='transparent'
+            onClick={async () => await sendSMSCode({ phoneNumber, token })}
+          >
+            재전송
+          </Button> */}
+          <Form.Button
+            type='submit'
+            className='mt-14'
+            variant='filled'
+            isLoading={loading}
+          >
+            확인
+          </Form.Button>
         </Form>
       </BottomSheet>
     </AnimatePresence>

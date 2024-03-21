@@ -20,5 +20,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <html>{children}</html>;
+  return <>{children}</>;
 }

@@ -124,7 +124,9 @@ export default function Page() {
           }}
         >
           <Terms />
-          <Form.Button isLoading={isLoading}>동의</Form.Button>
+          <Form.Button isLoading={isLoading} variant='filled'>
+            동의
+          </Form.Button>
         </BottomSheet>
 
         <Form.Button variant='bottom'>다음</Form.Button>

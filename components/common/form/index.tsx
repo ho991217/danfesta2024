@@ -27,6 +27,7 @@ import {
 import Button, { ButtonProps } from '../button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ZodType } from 'zod';
+import { cn } from '@/lib/utils';
 
 export type FormProps<TFieldValues extends FieldValues> = Omit<
   HTMLAttributes<HTMLFormElement>,
@@ -73,7 +74,7 @@ export default function Form<T extends FieldValues>({
     <FormProvider {...method}>
       <form
         onSubmit={method.handleSubmit(onSubmit)}
-        className={clsx(
+        className={cn(
           'flex flex-col items-center justify-start w-full gap-6',
           className
         )}
@@ -190,9 +191,10 @@ Password.displayName = 'Password';
 Form.Password = Password;
 
 Form.Button = function ButtonComponent({
+  className,
   children,
-  disabled,
-  variant,
+  disabled = false,
+  variant = 'bottom',
   isLoading,
 }: ButtonProps) {
   const { register, formState } = useFormContext();
@@ -202,8 +204,9 @@ Form.Button = function ButtonComponent({
     <Button
       type='submit'
       isLoading={isLoading}
-      variant={variant ? 'bottom' : variant}
+      variant={variant}
       disabled={!isValid || !isDirty || isSubmitting || disabled}
+      className={className}
       {...register('submit')}
     >
       {children}
@@ -211,15 +214,17 @@ Form.Button = function ButtonComponent({
   );
 };
 
-Form.SMSCode = function SMSCodeInput({
-  name = 'code',
-  className,
-}: InputSubComponents) {
+const SMSCode = forwardRef<
+  HTMLInputElement,
+  Omit<InputSubComponents, 'onChange'> & { onChange: (v: string) => void }
+>(function ({ name = 'code', className, onChange }, ref) {
   return (
     <InputOTP
+      ref={ref}
       name={name}
       className={className}
       maxLength={6}
+      onChange={onChange}
       render={({ slots }) => (
         <>
           <InputOTPGroup>
@@ -237,7 +242,10 @@ Form.SMSCode = function SMSCodeInput({
       )}
     />
   );
-};
+});
+
+SMSCode.displayName = 'SMSCode';
+Form.SMSCode = SMSCode;
 
 Form.Group = function Group({
   children,
