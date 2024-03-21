@@ -6,14 +6,18 @@ import useToastStore from '@/stores/toast-state';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { AuthInfoSchema, authInfoSchema } from './schema';
+import { useState } from 'react';
 
 export default function LoginPage() {
   const { open } = useToastStore();
+  const [isLoading, setIsLoading] = useState(false);
   const locale = useLocale();
 
   const onSubmit = async (data: AuthInfoSchema) => {
     try {
+      setIsLoading(true);
       await authenticate(data);
+      setIsLoading(false);
     } catch (error) {
       open('로그인에 실패했습니다. 다시 시도해주세요.');
     }
@@ -32,7 +36,7 @@ export default function LoginPage() {
           placeholder='비밀번호'
         />
         <Form.Group className='mt-4'>
-          <Form.Button type='submit' variant='bottom'>
+          <Form.Button type='submit' variant='bottom' isLoading={isLoading}>
             로그인
           </Form.Button>
           <Button variant='transparent' animateOnClick>

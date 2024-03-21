@@ -4,6 +4,7 @@ import api from '@/api';
 import { API_ROUTES } from '@/constants';
 import { SignUpSchema } from './schema';
 import { TokenSchema } from '../schema';
+import { redirect } from 'next/navigation';
 
 export async function checkNicknameDuplicate(nickname: string) {
   try {
@@ -40,6 +41,7 @@ export async function signUp({
         password,
       }
     );
+    redirect('/[locale]/signup/complete');
   } catch (error) {
     throw error;
   }

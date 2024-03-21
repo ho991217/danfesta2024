@@ -40,9 +40,9 @@ export default function Page() {
     switch (step) {
       case '닉네임':
         setLoading(true);
-        verifyNickname(data.nickname);
+        const unique = await verifyNickname(data.nickname);
         setLoading(false);
-        onNext(step);
+        unique && onNext(step);
         break;
       case '비밀번호':
         setLoading(true);
@@ -66,8 +66,10 @@ export default function Page() {
       await checkNicknameDuplicate(nickname);
       if (nicknameError) setNicknameError('');
       onNext(step);
+      return true;
     } catch (error) {
       setNicknameError('이미 사용중인 닉네임입니다.');
+      return false;
     }
   };
 
@@ -95,13 +97,7 @@ export default function Page() {
         </Header.Subtitle>
       </Header>
       <Form
-        schema={
-          step === '닉네임'
-            ? nickNameSchema
-            : step === '비밀번호'
-            ? passwordSchema
-            : signUpSchema
-        }
+        schema={step === '닉네임' ? nickNameSchema : signUpSchema}
         onSubmit={handleSubmit}
         validateOn='onChange'
       >

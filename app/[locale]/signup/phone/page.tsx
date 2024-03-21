@@ -58,7 +58,6 @@ export default function Page() {
 
       closeBT();
       setLoading(false);
-      router.push(`/${locale}/signup/info?token=${token}`);
     } catch (error) {
       setLoading(false);
       throw error;
