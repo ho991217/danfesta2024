@@ -23,10 +23,6 @@ export async function verifySMSCode({
   code: string;
   token: string;
 }) {
-  try {
-    await api.post(API_ROUTES.user.sms.verify(token), { code });
-    redirect(`/[locale]/signup/info?token=${token}`);
-  } catch (error) {
-    throw new Error('인증번호가 일치하지 않습니다.');
-  }
+  await api.post(API_ROUTES.user.sms.verify(token), { code });
+  redirect(`/ko/signup/info?token=${token}`);
 }

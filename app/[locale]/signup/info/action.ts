@@ -33,16 +33,9 @@ export async function signUp({
   password,
   token,
 }: SignUpReqeust & TokenSchema) {
-  try {
-    await api.post<SignUpReqeust, SignUpResponse>(
-      API_ROUTES.user.signup(token),
-      {
-        nickname,
-        password,
-      }
-    );
-    redirect('/[locale]/signup/complete');
-  } catch (error) {
-    throw error;
-  }
+  await api.post<SignUpReqeust, SignUpResponse>(API_ROUTES.user.signup(token), {
+    nickname,
+    password,
+  });
+  redirect('/ko/signup/complete');
 }

@@ -48,7 +48,6 @@ export default function Page() {
     setLoading(false);
 
     onNext(step);
-    openBT();
   };
 
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
