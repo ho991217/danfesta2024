@@ -1,13 +1,8 @@
 'use client';
 
 import clsx from 'clsx';
-import {
-  HTMLAttributes,
-  HTMLInputTypeAttribute,
-  forwardRef,
-  useEffect,
-} from 'react';
-import { AnimatePresence, motion, useAnimate } from 'framer-motion';
+import { HTMLAttributes, HTMLInputTypeAttribute, forwardRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { variants } from './motion';
 import {
   ChangeHandler,
@@ -50,6 +45,8 @@ type InputProps = {
   onChange?: ChangeHandler;
   options?: RegisterOptions;
   required?: boolean;
+  disabled?: boolean;
+  customError?: string;
 };
 
 type InputSubComponents = Omit<InputProps, 'type' | 'name'> & {
@@ -87,7 +84,7 @@ export default function Form<T extends FieldValues>({
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(function (
-  { className, name, options, label, ...props },
+  { className, name, options, label, disabled, customError, ...props },
   reference
 ) {
   const { register, formState } = useFormContext();
@@ -118,15 +115,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
         variants={variants.input}
         initial='initial'
         whileTap='active'
-        className={clsx(
+        className={cn(
           'bg-neutral-200 w-full rounded-md h-12 px-4 dark:bg-neutral-800 dark:placeholder-neutral-500 placeholder-neutral-400',
+          disabled && 'text-neutral-300 dark:text-neutral-600',
           className
         )}
+        disabled={disabled}
         {...props}
         {...rest}
       />
       <AnimatePresence initial>
-        {errors[name]?.message && (
+        {(errors[name]?.message || customError) && (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,7 +133,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
             transition={{ duration: 0.2 }}
             className='text-xs text-red-500 dark:text-red-400'
           >
-            {errors[name]?.message?.toString()}
+            {errors[name]?.message?.toString() || customError}
           </motion.div>
         )}
       </AnimatePresence>

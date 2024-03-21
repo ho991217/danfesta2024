@@ -84,7 +84,10 @@ export default function Page() {
         <Header.Subtitle>
           {step === '학번' && <TransformerSubtitle text='학번을' />}
           {step === '비밀번호' && <TransformerSubtitle text='비밀번호를' />}
-          <div className='ml-1'>입력해주세요.</div>
+          {step === '약관동의' && (
+            <TransformerSubtitle text='약관에 동의해주세요.' />
+          )}
+          {step !== '약관동의' && <div className='ml-1'>입력해주세요.</div>}
         </Header.Subtitle>
       </Header>
       <Form
@@ -96,16 +99,16 @@ export default function Page() {
           <Funnel.Step name='비밀번호'>
             <Form.Password
               ref={passwordRef}
-              label='단국대학교 포털 비밀번호'
               name='dkuPassword'
+              label='단국대학교 포털 비밀번호'
               placeholder='8자 이상의 영문, 숫자'
             />
           </Funnel.Step>
           <Funnel.Step name='학번'>
             <Form.ID
               name='dkuStudentId'
-              placeholder='숫자 8자리'
               label='단국대학교 포털 아이디'
+              placeholder='숫자 8자리'
               onChange={async (event) => {
                 if (isStudentId(event.target.value) && step === '학번') {
                   onNext(steps[currentStep]);
