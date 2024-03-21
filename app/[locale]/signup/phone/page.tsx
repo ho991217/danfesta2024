@@ -98,6 +98,17 @@ export default function Page() {
               name='phoneNumber'
               label='사용자 전화번호'
               placeholder='01012345678'
+              inputMode='tel'
+              onChange={async (e) => {
+                if (e.target.value.length === 11) {
+                  setLoading(true);
+                  await handlePhoneNumberSubmit({
+                    phoneNumber: e.target.value,
+                  });
+                  setLoading(false);
+                }
+                return e.target.value;
+              }}
             />
             <Form.Button variant='bottom' isLoading={loading}>
               다음

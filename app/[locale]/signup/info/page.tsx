@@ -65,7 +65,6 @@ export default function Page() {
     try {
       await checkNicknameDuplicate(nickname);
       if (nicknameError) setNicknameError('');
-      onNext(step);
       return true;
     } catch (error) {
       setNicknameError('이미 사용중인 닉네임입니다.');
