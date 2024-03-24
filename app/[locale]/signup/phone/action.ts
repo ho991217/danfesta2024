@@ -3,6 +3,7 @@
 import api from '@/api';
 import { API_ROUTES } from '@/constants';
 import { PhoneNumberSchema } from './schema';
+import { redirect } from 'next/navigation';
 
 export async function sendSMSCode({
   phoneNumber,
@@ -22,9 +23,6 @@ export async function verifySMSCode({
   code: string;
   token: string;
 }) {
-  try {
-    await api.post(API_ROUTES.user.sms.verify(token), { code });
-  } catch (error) {
-    throw new Error('인증번호가 일치하지 않습니다.');
-  }
+  await api.post(API_ROUTES.user.sms.verify(token), { code });
+  redirect(`/ko/signup/info?token=${token}`);
 }

@@ -9,7 +9,7 @@ export const API_ROUTES = {
   user: {
     me: '/user',
     login: '/user/login',
-    signup: '/user/signup',
+    signup: (token: string) => `/user/${token}`,
     dku: {
       verify: '/user/dku/verify',
     },
@@ -17,6 +17,7 @@ export const API_ROUTES = {
       send: (token: string) => `/user/sms/${token}`,
       verify: (token: string) => `/user/sms/verify/${token}`,
     },
+    valid: (nickname: string) => `/user/valid?nickname=${nickname}`,
   },
   ticket: {
     reservation: '/ticket/reservation',

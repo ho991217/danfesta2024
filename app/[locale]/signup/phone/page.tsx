@@ -13,10 +13,10 @@ import {
   type SMSCodeSchema,
   phoneNumberSchema,
   smsCodeSchema,
-  tokenSchema,
 } from './schema';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
+import { tokenSchema } from '../schema';
 
 const steps = ['전화번호', '인증번호'] as const;
 
@@ -48,17 +48,15 @@ export default function Page() {
     setLoading(false);
 
     onNext(step);
-    openBT();
   };
 
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
     try {
       setLoading(true);
       await verifySMSCode({ code, token });
-      
+
       closeBT();
       setLoading(false);
-      router.push(`/${locale}/signup/success`);
     } catch (error) {
       setLoading(false);
       throw error;
@@ -70,7 +68,6 @@ export default function Page() {
     if (currentStep === '전화번호') {
       setStep('인증번호');
       openBT();
-    } else if (currentStep === '인증번호') {
     }
   };
 
@@ -83,7 +80,7 @@ export default function Page() {
   return (
     <AnimatePresence initial={false}>
       <Header>
-        <Header.Title>단국대학교 재학생 인증</Header.Title>
+        <Header.Title>휴대폰 인증</Header.Title>
         <Header.Subtitle>
           <TransformerSubtitle text='전화번호를' />
           <div className='ml-1'>입력해주세요.</div>
@@ -100,6 +97,17 @@ export default function Page() {
               name='phoneNumber'
               label='사용자 전화번호'
               placeholder='01012345678'
+              inputMode='tel'
+              onChange={async (e) => {
+                if (e.target.value.length === 11) {
+                  setLoading(true);
+                  await handlePhoneNumberSubmit({
+                    phoneNumber: e.target.value,
+                  });
+                  setLoading(false);
+                }
+                return e.target.value;
+              }}
             />
             <Form.Button variant='bottom' isLoading={loading}>
               다음
@@ -124,7 +132,6 @@ export default function Page() {
             placeholder='숫자 6자리'
             label='발송된 인증번호 입력'
             onChange={(v) => {
-              console.log(v);
               if (v.length === 6) {
                 setLoading(true);
                 handleSMSCodeSubmit({ code: v });
@@ -136,14 +143,6 @@ export default function Page() {
           <span className='text-xs mt-4'>
             휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
           </span>
-          {/* <Button
-            type='button'
-            className='mt-6'
-            variant='transparent'
-            onClick={async () => await sendSMSCode({ phoneNumber, token })}
-          >
-            재전송
-          </Button> */}
           <Form.Button
             type='submit'
             className='mt-14'
