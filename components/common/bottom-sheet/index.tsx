@@ -12,6 +12,8 @@ import { PointerEvent, useEffect, useState } from 'react';
 import { variants, transition } from './motion';
 import Overlay from '../overlay';
 import { Height } from './types';
+import { cn } from '@/lib/utils';
+import { isPWA } from '@/lib/utils/device/isPWA';
 
 export interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
   isOpen: boolean;
@@ -77,7 +79,10 @@ export default function BottomSheet({
             exit='hidden'
             variants={variants.bottomSheet.container}
             transition={transition.container}
-            className='z-50 fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl'
+            className={cn(
+              'z-50 fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl',
+              isPWA ? 'bottom-10' : 'bottom-4'
+            )}
           >
             <div
               onPointerDown={startDrag}
