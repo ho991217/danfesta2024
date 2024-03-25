@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers';
+import { getCookies } from 'next-client-cookies/server';
 import { API_ROUTES, API_URL, COOKIE_KEYS } from '../constants';
 import { DeepValueOf } from '../lib/utils';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
@@ -8,7 +8,7 @@ type APIOptions = {
 };
 
 function getAccessToken() {
-  const atk = cookies().get(COOKIE_KEYS.accessToken);
+  const atk = getCookies().get(COOKIE_KEYS.accessToken);
   if (!atk) {
     throw new APIError({
       statusCode: 401,
@@ -20,7 +20,7 @@ function getAccessToken() {
     });
   }
 
-  return `${COOKIE_KEYS.accessToken}=${atk.value}`;
+  return `${COOKIE_KEYS.accessToken}=${atk}`;
 }
 
 async function get<Res>(

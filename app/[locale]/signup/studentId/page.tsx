@@ -16,9 +16,9 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { TransformerSubtitle } from '@/components/signup/header';
-import useToastStore from '@/stores/toast-state';
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
+import { toast } from 'sonner';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
 
@@ -34,7 +34,6 @@ export default function Page() {
   const isLastStep = currentStep === steps.length;
   const router = useRouter();
   const locale = useLocale();
-  const { open: openToast } = useToastStore();
 
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
@@ -44,7 +43,7 @@ export default function Page() {
       onNext(steps[currentStep]);
     } catch (error) {
       const message = error as APIError;
-      openToast(message.message);
+      toast(message.message);
     } finally {
       setIsLoading(false);
     }

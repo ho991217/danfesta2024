@@ -4,16 +4,16 @@ import { Funnel, Header } from '@/components/signup';
 import { AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
-import { Button, Form } from '@/components/common';
+import { Form } from '@/components/common';
 import { useEffect, useRef, useState } from 'react';
 
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { tokenSchema } from '../schema';
-import { nickNameSchema, passwordSchema, signUpSchema } from './schema';
+import { nickNameSchema, signUpSchema } from './schema';
 import { checkNicknameDuplicate, signUp } from './action';
 import APIError from '@/lib/utils/error/api-error';
-import useToastStore from '@/stores/toast-state';
+import { toast } from 'sonner';
 
 const steps = ['닉네임', '비밀번호'] as const;
 
@@ -27,7 +27,6 @@ export default function Page() {
   const [nicknameError, setNicknameError] = useState<string>('');
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordCheckRef = useRef<HTMLInputElement>(null);
-  const { open: openToast } = useToastStore();
 
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -58,7 +57,7 @@ export default function Page() {
           router.push(`/${locale}/signup/complete`);
         } catch (error) {
           const e = error as APIError;
-          openToast(e.message);
+          toast(e.message);
         } finally {
           setLoading(false);
         }

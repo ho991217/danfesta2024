@@ -16,7 +16,7 @@ import { IoIosMenu } from 'react-icons/io';
 import { IoPersonSharp } from 'react-icons/io5';
 import If from '@/components/util/if';
 import { useLocale } from 'next-intl';
-import useToastStore from '@/stores/toast-state';
+import { useAuth } from '@/hooks';
 
 export default function SideNav() {
   const locale = useLocale();
@@ -71,19 +71,16 @@ function AuthButton({
   setLoggedIn: (loggedIn: boolean) => void;
   cookies: Cookies;
 }) {
-  const { open } = useToastStore();
+  const { logout } = useAuth();
 
   return (
     <If condition={loggedIn}>
       <If.Then>
         <SheetClose
-          className='text-neutral-400'
-          onClick={() => {
-            cookies.remove(COOKIE_KEYS.accessToken);
-            setLoggedIn(false);
-            open('로그아웃 되었습니다.', { type: 'success' });
-          }}
+          className='text-neutral-400 flex items-center gap-2'
+          onClick={logout}
         >
+          <IoPersonSharp />
           로그아웃
         </SheetClose>
       </If.Then>

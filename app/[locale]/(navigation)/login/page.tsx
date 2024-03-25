@@ -2,15 +2,14 @@
 
 import { Button, Form } from '@/components/common';
 import { authenticate } from './actions';
-import useToastStore from '@/stores/toast-state';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { AuthInfoSchema, authInfoSchema } from './schema';
 import { useState } from 'react';
 import APIError from '@/lib/utils/error/api-error';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
-  const { open } = useToastStore();
   const [isLoading, setIsLoading] = useState(false);
   const locale = useLocale();
 
@@ -20,7 +19,7 @@ export default function LoginPage() {
       await authenticate(data);
     } catch (error) {
       const e = error as APIError;
-      open(e.message);
+      toast(e.message);
     } finally {
       setIsLoading(false);
     }

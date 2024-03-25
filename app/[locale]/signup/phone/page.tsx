@@ -16,7 +16,7 @@ import {
 } from './schema';
 import { tokenSchema } from '../schema';
 import APIError from '@/lib/utils/error/api-error';
-import useToastStore from '@/stores/toast-state';
+import { toast } from 'sonner';
 
 const steps = ['전화번호', '인증번호'] as const;
 
@@ -30,7 +30,6 @@ export default function Page() {
   const isLastStep = currentStep === steps.length;
   const searchParams = useSearchParams();
   const codeRef = useRef<HTMLInputElement>(null);
-  const { open: openToast } = useToastStore();
 
   const token = searchParams.get('token');
   const validToken = tokenSchema.safeParse({ token });
@@ -48,7 +47,7 @@ export default function Page() {
       onNext(step);
     } catch (error) {
       const e = error as APIError;
-      openToast(e.message);
+      toast(e.message);
     } finally {
       setLoading(false);
     }
@@ -60,7 +59,7 @@ export default function Page() {
       await verifySMSCode({ code, token });
     } catch (error) {
       const e = error as APIError;
-      openToast(e.message);
+      toast(e.message);
       setStep('전화번호');
     } finally {
       closeBT();
