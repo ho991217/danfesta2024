@@ -1,19 +1,27 @@
+import { ToastType } from '@/components/common/toast';
 import { create } from 'zustand';
 
+type OpenOptions = {
+  openFor?: number;
+  type?: ToastType;
+};
+
 type ToastState = {
-  open: (message: string, openFor?: number) => void;
+  open: (message: string, options?: OpenOptions) => void;
   isOpen: boolean;
   message: string;
+  type: ToastType;
 };
 
 const useToastStore = create<ToastState>((set) => ({
   isOpen: false,
   message: '',
-  open: (message, openFor = 2000) => {
-    // if (message.length > 50) {
-    //   throw new Error('메시지는 50자 이하로 입력해주세요.');
-    // }
-    set({ isOpen: true, message });
+  type: 'error',
+  open: (message, options) => {
+    const type = options?.type || 'error';
+    const openFor = options?.openFor || 3000;
+
+    set({ isOpen: true, message, type: type });
     setTimeout(() => {
       set({ isOpen: false, message: '' });
     }, openFor);

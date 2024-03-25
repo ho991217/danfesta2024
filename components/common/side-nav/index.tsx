@@ -3,7 +3,7 @@
 import LocaleSwitcher from '../locale-switcher';
 import Link from 'next/link';
 import { COOKIE_KEYS } from '@/constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Cookies, useCookies } from 'next-client-cookies';
 import {
   Sheet,
@@ -16,14 +16,19 @@ import { IoIosMenu } from 'react-icons/io';
 import { IoPersonSharp } from 'react-icons/io5';
 import If from '@/components/util/if';
 import { useLocale } from 'next-intl';
-import { redirect } from 'next/navigation';
+import useToastStore from '@/stores/toast-state';
 
 export default function SideNav() {
   const locale = useLocale();
   const cookies = useCookies();
+  const accessToken = cookies.get(COOKIE_KEYS.accessToken);
   const [loggedIn, setLoggedIn] = useState(
     cookies.get(COOKIE_KEYS.accessToken) !== undefined
   );
+
+  useEffect(() => {
+    setLoggedIn(accessToken !== undefined);
+  }, [accessToken]);
 
   return (
     <Sheet>
@@ -66,6 +71,8 @@ function AuthButton({
   setLoggedIn: (loggedIn: boolean) => void;
   cookies: Cookies;
 }) {
+  const { open } = useToastStore();
+
   return (
     <If condition={loggedIn}>
       <If.Then>
@@ -74,6 +81,7 @@ function AuthButton({
           onClick={() => {
             cookies.remove(COOKIE_KEYS.accessToken);
             setLoggedIn(false);
+            open('로그아웃 되었습니다.', { type: 'success' });
           }}
         >
           로그아웃

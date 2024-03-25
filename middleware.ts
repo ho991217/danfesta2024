@@ -2,7 +2,6 @@ import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
 import { API_ROUTES } from './constants';
 import api from './api';
-import APIError from './lib/utils/error/api-error';
 
 const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],

@@ -9,11 +9,11 @@ type ToastProviderProps = Readonly<{
 }>;
 
 export default function ToastProvider({ children }: ToastProviderProps) {
-  const { isOpen, message } = useToastStore();
+  const { isOpen, message, type } = useToastStore();
   return (
     <>
       {children}
-      <AnimatePresence>{isOpen && <Toast>{message}</Toast>}</AnimatePresence>
+      <AnimatePresence>{isOpen && <Toast type={type}>{message}</Toast>}</AnimatePresence>
     </>
   );
 }
