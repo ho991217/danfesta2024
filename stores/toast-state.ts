@@ -10,9 +10,9 @@ const useToastStore = create<ToastState>((set) => ({
   isOpen: false,
   message: '',
   open: (message, openFor = 2000) => {
-    if (message.length > 30) {
-      throw new Error('메시지는 30자 이하로 입력해주세요.');
-    }
+    // if (message.length > 50) {
+    //   throw new Error('메시지는 50자 이하로 입력해주세요.');
+    // }
     set({ isOpen: true, message });
     setTimeout(() => {
       set({ isOpen: false, message: '' });

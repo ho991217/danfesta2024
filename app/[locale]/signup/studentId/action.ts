@@ -16,10 +16,8 @@ type DKUResponse = {
 };
 
 export async function verifyDKUStudent(req: DKUVerificationSchema) {
-  const data = await api.post<DKUVerificationSchema, DKUResponse>(
+  return api.post<DKUVerificationSchema, DKUResponse>(
     API_ROUTES.user.dku.verify,
     req
   );
-
-  return data;
 }

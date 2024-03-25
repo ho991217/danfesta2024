@@ -18,6 +18,7 @@ import {
 import { TransformerSubtitle } from '@/components/signup/header';
 import useToastStore from '@/stores/toast-state';
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
+import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
 
@@ -26,6 +27,7 @@ type Steps = (typeof steps)[number];
 export default function Page() {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
   const [BottomSheet, openBT, closeBT] = useBottomSheet();
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
@@ -38,12 +40,13 @@ export default function Page() {
     try {
       setIsLoading(true);
       const { signupToken } = await verifyDKUStudent(dkuData);
-      setIsLoading(false);
-      closeBT();
-      router.push(`/${locale}/signup/phone?token=${signupToken}`);
+      setToken(signupToken);
+      onNext(steps[currentStep]);
     } catch (error) {
-      const e = error as Error;
-      openToast(e.message);
+      const message = error as APIError;
+      openToast(message.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,10 +54,10 @@ export default function Page() {
     switch (step) {
       case '학번':
       case '비밀번호':
-        onNext(steps[currentStep]);
+        verify(dkuData);
         break;
       case '약관동의':
-        verify(dkuData);
+        router.push(`/${locale}/signup/phone?token=${token}`);
     }
   };
 

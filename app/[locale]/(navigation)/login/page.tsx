@@ -19,7 +19,8 @@ export default function LoginPage() {
       await authenticate(data);
       setIsLoading(false);
     } catch (error) {
-      open('로그인에 실패했습니다. 다시 시도해주세요.');
+      const message = error as any;
+      open(message);
     }
   };
 

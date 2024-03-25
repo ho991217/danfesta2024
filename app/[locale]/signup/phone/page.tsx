@@ -14,9 +14,9 @@ import {
   phoneNumberSchema,
   smsCodeSchema,
 } from './schema';
-import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { tokenSchema } from '../schema';
+import APIError from '@/lib/utils/error/api-error';
+import useToastStore from '@/stores/toast-state';
 
 const steps = ['전화번호', '인증번호'] as const;
 
@@ -30,11 +30,10 @@ export default function Page() {
   const isLastStep = currentStep === steps.length;
   const searchParams = useSearchParams();
   const codeRef = useRef<HTMLInputElement>(null);
+  const { open: openToast } = useToastStore();
 
   const token = searchParams.get('token');
   const validToken = tokenSchema.safeParse({ token });
-  const locale = useLocale();
-  const router = useRouter();
 
   if (!token || !validToken.success) {
     throw new Error('비정상적인 토큰입니다.');
@@ -43,23 +42,29 @@ export default function Page() {
   const handlePhoneNumberSubmit = async ({
     phoneNumber,
   }: PhoneNumberSchema) => {
-    setLoading(true);
-    await sendSMSCode({ phoneNumber, token });
-    setLoading(false);
-
-    onNext(step);
+    try {
+      setLoading(true);
+      await sendSMSCode({ phoneNumber, token });
+      onNext(step);
+    } catch (error) {
+      const e = error as APIError;
+      openToast(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
     try {
       setLoading(true);
       await verifySMSCode({ code, token });
-
+    } catch (error) {
+      const e = error as APIError;
+      openToast(e.message);
+      setStep('전화번호');
+    } finally {
       closeBT();
       setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      throw error;
     }
   };
 
@@ -100,11 +105,9 @@ export default function Page() {
               inputMode='tel'
               onChange={async (e) => {
                 if (e.target.value.length === 11) {
-                  setLoading(true);
                   await handlePhoneNumberSubmit({
                     phoneNumber: e.target.value,
                   });
-                  setLoading(false);
                 }
                 return e.target.value;
               }}
@@ -133,9 +136,7 @@ export default function Page() {
             label='발송된 인증번호 입력'
             onChange={(v) => {
               if (v.length === 6) {
-                setLoading(true);
                 handleSMSCodeSubmit({ code: v });
-                setLoading(false);
               }
               return v;
             }}

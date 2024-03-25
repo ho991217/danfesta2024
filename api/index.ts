@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { API_ROUTES, API_URL } from '../constants';
 import { DeepValueOf } from '../lib/utils';
-import { redirect } from 'next/navigation';
+import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
 type APIOptions = {
   withCredential?: boolean;
@@ -19,15 +19,14 @@ async function get<Res>(
     },
   });
 
-  if (!response.ok) {
-    if (response.status === 401) {
-      redirect('/ko/login');
-    }
-    throw new Error();
-  }
-  const json = (await response.json()) as Res;
+  const json = await response.json();
 
-  return json;
+  if ('statusCode' in json && json.statusCode === 400) {
+    const error = json as APIErrorResponse;
+    throw error.message[0];
+  }
+
+  return json as Res;
 }
 
 async function post<Req, Res>(
@@ -45,19 +44,14 @@ async function post<Req, Res>(
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    switch (response.status) {
-      case 401:
-        redirect('/ko/login');
-      case 400:
-        throw new Error('잘못된 요청입니다.');
-      default:
-        throw new Error();
-    }
-  }
-  const json = (await response.json()) as Res;
+  const json = await response.json();
 
-  return json;
+  if ('statusCode' in json && json.statusCode === 400) {
+    const error: APIErrorResponse = json;
+    throw new APIError(error);
+  }
+
+  return json as Res;
 }
 
 const api = {
