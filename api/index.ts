@@ -4,7 +4,7 @@ import { DeepValueOf } from '../lib/utils';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
 type APIOptions = {
-  withCredential?: boolean;
+  withCredentials?: boolean;
 };
 
 async function get<Res>(
@@ -12,10 +12,11 @@ async function get<Res>(
   options?: APIOptions
 ) {
   const cookie = cookies().getAll();
-  const response = await fetch(`${API_URL}${path}`, {
+  const url = new URL(path, API_URL);
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
-      ...(options?.withCredential && { Cookie: cookie.toString() }),
+      ...(options?.withCredentials && { Cookie: cookie.toString() }),
     },
   });
 
@@ -35,11 +36,12 @@ async function post<Req, Res>(
   options?: APIOptions
 ) {
   const cookie = cookies().getAll();
-  const response = await fetch(`${API_URL}${path}`, {
+  const url = new URL(path, API_URL);
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredential && { Cookie: cookie.toString() }),
+      ...(options?.withCredentials && { Cookie: cookie.toString() }),
     },
     body: JSON.stringify(data),
   });

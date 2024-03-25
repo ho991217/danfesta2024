@@ -16,6 +16,7 @@ import { IoIosMenu } from 'react-icons/io';
 import { IoPersonSharp } from 'react-icons/io5';
 import If from '@/components/util/if';
 import { useLocale } from 'next-intl';
+import { redirect } from 'next/navigation';
 
 export default function SideNav() {
   const locale = useLocale();

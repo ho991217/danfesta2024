@@ -13,8 +13,7 @@ const i18nMiddleware = createMiddleware({
 const middleware = async (request: NextRequest) => {
   if (request.nextUrl.pathname.includes('/ticketing')) {
     try {
-      const res = await api.get(API_ROUTES.user.me, { withCredential: true });
-      console.log(res);
+      await api.get(API_ROUTES.user.me, { withCredentials: true });
     } catch (error) {
       const e = error as APIError;
       if (e.statusCode === 403)

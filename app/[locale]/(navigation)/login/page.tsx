@@ -18,10 +18,11 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
       await authenticate(data);
-      setIsLoading(false);
     } catch (error) {
       const e = error as APIError;
       open(e.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
