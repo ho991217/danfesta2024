@@ -15,9 +15,7 @@ const middleware = async (request: NextRequest) => {
     try {
       await api.get(API_ROUTES.user.me, { withCredentials: true });
     } catch (error) {
-      const e = error as APIError;
-      if (e.statusCode === 403)
-        return Response.redirect(new URL('/ko/login', request.url));
+      return Response.redirect(new URL('/ko/login', request.url));
     }
   }
 

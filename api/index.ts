@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { API_ROUTES, API_URL } from '../constants';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from '../constants';
 import { DeepValueOf } from '../lib/utils';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
@@ -7,16 +7,32 @@ type APIOptions = {
   withCredentials?: boolean;
 };
 
+function getAccessToken() {
+  const atk = cookies().get(COOKIE_KEYS.accessToken);
+  if (!atk) {
+    throw new APIError({
+      statusCode: 401,
+      message: ['권한이 없습니다. 로그인 후 다시 시도해주세요.'],
+      timestamp: Date.now().toString(),
+      trackingId: 'client-side-401',
+      status: 'Unauthorized',
+      code: 'Unauthorized',
+    });
+  }
+
+  return `${COOKIE_KEYS.accessToken}=${atk.value}`;
+}
+
 async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions
 ) {
-  const cookie = cookies().getAll();
-  const url = new URL(path, API_URL);
-  const response = await fetch(url, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
+    credentials: options?.withCredentials ? 'include' : 'omit',
     headers: {
-      ...(options?.withCredentials && { Cookie: cookie.toString() }),
+      'Content-Type': 'application/json',
+      ...(options?.withCredentials && { Cookie: getAccessToken() }),
     },
   });
 
@@ -36,12 +52,11 @@ async function post<Req, Res>(
   options?: APIOptions
 ) {
   const cookie = cookies().getAll();
-  const url = new URL(path, API_URL);
-  const response = await fetch(url, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: cookie.toString() }),
+      ...(options?.withCredentials && { Cookie: getAccessToken() }),
     },
     body: JSON.stringify(data),
   });
