@@ -2,34 +2,39 @@
 
 import { useAuth } from '@/hooks';
 import { IoPersonSharp } from 'react-icons/io5';
+import { BsTicketFill } from 'react-icons/bs';
 import If from '@/components/util/if';
 import { SheetClose } from '@/components/ui/sheet';
 import Link from 'next/link';
-import { useLocale } from 'next-intl';
-import useAuthStore from '@/store/auth-store';
+import { useLocale, useTranslations } from 'next-intl';
 
-export default function AuthButton() {
-  const { logout } = useAuth();
-  const { isLoggedIn } = useAuthStore();
+export default function AuthButton({ className }: { className?: string }) {
+  const { logout, isLoggedIn } = useAuth();
   const locale = useLocale();
+  const t = useTranslations('SideNav');
 
   return (
     <If condition={isLoggedIn}>
       <If.Then>
-        <SheetClose
-          className='text-neutral-400 flex items-center gap-2'
-          onClick={logout}
-        >
-          <IoPersonSharp />
-          로그아웃
-        </SheetClose>
+        <div>
+          <SheetClose className={className} onClick={logout}>
+            <IoPersonSharp />
+            {t('logout')}
+          </SheetClose>
+          <Link href={`/${locale}/my-tickets`}>
+            <SheetClose className={className}>
+              <BsTicketFill />
+              {t('myTickets')}
+            </SheetClose>
+          </Link>
+        </div>
       </If.Then>
 
       <If.Else>
         <Link href={`/${locale}/login`}>
-          <SheetClose className='text-neutral-400 flex items-center gap-2'>
+          <SheetClose className={className}>
             <IoPersonSharp />
-            로그인
+            {t('login')}
           </SheetClose>
         </Link>
       </If.Else>

@@ -7,6 +7,16 @@
     "title": "DANFESTA 2024",
     "description": "단국대학교 2024 대동제"
   },
+  "SideNav": {
+    "home": "홈",
+    "lineup": "라인업",
+    "ticketing": "티켓팅",
+    "events": "이벤트",
+    "liveMap": "부스맵",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "myTickets": "내 티켓"
+  },
   "Home": {
     "description": "단국대학교 2024 대동제"
   },

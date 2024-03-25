@@ -7,6 +7,16 @@
     "title": "DANFESTA 2024",
     "description": "Welcome to Danfesta 2024!"
   },
+  "SideNav": {
+    "home": "Home",
+    "lineup": "Lineup",
+    "ticketing": "Ticketing",
+    "events": "Events",
+    "liveMap": "Live Map",
+    "login": "Login",
+    "logout": "Logout",
+    "myTickets": "My Tickets"
+  },
   "Home": {
     "description": "DKU festa 2024"
   },
