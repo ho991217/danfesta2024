@@ -21,6 +21,12 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const isOpen = now >= fromTime && now <= toTime;
   const locale = await getLocale();
 
+  const generateOpenText = () => {
+    if (isOpen) return '오픈';
+    if (now < fromTime) return '오픈 전';
+    return '종료';
+  };
+
   return (
     <Link
       href={isOpen ? `/${locale}/ticketing/${id}` : ''}
@@ -44,12 +50,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
             <CardTitle>{name}</CardTitle>
             <div className='flex items-center gap-2'>
               <OpenDot isOpen={isOpen} />
-              <CardDescription>
-                <If condition={isOpen}>
-                  <If.Then>오픈</If.Then>
-                  <If.Else>티켓팅 오픈 전</If.Else>
-                </If>
-              </CardDescription>
+              <CardDescription>{generateOpenText()}</CardDescription>
             </div>
           </div>
         </CardHeader>
