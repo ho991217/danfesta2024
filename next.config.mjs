@@ -2,10 +2,13 @@ import { withSentryConfig } from '@sentry/nextjs';
 import createNextIntlPlugin from 'next-intl/plugin';
 import withPWA from 'next-pwa';
 
+const prod = process.env.NODE_ENV === 'production';
+
 const withNextIntl = createNextIntlPlugin('./i18n.ts');
 
 const withPWAConfig = withPWA({
   dest: 'public',
+  disable: !prod,
 });
 
 /** @type {import('next').NextConfig} */
