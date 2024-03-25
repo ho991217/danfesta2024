@@ -1,3 +1,5 @@
+'use server';
+
 import { get } from '@/api';
 import { API_ROUTES } from '@/constants';
 

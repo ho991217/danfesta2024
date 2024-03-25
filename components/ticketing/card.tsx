@@ -6,13 +6,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { FiCalendar, FiClock } from 'react-icons/fi';
-import If from '@/components/util/if';
 import { cn } from '@/lib/utils';
 import { twMerge } from 'tailwind-merge';
 import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
+import { checkResult } from '@/app/[locale]/(navigation)/ticketing/[eventId]/result/action';
 
 export default async function Card({ id, name, from, to }: FestivalEvent) {
   const fromTime = new Date(from);
@@ -20,6 +19,9 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const now = new Date();
   const isOpen = now >= fromTime && now <= toTime;
   const locale = await getLocale();
+
+  const turn = await checkResult(Number(id));
+  const isAlreadyTurn = turn !== null;
 
   const generateOpenText = () => {
     if (isOpen) return '오픈';
@@ -30,29 +32,38 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   return (
     <Link
       href={isOpen ? `/${locale}/ticketing/${id}` : ''}
-      className={!isOpen ? 'pointer-events-none' : ''}
-      aria-disabled={!isOpen}
-      tabIndex={!isOpen ? -1 : undefined}
+      className={!isOpen || isAlreadyTurn ? 'pointer-events-none' : ''}
+      aria-disabled={!isOpen || isAlreadyTurn}
+      tabIndex={!isOpen || isAlreadyTurn ? -1 : undefined}
     >
       <CardComponent
         className={twMerge(
-          'w-full rounded-2xl',
+          'w-full rounded-2xl transition-colors duration-200 ease-in-out',
           !isOpen &&
             'bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500'
         )}
       >
-        <CardHeader className='flex flex-row gap-4'>
-          <Avatar className='scale-[1.2]'>
-            <AvatarImage src='/images/avatar.png' alt={name} />
-            <AvatarFallback>{name[0]}</AvatarFallback>
-          </Avatar>
-          <div className='flex gap-4 flex-col'>
+        <CardHeader className='flex flex-row justify-between items-start min-h-[115px]'>
+          <div className='flex gap-2 flex-col'>
             <CardTitle>{name}</CardTitle>
             <div className='flex items-center gap-2'>
               <OpenDot isOpen={isOpen} />
               <CardDescription>{generateOpenText()}</CardDescription>
             </div>
           </div>
+          {turn && (
+            <div
+              className='flex flex-col items-center justify-center gap-1'
+              style={{ marginTop: 0 }}
+            >
+              <div className='text-2xl rounded-full bg-neutral-200 dark:bg-neutral-800 w-12 h-12 grid place-content-center'>
+                8
+              </div>
+              <span className='text-[10px] text-neutral-400 dark:text-neutral-600'>
+                내 대기 순번
+              </span>
+            </div>
+          )}
         </CardHeader>
         <CardFooter className='flex justify-between border-t-[1px] pt-5 dark:border-neutral-700'>
           <CardDescription className='flex flex-row items-center gap-2'>
