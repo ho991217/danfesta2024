@@ -1,11 +1,32 @@
 import createMiddleware from 'next-intl/middleware';
+import { NextRequest } from 'next/server';
+import { API_ROUTES } from './constants';
+import api from './api';
+import APIError from './lib/utils/error/api-error';
 
-export default createMiddleware({
+const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],
   defaultLocale: 'ko',
   localeDetection: true,
 });
 
+const middleware = async (request: NextRequest) => {
+  if (request.nextUrl.pathname.includes('/ticketing')) {
+    try {
+      const res = await api.get(API_ROUTES.user.me, { withCredential: true });
+      console.log(res);
+    } catch (error) {
+      const e = error as APIError;
+      if (e.statusCode === 403)
+        return Response.redirect(new URL('/ko/login', request.url));
+    }
+  }
+
+  return i18nMiddleware(request);
+};
+
 export const config = {
   matcher: ['/', '/(ko|en)/:path*'],
 };
+
+export default middleware;

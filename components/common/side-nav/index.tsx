@@ -38,6 +38,11 @@ export default function SideNav() {
                 <SheetClose>홈</SheetClose>
               </Link>
             </li>
+            <li>
+              <Link href={`/${locale}/ticketing`} className='hover:underline'>
+                <SheetClose>티켓팅</SheetClose>
+              </Link>
+            </li>
           </ul>
           <AuthButton
             loggedIn={loggedIn}

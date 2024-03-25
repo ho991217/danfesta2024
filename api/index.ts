@@ -21,9 +21,9 @@ async function get<Res>(
 
   const json = await response.json();
 
-  if ('statusCode' in json && json.statusCode === 400) {
-    const error = json as APIErrorResponse;
-    throw error.message[0];
+  if ('statusCode' in json) {
+    const error: APIErrorResponse = json;
+    throw new APIError(error);
   }
 
   return json as Res;
@@ -46,7 +46,7 @@ async function post<Req, Res>(
 
   const json = await response.json();
 
-  if ('statusCode' in json && json.statusCode === 400) {
+  if ('statusCode' in json) {
     const error: APIErrorResponse = json;
     throw new APIError(error);
   }

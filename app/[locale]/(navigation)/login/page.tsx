@@ -7,6 +7,7 @@ import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { AuthInfoSchema, authInfoSchema } from './schema';
 import { useState } from 'react';
+import APIError from '@/lib/utils/error/api-error';
 
 export default function LoginPage() {
   const { open } = useToastStore();
@@ -19,8 +20,8 @@ export default function LoginPage() {
       await authenticate(data);
       setIsLoading(false);
     } catch (error) {
-      const message = error as any;
-      open(message);
+      const e = error as APIError;
+      open(e.message);
     }
   };
 
