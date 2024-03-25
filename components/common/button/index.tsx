@@ -3,7 +3,6 @@ import { variants } from './motion';
 import PulseLoader from 'react-spinners/PulseLoader';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { isPWA } from '@/lib/utils/device/isPWA';
 
 export type ButtonProps = MotionProps & {
   className?: string;
@@ -62,11 +61,7 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={isLoading || disabled}
-      className={cn(
-        buttonVariants({ variant, disabled }),
-        isPWA ? 'mb-10' : '',
-        className
-      )}
+      className={cn(buttonVariants({ variant, disabled }), className)}
       {...motionProps}
     >
       {isLoading ? <PulseLoader size={8} color='#f0f0f0' /> : children}

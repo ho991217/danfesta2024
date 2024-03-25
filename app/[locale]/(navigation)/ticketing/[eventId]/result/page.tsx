@@ -2,11 +2,11 @@ import { checkResult } from './action';
 import Link from 'next/link';
 
 export default async function Page({
-  params: { id },
+  params: { eventId },
 }: {
-  params: { id: string };
+  params: { eventId: string };
 }) {
-  const { turn } = await checkResult(Number(id));
+  const turn = await checkResult(Number(eventId));
 
   return (
     <div className='w-full flex flex-col items-start justify-start'>

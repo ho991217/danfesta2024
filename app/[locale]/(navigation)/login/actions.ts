@@ -1,6 +1,6 @@
 'use server';
 
-import api from '@/api';
+import { post } from '@/api';
 import { API_ROUTES, COOKIE_KEYS } from '@/constants';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
@@ -13,7 +13,7 @@ export type AuthRes = {
 };
 
 export async function authenticate(data: AuthInfoSchema) {
-  const { accessToken, refreshToken } = await api.post<AuthInfoSchema, AuthRes>(
+  const { accessToken, refreshToken } = await post<AuthInfoSchema, AuthRes>(
     API_ROUTES.user.login,
     data
   );

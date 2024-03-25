@@ -1,13 +1,7 @@
 import { getCaptchaImage } from './action';
 import Image from 'next/image';
 import { Form, RefetchButton } from '@/components/ticketing';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Accordion,
   AccordionContent,
@@ -46,9 +40,9 @@ const terms: Term[] = [
 ];
 
 export default async function Page({
-  params: { id },
+  params: { eventId },
 }: {
-  params: { id: string };
+  params: { eventId: string };
 }) {
   const { key, image } = await getCaptchaImage();
 
@@ -89,7 +83,7 @@ export default async function Page({
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Form captchaKey={key} eventId={id} />
+          <Form captchaKey={key} eventId={eventId} />
         </CardContent>
       </Card>
     </div>

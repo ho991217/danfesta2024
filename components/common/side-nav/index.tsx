@@ -1,10 +1,5 @@
-'use client';
-
 import LocaleSwitcher from '../locale-switcher';
 import Link from 'next/link';
-import { COOKIE_KEYS } from '@/constants';
-import { useEffect, useState } from 'react';
-import { Cookies, useCookies } from 'next-client-cookies';
 import {
   Sheet,
   SheetClose,
@@ -13,22 +8,47 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { IoIosMenu } from 'react-icons/io';
-import { IoPersonSharp } from 'react-icons/io5';
-import If from '@/components/util/if';
-import { useLocale } from 'next-intl';
-import { useAuth } from '@/hooks';
+import AuthButton from './auth-button';
+import { getLocale, getTranslations } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import ko from '@/messages/ko.json';
+import en from '@/messages/en.json';
+import { Separator } from '@/components/ui/separator';
 
-export default function SideNav() {
-  const locale = useLocale();
-  const cookies = useCookies();
-  const accessToken = cookies.get(COOKIE_KEYS.accessToken);
-  const [loggedIn, setLoggedIn] = useState(
-    cookies.get(COOKIE_KEYS.accessToken) !== undefined
-  );
+type LinkInfo = {
+  id: number;
+  link: string;
+  nameKey: string;
+};
 
-  useEffect(() => {
-    setLoggedIn(accessToken !== undefined);
-  }, [accessToken]);
+const links: LinkInfo[] = [
+  {
+    id: 1,
+    link: '/',
+    nameKey: 'home',
+  },
+  {
+    id: 2,
+    link: '/ticketing',
+    nameKey: 'ticketing',
+  },
+  {
+    id: 3,
+    link: '/events',
+    nameKey: 'events',
+  },
+  {
+    id: 4,
+    link: '/live-map',
+    nameKey: 'liveMap',
+  },
+];
+
+export default async function SideNav() {
+  const locale = await getLocale();
+  const t = await getTranslations('SideNav');
+  const className =
+    'text-neutral-400 flex items-center justify-end gap-2 w-full text-end py-3 px-4 rounded-lg active:scale-[0.98] active:dark:bg-neutral-800 active:bg-neutral-200 transition-all duration-200 ease-in-out';
 
   return (
     <Sheet>
@@ -37,62 +57,33 @@ export default function SideNav() {
       </SheetTrigger>
 
       <SheetContent className='bg-white dark:bg-[#0C0C0C] dark:border-[#181818] flex flex-col justify-between'>
-        <SheetDescription className='flex flex-col items-end gap-10'>
-          <ul className='flex flex-col items-end gap-4'>
-            <li>
-              <Link href={`/${locale}`} className='hover:underline'>
-                <SheetClose>홈</SheetClose>
-              </Link>
-            </li>
-            <li>
-              <Link href={`/${locale}/ticketing`} className='hover:underline'>
-                <SheetClose>티켓팅</SheetClose>
-              </Link>
-            </li>
+        <SheetDescription className='flex flex-col items-end gap-4'>
+          <ul className='flex flex-col items-end gap-1 w-full'>
+            {links.map(({ id, link, nameKey }) => (
+              <li key={id} className='w-full flex justify-end'>
+                <Link href={`/${locale}${link}`} className={className}>
+                  <SheetClose>{t(nameKey)}</SheetClose>
+                </Link>
+              </li>
+            ))}
           </ul>
-          <AuthButton
-            loggedIn={loggedIn}
-            setLoggedIn={setLoggedIn}
-            cookies={cookies}
-          />
+          <Separator />
+          <NextIntlClientProvider
+            locale={locale}
+            timeZone='Asia/Seoul'
+            messages={locale === 'ko' ? ko : en}
+          >
+            <AuthButton className={className} />
+          </NextIntlClientProvider>
         </SheetDescription>
-        <LocaleSwitcher />
+        <NextIntlClientProvider
+          locale={locale}
+          timeZone='Asia/Seoul'
+          messages={locale === 'ko' ? ko : en}
+        >
+          <LocaleSwitcher />
+        </NextIntlClientProvider>
       </SheetContent>
     </Sheet>
-  );
-}
-
-function AuthButton({
-  loggedIn,
-  setLoggedIn,
-  cookies,
-}: {
-  loggedIn: boolean;
-  setLoggedIn: (loggedIn: boolean) => void;
-  cookies: Cookies;
-}) {
-  const { logout } = useAuth();
-
-  return (
-    <If condition={loggedIn}>
-      <If.Then>
-        <SheetClose
-          className='text-neutral-400 flex items-center gap-2'
-          onClick={logout}
-        >
-          <IoPersonSharp />
-          로그아웃
-        </SheetClose>
-      </If.Then>
-
-      <If.Else>
-        <Link href={'/ko/login'}>
-          <SheetClose className='text-neutral-400 flex items-center gap-2'>
-            <IoPersonSharp />
-            로그인
-          </SheetClose>
-        </Link>
-      </If.Else>
-    </If>
   );
 }

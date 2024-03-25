@@ -1,6 +1,6 @@
 'use server';
 
-import api from '@/api';
+import { get } from '@/api';
 import { API_ROUTES } from '@/constants';
 
 type TicketInfo = {
@@ -15,7 +15,7 @@ type TicketInfo = {
 };
 
 export async function getMyTicket(eventId: number) {
-  const data = await api.get<TicketInfo>(
+  const data = await get<TicketInfo>(
     API_ROUTES.ticket.reservation + `/${eventId}`,
     {
       withCredentials: true,
