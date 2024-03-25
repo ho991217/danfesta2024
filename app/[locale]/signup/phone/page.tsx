@@ -4,7 +4,7 @@ import { Funnel, Header } from '@/components/signup';
 import { AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
-import { Form } from '@/components/common';
+import { BottomSheet, Form } from '@/components/common';
 import { useEffect, useRef, useState } from 'react';
 import { sendSMSCode, verifySMSCode } from './action';
 import { useBottomSheet } from '@/hooks';
@@ -14,9 +14,9 @@ import {
   phoneNumberSchema,
   smsCodeSchema,
 } from './schema';
-import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { tokenSchema } from '../schema';
+import APIError from '@/lib/utils/error/api-error';
+import { toast } from 'sonner';
 
 const steps = ['전화번호', '인증번호'] as const;
 
@@ -24,7 +24,7 @@ type Steps = (typeof steps)[number];
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
-  const [BottomSheet, openBT, closeBT] = useBottomSheet();
+  const [isOpen, openBT, closeBT] = useBottomSheet();
   const [step, setStep] = useState<Steps>('전화번호');
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
@@ -33,8 +33,6 @@ export default function Page() {
 
   const token = searchParams.get('token');
   const validToken = tokenSchema.safeParse({ token });
-  const locale = useLocale();
-  const router = useRouter();
 
   if (!token || !validToken.success) {
     throw new Error('비정상적인 토큰입니다.');
@@ -43,23 +41,29 @@ export default function Page() {
   const handlePhoneNumberSubmit = async ({
     phoneNumber,
   }: PhoneNumberSchema) => {
-    setLoading(true);
-    await sendSMSCode({ phoneNumber, token });
-    setLoading(false);
-
-    onNext(step);
+    try {
+      setLoading(true);
+      await sendSMSCode({ phoneNumber, token });
+      onNext(step);
+    } catch (error) {
+      const e = error as APIError;
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
     try {
       setLoading(true);
       await verifySMSCode({ code, token });
-
+    } catch (error) {
+      const e = error as APIError;
+      toast.error(e.message);
+      setStep('전화번호');
+    } finally {
       closeBT();
       setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      throw error;
     }
   };
 
@@ -100,11 +104,9 @@ export default function Page() {
               inputMode='tel'
               onChange={async (e) => {
                 if (e.target.value.length === 11) {
-                  setLoading(true);
                   await handlePhoneNumberSubmit({
                     phoneNumber: e.target.value,
                   });
-                  setLoading(false);
                 }
                 return e.target.value;
               }}
@@ -116,6 +118,7 @@ export default function Page() {
         </Funnel.Step>
       </Funnel>
       <BottomSheet
+        isOpen={isOpen}
         header='인증번호 입력'
         onDismiss={() => {
           setStep('전화번호');
@@ -133,9 +136,7 @@ export default function Page() {
             label='발송된 인증번호 입력'
             onChange={(v) => {
               if (v.length === 6) {
-                setLoading(true);
                 handleSMSCodeSubmit({ code: v });
-                setLoading(false);
               }
               return v;
             }}

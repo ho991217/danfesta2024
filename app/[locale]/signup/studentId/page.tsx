@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Form } from '@/components/common';
+import { BottomSheet, Form } from '@/components/common';
 import { Funnel, Header } from '@/components/signup';
 import { useBottomSheet } from '@/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -16,8 +16,9 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { TransformerSubtitle } from '@/components/signup/header';
-import useToastStore from '@/stores/toast-state';
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
+import APIError from '@/lib/utils/error/api-error';
+import { toast } from 'sonner';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
 
@@ -26,24 +27,25 @@ type Steps = (typeof steps)[number];
 export default function Page() {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
-  const [BottomSheet, openBT, closeBT] = useBottomSheet();
+  const [token, setToken] = useState<string | null>(null);
+  const [isOpen, openBT, closeBT] = useBottomSheet();
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
   const router = useRouter();
   const locale = useLocale();
-  const { open: openToast } = useToastStore();
 
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
       setIsLoading(true);
       const { signupToken } = await verifyDKUStudent(dkuData);
-      setIsLoading(false);
-      closeBT();
-      router.push(`/${locale}/signup/phone?token=${signupToken}`);
+      setToken(signupToken);
+      onNext(steps[currentStep]);
     } catch (error) {
-      const e = error as Error;
-      openToast(e.message);
+      const message = error as APIError;
+      toast.error(message.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -51,10 +53,10 @@ export default function Page() {
     switch (step) {
       case '학번':
       case '비밀번호':
-        onNext(steps[currentStep]);
+        verify(dkuData);
         break;
       case '약관동의':
-        verify(dkuData);
+        router.push(`/${locale}/signup/phone?token=${token}`);
     }
   };
 
@@ -120,6 +122,7 @@ export default function Page() {
         </Funnel>
 
         <BottomSheet
+          isOpen={isOpen}
           header='이용동의'
           onDismiss={() => {
             setStep('비밀번호');

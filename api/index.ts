@@ -1,33 +1,49 @@
-import { cookies } from 'next/headers';
-import { API_ROUTES, API_URL } from '../constants';
+import { getCookies } from 'next-client-cookies/server';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from '../constants';
 import { DeepValueOf } from '../lib/utils';
-import { redirect } from 'next/navigation';
+import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
 type APIOptions = {
-  withCredential?: boolean;
+  withCredentials?: boolean;
 };
+
+function getAccessToken() {
+  const atk = getCookies().get(COOKIE_KEYS.accessToken);
+  if (!atk) {
+    throw new APIError({
+      statusCode: 401,
+      message: ['권한이 없습니다. 로그인 후 다시 시도해주세요.'],
+      timestamp: Date.now().toString(),
+      trackingId: 'client-side-401',
+      status: 'Unauthorized',
+      code: 'Unauthorized',
+    });
+  }
+
+  return `${COOKIE_KEYS.accessToken}=${atk}`;
+}
 
 async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions
 ) {
-  const cookie = cookies().getAll();
   const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
+    credentials: options?.withCredentials ? 'include' : 'omit',
     headers: {
-      ...(options?.withCredential && { Cookie: cookie.toString() }),
+      'Content-Type': 'application/json',
+      ...(options?.withCredentials && { Cookie: getAccessToken() }),
     },
   });
 
-  if (!response.ok) {
-    if (response.status === 401) {
-      redirect('/ko/login');
-    }
-    throw new Error();
-  }
-  const json = (await response.json()) as Res;
+  const json = await response.json();
 
-  return json;
+  if ('statusCode' in json) {
+    const error: APIErrorResponse = json;
+    throw new APIError(error);
+  }
+
+  return json as Res;
 }
 
 async function post<Req, Res>(
@@ -35,33 +51,44 @@ async function post<Req, Res>(
   data: Req,
   options?: APIOptions
 ) {
-  const cookie = cookies().getAll();
   const response = await fetch(`${API_URL}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredential && { Cookie: cookie.toString() }),
+      ...(options?.withCredentials && { Cookie: getAccessToken() }),
     },
     body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-    switch (response.status) {
-      case 401:
-        redirect('/ko/login');
-      case 400:
-        throw new Error('잘못된 요청입니다.');
-      default:
-        throw new Error();
-    }
-  }
-  const json = (await response.json()) as Res;
+  const json = await response.json();
 
-  return json;
+  if ('statusCode' in json) {
+    const error: APIErrorResponse = json;
+    throw new APIError(error);
+  }
+
+  return json as Res;
+}
+
+async function getImage(path: string) {
+  const response = await fetch(`${API_URL}${path}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'image/png',
+      Cookie: getAccessToken(),
+    },
+  });
+
+  const arrBuf = await response.arrayBuffer();
+  const text = String.fromCharCode.apply(null, new Uint8Array(arrBuf) as any);
+
+  return 'data:image/jpeg;base64,' + btoa(text);
 }
 
 const api = {
   get,
+  getImage,
   post,
 };
 

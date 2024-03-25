@@ -1,7 +1,9 @@
+'use client';
+
 import LocaleSwitcher from '../locale-switcher';
 import Link from 'next/link';
 import { COOKIE_KEYS } from '@/constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Cookies, useCookies } from 'next-client-cookies';
 import {
   Sheet,
@@ -13,12 +15,20 @@ import {
 import { IoIosMenu } from 'react-icons/io';
 import { IoPersonSharp } from 'react-icons/io5';
 import If from '@/components/util/if';
+import { useLocale } from 'next-intl';
+import { useAuth } from '@/hooks';
 
 export default function SideNav() {
+  const locale = useLocale();
   const cookies = useCookies();
+  const accessToken = cookies.get(COOKIE_KEYS.accessToken);
   const [loggedIn, setLoggedIn] = useState(
     cookies.get(COOKIE_KEYS.accessToken) !== undefined
   );
+
+  useEffect(() => {
+    setLoggedIn(accessToken !== undefined);
+  }, [accessToken]);
 
   return (
     <Sheet>
@@ -30,8 +40,13 @@ export default function SideNav() {
         <SheetDescription className='flex flex-col items-end gap-10'>
           <ul className='flex flex-col items-end gap-4'>
             <li>
-              <Link href='/' className='hover:underline'>
+              <Link href={`/${locale}`} className='hover:underline'>
                 <SheetClose>홈</SheetClose>
+              </Link>
+            </li>
+            <li>
+              <Link href={`/${locale}/ticketing`} className='hover:underline'>
+                <SheetClose>티켓팅</SheetClose>
               </Link>
             </li>
           </ul>
@@ -56,16 +71,16 @@ function AuthButton({
   setLoggedIn: (loggedIn: boolean) => void;
   cookies: Cookies;
 }) {
+  const { logout } = useAuth();
+
   return (
     <If condition={loggedIn}>
       <If.Then>
         <SheetClose
-          className='text-neutral-400'
-          onClick={() => {
-            cookies.remove(COOKIE_KEYS.accessToken);
-            setLoggedIn(false);
-          }}
+          className='text-neutral-400 flex items-center gap-2'
+          onClick={logout}
         >
+          <IoPersonSharp />
           로그아웃
         </SheetClose>
       </If.Then>

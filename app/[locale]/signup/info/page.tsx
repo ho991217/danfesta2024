@@ -4,14 +4,16 @@ import { Funnel, Header } from '@/components/signup';
 import { AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
-import { Button, Form } from '@/components/common';
+import { Form } from '@/components/common';
 import { useEffect, useRef, useState } from 'react';
 
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { tokenSchema } from '../schema';
-import { nickNameSchema, passwordSchema, signUpSchema } from './schema';
+import { nickNameSchema, signUpSchema } from './schema';
 import { checkNicknameDuplicate, signUp } from './action';
+import APIError from '@/lib/utils/error/api-error';
+import { toast } from 'sonner';
 
 const steps = ['닉네임', '비밀번호'] as const;
 
@@ -54,8 +56,10 @@ export default function Page() {
           });
           router.push(`/${locale}/signup/complete`);
         } catch (error) {
+          const e = error as APIError;
+          toast.error(e.message);
+        } finally {
           setLoading(false);
-          throw error;
         }
         break;
     }
@@ -103,14 +107,15 @@ export default function Page() {
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name='비밀번호'>
             <Form.Password
-              ref={passwordCheckRef}
-              label='비밀번호 확인'
-              name='passwordCheck'
+              className='mb-4'
+              ref={passwordRef}
+              label='비밀번호'
               placeholder='8자 이상'
             />
             <Form.Password
-              ref={passwordRef}
-              label='비밀번호'
+              ref={passwordCheckRef}
+              label='비밀번호 확인'
+              name='passwordCheck'
               placeholder='8자 이상'
             />
           </Funnel.Step>

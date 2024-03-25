@@ -18,7 +18,7 @@ export async function getMyTicket(eventId: number) {
   const data = await api.get<TicketInfo>(
     API_ROUTES.ticket.reservation + `/${eventId}`,
     {
-      withCredential: true,
+      withCredentials: true,
     }
   );
 

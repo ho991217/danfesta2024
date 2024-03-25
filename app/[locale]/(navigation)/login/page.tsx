@@ -2,14 +2,14 @@
 
 import { Button, Form } from '@/components/common';
 import { authenticate } from './actions';
-import useToastStore from '@/stores/toast-state';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { AuthInfoSchema, authInfoSchema } from './schema';
 import { useState } from 'react';
+import APIError from '@/lib/utils/error/api-error';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
-  const { open } = useToastStore();
   const [isLoading, setIsLoading] = useState(false);
   const locale = useLocale();
 
@@ -17,9 +17,11 @@ export default function LoginPage() {
     try {
       setIsLoading(true);
       await authenticate(data);
-      setIsLoading(false);
     } catch (error) {
-      open('로그인에 실패했습니다. 다시 시도해주세요.');
+      const e = error as APIError;
+      toast.error(e.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
