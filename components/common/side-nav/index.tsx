@@ -1,3 +1,5 @@
+'use client';
+
 import LocaleSwitcher from '../locale-switcher';
 import Link from 'next/link';
 import { COOKIE_KEYS } from '@/constants';
@@ -13,8 +15,10 @@ import {
 import { IoIosMenu } from 'react-icons/io';
 import { IoPersonSharp } from 'react-icons/io5';
 import If from '@/components/util/if';
+import { useLocale } from 'next-intl';
 
 export default function SideNav() {
+  const locale = useLocale();
   const cookies = useCookies();
   const [loggedIn, setLoggedIn] = useState(
     cookies.get(COOKIE_KEYS.accessToken) !== undefined
@@ -30,7 +34,7 @@ export default function SideNav() {
         <SheetDescription className='flex flex-col items-end gap-10'>
           <ul className='flex flex-col items-end gap-4'>
             <li>
-              <Link href='/' className='hover:underline'>
+              <Link href={`/${locale}`} className='hover:underline'>
                 <SheetClose>홈</SheetClose>
               </Link>
             </li>
