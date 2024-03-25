@@ -1,4 +1,4 @@
-import api from '@/api';
+import { get } from '@/api';
 import { API_ROUTES } from '@/constants';
 
 export type FestivalEvent = {
@@ -9,5 +9,5 @@ export type FestivalEvent = {
 };
 
 export default async function getEvents() {
-  return api.get<FestivalEvent[]>(API_ROUTES.ticket.event);
+  return get<FestivalEvent[]>(API_ROUTES.ticket.event);
 }

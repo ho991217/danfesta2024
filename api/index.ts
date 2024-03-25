@@ -1,4 +1,6 @@
-import { getCookies } from 'next-client-cookies/server';
+'use server';
+
+import { cookies } from 'next/headers';
 import { API_ROUTES, API_URL, COOKIE_KEYS } from '../constants';
 import { DeepValueOf } from '../lib/utils';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
@@ -7,8 +9,8 @@ type APIOptions = {
   withCredentials?: boolean;
 };
 
-function getAccessToken() {
-  const atk = getCookies().get(COOKIE_KEYS.accessToken);
+export async function getAccessToken() {
+  const atk = cookies().get(COOKIE_KEYS.accessToken)?.value;
   if (!atk) {
     throw new APIError({
       statusCode: 401,
@@ -23,7 +25,7 @@ function getAccessToken() {
   return `${COOKIE_KEYS.accessToken}=${atk}`;
 }
 
-async function get<Res>(
+export async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions
 ) {
@@ -32,7 +34,7 @@ async function get<Res>(
     credentials: options?.withCredentials ? 'include' : 'omit',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: getAccessToken() }),
+      ...(options?.withCredentials && { Cookie: await getAccessToken() }),
     },
   });
 
@@ -46,7 +48,7 @@ async function get<Res>(
   return json as Res;
 }
 
-async function post<Req, Res>(
+export async function post<Req, Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   data: Req,
   options?: APIOptions
@@ -55,7 +57,7 @@ async function post<Req, Res>(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: getAccessToken() }),
+      ...(options?.withCredentials && { Cookie: await getAccessToken() }),
     },
     body: JSON.stringify(data),
   });
@@ -70,13 +72,13 @@ async function post<Req, Res>(
   return json as Res;
 }
 
-async function getImage(path: string) {
+export async function getImage(path: string) {
   const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
     credentials: 'include',
     headers: {
       'Content-Type': 'image/png',
-      Cookie: getAccessToken(),
+      Cookie: await getAccessToken(),
     },
   });
 
@@ -85,11 +87,3 @@ async function getImage(path: string) {
 
   return 'data:image/jpeg;base64,' + btoa(text);
 }
-
-const api = {
-  get,
-  getImage,
-  post,
-};
-
-export default api;

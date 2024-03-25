@@ -1,10 +1,5 @@
-'use client';
-
 import LocaleSwitcher from '../locale-switcher';
 import Link from 'next/link';
-import { COOKIE_KEYS } from '@/constants';
-import { useEffect, useState } from 'react';
-import { Cookies, useCookies } from 'next-client-cookies';
 import {
   Sheet,
   SheetClose,
@@ -13,22 +8,14 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { IoIosMenu } from 'react-icons/io';
-import { IoPersonSharp } from 'react-icons/io5';
-import If from '@/components/util/if';
-import { useLocale } from 'next-intl';
-import { useAuth } from '@/hooks';
+import AuthButton from './auth-button';
+import { getLocale } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import ko from '@/messages/ko.json';
+import en from '@/messages/en.json';
 
-export default function SideNav() {
-  const locale = useLocale();
-  const cookies = useCookies();
-  const accessToken = cookies.get(COOKIE_KEYS.accessToken);
-  const [loggedIn, setLoggedIn] = useState(
-    cookies.get(COOKIE_KEYS.accessToken) !== undefined
-  );
-
-  useEffect(() => {
-    setLoggedIn(accessToken !== undefined);
-  }, [accessToken]);
+export default async function SideNav() {
+  const locale = await getLocale();
 
   return (
     <Sheet>
@@ -50,49 +37,16 @@ export default function SideNav() {
               </Link>
             </li>
           </ul>
-          <AuthButton
-            loggedIn={loggedIn}
-            setLoggedIn={setLoggedIn}
-            cookies={cookies}
-          />
+          <AuthButton />
         </SheetDescription>
-        <LocaleSwitcher />
+        <NextIntlClientProvider
+          locale={locale}
+          timeZone='Asia/Seoul'
+          messages={locale === 'ko' ? ko : en}
+        >
+          <LocaleSwitcher />
+        </NextIntlClientProvider>
       </SheetContent>
     </Sheet>
-  );
-}
-
-function AuthButton({
-  loggedIn,
-  setLoggedIn,
-  cookies,
-}: {
-  loggedIn: boolean;
-  setLoggedIn: (loggedIn: boolean) => void;
-  cookies: Cookies;
-}) {
-  const { logout } = useAuth();
-
-  return (
-    <If condition={loggedIn}>
-      <If.Then>
-        <SheetClose
-          className='text-neutral-400 flex items-center gap-2'
-          onClick={logout}
-        >
-          <IoPersonSharp />
-          로그아웃
-        </SheetClose>
-      </If.Then>
-
-      <If.Else>
-        <Link href={'/ko/login'}>
-          <SheetClose className='text-neutral-400 flex items-center gap-2'>
-            <IoPersonSharp />
-            로그인
-          </SheetClose>
-        </Link>
-      </If.Else>
-    </If>
   );
 }
