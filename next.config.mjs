@@ -35,6 +35,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'arconline.co.uk',
       },
+      {
+        protocol: 'https',
+        hostname: 'media.vanityfair.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.eastbaytimes.com',
+      },
     ],
   },
 };

@@ -20,6 +20,7 @@ type CarouselProps = {
 export type TileProps = {
   src: string;
   alt: string;
+  artistName: string;
 };
 
 export default function Carousel({ images }: CarouselProps) {
@@ -44,7 +45,7 @@ export default function Carousel({ images }: CarouselProps) {
       <div className='absolute left-0 right-0' ref={emblaRef}>
         <div className='flex gap-3'>
           {images.map((tile, index) => (
-            <Tile key={index} src={tile.src} alt={tile.alt} />
+            <Tile key={index} {...tile} />
           ))}
         </div>
       </div>
@@ -52,7 +53,7 @@ export default function Carousel({ images }: CarouselProps) {
   );
 }
 
-function Tile({ src, alt }: TileProps) {
+function Tile({ src, alt, artistName }: TileProps) {
   const format = useFormatter();
   const t = useTranslations('Carousel');
 
@@ -73,7 +74,7 @@ function Tile({ src, alt }: TileProps) {
           {t('nextup')}
         </span>
         <div>
-          <h4 className='font-bold text-2xl'>콜드플레이</h4>
+          <h4 className='font-bold text-2xl'>{artistName}</h4>
           <span className='text-sm'>Coldplay</span>
         </div>
         <div className='text-sm flex gap-4 font-normal'>
