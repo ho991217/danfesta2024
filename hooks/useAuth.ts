@@ -42,7 +42,7 @@ export default function useAuth() {
     cookies.remove(COOKIE_KEYS.accessToken);
     cookies.remove(COOKIE_KEYS.refreshToken);
     setUserInfo(null);
-    toast('로그아웃되었습니다.');
+    toast.info('로그아웃되었습니다.');
   };
 
   return {

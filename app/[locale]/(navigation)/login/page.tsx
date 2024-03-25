@@ -19,7 +19,7 @@ export default function LoginPage() {
       await authenticate(data);
     } catch (error) {
       const e = error as APIError;
-      toast(e.message);
+      toast.error(e.message);
     } finally {
       setIsLoading(false);
     }

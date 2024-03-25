@@ -43,7 +43,7 @@ export default function Page() {
       onNext(steps[currentStep]);
     } catch (error) {
       const message = error as APIError;
-      toast(message.message);
+      toast.error(message.message);
     } finally {
       setIsLoading(false);
     }

@@ -57,7 +57,7 @@ export default function Page() {
           router.push(`/${locale}/signup/complete`);
         } catch (error) {
           const e = error as APIError;
-          toast(e.message);
+          toast.error(e.message);
         } finally {
           setLoading(false);
         }

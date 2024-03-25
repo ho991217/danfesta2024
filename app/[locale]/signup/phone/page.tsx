@@ -47,7 +47,7 @@ export default function Page() {
       onNext(step);
     } catch (error) {
       const e = error as APIError;
-      toast(e.message);
+      toast.error(e.message);
     } finally {
       setLoading(false);
     }
@@ -59,7 +59,7 @@ export default function Page() {
       await verifySMSCode({ code, token });
     } catch (error) {
       const e = error as APIError;
-      toast(e.message);
+      toast.error(e.message);
       setStep('전화번호');
     } finally {
       closeBT();
