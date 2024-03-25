@@ -4,7 +4,7 @@ import { Funnel, Header } from '@/components/signup';
 import { AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
-import { Form } from '@/components/common';
+import { BottomSheet, Form } from '@/components/common';
 import { useEffect, useRef, useState } from 'react';
 import { sendSMSCode, verifySMSCode } from './action';
 import { useBottomSheet } from '@/hooks';
@@ -24,7 +24,7 @@ type Steps = (typeof steps)[number];
 
 export default function Page() {
   const [loading, setLoading] = useState(false);
-  const [BottomSheet, openBT, closeBT] = useBottomSheet();
+  const [isOpen, openBT, closeBT] = useBottomSheet();
   const [step, setStep] = useState<Steps>('전화번호');
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
@@ -118,6 +118,7 @@ export default function Page() {
         </Funnel.Step>
       </Funnel>
       <BottomSheet
+        isOpen={isOpen}
         header='인증번호 입력'
         onDismiss={() => {
           setStep('전화번호');

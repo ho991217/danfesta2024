@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Form } from '@/components/common';
+import { BottomSheet, Form } from '@/components/common';
 import { Funnel, Header } from '@/components/signup';
 import { useBottomSheet } from '@/hooks';
 import { AnimatePresence } from 'framer-motion';
@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/accordion';
 import { TransformerSubtitle } from '@/components/signup/header';
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
-import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
+import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
@@ -28,7 +28,7 @@ export default function Page() {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  const [BottomSheet, openBT, closeBT] = useBottomSheet();
+  const [isOpen, openBT, closeBT] = useBottomSheet();
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
@@ -122,6 +122,7 @@ export default function Page() {
         </Funnel>
 
         <BottomSheet
+          isOpen={isOpen}
           header='이용동의'
           onDismiss={() => {
             setStep('비밀번호');

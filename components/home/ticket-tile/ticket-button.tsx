@@ -2,13 +2,14 @@
 
 import QrScanner from '@/public/qr-scanner.svg';
 import useBottomSheet from '@/hooks/useBottomSheet';
+import { BottomSheet } from '@/components/common';
 
 type TicketButtonProps = {
   label: string;
 };
 
 export default function TicketButton({ label }: TicketButtonProps) {
-  const [BottomSheet, open] = useBottomSheet();
+  const [isOpen, open, close] = useBottomSheet();
   return (
     <>
       <button
@@ -21,7 +22,9 @@ export default function TicketButton({ label }: TicketButtonProps) {
         {label}
       </button>
       <div className='absolute'>
-        <BottomSheet header='티켓 보기'>아뿔싸! 티켓을 빼앗겼다!</BottomSheet>
+        <BottomSheet header='티켓 보기' isOpen={isOpen} onDismiss={close}>
+          아뿔싸! 티켓을 빼앗겼다!
+        </BottomSheet>
       </div>
     </>
   );
