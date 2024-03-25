@@ -9,6 +9,7 @@ import { z } from 'zod';
 import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 
 const schema = z.object({
   captchaValue: z.string().trim().min(1, { message: '필수 입력 사항입니다.' }),
@@ -21,6 +22,7 @@ export default function TicketingForm({
   captchaKey,
 }: Omit<TicketApplyRequest, 'captchaValue'>) {
   const router = useRouter();
+  const locale = useLocale();
 
   const handleSubmit = async (v: Schema) => {
     try {
@@ -29,10 +31,12 @@ export default function TicketingForm({
         captchaKey,
         captchaValue: v.captchaValue,
       });
+      toast.success('신청이 완료되었습니다.');
+      router.push(`/${locale}/ticketing/${eventId}/result`);
     } catch (error) {
       const e = error as APIError;
       toast.error(e.message);
-      router.refresh();
+      if (e.message !== '이미 신청했습니다.') router.refresh();
     }
   };
 

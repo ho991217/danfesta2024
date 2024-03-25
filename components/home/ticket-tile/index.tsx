@@ -1,6 +1,7 @@
 import TileHeader from '../tile-header';
 import { useTranslations } from 'next-intl';
 import TicketButton from './ticket-button';
+import { Card } from '@/components/ui/card';
 
 export default function TicketTile() {
   const t = useTranslations('TicketTile');
@@ -10,7 +11,7 @@ export default function TicketTile() {
         <TileHeader>
           <TileHeader.Head>{t('title')}</TileHeader.Head>
         </TileHeader>
-        <div className='w-full h-32 bg-neutral-300 dark:bg-neutral-900 flex justify-between p-4 rounded-xl'>
+        <Card className='w-full h-32 flex justify-between p-4'>
           <div className='text-neutral-50 h-full flex flex-col justify-between'>
             <h4 className='font-bold text-sm dark:text-neutral-50 text-neutral-900'>
               {t('subtitle')}
@@ -28,7 +29,7 @@ export default function TicketTile() {
             </span>
           </div>
           <TicketButton label={t('tapToSee')} />
-        </div>
+        </Card>
       </div>
     </>
   );

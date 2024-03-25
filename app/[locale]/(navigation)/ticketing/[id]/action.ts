@@ -22,7 +22,11 @@ export async function getCaptchaImage() {
 }
 
 export async function applyTicket(req: TicketApplyRequest) {
-  return api.post(API_ROUTES.ticket.apply, req, {
-    withCredentials: true,
-  });
+  return api.post<TicketApplyRequest, { turn: number }>(
+    API_ROUTES.ticket.apply,
+    req,
+    {
+      withCredentials: true,
+    }
+  );
 }
