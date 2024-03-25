@@ -51,7 +51,6 @@ async function post<Req, Res>(
   data: Req,
   options?: APIOptions
 ) {
-  const cookie = cookies().getAll();
   const response = await fetch(`${API_URL}${path}`, {
     method: 'POST',
     headers: {
@@ -71,8 +70,25 @@ async function post<Req, Res>(
   return json as Res;
 }
 
+async function getImage(path: string) {
+  const response = await fetch(`${API_URL}${path}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'image/png',
+      Cookie: getAccessToken(),
+    },
+  });
+
+  const arrBuf = await response.arrayBuffer();
+  const text = String.fromCharCode.apply(null, new Uint8Array(arrBuf) as any);
+
+  return 'data:image/jpeg;base64,' + btoa(text);
+}
+
 const api = {
   get,
+  getImage,
   post,
 };
 
