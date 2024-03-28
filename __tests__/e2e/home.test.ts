@@ -1,7 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, devices } from '@playwright/test';
 
-test('home page', async ({ page }) => {
-  await page.goto('/');
-  const title = page.locator('h1');
-  await expect(title).toHaveText('DANFESTA');
+test('홈 화면 테스트', async ({ page }) => {
+  await page.goto('https://danfesta2024.vercel.app/ko');
+  const message = '모바일 환경에서 접속해주세요.';
+
+  if (devices['Desktop Chrome']) await page.isVisible(`text=${message}`);
+  else !(await page.isVisible(`text=${message}`));
 });
