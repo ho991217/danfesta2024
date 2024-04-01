@@ -31,7 +31,6 @@ export async function get<Res>(
 ) {
   const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
-    credentials: options?.withCredentials ? 'include' : 'omit',
     headers: {
       'Content-Type': 'application/json',
       ...(options?.withCredentials && { Cookie: await getAccessToken() }),
