@@ -1,5 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
+import { Noto_Sans_KR } from 'next/font/google';
+import clsx from 'clsx';
+import Providers from './providers';
+
+const NotoSansKR = Noto_Sans_KR({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+});
 
 export const metadata: Metadata = {
   title: '단페스타 2024',
@@ -18,8 +26,16 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
-  return <>{children}</>;
+  return (
+    <html lang={locale}>
+      <body className={clsx(NotoSansKR.className)}>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
 }

@@ -1,10 +1,5 @@
 import Navigation from '@/components/common/navigation';
-import { NextIntlClientProvider } from 'next-intl';
-import dynamic from 'next/dynamic';
-
-const FloatingTicket = dynamic(
-  () => import('@/components/common/floating-ticket')
-);
+import FloatingTicket from '@/components/common/floating-ticket';
 
 export default function LocaleLayout({
   children,

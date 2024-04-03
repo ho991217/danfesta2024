@@ -3,7 +3,7 @@
 import {
   applyTicket,
   type TicketApplyRequest,
-} from '@/app/[locale]/(navigation)/ticketing/[eventId]/action';
+} from '@/app/[locale]/(back-nav)/ticketing/[eventId]/action';
 import { Form } from '../common';
 import { z } from 'zod';
 import APIError from '@/lib/utils/error/api-error';

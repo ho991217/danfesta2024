@@ -40,6 +40,13 @@ export const API_ROUTES = {
      * @returns {FestivalEvent[]} 행사 목록
      */
     event: '/ticket/event',
+    /**
+     * @name GET /ticket/:eventId
+     * @description 내 티켓 조회
+     * @param eventId - 행사 ID
+     * @returns
+     */
+    myTicket: (eventId: number) => `/ticket/event/${eventId}`,
     captcha: {
       /**
        * @name GET /ticket/captcha/key

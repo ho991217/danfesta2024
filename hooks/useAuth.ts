@@ -2,8 +2,8 @@
 
 import { get } from '@/api';
 import { User } from '@/api/response';
-import { authenticate } from '@/app/[locale]/(navigation)/login/actions';
-import { AuthInfoSchema } from '@/app/[locale]/(navigation)/login/schema';
+import { authenticate } from '@/app/[locale]/(back-nav)/login/actions';
+import { AuthInfoSchema } from '@/app/[locale]/(back-nav)/login/schema';
 import { API_ROUTES, COOKIE_KEYS } from '@/constants';
 import { useCookies } from 'next-client-cookies';
 import { useRouter } from 'next/navigation';
