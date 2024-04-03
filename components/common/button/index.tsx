@@ -1,3 +1,5 @@
+'use client';
+
 import { MotionProps, motion } from 'framer-motion';
 import { variants } from './motion';
 import PulseLoader from 'react-spinners/PulseLoader';

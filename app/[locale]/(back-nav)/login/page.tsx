@@ -26,7 +26,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section className='w-full flex flex-col justify-end items-center'>
+    <section className='w-full flex flex-col justify-end items-center px-5'>
       <Form
         className='flex flex-col gap-2'
         onSubmit={onSubmit}
