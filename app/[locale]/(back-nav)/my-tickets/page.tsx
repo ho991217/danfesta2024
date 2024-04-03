@@ -1,18 +1,16 @@
 import If from '@/components/util/if';
 import { getMyTicketList } from './action';
-import dynamic from 'next/dynamic';
-
-const Ticket = dynamic(() => import('@/components/my-tickets/ticket'));
+import { TicketTile } from '@/components/my-tickets';
 
 export default async function Page() {
   const tickets = await getMyTicketList();
 
   return (
-    <section className='flex flex-col items-center justify-start w-full'>
+    <section className='flex flex-col items-center justify-start w-full gap-4'>
       <If condition={tickets.length > 0}>
         <If.Then>
           {tickets.map((ticketId) => (
-            <Ticket key={ticketId} id={ticketId} />
+            <TicketTile key={ticketId} id={ticketId} />
           ))}
         </If.Then>
         <If.Else>

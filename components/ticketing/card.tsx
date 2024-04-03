@@ -1,4 +1,4 @@
-import { FestivalEvent } from '@app/[locale]/(navigation)/ticketing/action';
+import { FestivalEvent } from '@/app/[locale]/(back-nav)/ticketing/action';
 import {
   Card as CardComponent,
   CardDescription,
@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { twMerge } from 'tailwind-merge';
 import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
-import { checkResult } from '@/app/[locale]/(navigation)/ticketing/[eventId]/result/action';
+import { checkResult } from '@/app/[locale]/(back-nav)/ticketing/[eventId]/result/action';
 
 export default async function Card({ id, name, from, to }: FestivalEvent) {
   const fromTime = new Date(from);
