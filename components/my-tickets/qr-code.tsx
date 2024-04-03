@@ -2,8 +2,9 @@
 
 import { useQRCode } from 'next-qrcode';
 import sign from 'jwt-encode';
-import { useEffect, useRef, useState } from 'react';
-import { parseMStoMinSec } from '@/lib/utils';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { cn, parseMStoMinSec } from '@/lib/utils';
+import { Button } from '@/components/common';
 
 const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
 const SECOND = 1000;
@@ -11,6 +12,7 @@ const SECOND = 1000;
 type QrCodeProps = {
   ticketId: number;
   validTime?: number;
+  className?: string;
 };
 
 type Payload = {
@@ -22,10 +24,12 @@ type Payload = {
 export default function QrCode({
   ticketId,
   validTime = 1000 * 60 * 3,
+  className,
 }: QrCodeProps) {
   if (!SECRET) throw new Error('JWT 시크릿이 설정되지 않았습니다.');
 
   const { Canvas } = useQRCode();
+  const [isLoading, setIsLoading] = useState(true);
   const [token, setToken] = useState<string>('no token');
   const [leftTime, setLeftTime] = useState<number>(validTime);
   const interval = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -43,8 +47,9 @@ export default function QrCode({
     if (interval.current) clearInterval(interval.current);
     if (timer.current) clearInterval(timer.current);
 
-    generateToken();
     setLeftTime(validTime);
+    generateToken();
+    setIsLoading(false);
     interval.current = setInterval(() => {
       setLeftTime(validTime);
       generateToken();
@@ -65,10 +70,23 @@ export default function QrCode({
   }, []);
 
   return (
-    <div>
-      <Canvas text={token} options={{ errorCorrectionLevel: 'L' }} />
-      <div>유효 시간: {parseMStoMinSec(leftTime)}</div>
-      <button onClick={startTimer}>재생성</button>
+    <div className={cn('flex flex-col w-full items-center', className)}>
+      <Suspense fallback={<div>로딩중</div>}>
+        {!isLoading && (
+          <Canvas
+            text={token}
+            options={{ errorCorrectionLevel: 'L', width: 300 }}
+          />
+        )}
+      </Suspense>
+      <div className='flex flex-col p-4 w-full gap-4'>
+        <span className='text-sm text-neutral-400 w-full text-center'>
+          유효 시간: {parseMStoMinSec(leftTime)}
+        </span>
+        <Button variant='filled' onClick={startTimer} animateOnClick>
+          재생성
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
-import Carousel, { type TileProps } from '../common/carousel';
+import Carousel from '../common/carousel';
 import TileHeader from './tile-header';
+import { TileProps } from '../common/carousel/tile';
 
 const data: TileProps[] = [
   {
