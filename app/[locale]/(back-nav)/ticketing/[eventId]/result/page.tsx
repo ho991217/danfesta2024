@@ -9,7 +9,7 @@ export default async function Page({
   const turn = await checkResult(Number(eventId));
 
   return (
-    <div className='w-full flex flex-col items-start justify-start'>
+    <div className='w-full flex flex-col items-start justify-start px-5'>
       <h1 className='text-2xl font-bold mt-10'>티켓팅이 완료되었습니다.</h1>
       <span className=''>
         <strong className='text-primary'>{turn}</strong>번째로 티켓팅

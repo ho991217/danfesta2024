@@ -11,7 +11,7 @@ export default function Page() {
   const locale = useLocale();
 
   return (
-    <section className='w-full flex flex-col items-start'>
+    <section className='w-full flex flex-col items-start px-5'>
       <div className='flex flex-col gap-2'>
         <h1 className='text-3xl font-bold'>회원가입 완료</h1>
         <h4 className='text-base'>단페스타 회원가입이 완료되었습니다. 🎉</h4>

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 type PropsWithChildren = { children?: React.ReactNode };
 
 export default function Header({ children }: PropsWithChildren) {
-  return <header className='flex flex-col gap-2 mb-10 mt-6'>{children}</header>;
+  return <header className='flex flex-col gap-2 mb-10'>{children}</header>;
 }
 
 Header.Title = function Title({ children }: PropsWithChildren) {
