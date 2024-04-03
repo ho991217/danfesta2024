@@ -1,13 +1,13 @@
 import { FiCalendar } from 'react-icons/fi';
-import Link from 'next/link';
 import TicketIcon from '@/public/images/ticket.svg';
 import { getLocale } from 'next-intl/server';
+import Link from '@/components/common/link';
 
 export default async function TicketTile({ id }: { id: number }) {
   const locale = await getLocale();
   return (
-    <div className='relative py-4 px-6 w-[327px] h-[161px] flex flex-col justify-between items-start'>
-      <div className='w-full flex flex-col gap-2'>
+    <div className='relative w-[327px] h-[161px] flex flex-col justify-between items-start'>
+      <div className='w-full flex flex-col gap-2 mx-5 mt-5'>
         <h4 className='font-bold text-base'>
           단국대학교 2024 단페스타 1일차 티켓
         </h4>
@@ -23,7 +23,11 @@ export default async function TicketTile({ id }: { id: number }) {
         </div>
       </div>
       <div className='w-full'>
-        <Link href={`/${locale}/my-tickets/${id}`} className='text-primary'>
+        <Link
+          href={`/${locale}/my-tickets/${id}`}
+          className='text-primary py-4 px-5 w-full text-center rounded-b-xl'
+          auth
+        >
           티켓 보기
         </Link>
       </div>

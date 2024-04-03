@@ -6,7 +6,7 @@ export default async function Page() {
   const tickets = await getMyTicketList();
 
   return (
-    <section className='flex flex-col items-center justify-start w-full gap-4'>
+    <section className='flex flex-col items-center justify-start w-full gap-4 px-5'>
       <If condition={tickets.length > 0}>
         <If.Then>
           {tickets.map((ticketId) => (

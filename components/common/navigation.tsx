@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from '@/components/common/link';
 import SideNav from './side-nav';
 import { useTranslations } from 'next-intl';
 import { IoArrowBackOutline } from 'react-icons/io5';
@@ -14,7 +14,7 @@ export default function Navigation({ hasBackButton = false }: Props) {
     <nav className='flex w-full justify-between items-start h-[100px] px-5 pt-5'>
       <If condition={hasBackButton}>
         <If.Then>
-          <Link href={'/'}>
+          <Link back>
             <IoArrowBackOutline size={25} />
           </Link>
         </If.Then>

@@ -1,5 +1,5 @@
 import LocaleSwitcher from '../locale-switcher';
-import Link from 'next/link';
+// import Link from 'next/link';
 import {
   Sheet,
   SheetClose,
@@ -14,11 +14,13 @@ import { NextIntlClientProvider } from 'next-intl';
 import ko from '@/messages/ko.json';
 import en from '@/messages/en.json';
 import { Separator } from '@/components/ui/separator';
+import Link from '@/components/common/link';
 
 type LinkInfo = {
   id: number;
   link: string;
   nameKey: string;
+  privateRoute?: boolean;
 };
 
 const links: LinkInfo[] = [
@@ -31,6 +33,7 @@ const links: LinkInfo[] = [
     id: 2,
     link: '/ticketing',
     nameKey: 'ticketing',
+    privateRoute: true,
   },
   {
     id: 3,
@@ -59,9 +62,13 @@ export default async function SideNav() {
       <SheetContent className='bg-white dark:bg-[#0C0C0C] dark:border-[#181818] flex flex-col justify-between'>
         <SheetDescription className='flex flex-col items-end gap-4'>
           <ul className='flex flex-col items-end gap-1 w-full'>
-            {links.map(({ id, link, nameKey }) => (
+            {links.map(({ id, link, nameKey, privateRoute }) => (
               <li key={id} className='w-full flex justify-end'>
-                <Link href={`/${locale}${link}`} className={className}>
+                <Link
+                  href={`/${locale}${link}`}
+                  className={className}
+                  auth={privateRoute}
+                >
                   <SheetClose>{t(nameKey)}</SheetClose>
                 </Link>
               </li>
