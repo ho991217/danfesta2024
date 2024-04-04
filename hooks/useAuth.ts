@@ -1,8 +1,6 @@
 'use client';
 
-import { get } from '@/api';
 import { User } from '@/api/response';
-import { authenticate } from '@/app/[locale]/(back-nav)/login/actions';
 import { AuthInfoSchema } from '@/app/[locale]/(back-nav)/login/schema';
 import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/constants';
 import { useCookies } from 'next-client-cookies';
@@ -52,11 +50,24 @@ export default function useAuth() {
 
   const login = async (req: AuthInfoSchema) => {
     try {
-      await authenticate(req);
+      const res = await fetch(`${API_URL}${API_ROUTES.user.login}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(req),
+      }).then((res) => res.json());
+
+      if (!res.accessToken || !res.refreshToken)
+        throw new Error('토큰이 없습니다.');
+      cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
+      cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
+
+      setIsLoggedIn(true);
     } catch (error) {
       const e = error as Error;
-      toast.error(e.message);
       setIsLoggedIn(false);
+      throw e;
     }
   };
 
