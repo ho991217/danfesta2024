@@ -1,5 +1,3 @@
-'use server';
-
 import { cookies } from 'next/headers';
 import { API_ROUTES, API_URL, COOKIE_KEYS } from '../constants';
 import { DeepValueOf } from '../lib/utils';

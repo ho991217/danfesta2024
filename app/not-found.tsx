@@ -1,8 +1,7 @@
 'use client';
 
-import { Button } from '@/components';
+import { Button } from '@/components/common';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
