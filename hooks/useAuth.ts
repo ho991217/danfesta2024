@@ -46,6 +46,7 @@ export default function useAuth() {
   };
 
   useEffect(() => {
+    if (isLoggedIn) return;
     checkLogin();
   }, []);
 
@@ -53,7 +54,8 @@ export default function useAuth() {
     try {
       await authenticate(req);
     } catch (error) {
-      toast.error('로그인에 실패했습니다.');
+      const e = error as Error;
+      toast.error(e.message);
       setIsLoggedIn(false);
     }
   };
