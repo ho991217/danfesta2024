@@ -2,11 +2,10 @@
 
 import { Funnel, Header } from '@/components/signup';
 import { AnimatePresence } from 'framer-motion';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { TransformerSubtitle } from '@/components/signup/header';
 import { BottomSheet, Form } from '@/components/common';
 import { useEffect, useRef, useState } from 'react';
-import { sendSMSCode, verifySMSCode } from './action';
 import { useBottomSheet } from '@/hooks';
 import {
   type PhoneNumberSchema,
@@ -17,6 +16,8 @@ import {
 import { tokenSchema } from '../schema';
 import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
+import { post } from '@/api';
+import { API_ROUTES } from '@/constants';
 
 const steps = ['전화번호', '인증번호'] as const;
 
@@ -30,6 +31,7 @@ export default function Page() {
   const isLastStep = currentStep === steps.length;
   const searchParams = useSearchParams();
   const codeRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const token = searchParams.get('token');
   const validToken = tokenSchema.safeParse({ token });
@@ -43,7 +45,7 @@ export default function Page() {
   }: PhoneNumberSchema) => {
     try {
       setLoading(true);
-      await sendSMSCode({ phoneNumber, token });
+      await post(API_ROUTES.user.sms.send(token), { phoneNumber });
       onNext(step);
     } catch (error) {
       const e = error as APIError;
@@ -56,7 +58,8 @@ export default function Page() {
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
     try {
       setLoading(true);
-      await verifySMSCode({ code, token });
+      await post(API_ROUTES.user.sms.verify(token), { code });
+      router.push(`/ko/signup/info?token=${token}`);
     } catch (error) {
       const e = error as APIError;
       toast.error(e.message);

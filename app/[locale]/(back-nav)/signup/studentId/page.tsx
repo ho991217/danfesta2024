@@ -5,7 +5,6 @@ import { BottomSheet, Form } from '@/components/common';
 import { Funnel, Header } from '@/components/signup';
 import { useBottomSheet } from '@/hooks';
 import { AnimatePresence } from 'framer-motion';
-import { verifyDKUStudent } from './action';
 import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { isStudentId } from '@/lib/utils/validators';
@@ -19,8 +18,21 @@ import { TransformerSubtitle } from '@/components/signup/header';
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
 import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
+import { post } from '@/api';
+import { API_ROUTES } from '@/constants';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
+
+type DKUResponse = {
+  signupToken: string;
+  student: {
+    studentName: string;
+    studentId: string;
+    age: string;
+    gender: string;
+    major: string;
+  };
+};
 
 type Steps = (typeof steps)[number];
 
@@ -38,7 +50,10 @@ export default function Page() {
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
       setIsLoading(true);
-      const { signupToken } = await verifyDKUStudent(dkuData);
+      const { signupToken } = await post<DKUVerificationSchema, DKUResponse>(
+        API_ROUTES.user.dku.verify,
+        dkuData
+      );
       setToken(signupToken);
       onNext(steps[currentStep]);
     } catch (error) {

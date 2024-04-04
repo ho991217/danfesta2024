@@ -10,12 +10,22 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { tokenSchema } from '../schema';
-import { nickNameSchema, signUpSchema } from './schema';
-import { checkNicknameDuplicate, signUp } from './action';
+import { SignUpSchema, nickNameSchema, signUpSchema } from './schema';
 import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
+import { get, post } from '@/api';
+import { API_ROUTES } from '@/constants';
 
 const steps = ['닉네임', '비밀번호'] as const;
+
+type SignUpReqeust = {
+  nickname: SignUpSchema['nickname'];
+  password: SignUpSchema['password'];
+};
+
+type SignUpResponse = {
+  message: string;
+};
 
 type Steps = (typeof steps)[number];
 
@@ -49,11 +59,13 @@ export default function Page() {
       case '비밀번호':
         setLoading(true);
         try {
-          await signUp({
-            nickname: data.nickname,
-            password: data.password,
-            token,
-          });
+          await post<SignUpReqeust, SignUpResponse>(
+            API_ROUTES.user.signup(token),
+            {
+              nickname: data.nickname,
+              password: data.password,
+            }
+          );
           router.push(`/${locale}/signup/complete`);
         } catch (error) {
           const e = error as APIError;
@@ -66,11 +78,13 @@ export default function Page() {
   };
 
   const verifyNickname = async (nickname: string) => {
-    try {
-      await checkNicknameDuplicate(nickname);
+    const { data } = await get<{ data: boolean }>(
+      API_ROUTES.user.valid(nickname)
+    );
+    if (data) {
       if (nicknameError) setNicknameError('');
       return true;
-    } catch (error) {
+    } else {
       setNicknameError('이미 사용중인 닉네임입니다.');
       return false;
     }
