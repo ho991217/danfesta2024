@@ -44,7 +44,7 @@ export default function TicketingForm({
 
       if (
         !res.ok &&
-        res.message[0] ===
+        res?.message?.[0] ===
           '자동입력 방지문자가 틀렸습니다. 키부터 다시 요청해주세요.'
       )
         throw new Error('캡차 값이 올바르지 않습니다.');
