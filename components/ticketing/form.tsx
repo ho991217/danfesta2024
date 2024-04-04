@@ -42,7 +42,12 @@ export default function TicketingForm({
         }),
       }).then((res) => res.json());
 
-      if (!res.ok) throw new Error('캡차 값이 올바르지 않습니다.');
+      if (
+        !res.ok &&
+        res.message[0] ===
+          '자동입력 방지문자가 틀렸습니다. 키부터 다시 요청해주세요.'
+      )
+        throw new Error('캡차 값이 올바르지 않습니다.');
 
       toast.success('신청이 완료되었습니다.');
       router.push(`/${locale}/ticketing/${eventId}/result`);
