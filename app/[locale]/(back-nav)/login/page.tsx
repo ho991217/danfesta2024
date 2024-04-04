@@ -9,22 +9,26 @@ import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks';
 import { API_ROUTES, API_URL } from '@/constants';
+import { useCookies } from 'next-client-cookies';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const cookies = useCookies();
   const locale = useLocale();
   const { login } = useAuth();
 
   const onSubmit = async (data: AuthInfoSchema) => {
     try {
       setIsLoading(true);
-      await fetch(`${API_URL}${API_ROUTES.user.login}`, {
+      const res = await fetch(`${API_URL}${API_ROUTES.user.login}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       }).then((res) => res.json());
+
+      cookies.set('accessToken', res.accessToken);
     } catch (error) {
       const e = error as APIError;
       toast.error(e.message);
