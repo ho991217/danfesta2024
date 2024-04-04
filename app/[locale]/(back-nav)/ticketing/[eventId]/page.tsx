@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import GlobalError, { GlobalErrorProps } from '@/app/global-error';
 
 type Term = {
   index: string;
@@ -44,48 +45,53 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
-  const { key, image } = await getCaptchaImage();
+  try {
+    const { key, image } = await getCaptchaImage();
 
-  return (
-    <div className='flex flex-col gap-4 mb-20 px-5'>
-      <Card className='overflow-hidden'>
-        <CardHeader>개인정보 제 3자 제공 동의</CardHeader>
-        <CardContent className='text-neutral-500'>
-          ㈜무진정보기술 단버리 회원님의 개인정보를 개인정보 처리방침에서 고지한
-          제 3 자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동 범위를
-          초과하여 제 3자에게 제공하지 않습니다.
-        </CardContent>
-        <Accordion type='multiple'>
-          {terms.map(({ index, content }) => (
-            <AccordionItem
-              key={index}
-              value={index}
-              className='px-6 last:border-b-0'
-            >
-              <AccordionTrigger>{index}</AccordionTrigger>
-              <AccordionContent className='text-neutral-500'>
-                {content}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </Card>
+    return (
+      <div className='flex flex-col gap-4 mb-20 px-5'>
+        <Card className='overflow-hidden'>
+          <CardHeader>개인정보 제 3자 제공 동의</CardHeader>
+          <CardContent className='text-neutral-500'>
+            ㈜무진정보기술 단버리 회원님의 개인정보를 개인정보 처리방침에서
+            고지한 제 3 자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동
+            범위를 초과하여 제 3자에게 제공하지 않습니다.
+          </CardContent>
+          <Accordion type='multiple'>
+            {terms.map(({ index, content }) => (
+              <AccordionItem
+                key={index}
+                value={index}
+                className='px-6 last:border-b-0'
+              >
+                <AccordionTrigger>{index}</AccordionTrigger>
+                <AccordionContent className='text-neutral-500'>
+                  {content}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Card>
 
-      <Card>
-        <CardHeader className='pb-4'>
-          <CardTitle>
-            <div className='w-full aspect-[7/2] grid grid-cols-[5fr,1fr] gap-4'>
-              <div className='relative rounded-lg overflow-hidden'>
-                <Image src={image} fill alt='캡챠 이미지' />
+        <Card>
+          <CardHeader className='pb-4'>
+            <CardTitle>
+              <div className='w-full aspect-[7/2] grid grid-cols-[5fr,1fr] gap-4'>
+                <div className='relative rounded-lg overflow-hidden'>
+                  <Image src={image} fill alt='캡챠 이미지' />
+                </div>
+                <RefetchButton />
               </div>
-              <RefetchButton />
-            </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form captchaKey={key} eventId={eventId} />
-        </CardContent>
-      </Card>
-    </div>
-  );
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form captchaKey={key} eventId={eventId} />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  } catch (error) {
+    const e = error as GlobalErrorProps['error'];
+    return <GlobalError error={e} reset={() => window.location.reload()} />;
+  }
 }

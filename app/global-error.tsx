@@ -1,7 +1,14 @@
 'use client';
+
+import { Button } from '@/components';
 import * as Sentry from '@sentry/nextjs';
 import Error from 'next/error';
 import { useEffect } from 'react';
+
+export type GlobalErrorProps = {
+  error: Error & { digest?: string };
+  reset: () => void;
+};
 
 export default function GlobalError({
   error,
@@ -32,7 +39,9 @@ export default function GlobalError({
         >
           <h1>오류가 발생했습니다.</h1>
           <p>잠시 후 다시 시도해주세요.</p>
-          <button onClick={reset}>새로고침</button>
+          <Button onClick={reset} animateOnClick>
+            새로고침
+          </Button>
         </div>
         <Error statusCode={400} />
       </body>
