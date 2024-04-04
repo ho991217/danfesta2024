@@ -9,6 +9,7 @@ import {
 import { get, getImage } from '@/api';
 import { API_ROUTES } from '@/constants';
 import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 const Form = dynamic(() => import('@/components/ticketing/form'));
 const RefetchButton = dynamic(
@@ -94,14 +95,22 @@ export default async function Page({
           <CardTitle>
             <div className='w-full aspect-[7/2] grid grid-cols-[5fr,1fr] gap-4'>
               <div className='relative rounded-lg overflow-hidden'>
-                <Image src={captchaImage} fill alt='캡챠 이미지' />
+                <Suspense fallback={null}>
+                  {captchaImage.length > 0 && (
+                    <Image src={captchaImage} fill alt='캡챠 이미지' />
+                  )}
+                </Suspense>
               </div>
               <RefetchButton />
             </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Form captchaKey={captchaKey} eventId={eventId} />
+          <Suspense fallback={null}>
+            {captchaKey.length > 0 && eventId.length > 0 && (
+              <Form captchaKey={captchaKey} eventId={eventId} />
+            )}
+          </Suspense>
         </CardContent>
       </Card>
     </div>
