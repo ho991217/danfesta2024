@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
-import { API_ROUTES } from './constants';
+import { API_ROUTES, COOKIE_KEYS } from './constants';
 import { get } from './api';
 
 const i18nMiddleware = createMiddleware({
@@ -10,9 +10,17 @@ const i18nMiddleware = createMiddleware({
 });
 
 const middleware = async (request: NextRequest) => {
+  const atk = request.cookies.get(COOKIE_KEYS.accessToken);
+
   if (request.nextUrl.pathname.includes('/ticketing')) {
+    if (!atk) throw new Error('로그인이 필요합니다.');
+
     try {
-      await get(API_ROUTES.user.me, { withCredentials: true });
+      await fetch(API_ROUTES.user.me, {
+        headers: {
+          Authorization: `Bearer ${atk}`,
+        },
+      });
     } catch (error) {
       return Response.redirect(new URL('/ko/login', request.url));
     }
