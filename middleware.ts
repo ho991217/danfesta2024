@@ -9,21 +9,21 @@ const i18nMiddleware = createMiddleware({
 });
 
 const middleware = async (request: NextRequest) => {
-  const atk = request.cookies.get(COOKIE_KEYS.accessToken);
+  // const atk = request.cookies.get(COOKIE_KEYS.accessToken);
 
-  if (request.nextUrl.pathname.includes('/ticketing')) {
-    if (!atk) throw new Error('로그인이 필요합니다.');
+  // if (request.nextUrl.pathname.includes('/ticketing')) {
+  //   if (!atk) throw new Error('로그인이 필요합니다.');
 
-    try {
-      await fetch(`${API_URL}${API_ROUTES.user.me}`, {
-        headers: {
-          Authorization: `Bearer ${atk}`,
-        },
-      });
-    } catch (error) {
-      return Response.redirect(new URL('/ko/login', request.url));
-    }
-  }
+  //   try {
+  //     await fetch(`${API_URL}${API_ROUTES.user.me}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${atk}`,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     return Response.redirect(new URL('/ko/login', request.url));
+  //   }
+  // }
 
   return i18nMiddleware(request);
 };
