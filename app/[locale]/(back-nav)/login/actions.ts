@@ -17,15 +17,10 @@ export async function authenticate(data: AuthInfoSchema) {
     API_ROUTES.user.login,
     data
   );
-  const isProduction = process.env.NODE_ENV === 'production';
 
-  cookies().set(COOKIE_KEYS.accessToken, accessToken, {
-    secure: isProduction,
-  });
+  cookies().set(COOKIE_KEYS.accessToken, accessToken);
 
-  cookies().set(COOKIE_KEYS.refreshToken, refreshToken, {
-    secure: isProduction,
-  });
+  cookies().set(COOKIE_KEYS.refreshToken, refreshToken);
 
   const locale = await getLocale();
   redirect(`/${locale}`);
