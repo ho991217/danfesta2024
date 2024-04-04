@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  applyTicket,
-  type TicketApplyRequest,
-} from '@/app/[locale]/(back-nav)/ticketing/[eventId]/action';
+import { type TicketApplyRequest } from '@/app/[locale]/(back-nav)/ticketing/[eventId]/action';
 import { Form } from '../common';
 import { z } from 'zod';
 import APIError from '@/lib/utils/error/api-error';
@@ -32,7 +29,7 @@ export default function TicketingForm({
     if (!atk) throw new Error('로그인이 필요합니다.');
 
     try {
-      await fetch(`${API_URL}${API_ROUTES.ticket.apply}`, {
+      const res = await fetch(`${API_URL}${API_ROUTES.ticket.apply}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +40,10 @@ export default function TicketingForm({
           captchaKey,
           captchaValue: v.captchaValue,
         }),
-      });
+      }).then((res) => res.json());
+
+      if (!res.ok) throw new Error('캡차 값이 올바르지 않습니다.');
+
       toast.success('신청이 완료되었습니다.');
       router.push(`/${locale}/ticketing/${eventId}/result`);
     } catch (error) {

@@ -14,7 +14,7 @@ export default function Providers({ children }: ProvidersProps) {
       <SpeedInsights />
       <Analytics />
       <NextTopLoader color='#0262E9' showSpinner={false} shadow={false} />
-      <Toaster />
+      <Toaster position='top-center' />
       {children}
     </CookiesProvider>
   );

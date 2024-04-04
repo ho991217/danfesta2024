@@ -17,13 +17,3 @@ export async function getCaptchaImage() {
 
   return { key, image };
 }
-
-export async function applyTicket(req: TicketApplyRequest) {
-  return post<TicketApplyRequest, { turn: number }>(
-    API_ROUTES.ticket.apply,
-    req,
-    {
-      withCredentials: true,
-    }
-  );
-}
