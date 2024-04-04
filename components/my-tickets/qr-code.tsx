@@ -6,7 +6,7 @@ import { Suspense, useEffect, useRef, useState } from 'react';
 import { cn, parseMStoMinSec } from '@/lib/utils';
 import { Button } from '@/components/common';
 
-const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
+const SECRET = process.env.JWT_SECRET;
 const SECOND = 1000;
 
 type QrCodeProps = {
