@@ -1,5 +1,4 @@
 import LocaleSwitcher from '../locale-switcher';
-// import Link from 'next/link';
 import {
   Sheet,
   SheetClose,

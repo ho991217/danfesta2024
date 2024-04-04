@@ -4,7 +4,7 @@ import { get } from '@/api';
 import { User } from '@/api/response';
 import { authenticate } from '@/app/[locale]/(back-nav)/login/actions';
 import { AuthInfoSchema } from '@/app/[locale]/(back-nav)/login/schema';
-import { API_ROUTES, COOKIE_KEYS } from '@/constants';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/constants';
 import { useCookies } from 'next-client-cookies';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -18,22 +18,35 @@ export default function useAuth() {
 
   const getUserInfo = async () => {
     try {
-      const data = await get<User>(API_ROUTES.user.me, {
-        withCredentials: true,
-      });
-      return data;
+      const accessToken = cookies.get(COOKIE_KEYS.accessToken);
+      const refreshToken = cookies.get(COOKIE_KEYS.refreshToken);
+
+      if (!accessToken || !refreshToken) {
+        throw new Error('토큰이 없습니다.');
+      }
+      const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then((res) => res.json());
+
+      setUserInfo(res);
     } catch (error) {
-      return null;
+      throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+    }
+  };
+
+  const checkLogin = async () => {
+    try {
+      await getUserInfo();
+      setIsLoggedIn(true);
+    } catch (error) {
+      setIsLoggedIn(false);
     }
   };
 
   useEffect(() => {
-    getUserInfo().then((data) => {
-      if (data) {
-        setUserInfo(data);
-        setIsLoggedIn(true);
-      }
-    });
+    checkLogin();
   }, []);
 
   const login = async (req: AuthInfoSchema) => {
