@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import GlobalError, { GlobalErrorProps } from '@/app/global-error';
 
 type Term = {
   index: string;

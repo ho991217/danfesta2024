@@ -13,6 +13,7 @@ const withPWAConfig = withPWA({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  productionBrowserSourceMaps: !prod,
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
