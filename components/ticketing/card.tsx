@@ -9,7 +9,7 @@ import {
 import { FiCalendar, FiClock } from 'react-icons/fi';
 import { cn } from '@/lib/utils';
 import { twMerge } from 'tailwind-merge';
-import Link from '@/components/common/link';
+import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
 import { checkResult } from '@/app/[locale]/(back-nav)/ticketing/[eventId]/result/action';
 
@@ -34,7 +34,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
       href={isOpen ? `/${locale}/ticketing/${id}` : ''}
       className={!isOpen || isAlreadyTurn ? 'pointer-events-none' : ''}
       aria-disabled={!isOpen || isAlreadyTurn}
-      auth
+      tabIndex={!isOpen || isAlreadyTurn ? -1 : undefined}
     >
       <CardComponent
         className={twMerge(

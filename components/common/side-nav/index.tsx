@@ -13,7 +13,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import ko from '@/messages/ko.json';
 import en from '@/messages/en.json';
 import { Separator } from '@/components/ui/separator';
-import Link from '@/components/common/link';
+import Link from 'next/link';
 
 type LinkInfo = {
   id: number;
@@ -63,11 +63,7 @@ export default async function SideNav() {
           <ul className='flex flex-col items-end gap-1 w-full'>
             {links.map(({ id, link, nameKey, privateRoute }) => (
               <li key={id} className='w-full flex justify-end'>
-                <Link
-                  href={`/${locale}${link}`}
-                  className={className}
-                  auth={privateRoute}
-                >
+                <Link href={`/${locale}${link}`} className={className}>
                   <SheetClose>{t(nameKey)}</SheetClose>
                 </Link>
               </li>
