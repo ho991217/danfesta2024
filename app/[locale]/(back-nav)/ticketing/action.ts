@@ -12,7 +12,7 @@ export type FestivalEvent = {
 };
 
 export default async function getEvents() {
-  const events = get<FestivalEvent[]>(API_ROUTES.ticket.event);
+  const events = await get<FestivalEvent[]>(API_ROUTES.ticket.event);
   revalidatePath('/[locale]/(back-nav)/ticketing', 'layout');
   return events;
 }
