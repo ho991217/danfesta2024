@@ -20,7 +20,7 @@ export default function LoginPage() {
   const onSubmit = async (data: AuthInfoSchema) => {
     try {
       setIsLoading(true);
-      login(data);
+      await login(data);
       router.push(`/${locale}/`);
     } catch (error) {
       const e = error as APIError;
