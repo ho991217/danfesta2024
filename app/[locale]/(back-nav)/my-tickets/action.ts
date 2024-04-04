@@ -2,7 +2,7 @@
 
 import { get } from '@/api';
 import { API_ROUTES } from '@/constants';
-import { FestivalEvent } from '../ticketing/action';
+import { FestivalEvent } from '../ticketing/page';
 
 type TicketInfo = {
   id: number;

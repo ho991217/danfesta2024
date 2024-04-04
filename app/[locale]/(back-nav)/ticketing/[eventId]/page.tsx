@@ -1,6 +1,5 @@
 import { getCaptchaImage } from './action';
 import Image from 'next/image';
-import { Form, RefetchButton } from '@/components/ticketing';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Accordion,
@@ -8,6 +7,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { get, getImage } from '@/api';
+import { API_ROUTES } from '@/constants';
+import dynamic from 'next/dynamic';
+
+const Form = dynamic(() => import('@/components/ticketing/form'));
+const RefetchButton = dynamic(
+  () => import('@/components/ticketing/refetch-button')
+);
 
 type Term = {
   index: string;
@@ -43,7 +50,11 @@ export default async function Page({
         '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 단페스타 티켓팅 이용에 제한을 받습니다.',
     },
   ];
-  const { key, image } = await getCaptchaImage();
+  // const { key, image } = await getCaptchaImage();
+  const { key } = await get<{ key: string }>(API_ROUTES.ticket.captcha.key, {
+    withCredentials: true,
+  });
+  const image = await getImage(API_ROUTES.ticket.captcha.image(key));
 
   return (
     <div className='flex flex-col gap-4 mb-20 px-5'>
@@ -77,12 +88,12 @@ export default async function Page({
               <div className='relative rounded-lg overflow-hidden'>
                 <Image src={image} fill alt='캡챠 이미지' />
               </div>
-              <RefetchButton />
+              {/* <RefetchButton /> */}
             </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Form captchaKey={key} eventId={eventId} />
+          {/* <Form captchaKey={key} eventId={eventId} /> */}
         </CardContent>
       </Card>
     </div>

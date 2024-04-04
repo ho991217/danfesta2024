@@ -1,12 +1,19 @@
-import { checkResult } from './action';
+import { get } from '@/api';
+
 import Link from 'next/link';
+import { API_ROUTES } from '@/constants';
 
 export default async function Page({
   params: { eventId },
 }: {
   params: { eventId: string };
 }) {
-  const turn = await checkResult(Number(eventId));
+  const { turn } = await get<{ turn: number }>(
+    API_ROUTES.ticket.reservation(Number(eventId)),
+    {
+      withCredentials: true,
+    }
+  );
 
   return (
     <div className='w-full flex flex-col items-start justify-start px-5'>

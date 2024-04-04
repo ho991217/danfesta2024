@@ -1,4 +1,4 @@
-import { FestivalEvent } from '@/app/[locale]/(back-nav)/ticketing/action';
+import { FestivalEvent } from '@/app/[locale]/(back-nav)/ticketing/page';
 import {
   Card as CardComponent,
   CardDescription,
@@ -11,7 +11,8 @@ import { cn } from '@/lib/utils';
 import { twMerge } from 'tailwind-merge';
 import Link from 'next/link';
 import { getLocale } from 'next-intl/server';
-import { checkResult } from '@/app/[locale]/(back-nav)/ticketing/[eventId]/result/action';
+import { get } from '@/api';
+import { API_ROUTES } from '@/constants';
 
 export default async function Card({ id, name, from, to }: FestivalEvent) {
   const fromTime = new Date(from);
@@ -20,7 +21,12 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const isOpen = now >= fromTime && now <= toTime;
   const locale = await getLocale();
 
-  const turn = await checkResult(Number(id));
+  const { turn } = await get<{ turn: number }>(
+    API_ROUTES.ticket.reservation(Number(id)),
+    {
+      withCredentials: true,
+    }
+  );
   const isAlreadyTurn = turn !== null;
 
   const generateOpenText = () => {
