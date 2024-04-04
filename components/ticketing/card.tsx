@@ -20,14 +20,21 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const now = new Date();
   const isOpen = now >= fromTime && now <= toTime;
   const locale = await getLocale();
+  let isAlreadyTurn = false;
+  let myTurn = -1;
 
-  const { turn } = await get<{ turn: number }>(
-    API_ROUTES.ticket.reservation(Number(id)),
-    {
-      withCredentials: true,
-    }
-  );
-  const isAlreadyTurn = turn !== null;
+  try {
+    const { turn } = await get<{ turn: number }>(
+      API_ROUTES.ticket.reservation(Number(id)),
+      {
+        withCredentials: true,
+      }
+    );
+    isAlreadyTurn = true;
+    myTurn = turn;
+  } catch (e) {
+    isAlreadyTurn = false;
+  }
 
   const generateOpenText = () => {
     if (isOpen) return '오픈';
@@ -57,13 +64,13 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
               <CardDescription>{generateOpenText()}</CardDescription>
             </div>
           </div>
-          {turn && (
+          {myTurn !== -1 && (
             <div
               className='flex flex-col items-center justify-center gap-1'
               style={{ marginTop: 0 }}
             >
               <div className='text-2xl rounded-full bg-neutral-200 dark:bg-neutral-800 w-12 h-12 grid place-content-center'>
-                {turn}
+                {myTurn}
               </div>
               <span className='text-[10px] text-neutral-400 dark:text-neutral-600'>
                 내 대기 순번

@@ -1,4 +1,3 @@
-import { getCaptchaImage } from './action';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -16,6 +15,31 @@ const RefetchButton = dynamic(
   () => import('@/components/ticketing/refetch-button')
 );
 
+const terms: Term[] = [
+  {
+    index: '제공받는 자',
+    content: '단국대학교 총학생회',
+  },
+  {
+    index: '제공 목적',
+    content: '단페스타 티켓팅',
+  },
+  {
+    index: '보유기간',
+    content: '가입일로 부터 4년',
+  },
+  {
+    index: '제공 항목',
+    content:
+      '이름, 전화번호, 단국대학교 학번, 아이디, 비밀번호, 재학여부, 소속단과대, 소속 학과',
+  },
+  {
+    index: '동의 거부권',
+    content:
+      '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 단페스타 티켓팅 이용에 제한을 받습니다.',
+  },
+];
+
 type Term = {
   index: string;
   content: string;
@@ -26,35 +50,19 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
-  const terms: Term[] = [
-    {
-      index: '제공받는 자',
-      content: '단국대학교 총학생회',
-    },
-    {
-      index: '제공 목적',
-      content: '단페스타 티켓팅',
-    },
-    {
-      index: '보유기간',
-      content: '가입일로 부터 4년',
-    },
-    {
-      index: '제공 항목',
-      content:
-        '이름, 전화번호, 단국대학교 학번, 아이디, 비밀번호, 재학여부, 소속단과대, 소속 학과',
-    },
-    {
-      index: '동의 거부권',
-      content:
-        '개인정보 제공에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우 단페스타 티켓팅 이용에 제한을 받습니다.',
-    },
-  ];
-  // const { key, image } = await getCaptchaImage();
-  const { key } = await get<{ key: string }>(API_ROUTES.ticket.captcha.key, {
-    withCredentials: true,
-  });
-  const image = await getImage(API_ROUTES.ticket.captcha.image(key));
+  let captchaKey = '';
+  let captchaImage = '';
+
+  try {
+    const { key } = await get<{ key: string }>(API_ROUTES.ticket.captcha.key, {
+      withCredentials: true,
+    });
+    const image = await getImage(API_ROUTES.ticket.captcha.image(key));
+    captchaKey = key;
+    captchaImage = image;
+  } catch (e) {
+    console.error(e);
+  }
 
   return (
     <div className='flex flex-col gap-4 mb-20 px-5'>
@@ -86,14 +94,14 @@ export default async function Page({
           <CardTitle>
             <div className='w-full aspect-[7/2] grid grid-cols-[5fr,1fr] gap-4'>
               <div className='relative rounded-lg overflow-hidden'>
-                <Image src={image} fill alt='캡챠 이미지' />
+                <Image src={captchaImage} fill alt='캡챠 이미지' />
               </div>
-              {/* <RefetchButton /> */}
+              <RefetchButton />
             </div>
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {/* <Form captchaKey={key} eventId={eventId} /> */}
+          <Form captchaKey={captchaKey} eventId={eventId} />
         </CardContent>
       </Card>
     </div>

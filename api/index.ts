@@ -31,7 +31,7 @@ export async function get<Res>(
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: getAccessToken() }),
+      ...(options?.withCredentials === true && { Cookie: getAccessToken() }),
     },
   });
 
@@ -54,7 +54,7 @@ export async function post<Req, Res>(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: getAccessToken() }),
+      ...(options?.withCredentials === true && { Cookie: getAccessToken() }),
     },
     body: JSON.stringify(data),
   });
@@ -75,7 +75,7 @@ export async function getImage(path: string) {
     credentials: 'include',
     headers: {
       'Content-Type': 'image/png',
-      Cookie: await getAccessToken(),
+      Cookie: getAccessToken(),
     },
   });
 
