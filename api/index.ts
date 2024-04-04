@@ -9,7 +9,7 @@ type APIOptions = {
   withCredentials?: boolean;
 };
 
-export async function getAccessToken() {
+export function getAccessToken() {
   const atk = cookies().get(COOKIE_KEYS.accessToken)?.value;
   if (!atk) {
     throw new APIError({
@@ -33,7 +33,7 @@ export async function get<Res>(
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: await getAccessToken() }),
+      ...(options?.withCredentials && { Cookie: getAccessToken() }),
     },
   });
 
@@ -56,7 +56,7 @@ export async function post<Req, Res>(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials && { Cookie: await getAccessToken() }),
+      ...(options?.withCredentials && { Cookie: getAccessToken() }),
     },
     body: JSON.stringify(data),
   });
