@@ -57,7 +57,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
               style={{ marginTop: 0 }}
             >
               <div className='text-2xl rounded-full bg-neutral-200 dark:bg-neutral-800 w-12 h-12 grid place-content-center'>
-                8
+                {turn}
               </div>
               <span className='text-[10px] text-neutral-400 dark:text-neutral-600'>
                 내 대기 순번
