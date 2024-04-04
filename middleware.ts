@@ -1,7 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import { NextRequest } from 'next/server';
-import { API_ROUTES, COOKIE_KEYS } from './constants';
-import { get } from './api';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from './constants';
 
 const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],
@@ -16,7 +15,7 @@ const middleware = async (request: NextRequest) => {
     if (!atk) throw new Error('로그인이 필요합니다.');
 
     try {
-      await fetch(API_ROUTES.user.me, {
+      await fetch(`${API_URL}${API_ROUTES.user.me}`, {
         headers: {
           Authorization: `Bearer ${atk}`,
         },
