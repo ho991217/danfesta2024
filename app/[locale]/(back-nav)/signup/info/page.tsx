@@ -78,13 +78,11 @@ export default function Page() {
   };
 
   const verifyNickname = async (nickname: string) => {
-    const { data } = await get<{ data: boolean }>(
-      API_ROUTES.user.valid(nickname)
-    );
-    if (data) {
+    try {
+      await get(API_ROUTES.user.valid(nickname));
       if (nicknameError) setNicknameError('');
       return true;
-    } else {
+    } catch (e) {
       setNicknameError('이미 사용중인 닉네임입니다.');
       return false;
     }
