@@ -17,9 +17,9 @@ type TicketInfo = {
 };
 
 export async function getMyTicket(eventId: number) {
-  const cookie = await getServerSideToken().then(({ cookie }) => cookie);
+  const token = await getServerSideToken();
   const data = await get<TicketInfo>(API_ROUTES.ticket.myTicket(eventId), {
-    cookie,
+    token,
   });
 
   return data;

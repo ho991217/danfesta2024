@@ -8,7 +8,6 @@ import { useState } from 'react';
 import APIError from '@/lib/utils/error/api-error';
 import { toast } from 'sonner';
 import { useAuth } from '@/hooks';
-import { useCookies } from 'next-client-cookies';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {

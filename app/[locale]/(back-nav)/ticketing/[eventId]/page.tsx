@@ -52,16 +52,16 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
-  const cookie = await getServerSideToken().then(({ cookie }) => cookie);
+  const token = await getServerSideToken();
   let captchaKey = '';
   let captchaImage = '';
 
   try {
     const { key } = await get<{ key: string }>(API_ROUTES.ticket.captcha.key, {
-      cookie,
+      token,
     });
     const image = await getImage(API_ROUTES.ticket.captcha.image(key), {
-      cookie,
+      token,
     });
     captchaKey = key;
     captchaImage = image;

@@ -3,7 +3,7 @@ import { DeepValueOf } from '../lib/utils';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
 type APIOptions = {
-  cookie?: string;
+  token?: string;
 };
 
 export async function get<Res>(
@@ -14,8 +14,8 @@ export async function get<Res>(
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.cookie &&
-        options.cookie.length > 0 && { Cookie: options.cookie }),
+      ...(options?.token &&
+        options.token.length > 0 && { Cookie: options.token }),
     },
   });
 
@@ -38,8 +38,8 @@ export async function post<Req, Res>(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.cookie &&
-        options.cookie.length > 0 && { Cookie: options.cookie }),
+      ...(options?.token &&
+        options.token.length > 0 && { Cookie: options.token }),
     },
     body: JSON.stringify(data),
   });
@@ -60,8 +60,8 @@ export async function getImage(path: string, options?: APIOptions) {
     credentials: 'include',
     headers: {
       'Content-Type': 'image/png',
-      ...(options?.cookie &&
-        options.cookie.length > 0 && { Cookie: options.cookie }),
+      ...(options?.token &&
+        options.token.length > 0 && { Cookie: options.token }),
     },
   });
 

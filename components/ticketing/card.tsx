@@ -16,7 +16,7 @@ import { API_ROUTES } from '@/constants';
 import getServerSideToken from '@/api/get-server-side-token';
 
 export default async function Card({ id, name, from, to }: FestivalEvent) {
-  const cookie = await getServerSideToken().then(({ cookie }) => cookie);
+  const token = await getServerSideToken();
   const fromTime = new Date(from);
   const toTime = new Date(to);
   const now = new Date();
@@ -29,7 +29,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
     const { turn } = await get<{ turn: number }>(
       API_ROUTES.ticket.reservation(Number(id)),
       {
-        cookie,
+        token,
       }
     );
     isAlreadyTurn = true;

@@ -9,11 +9,11 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
-  const cookie = await getServerSideToken().then(({ cookie }) => cookie);
+  const token = await getServerSideToken();
   const { turn } = await get<{ turn: number }>(
     API_ROUTES.ticket.reservation(Number(eventId)),
     {
-      cookie,
+      token,
     }
   );
 

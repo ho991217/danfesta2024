@@ -10,6 +10,14 @@ export const API_ROUTES = {
     me: '/user',
     login: '/user/login',
     signup: (token: string) => `/user/${token}`,
+    /**
+     * @name POST /user/reissue
+     * @description 토큰 재발급
+     * @body {string} refreshToken - 리프레시 토큰
+     * @returns {string} accessToken - 엑세스 토큰
+     * @returns {string} refreshToken - 리프레시 토큰
+     */
+    reissue: '/user/reissue',
     dku: {
       verify: '/user/dku/verify',
     },
