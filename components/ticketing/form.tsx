@@ -1,6 +1,5 @@
 'use client';
 
-import { type TicketApplyRequest } from '@/app/[locale]/(back-nav)/ticketing/[eventId]/action';
 import { Form } from '../common';
 import { z } from 'zod';
 import APIError from '@/lib/utils/error/api-error';
@@ -13,6 +12,12 @@ import { useCookies } from 'next-client-cookies';
 const schema = z.object({
   captchaValue: z.string().trim().min(1, { message: '필수 입력 사항입니다.' }),
 });
+
+export type TicketApplyRequest = {
+  eventId: string;
+  captchaKey: string;
+  captchaValue: string;
+};
 
 type Schema = z.infer<typeof schema>;
 
