@@ -4,6 +4,7 @@ import { User } from '@/api/response';
 import { AuthInfoSchema } from '@/app/[locale]/(back-nav)/login/schema';
 import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/constants';
 import { useCookies } from 'next-client-cookies';
+import ApiError from '@/lib/utils/error/api-error';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -58,8 +59,7 @@ export default function useAuth() {
         body: JSON.stringify(req),
       }).then((res) => res.json());
 
-      if (!res.accessToken || !res.refreshToken)
-        throw new Error('토큰이 없습니다.');
+      if (!res.accessToken || !res.refreshToken) throw new ApiError(res);
       cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 

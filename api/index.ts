@@ -1,27 +1,10 @@
-import { cookies } from 'next/headers';
-import { API_ROUTES, API_URL, COOKIE_KEYS } from '../constants';
+import { API_ROUTES, API_URL } from '../constants';
 import { DeepValueOf } from '../lib/utils';
 import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
 
 type APIOptions = {
-  withCredentials?: boolean;
+  cookie?: string;
 };
-
-export function getAccessToken() {
-  const atk = cookies().get(COOKIE_KEYS.accessToken)?.value;
-  if (!atk) {
-    throw new APIError({
-      statusCode: 401,
-      message: ['권한이 없습니다. 로그인 후 다시 시도해주세요.'],
-      timestamp: Date.now().toString(),
-      trackingId: 'client-side-401',
-      status: 'Unauthorized',
-      code: 'Unauthorized',
-    });
-  }
-
-  return `${COOKIE_KEYS.accessToken}=${atk}`;
-}
 
 export async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
@@ -31,7 +14,8 @@ export async function get<Res>(
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials === true && { Cookie: getAccessToken() }),
+      ...(options?.cookie &&
+        options.cookie.length > 0 && { Cookie: options.cookie }),
     },
   });
 
@@ -54,7 +38,8 @@ export async function post<Req, Res>(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(options?.withCredentials === true && { Cookie: getAccessToken() }),
+      ...(options?.cookie &&
+        options.cookie.length > 0 && { Cookie: options.cookie }),
     },
     body: JSON.stringify(data),
   });
@@ -69,13 +54,14 @@ export async function post<Req, Res>(
   return json as Res;
 }
 
-export async function getImage(path: string) {
+export async function getImage(path: string, options?: APIOptions) {
   const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
     credentials: 'include',
     headers: {
       'Content-Type': 'image/png',
-      Cookie: getAccessToken(),
+      ...(options?.cookie &&
+        options.cookie.length > 0 && { Cookie: options.cookie }),
     },
   });
 

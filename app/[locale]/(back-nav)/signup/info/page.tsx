@@ -83,7 +83,8 @@ export default function Page() {
       if (nicknameError) setNicknameError('');
       return true;
     } catch (e) {
-      setNicknameError('이미 사용중인 닉네임입니다.');
+      const err = e as Error;
+      setNicknameError(err.message);
       return false;
     }
   };

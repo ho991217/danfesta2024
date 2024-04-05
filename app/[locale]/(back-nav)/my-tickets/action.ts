@@ -3,6 +3,7 @@
 import { get } from '@/api';
 import { API_ROUTES } from '@/constants';
 import { FestivalEvent } from '../ticketing/page';
+import getServerSideToken from '@/api/get-server-side-token';
 
 type TicketInfo = {
   id: number;
@@ -16,8 +17,9 @@ type TicketInfo = {
 };
 
 export async function getMyTicket(eventId: number) {
+  const cookie = await getServerSideToken().then(({ cookie }) => cookie);
   const data = await get<TicketInfo>(API_ROUTES.ticket.myTicket(eventId), {
-    withCredentials: true,
+    cookie,
   });
 
   return data;

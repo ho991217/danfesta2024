@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/common';
-import useDimensions from '@/hooks/useDimensions';
+import useDimensions from '@/hooks/use-dimensions';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import Confetti from 'react-confetti';

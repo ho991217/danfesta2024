@@ -1,7 +1,7 @@
 'use client';
 
 import QrScanner from '@/public/qr-scanner.svg';
-import useBottomSheet from '@/hooks/useBottomSheet';
+import useBottomSheet from '@/hooks/use-bottom-sheet';
 import { BottomSheet } from '@/components/common';
 
 type TicketButtonProps = {

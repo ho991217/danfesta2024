@@ -10,6 +10,7 @@ import { get, getImage } from '@/api';
 import { API_ROUTES } from '@/constants';
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import getServerSideToken from '@/api/get-server-side-token';
 
 const Form = dynamic(() => import('@/components/ticketing/form'));
 const RefetchButton = dynamic(
@@ -51,14 +52,17 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
+  const cookie = await getServerSideToken().then(({ cookie }) => cookie);
   let captchaKey = '';
   let captchaImage = '';
 
   try {
     const { key } = await get<{ key: string }>(API_ROUTES.ticket.captcha.key, {
-      withCredentials: true,
+      cookie,
     });
-    const image = await getImage(API_ROUTES.ticket.captcha.image(key));
+    const image = await getImage(API_ROUTES.ticket.captcha.image(key), {
+      cookie,
+    });
     captchaKey = key;
     captchaImage = image;
   } catch (e) {
