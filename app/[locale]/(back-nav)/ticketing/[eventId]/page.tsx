@@ -52,11 +52,11 @@ export default async function Page({
 }: {
   params: { eventId: string };
 }) {
-  const token = await getServerSideToken();
   let captchaKey = '';
   let captchaImage = '';
 
   try {
+    const token = await getServerSideToken();
     const { key } = await get<{ key: string }>(API_ROUTES.ticket.captcha.key, {
       token,
     });
