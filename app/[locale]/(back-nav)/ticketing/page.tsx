@@ -10,13 +10,24 @@ export type FestivalEvent = {
 };
 
 export default async function Page() {
-  const events = await get<FestivalEvent[]>(API_ROUTES.ticket.event);
+  try {
+    const events = await get<FestivalEvent[]>(API_ROUTES.ticket.event);
 
-  return (
-    <div className='flex flex-col gap-4 px-5'>
-      {events.map((e) => (
-        <Card key={e.id} {...e} />
-      ))}
-    </div>
-  );
+    return (
+      <div className='flex flex-col gap-4 px-5'>
+        {events.map((e) => (
+          <Card key={e.id} {...e} />
+        ))}
+      </div>
+    );
+  } catch (e) {
+    console.error(e);
+    return (
+      <div className='flex flex-col gap-4 px-5'>
+        <span className='text-neutral-300 dark:text-neutral-800'>
+          이벤트가 없습니다.
+        </span>
+      </div>
+    );
+  }
 }
