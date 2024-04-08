@@ -1,3 +1,5 @@
+import { FestivalDate } from '@/app/[locale]/(back-nav)/lineup/page';
+
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const COOKIE_KEYS = {
@@ -20,6 +22,7 @@ export const API_ROUTES = {
     reissue: '/user/reissue',
     dku: {
       verify: '/user/dku/verify',
+      reverify: '/user/dku/refresh',
     },
     sms: {
       send: (token: string) => `/user/sms/${token}`,
@@ -77,5 +80,13 @@ export const API_ROUTES = {
        */
       image: (key: string) => `/ticket/captcha/image/${key}`,
     },
+  },
+  lineup: {
+    /**
+     * @name GET /lineup
+     * @description 라인업 조회
+     * @returns {LineupInfo[]} 라인업 정보
+     */
+    list: (date: FestivalDate) => `/line-up?festivalDate=${date}`,
   },
 } as const;

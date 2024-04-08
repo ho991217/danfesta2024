@@ -44,6 +44,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.eastbaytimes.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'api-storage.cloud.toast.com',
+      },
     ],
   },
 };

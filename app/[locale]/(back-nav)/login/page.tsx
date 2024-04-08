@@ -47,7 +47,7 @@ export default function LoginPage() {
           </Form.Button>
           <Button variant='transparent' animateOnClick>
             <Link
-              href={`/${locale}/signup`}
+              href={`/${locale}/verify`}
               className='w-full h-full grid place-items-center'
             >
               회원가입

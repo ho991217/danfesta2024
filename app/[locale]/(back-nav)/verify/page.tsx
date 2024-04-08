@@ -5,7 +5,12 @@ import { BottomSheet, Form } from '@/components/common';
 import { Funnel, Header } from '@/components/signup';
 import { useBottomSheet } from '@/hooks';
 import { AnimatePresence } from 'framer-motion';
+<<<<<<< Updated upstream:app/[locale]/(back-nav)/signup/studentId/page.tsx
 import { useRouter } from 'next/navigation';
+=======
+import { verifyDKUStudent } from './action';
+import { useRouter, useSearchParams } from 'next/navigation';
+>>>>>>> Stashed changes:app/[locale]/(back-nav)/verify/page.tsx
 import { useLocale } from 'next-intl';
 import { isStudentId } from '@/lib/utils/validators';
 import {
@@ -44,8 +49,10 @@ export default function Page() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
-  const router = useRouter();
   const locale = useLocale();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isReverify = searchParams.get('reverify') === 'true';
 
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
@@ -64,11 +71,25 @@ export default function Page() {
     }
   };
 
+  const reverify = async (dkuData: DKUVerificationSchema) => {
+    try {
+      await post<DKUVerificationSchema, {}>(
+        API_ROUTES.user.dku.reverify,
+        dkuData
+      );
+      toast.success('재인증이 완료되었습니다.');
+      router.push('/');
+    } catch (error) {
+      const message = error as APIError;
+      toast.error(message.message);
+    }
+  };
+
   const handleSubmit = async (dkuData: DKUVerificationSchema) => {
     switch (step) {
       case '학번':
       case '비밀번호':
-        verify(dkuData);
+        isReverify ? reverify(dkuData) : verify(dkuData);
         break;
       case '약관동의':
         router.push(`/${locale}/signup/phone?token=${token}`);
@@ -95,64 +116,66 @@ export default function Page() {
   }, [step]);
 
   return (
-    <AnimatePresence initial={false}>
-      <Header>
-        <Header.Title>단국대학교 재학생 인증</Header.Title>
-        <Header.Subtitle>
-          {step === '학번' && <TransformerSubtitle text='학번을' />}
-          {step === '비밀번호' && <TransformerSubtitle text='비밀번호를' />}
-          {step === '약관동의' && (
-            <TransformerSubtitle text='약관에 동의해주세요.' />
-          )}
-          {step !== '약관동의' && <div className='ml-1'>입력해주세요.</div>}
-        </Header.Subtitle>
-      </Header>
-      <Form
-        onSubmit={handleSubmit}
-        schema={dkuVerificationSchema}
-        validateOn='onChange'
-      >
-        <Funnel<typeof steps> step={step} steps={steps}>
-          <Funnel.Step name='비밀번호'>
-            <Form.Password
-              ref={passwordRef}
-              name='dkuPassword'
-              label='단국대학교 포털 비밀번호'
-              placeholder='8자 이상의 영문, 숫자'
-            />
-          </Funnel.Step>
-          <Funnel.Step name='학번'>
-            <Form.ID
-              name='dkuStudentId'
-              label='단국대학교 포털 아이디'
-              placeholder='숫자 8자리'
-              onChange={async (event) => {
-                if (isStudentId(event.target.value) && step === '학번') {
-                  onNext(steps[currentStep]);
-                }
-                return event.target.value;
-              }}
-            />
-          </Funnel.Step>
-        </Funnel>
-
-        <BottomSheet
-          isOpen={isOpen}
-          header='이용동의'
-          onDismiss={() => {
-            setStep('비밀번호');
-            closeBT();
-          }}
+    <section className='flex flex-col px-5'>
+      <AnimatePresence initial={false}>
+        <Header>
+          <Header.Title>단국대학교 재학생 인증</Header.Title>
+          <Header.Subtitle>
+            {step === '학번' && <TransformerSubtitle text='학번을' />}
+            {step === '비밀번호' && <TransformerSubtitle text='비밀번호를' />}
+            {step === '약관동의' && (
+              <TransformerSubtitle text='약관에 동의해주세요.' />
+            )}
+            {step !== '약관동의' && <div className='ml-1'>입력해주세요.</div>}
+          </Header.Subtitle>
+        </Header>
+        <Form
+          onSubmit={handleSubmit}
+          schema={dkuVerificationSchema}
+          validateOn='onChange'
         >
-          <Terms />
-          <Form.Button isLoading={isLoading} variant='filled'>
-            동의
-          </Form.Button>
-        </BottomSheet>
+          <Funnel<typeof steps> step={step} steps={steps}>
+            <Funnel.Step name='비밀번호'>
+              <Form.Password
+                ref={passwordRef}
+                name='dkuPassword'
+                label='단국대학교 포털 비밀번호'
+                placeholder='8자 이상의 영문, 숫자'
+              />
+            </Funnel.Step>
+            <Funnel.Step name='학번'>
+              <Form.ID
+                name='dkuStudentId'
+                label='단국대학교 포털 아이디'
+                placeholder='숫자 8자리'
+                onChange={async (event) => {
+                  if (isStudentId(event.target.value) && step === '학번') {
+                    onNext(steps[currentStep]);
+                  }
+                  return event.target.value;
+                }}
+              />
+            </Funnel.Step>
+          </Funnel>
 
-        <Form.Button variant='bottom'>다음</Form.Button>
-      </Form>
-    </AnimatePresence>
+          <BottomSheet
+            isOpen={isOpen}
+            header='이용동의'
+            onDismiss={() => {
+              setStep('비밀번호');
+              closeBT();
+            }}
+          >
+            <Terms />
+            <Form.Button isLoading={isLoading} variant='filled'>
+              동의
+            </Form.Button>
+          </BottomSheet>
+
+          <Form.Button variant='bottom'>다음</Form.Button>
+        </Form>
+      </AnimatePresence>
+    </section>
   );
 }
 

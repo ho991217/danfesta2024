@@ -3,12 +3,13 @@
 import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { NextIntlClientProvider, useLocale } from 'next-intl';
-import Tile, { TileProps } from './tile';
+import Tile from './tile';
 import en from '../../../messages/en.json';
 import ko from '../../../messages/ko.json';
+import { type LineupInfo } from '@/app/[locale]/(back-nav)/lineup/page';
 
 type CarouselProps = {
-  images: TileProps[];
+  images: LineupInfo[];
 };
 
 export default function Carousel({ images }: CarouselProps) {
