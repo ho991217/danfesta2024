@@ -5,12 +5,8 @@ import { BottomSheet, Form } from '@/components/common';
 import { Funnel, Header } from '@/components/signup';
 import { useBottomSheet } from '@/hooks';
 import { AnimatePresence } from 'framer-motion';
-<<<<<<< Updated upstream:app/[locale]/(back-nav)/signup/studentId/page.tsx
-import { useRouter } from 'next/navigation';
-=======
 import { verifyDKUStudent } from './action';
 import { useRouter, useSearchParams } from 'next/navigation';
->>>>>>> Stashed changes:app/[locale]/(back-nav)/verify/page.tsx
 import { useLocale } from 'next-intl';
 import { isStudentId } from '@/lib/utils/validators';
 import {
