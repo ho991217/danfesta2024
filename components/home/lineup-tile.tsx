@@ -16,7 +16,10 @@ export default async function LineupTile() {
               'Content-Type': 'application/json',
             },
             cache: 'no-store',
-          }).then((res) => res.text())
+          }).then((res) => {
+            if (!res.ok) return res.text();
+            return res.json();
+          })
         )
       )
     ).flat();
@@ -29,7 +32,7 @@ export default async function LineupTile() {
           <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll>
         </TileHeader>
         <div className='w-full aspect-[3/4] relative'>
-          {/* <Carousel images={data} /> */}
+          <Carousel images={data} />
         </div>
       </div>
     );
