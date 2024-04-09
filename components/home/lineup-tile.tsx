@@ -21,16 +21,13 @@ export default async function LineupTile() {
     //     .flat()
     // );
 
-    const data = await fetch(
-      `${API_URL}${API_ROUTES.lineup.list("FIRST_DAY")}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
+    const data = await fetch(API_ROUTES.lineup.list("FIRST_DAY"), {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    ).then((res) => res.text());
+      cache: "no-store",
+    }).then((res) => res.text());
     const t = await getTranslations("LineupTile");
 
     return (
@@ -39,7 +36,7 @@ export default async function LineupTile() {
           <TileHeader.Head>{t("title")}</TileHeader.Head>
           <TileHeader.SeeAll href="/lineup">{t("seeAll")}</TileHeader.SeeAll>
         </TileHeader>
-        <div className="w-full aspect-[3/4] relative">
+        <div className="relative aspect-[3/4] w-full">
           {/* <Carousel images={[data]} /> */}
           {data}
         </div>
