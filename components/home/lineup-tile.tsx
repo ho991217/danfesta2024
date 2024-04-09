@@ -1,60 +1,50 @@
-'use client';
-
 import Carousel from '../common/carousel';
 import TileHeader from './tile-header';
 import { API_ROUTES, API_URL } from '@/constants';
 import { LineupInfo } from '@/app/[locale]/(back-nav)/lineup/page';
 import { getTranslations } from 'next-intl/server';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 
-export default function LineupTile() {
-  // try {
-  const [data, setData] = useState<LineupInfo[]>();
-  const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
-  // const data = await Promise.all(
-  //   allDay
-  //     .map((day) =>
-  //       fetch(`${API_URL}${API_ROUTES.lineup.list(day)}`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         cache: 'no-store',
-  //       }).then((res) => res.json())
-  //     )
-  //     .flat()
-  // );
-  const getData = () => {
-    fetch(`${API_URL}${API_ROUTES.lineup.list('FIRST_DAY')}`, {
+export default async function LineupTile() {
+  try {
+    const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
+    const data = await Promise.all(
+      allDay
+        .map((day) =>
+          fetch(`${API_URL}${API_ROUTES.lineup.list(day)}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            cache: 'no-store',
+          }).then((res) => res.json())
+        )
+        .flat()
+    );
+
+    const a = await fetch(`${API_URL}${API_ROUTES.lineup.list('FIRST_DAY')}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
       cache: 'no-store',
-    })
-      .then((res) => res.json())
-      .then((res) => setData(res));
-  };
+    }).then((res) => res.json());
+    const t = await getTranslations('LineupTile');
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  return (
-    <div className='w-full'>
-      <TileHeader>
-        {/* <TileHeader.Head>{t('title')}</TileHeader.Head>
-        <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll> */}
-      </TileHeader>
-      <div className='w-full aspect-[3/4] relative'>
-        {data && <Carousel images={data} />}
+    return (
+      <div className='w-full'>
+        <TileHeader>
+          <TileHeader.Head>{t('title')}</TileHeader.Head>
+          <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll>
+        </TileHeader>
+        <div className='w-full aspect-[3/4] relative'>
+          {/* <Carousel images={data} /> */}
+          {a.map((d: any) => d)}
+        </div>
       </div>
-    </div>
-  );
-  // } catch (error) {
-  //   const e = error as Error;
-  //   console.error(error);
-  //   return <span className='w-full text-neutral-500'>{e.message}</span>;
-  // }
+    );
+  } catch (error) {
+    const e = error as Error;
+    console.error(error);
+    return <span className='w-full text-neutral-500'>{e.message}</span>;
+  }
 }
