@@ -8,7 +8,7 @@ export default async function LineupTile() {
     const allDay = ["FIRST_DAY", "SECOND_DAY", "THIRD_DAY"] as const;
     const data = await Promise.all(
       allDay.map((day) =>
-        fetch(`https://next.danvery.com/api/line-up?festivalDate=${day}`, {
+        fetch(`http://133.186.247.228:8082/line-up?festivalDate=${day}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
