@@ -16,7 +16,7 @@ export default function Tile({
 
   return (
     <div className='flex-[0_0_100%] aspect-[3/4] bg-neutral-500 rounded-2xl overflow-hidden relative'>
-      {images[0]?.url && (
+      {images[0] && images[0].url && (
         <Image
           src={images[0].url}
           alt={images[0].originalName}
