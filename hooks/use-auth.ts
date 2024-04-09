@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/api/response";
+import { AuthTokens, User } from "@/api/response";
 import { AuthInfoSchema } from "@/app/[locale]/(back-nav)/login/schema";
 import { API_ROUTES, API_URL, COOKIE_KEYS } from "@/constants";
 import { useCookies } from "next-client-cookies";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import useAuthStore from "@/store/auth-store";
-import { post } from "@/api";
+import { get, post } from "@/api";
 
 export default function useAuth() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
@@ -25,14 +25,10 @@ export default function useAuth() {
       if (!accessToken || !refreshToken) {
         throw new Error("토큰이 없습니다.");
       }
-      const res = await fetch(
-        `https://next.danvery.com/api${API_ROUTES.user.me}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      ).then((res) => res.json());
+
+      const res = await get<User>(API_ROUTES.user.me, {
+        token: accessToken,
+      });
 
       setUserInfo(res);
     } catch (error) {
@@ -56,21 +52,10 @@ export default function useAuth() {
 
   const login = async (req: AuthInfoSchema) => {
     try {
-      // const res = await fetch(
-      //   `https://next.danvery.com/api/${API_ROUTES.user.login}`,
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(req),
-      //   },
-      // ).then((res) => res.json());
-
-      const res = await post<
-        AuthInfoSchema,
-        { accessToken: string; refreshToken: string }
-      >(API_ROUTES.user.login, req);
+      const res = await post<AuthInfoSchema, AuthTokens>(
+        API_ROUTES.user.login,
+        req,
+      );
 
       if (!res.accessToken || !res.refreshToken) throw new ApiError(res as any);
       cookies.set(COOKIE_KEYS.accessToken, res.accessToken);

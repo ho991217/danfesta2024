@@ -17,3 +17,8 @@ export type User = {
   admin: boolean;
   dkuChecked: boolean;
 };
+
+export type AuthTokens = {
+  accessToken: string;
+  refreshToken: string;
+};

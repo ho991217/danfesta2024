@@ -1,4 +1,4 @@
-import { API_ROUTES, API_URL } from "../constants";
+import { API_IP, API_ROUTES, API_URL } from "../constants";
 import { DeepValueOf } from "../lib/utils";
 import APIError, { type APIErrorResponse } from "@/lib/utils/error/api-error";
 
@@ -10,7 +10,7 @@ export async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions,
 ) {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${API_IP}${path}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export async function post<Req, Res>(
   data: Req,
   options?: APIOptions,
 ) {
-  const response = await fetch(`https://next.danvery.com/api/${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

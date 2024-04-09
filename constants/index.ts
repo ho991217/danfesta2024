@@ -1,6 +1,7 @@
 import { FestivalDate } from "@/app/[locale]/(back-nav)/lineup/page";
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
+export const API_IP = process.env.NEXT_PUBLIC_API_IP as string;
 
 export const COOKIE_KEYS = {
   accessToken: "access-token",

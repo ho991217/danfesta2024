@@ -35,30 +35,11 @@ export default function TicketingForm({
     if (!atk) throw new Error("로그인이 필요합니다.");
 
     try {
-      // const res = await fetch(`${API_URL}${API_ROUTES.ticket.apply}`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     Authorization: `Bearer ${atk}`,
-      //   },
-      //   body: JSON.stringify({
-      //     eventId,
-      //     captchaKey,
-      //     captchaValue: v.captchaValue,
-      //   }),
-      // }).then((res) => res.json());
-      const res = await post(API_ROUTES.ticket.apply, {
+      await post(API_ROUTES.ticket.apply, {
         eventId,
         captchaKey,
         captchaValue: v.captchaValue,
       });
-
-      // if (
-      //   !res.ok &&
-      //   res?.message?.[0] ===
-      //     "자동입력 방지문자가 틀렸습니다. 키부터 다시 요청해주세요."
-      // )
-      //   throw new Error("캡차 값이 올바르지 않습니다.");
 
       toast.success("신청이 완료되었습니다.");
       router.push(`/${locale}/ticketing/${eventId}/result`);
