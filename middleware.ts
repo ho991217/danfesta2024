@@ -9,8 +9,6 @@ const i18nMiddleware = createMiddleware({
 });
 
 const middleware = async (request: NextRequest) => {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("Content-Security-Policy", "upgrade-insecure-requests;"); // http요청을 https로 변경
   // const atk = request.cookies.get(COOKIE_KEYS.accessToken);
 
   // if (request.nextUrl.pathname.includes('/ticketing')) {
@@ -27,12 +25,7 @@ const middleware = async (request: NextRequest) => {
   //   }
   // }
 
-  const response = i18nMiddleware(request).headers.set(
-    "Content-Security-Policy",
-    "upgrade-insecure-requests;",
-  );
-
-  return response;
+  return i18nMiddleware(request);
 };
 
 export const config = {
