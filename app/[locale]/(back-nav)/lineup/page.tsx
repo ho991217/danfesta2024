@@ -11,24 +11,6 @@ export type LineupImage = {
   mimeType: string;
 };
 
-[
-  {
-    id: 978,
-    singer: '아이유',
-    images: [
-      {
-        url: 'https://api-storage.cloud.toast.com/v1/AUTH_34f4838a2b3047f39ac9cb0701558e46/main-storage/image/LineUp-9a52d198-d890-46f8-9abb-9f3830d680a8.webp',
-        originalName: '182234776_317438403085816_2271008730834590018_n.webp',
-        mimeType: 'image/webp',
-      },
-    ],
-    description: '아이유의 공연입니다.',
-    performanceTime: '2024-05-20 18:00:00',
-    festivalDate: 'FIRST_DAY',
-    opened: true,
-  },
-];
-
 export type LineupInfo = {
   id: number | null;
   singer: string | '공개 예정';
