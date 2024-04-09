@@ -1,34 +1,18 @@
-import createMiddleware from "next-intl/middleware";
-import { NextRequest } from "next/server";
+import createMiddleware from 'next-intl/middleware';
+import { NextRequest } from 'next/server';
 
 const i18nMiddleware = createMiddleware({
-  locales: ["en", "ko"],
-  defaultLocale: "ko",
-  localeDetection: true,
+   locales: ['en', 'ko'],
+   defaultLocale: 'ko',
+   localeDetection: true,
 });
 
 const middleware = async (request: NextRequest) => {
-  // const atk = request.cookies.get(COOKIE_KEYS.accessToken);
-
-  // if (request.nextUrl.pathname.includes('/ticketing')) {
-  //   if (!atk) throw new Error('로그인이 필요합니다.');
-
-  //   try {
-  //     await fetch(`${API_URL}${API_ROUTES.user.me}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${atk}`,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     return Response.redirect(new URL('/ko/login', request.url));
-  //   }
-  // }
-
-  return i18nMiddleware(request);
+   return i18nMiddleware(request);
 };
 
 export const config = {
-  matcher: ["/", "/(ko|en)/:path*"],
+   matcher: ['/', '/(ko|en)/:path*'],
 };
 
 export default middleware;

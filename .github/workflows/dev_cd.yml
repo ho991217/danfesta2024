@@ -1,15 +1,8 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: CD
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
 
 jobs:
   build:
@@ -19,53 +12,52 @@ jobs:
       contents: read
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3.4.1
+      - uses: actions/checkout@v4
 
-    - name: Create .env
-      env:
-        ENV_NAME: ${{ secrets.ENV_NAME }}
-        ENV: ${{ secrets.ENV }}
-      run: |
-        touch ./$ENV_NAME
-        echo "$ENV" > ./$ENV_NAME
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.4.1
 
-    - name: Build
-      run: |
-        yarn add next
-        npm install -save next --legacy-peer-deps
-        CI=false npm run build
-      shell: bash
+      - name: Create .env
+        env:
+          ENV_NAME: ${{ secrets.ENV_NAME }}
+          ENV: ${{ secrets.ENV }}
+        run: |
+          touch ./$ENV_NAME
+          echo "$ENV" > ./$ENV_NAME
 
-    - name: Docker build and push
-      env:
-        USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        REPO: ${{ secrets.DOCKER_REPO }}
-      run: |
-        docker login -u $USERNAME -p $PASSWORD
-        docker build -t $USERNAME/$REPO:${GITHUB_SHA::7} -t $USERNAME/$REPO:latest .
-        docker push $USERNAME/$REPO:${GITHUB_SHA::7}
-        docker push $USERNAME/$REPO:latest
+      - name: Build
+        run: |
+          yarn add next
+          npm install -save next --legacy-peer-deps
+          CI=false npm run build
+        shell: bash
 
-    - name: SSH Remote Commands
-      uses: appleboy/ssh-action@master
-      env:
-        REPO: ${{ secrets.DOCKER_REPO }}
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ubuntu
-        key: ${{ secrets.NEXT_PRIVATE_PEM_KEY }}
-        proxy_host: ${{ secrets.BASTION_IP }}
-        proxy_username: ubuntu
-        proxy_key: ${{ secrets.NEXT_PRIVATE_PEM_KEY }}
-        envs: GITHUB_SHA,REPO
-        script: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7}
-          docker tag ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7} $REPO
-          docker stop $REPO
-          docker rm $REPO
-          docker run -d --name $REPO -p 8181:80 $REPO
-        
+      - name: Docker build and push
+        env:
+          USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          REPO: ${{ secrets.DOCKER_REPO }}
+        run: |
+          docker login -u $USERNAME -p $PASSWORD
+          docker build -t $USERNAME/$REPO:${GITHUB_SHA::7} -t $USERNAME/$REPO:latest .
+          docker push $USERNAME/$REPO:${GITHUB_SHA::7}
+          docker push $USERNAME/$REPO:latest
+
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@master
+        env:
+          REPO: ${{ secrets.DOCKER_REPO }}
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ubuntu
+          key: ${{ secrets.NEXT_PRIVATE_PEM_KEY }}
+          proxy_host: ${{ secrets.BASTION_IP }}
+          proxy_username: ubuntu
+          proxy_key: ${{ secrets.NEXT_PRIVATE_PEM_KEY }}
+          envs: GITHUB_SHA,REPO
+          script: |
+            docker pull ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7}
+            docker tag ${{ secrets.DOCKER_USERNAME }}/$REPO:${GITHUB_SHA::7} $REPO
+            docker stop $REPO
+            docker rm $REPO
+            docker run -d --name $REPO -p 8181:80 $REPO
