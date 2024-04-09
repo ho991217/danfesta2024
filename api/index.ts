@@ -34,7 +34,7 @@ export async function post<Req, Res>(
   data: Req,
   options?: APIOptions,
 ) {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`https://next.danvery.com/api/${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
