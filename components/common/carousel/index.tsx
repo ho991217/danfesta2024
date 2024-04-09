@@ -33,8 +33,9 @@ export default function Carousel({ images }: CarouselProps) {
     >
       <div className='absolute left-0 right-0' ref={emblaRef}>
         <div className='flex gap-3'>
-          {images.length > 0 &&
-            images.map((tile, index) => <Tile key={index} {...tile} />)}
+          {images.map((tile, index) => (
+            <Tile key={index} {...tile} />
+          ))}
         </div>
       </div>
     </NextIntlClientProvider>

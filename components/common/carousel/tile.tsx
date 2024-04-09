@@ -15,7 +15,7 @@ export default function Tile({
 
   return (
     <div className='flex-[0_0_100%] aspect-[3/4] bg-neutral-500 rounded-2xl overflow-hidden relative'>
-      {images[0].url && (
+      {/* {images[0].url && (
         <Image
           src={images[0].url}
           alt={images[0].originalName}
@@ -25,7 +25,7 @@ export default function Tile({
           blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=='
           fill
         />
-      )}
+      )} */}
       <div className='absolute p-4 flex flex-col justify-between h-1/3 left-4 right-4 bottom-4 bg-neutral-700 rounded-2xl bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-0 text-white shadow-lg'>
         <span className='text-xs flex gap-2 items-center'>
           <FiHeart color='white' />

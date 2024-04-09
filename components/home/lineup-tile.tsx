@@ -7,27 +7,30 @@ import { getTranslations } from 'next-intl/server';
 export default async function LineupTile() {
   try {
     const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
-    const data = await Promise.all(
-      allDay
-        .map((day) =>
-          fetch(`${API_URL}${API_ROUTES.lineup.list(day)}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            cache: 'no-store',
-          }).then((res) => res.json())
-        )
-        .flat()
-    );
+    // const data = await Promise.all(
+    //   allDay
+    //     .map((day) =>
+    //       fetch(`${API_URL}${API_ROUTES.lineup.list(day)}`, {
+    //         method: 'GET',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //         },
+    //         cache: 'no-store',
+    //       }).then((res) => res.json())
+    //     )
+    //     .flat()
+    // );
 
-    const a = await fetch(`${API_URL}${API_ROUTES.lineup.list('FIRST_DAY')}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    }).then((res) => res.json());
+    const data = await fetch(
+      `${API_URL}${API_ROUTES.lineup.list('FIRST_DAY')}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-store',
+      }
+    ).then((res) => res.json());
     const t = await getTranslations('LineupTile');
 
     return (
@@ -37,8 +40,12 @@ export default async function LineupTile() {
           <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll>
         </TileHeader>
         <div className='w-full aspect-[3/4] relative'>
-          {/* <Carousel images={data} /> */}
-          {a.map((d: any) => d)}
+          {/* <Carousel images={[data]} /> */}
+          {data.map((tile: any, index: number) => (
+            <div key={index} className='w-full h-full'>
+              {tile.singer}
+            </div>
+          ))}
         </div>
       </div>
     );
