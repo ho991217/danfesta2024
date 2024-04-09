@@ -42,7 +42,8 @@ const config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        primary: '#0262E9',
+        primary: '#C892EA',
+        // primary: '#0262E9',
       },
       fontFamily: {
         Pretendard: ['Pretendard', 'sans-serif'],

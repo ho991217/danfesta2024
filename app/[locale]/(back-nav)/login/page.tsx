@@ -34,26 +34,30 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="absolute top-0 -z-10 object-cover w-full">
-        <Video
-          className="object-cover w-full"
-          src={'/videos/glass.mp4'} // 비디오 파일 경로
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls={false}
-        ></Video>
-      </div>
-      <section className="flex w-full flex-col items-center justify-end px-5">
-        <div className="flex flex-col mb-24 mt-4 items-center">
-          <div className="flex items-center w-full justify-center">
-            <h1 className="text-3xl font-bold text-center">LOGIN</h1>
+      <section className="absolute top-0 left-0 -z-10 object-cover w-full h-full">
+        <div className="relative">
+          <Video
+            className="object-cover w-full"
+            src={'/videos/glass.mp4'} // 비디오 파일 경로
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls={false}
+          ></Video>
+          <div className="flex flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute min-w-[300px]">
+            <div className="flex items-center w-full justify-center">
+              <h1 className="text-3xl font-bold text-center text-white">
+                LOGIN
+              </h1>
+            </div>
+            <span className="text-sm text-white">
+              서비스를 이용하시려면 로그인해주세요.
+            </span>
           </div>
-          <span className="text-sm">서비스를 이용하시려면 로그인해주세요.</span>
         </div>
         <Form
-          className="flex flex-col gap-2"
+          className="flex flex-col gap-2 px-5 mt-3"
           onSubmit={onSubmit}
           schema={authInfoSchema}
         >
