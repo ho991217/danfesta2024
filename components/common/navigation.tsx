@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import Link from '@components/common/link';
 import { useTranslations } from 'next-intl';
 import { IoArrowBackOutline } from 'react-icons/io5';
@@ -13,7 +14,12 @@ type Props = {
 export default function Navigation({ hasBackButton = false, title }: Props) {
   const t = useTranslations('GNB');
   return (
-    <nav className="flex w-full justify-between items-start h-[100px] px-5 pt-5">
+    <nav
+      className={cn(
+        'flex w-full justify-between items-start px-5',
+        hasBackButton ? 'py-5' : 'h-[100px] pt-5',
+      )}
+    >
       <If condition={hasBackButton}>
         <If.Then>
           <Link back>

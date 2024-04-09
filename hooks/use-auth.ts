@@ -6,7 +6,7 @@ import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
 import ApiError from '@lib/utils/error/api-error';
 import { useCookies } from 'next-client-cookies';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -48,7 +48,7 @@ export default function useAuth() {
     checkLogin();
   }, []);
 
-  const login = async (req: AuthInfoSchema) => {
+  const login = async (req: AuthInfoSchema, redirect?: string) => {
     try {
       const res = await post<AuthInfoSchema, AuthTokens>(
         API_ROUTES.user.login,
@@ -60,6 +60,16 @@ export default function useAuth() {
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 
       setIsLoggedIn(true);
+      toast.info('로그인 되었습니다.', {
+        duration: 36000,
+        action: {
+          label: '확인',
+          onClick: () => {
+            router.push('/ko/verify');
+          },
+        },
+      });
+      router.push(redirect || '/');
     } catch (error) {
       const e = error as Error;
       setIsLoggedIn(false);

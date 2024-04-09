@@ -1,5 +1,5 @@
 import { Accordion } from '@/components/ui/accordion';
-import { TicketTile } from '@components/my-tickets';
+import { Ticket } from '@components/my-tickets';
 import { If } from '@components/util';
 
 import { getMyTicketList } from './action';
@@ -14,7 +14,7 @@ export default async function Page() {
           <If.Then>
             <Accordion type="multiple" className="flex flex-col w-full gap-4 ">
               {tickets.map((ticket) => (
-                <TicketTile key={ticket.id} {...ticket} />
+                <Ticket key={ticket.id} {...ticket} />
               ))}
             </Accordion>
           </If.Then>

@@ -1,7 +1,8 @@
-import { BsTicketFill, BsBellFill } from 'react-icons/bs';
+import Link from '@/components/common/link';
 import { AiFillStar } from 'react-icons/ai';
 import { BiSolidNavigation } from 'react-icons/bi';
-import Link from 'next/link';
+import { BsBellFill, BsTicketFill } from 'react-icons/bs';
+
 import Tile from './tile';
 
 export type TileInfo = {
@@ -15,7 +16,7 @@ export type TileInfo = {
 };
 
 const TileHeader = ({ children }: { children: React.ReactNode }) => (
-  <div className='font-bold'>{children}</div>
+  <div className="font-bold">{children}</div>
 );
 
 const tiles: TileInfo[] = [
@@ -80,7 +81,7 @@ const tiles: TileInfo[] = [
 
 export default function MenuTiles() {
   return (
-    <div className='w-full grid grid-cols-2 grid-rows-2 gap-4 aspect-square'>
+    <div className="w-full grid grid-cols-2 grid-rows-2 gap-4 aspect-square">
       {tiles.map((tile) => (
         <Link key={tile.id} href={tile.link}>
           <Tile {...tile} />

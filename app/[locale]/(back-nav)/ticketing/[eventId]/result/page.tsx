@@ -1,7 +1,6 @@
-import { get } from "@/api";
-import Link from "next/link";
-import { API_ROUTES } from "@/constants";
-import getServerSideToken from "@/api/get-server-side-token";
+import { get, getServerSideToken } from '@/api';
+import Link from '@/components/common/link';
+import { API_ROUTES } from '@/constants';
 
 export default async function Page({
   params: { eventId },

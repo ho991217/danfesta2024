@@ -44,6 +44,9 @@ const config = {
       colors: {
         primary: '#0262E9',
       },
+      fontFamily: {
+        Pretendard: ['Pretendard', 'sans-serif'],
+      },
     },
   },
   plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar-hide')],
