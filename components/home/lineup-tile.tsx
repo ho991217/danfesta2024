@@ -1,21 +1,15 @@
+import { get } from "@/api";
 import Carousel from "../common/carousel";
 import TileHeader from "./tile-header";
 import { LineupInfo } from "@/app/[locale]/(back-nav)/lineup/page";
 import { getTranslations } from "next-intl/server";
+import { API_ROUTES } from "@/constants";
 
 export default async function LineupTile() {
   try {
     const allDay = ["FIRST_DAY", "SECOND_DAY", "THIRD_DAY"] as const;
     const data = await Promise.all(
-      allDay.map((day) =>
-        fetch(`http://133.186.247.228:8082/line-up?festivalDate=${day}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          cache: "no-store",
-        }).then((res) => res.json() as Promise<LineupInfo[]>),
-      ),
+      allDay.map((day) => get<LineupInfo[]>(API_ROUTES.lineup.list(day))),
     );
     const lineups = data.flat();
 

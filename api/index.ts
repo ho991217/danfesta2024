@@ -1,6 +1,6 @@
-import { API_ROUTES, API_URL } from '../constants';
-import { DeepValueOf } from '../lib/utils';
-import APIError, { type APIErrorResponse } from '@/lib/utils/error/api-error';
+import { API_ROUTES, API_URL } from "../constants";
+import { DeepValueOf } from "../lib/utils";
+import APIError, { type APIErrorResponse } from "@/lib/utils/error/api-error";
 
 type APIOptions = {
   token?: string;
@@ -8,21 +8,20 @@ type APIOptions = {
 
 export async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
-  options?: APIOptions
+  options?: APIOptions,
 ) {
   const response = await fetch(`${API_URL}${path}`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...(options?.token &&
         options.token.length > 0 && { Cookie: options.token }),
     },
-    cache: 'no-store',
   });
 
   const json = await response.json();
 
-  if ('statusCode' in json) {
+  if ("statusCode" in json) {
     const error: APIErrorResponse = json;
     throw new APIError(error);
   }
@@ -33,12 +32,12 @@ export async function get<Res>(
 export async function post<Req, Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   data: Req,
-  options?: APIOptions
+  options?: APIOptions,
 ) {
   const response = await fetch(`${API_URL}${path}`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       ...(options?.token &&
         options.token.length > 0 && { Cookie: options.token }),
     },
@@ -47,7 +46,7 @@ export async function post<Req, Res>(
 
   const json = await response.json();
 
-  if ('statusCode' in json) {
+  if ("statusCode" in json) {
     const error: APIErrorResponse = json;
     throw new APIError(error);
   }
@@ -57,10 +56,10 @@ export async function post<Req, Res>(
 
 export async function getImage(path: string, options?: APIOptions) {
   const response = await fetch(`${API_URL}${path}`, {
-    method: 'GET',
-    credentials: 'include',
+    method: "GET",
+    credentials: "include",
     headers: {
-      'Content-Type': 'image/png',
+      "Content-Type": "image/png",
       ...(options?.token &&
         options.token.length > 0 && { Cookie: options.token }),
     },
@@ -69,5 +68,5 @@ export async function getImage(path: string, options?: APIOptions) {
   const arrBuf = await response.arrayBuffer();
   const text = String.fromCharCode.apply(null, new Uint8Array(arrBuf) as any);
 
-  return 'data:image/jpeg;base64,' + btoa(text);
+  return "data:image/jpeg;base64," + btoa(text);
 }
