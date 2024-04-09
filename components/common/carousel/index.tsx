@@ -9,10 +9,10 @@ import ko from "../../../messages/ko.json";
 import { type LineupInfo } from "@/app/[locale]/(back-nav)/lineup/page";
 
 type CarouselProps = {
-  images: LineupInfo[];
+  lineups: LineupInfo[];
 };
 
-export default function Carousel({ images }: CarouselProps) {
+export default function Carousel({ lineups }: CarouselProps) {
   const [emblaRef] = useEmblaCarousel();
   const locale = useLocale();
 
@@ -33,7 +33,7 @@ export default function Carousel({ images }: CarouselProps) {
     >
       <div className="absolute left-0 right-0" ref={emblaRef}>
         <div className="flex gap-3">
-          {images.map((tile, index) => (
+          {lineups.map((tile, index) => (
             <Tile key={index} {...tile} />
           ))}
         </div>
