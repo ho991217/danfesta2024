@@ -1,24 +1,32 @@
-import { withSentryConfig } from '@sentry/nextjs';
-import createNextIntlPlugin from 'next-intl/plugin';
-import withPWA from 'next-pwa';
+import { withSentryConfig } from "@sentry/nextjs";
+import createNextIntlPlugin from "next-intl/plugin";
+import withPWA from "next-pwa";
 
-const prod = process.env.NODE_ENV === 'production';
+const prod = process.env.NODE_ENV === "production";
 
-const withNextIntl = createNextIntlPlugin('./i18n.ts');
+const withNextIntl = createNextIntlPlugin("./i18n.ts");
 
 const withPWAConfig = withPWA({
-  dest: 'public',
+  dest: "public",
   disable: !prod,
 });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: "/:path*",
+        destination: "https://next.danvery.com/api/:path*",
+      },
+    ];
+  },
   productionBrowserSourceMaps: !prod,
-  crossOrigin: 'use-credentials',
+  crossOrigin: "use-credentials",
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack'],
+      use: ["@svgr/webpack"],
     });
 
     return config;
@@ -26,28 +34,28 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
       {
-        protocol: 'https',
-        hostname: 'scontent-ssn1-1.xx.fbcdn.net',
+        protocol: "https",
+        hostname: "scontent-ssn1-1.xx.fbcdn.net",
       },
       {
-        protocol: 'https',
-        hostname: 'arconline.co.uk',
+        protocol: "https",
+        hostname: "arconline.co.uk",
       },
       {
-        protocol: 'https',
-        hostname: 'media.vanityfair.com',
+        protocol: "https",
+        hostname: "media.vanityfair.com",
       },
       {
-        protocol: 'https',
-        hostname: 'www.eastbaytimes.com',
+        protocol: "https",
+        hostname: "www.eastbaytimes.com",
       },
       {
-        protocol: 'https',
-        hostname: 'api-storage.cloud.toast.com',
+        protocol: "https",
+        hostname: "api-storage.cloud.toast.com",
       },
     ],
   },
@@ -58,15 +66,15 @@ export default withPWAConfig(
     withNextIntl(nextConfig),
     {
       silent: true,
-      org: 'danfesta',
-      project: 'javascript-nextjs',
+      org: "danfesta",
+      project: "javascript-nextjs",
     },
     {
       widenClientFileUpload: true,
-      tunnelRoute: '/monitoring',
+      tunnelRoute: "/monitoring",
       hideSourceMaps: true,
       disableLogger: true,
       automaticVercelMonitors: true,
-    }
-  )
+    },
+  ),
 );
