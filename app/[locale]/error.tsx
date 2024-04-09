@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import * as Sentry from '@sentry/nextjs';
+import { useEffect } from "react";
+import * as Sentry from "@sentry/nextjs";
 
 export default function Error({
   error,
@@ -17,6 +17,7 @@ export default function Error({
   return (
     <div>
       <h2>에러 발생</h2>
+      <span>{error.message}</span>
       <button onClick={() => reset()}>다시 시도</button>
     </div>
   );
