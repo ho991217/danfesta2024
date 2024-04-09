@@ -1,6 +1,6 @@
 import { LineupInfo } from '@/app/[locale]/(back-nav)/lineup/page';
 import parseFestivalDate from '@/lib/utils/parser/parse-festival-date';
-import { useFormatter, useTranslations } from 'next-intl';
+import { useFormatter } from 'next-intl';
 import Image from 'next/image';
 import { FiCalendar, FiClock, FiHeart } from 'react-icons/fi';
 
@@ -12,11 +12,10 @@ export default function Tile({
   performanceTime,
 }: LineupInfo) {
   const format = useFormatter();
-  const t = useTranslations('Carousel');
 
   return (
     <div className='flex-[0_0_100%] aspect-[3/4] bg-neutral-500 rounded-2xl overflow-hidden relative'>
-      {images.length > 0 && images[0].url && (
+      {images[0].url && (
         <Image
           src={images[0].url}
           alt={images[0].originalName}

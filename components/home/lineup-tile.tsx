@@ -17,8 +17,8 @@ export default async function LineupTile() {
             },
             cache: 'no-store',
           }).then((res) => {
-            if (!res.ok) return res.text();
-            return res.json();
+            if (!res.ok) throw res.text();
+            return res.json() as Promise<LineupInfo[]>;
           })
         )
       )
