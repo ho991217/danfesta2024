@@ -10,7 +10,7 @@ export async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions,
 ) {
-  const response = await fetch(`http://133.186.247.228:8082${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -34,7 +34,7 @@ export async function post<Req, Res>(
   data: Req,
   options?: APIOptions,
 ) {
-  const response = await fetch(`http://133.186.247.228:8082${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
