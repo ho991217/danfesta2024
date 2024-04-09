@@ -34,30 +34,28 @@ export default function LoginPage() {
 
   return (
     <>
-      <section className="absolute top-0 left-0 -z-10 object-cover w-full h-full">
-        <div className="relative">
-          <Video
-            className="object-cover w-full"
-            src={'/videos/glass.mp4'} // 비디오 파일 경로
-            autoPlay
-            muted
-            loop
-            playsInline
-            controls={false}
-          ></Video>
-          <div className="flex flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute min-w-[300px]">
-            <div className="flex items-center w-full justify-center">
-              <h1 className="text-3xl font-bold text-center text-white">
-                LOGIN
-              </h1>
-            </div>
-            <span className="text-sm text-white">
-              서비스를 이용하시려면 로그인해주세요.
-            </span>
+      <div className="absolute top-0 left-0 -z-10">
+        <Video
+          className="object-cover w-full"
+          src={'/videos/glass.mp4'}
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls={false}
+        ></Video>
+        <div className="flex flex-col items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 absolute min-w-[300px]">
+          <div className="flex items-center w-full justify-center">
+            <h1 className="text-3xl font-bold text-center text-white">LOGIN</h1>
           </div>
+          <span className="text-sm text-white">
+            서비스를 이용하시려면 로그인해주세요.
+          </span>
         </div>
+      </div>
+      <section className="w-full mt-[calc(100vw*0.5625-72px+1rem)]">
         <Form
-          className="flex flex-col gap-2 px-5 mt-3"
+          className="flex flex-col gap-2 px-5 mt-3 z-50"
           onSubmit={onSubmit}
           schema={authInfoSchema}
         >
