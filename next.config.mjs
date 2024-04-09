@@ -14,6 +14,7 @@ const withPWAConfig = withPWA({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   productionBrowserSourceMaps: !prod,
+  crossOrigin: 'use-credentials',
   webpack: (config) => {
     config.module.rules.push({
       test: /\.svg$/,
