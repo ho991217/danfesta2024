@@ -21,11 +21,12 @@ export default async function Page() {
       </div>
     );
   } catch (e) {
-    console.error(e);
+    const error = e as Error;
     return (
       <div className='flex flex-col gap-4 px-5'>
         <span className='text-neutral-300 dark:text-neutral-800'>
-          이벤트가 없습니다.
+          {/* 이벤트가 없습니다. */}
+          {error.message}
         </span>
       </div>
     );

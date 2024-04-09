@@ -65,58 +65,67 @@ export default async function Page({
     });
     captchaKey = key;
     captchaImage = image;
-  } catch (e) {
-    console.error(e);
-  }
 
-  return (
-    <div className='flex flex-col gap-4 mb-20 px-5'>
-      <Card className='overflow-hidden'>
-        <CardHeader>개인정보 제 3자 제공 동의</CardHeader>
-        <CardContent className='text-neutral-500'>
-          ㈜무진정보기술 단버리 회원님의 개인정보를 개인정보 처리방침에서 고지한
-          제 3 자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동 범위를
-          초과하여 제 3자에게 제공하지 않습니다.
-        </CardContent>
-        <Accordion type='multiple'>
-          {terms.map(({ index, content }) => (
-            <AccordionItem
-              key={index}
-              value={index}
-              className='px-6 last:border-b-0'
-            >
-              <AccordionTrigger>{index}</AccordionTrigger>
-              <AccordionContent className='text-neutral-500'>
-                {content}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </Card>
+    return (
+      <div className='flex flex-col gap-4 mb-20 px-5'>
+        <Card className='overflow-hidden'>
+          <CardHeader>개인정보 제 3자 제공 동의</CardHeader>
+          <CardContent className='text-neutral-500'>
+            ㈜무진정보기술 단버리 회원님의 개인정보를 개인정보 처리방침에서
+            고지한 제 3 자 제공범위 내에서 제공하며, 정보주체의 사전동의 없이 동
+            범위를 초과하여 제 3자에게 제공하지 않습니다.
+          </CardContent>
+          <Accordion type='multiple'>
+            {terms.map(({ index, content }) => (
+              <AccordionItem
+                key={index}
+                value={index}
+                className='px-6 last:border-b-0'
+              >
+                <AccordionTrigger>{index}</AccordionTrigger>
+                <AccordionContent className='text-neutral-500'>
+                  {content}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Card>
 
-      <Card>
-        <CardHeader className='pb-4'>
-          <CardTitle>
-            <div className='w-full aspect-[7/2] grid grid-cols-[5fr,1fr] gap-4'>
-              <div className='relative rounded-lg overflow-hidden'>
-                <Suspense fallback={null}>
-                  {captchaImage.length > 0 && (
-                    <Image src={captchaImage} fill alt='캡챠 이미지' />
-                  )}
-                </Suspense>
+        <Card>
+          <CardHeader className='pb-4'>
+            <CardTitle>
+              <div className='w-full aspect-[7/2] grid grid-cols-[5fr,1fr] gap-4'>
+                <div className='relative rounded-lg overflow-hidden'>
+                  <Suspense fallback={null}>
+                    {captchaImage.length > 0 && (
+                      <Image src={captchaImage} fill alt='캡챠 이미지' />
+                    )}
+                  </Suspense>
+                </div>
+                <RefetchButton />
               </div>
-              <RefetchButton />
-            </div>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Suspense fallback={null}>
-            {captchaKey.length > 0 && eventId.length > 0 && (
-              <Form captchaKey={captchaKey} eventId={eventId} />
-            )}
-          </Suspense>
-        </CardContent>
-      </Card>
-    </div>
-  );
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Suspense fallback={null}>
+              {captchaKey.length > 0 && eventId.length > 0 && (
+                <Form captchaKey={captchaKey} eventId={eventId} />
+              )}
+            </Suspense>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  } catch (e) {
+    const error = e as Error;
+    console.error(e);
+    return (
+      <div className='flex flex-col gap-4 px-5'>
+        <span className='text-neutral-300 dark:text-neutral-800'>
+          {/* 이벤트가 없습니다. */}
+          {error.message}
+        </span>
+      </div>
+    );
+  }
 }

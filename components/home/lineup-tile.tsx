@@ -32,7 +32,7 @@ export default async function LineupTile() {
           <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll>
         </TileHeader>
         <div className='w-full aspect-[3/4] relative'>
-          <Carousel images={data} />
+          {data && <Carousel images={data} />}
         </div>
       </div>
     );

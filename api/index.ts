@@ -17,6 +17,7 @@ export async function get<Res>(
       ...(options?.token &&
         options.token.length > 0 && { Cookie: options.token }),
     },
+    cache: 'no-store',
   });
 
   const json = await response.json();
