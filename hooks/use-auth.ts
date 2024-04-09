@@ -25,11 +25,14 @@ export default function useAuth() {
       if (!accessToken || !refreshToken) {
         throw new Error("토큰이 없습니다.");
       }
-      const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const res = await fetch(
+        `https://next.danvery.com/api${API_ROUTES.user.me}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      }).then((res) => res.json());
+      ).then((res) => res.json());
 
       setUserInfo(res);
     } catch (error) {

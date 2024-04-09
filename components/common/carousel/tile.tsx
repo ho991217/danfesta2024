@@ -1,5 +1,3 @@
-"use client";
-
 import { LineupInfo } from "@/app/[locale]/(back-nav)/lineup/page";
 import parseFestivalDate from "@/lib/utils/parser/parse-festival-date";
 import { useFormatter } from "next-intl";
