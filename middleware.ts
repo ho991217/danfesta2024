@@ -1,6 +1,5 @@
 import createMiddleware from "next-intl/middleware";
-import { NextRequest, NextResponse } from "next/server";
-import { API_ROUTES, API_URL, COOKIE_KEYS } from "./constants";
+import { NextRequest } from "next/server";
 
 const i18nMiddleware = createMiddleware({
   locales: ["en", "ko"],

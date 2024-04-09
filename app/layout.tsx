@@ -33,12 +33,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={locale}>
-      <head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-      </head>
       <body className={clsx(NotoSansKR.className)}>
         <Providers>{children}</Providers>
       </body>

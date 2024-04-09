@@ -53,18 +53,21 @@ export default function useAuth() {
 
   const login = async (req: AuthInfoSchema) => {
     try {
-      // const res = await fetch(`${API_URL}${API_ROUTES.user.login}`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(req),
-      // }).then((res) => res.json());
+      const res = await fetch(
+        `https://next.danvery.com/api/${API_ROUTES.user.login}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(req),
+        },
+      ).then((res) => res.json());
 
-      const res = await post<
-        AuthInfoSchema,
-        { accessToken: string; refreshToken: string }
-      >(API_ROUTES.user.login, req);
+      // const res = await post<
+      //   AuthInfoSchema,
+      //   { accessToken: string; refreshToken: string }
+      // >(API_ROUTES.user.login, req);
 
       if (!res.accessToken || !res.refreshToken) throw new ApiError(res as any);
       cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
