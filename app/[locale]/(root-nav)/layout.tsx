@@ -1,18 +1,17 @@
-import Navigation from '@/components/common/navigation';
-import FloatingTicket from '@/components/common/floating-ticket';
+import { FloatingTicket, Navigation } from '@components/common';
 
 export default function LocaleLayout({
-  children,
-  params: { locale },
+    children,
+    params: { locale },
 }: {
-  children: React.ReactNode;
-  params: { locale: string };
+    children: React.ReactNode;
+    params: { locale: string };
 }) {
-  return (
-    <>
-      <Navigation />
-      {children}
-      <FloatingTicket />
-    </>
-  );
+    return (
+        <>
+            <Navigation />
+            {children}
+            <FloatingTicket />
+        </>
+    );
 }

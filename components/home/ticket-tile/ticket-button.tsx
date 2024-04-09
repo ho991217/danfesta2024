@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import QrScanner from '@/public/qr-scanner.svg';
-import useBottomSheet from '@/hooks/use-bottom-sheet';
-import { BottomSheet } from '@/components/common';
+import QrScanner from "@/public/qr-scanner.svg";
+import useBottomSheet from "@hooks/use-bottom-sheet";
+import { BottomSheet } from "@components/common";
 
 type TicketButtonProps = {
   label: string;
@@ -13,16 +13,16 @@ export default function TicketButton({ label }: TicketButtonProps) {
   return (
     <>
       <button
-        className='dark:text-white text-neutral-900 font-bold text-[10px] text-center flex flex-col gap-[5px] items-center'
+        className="flex flex-col items-center gap-[5px] text-center text-[10px] font-bold text-neutral-900 dark:text-white"
         onClick={open}
       >
-        <div className='dark:bg-neutral-800 bg-neutral-400 w-[80px] h-[80px] rounded-lg flex items-center justify-center'>
+        <div className="flex h-[80px] w-[80px] items-center justify-center rounded-lg bg-neutral-400 dark:bg-neutral-800">
           <QrScanner />
         </div>
         {label}
       </button>
-      <div className='absolute'>
-        <BottomSheet header='티켓 보기' isOpen={isOpen} onDismiss={close}>
+      <div className="absolute">
+        <BottomSheet header="티켓 보기" isOpen={isOpen} onDismiss={close}>
           아뿔싸! 티켓을 빼앗겼다!
         </BottomSheet>
       </div>

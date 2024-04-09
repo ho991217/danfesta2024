@@ -27,23 +27,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-      {
-        protocol: "https",
-        hostname: "scontent-ssn1-1.xx.fbcdn.net",
-      },
-      {
-        protocol: "https",
-        hostname: "arconline.co.uk",
-      },
-      {
-        protocol: "https",
-        hostname: "media.vanityfair.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.eastbaytimes.com",
+        hostname: "via.placeholder.com",
       },
       {
         protocol: "https",

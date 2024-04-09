@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/common';
-import * as Sentry from '@sentry/nextjs';
-import Error from 'next/error';
-import { useEffect } from 'react';
+import { Button } from "@components/common";
+import * as Sentry from "@sentry/nextjs";
+import Error from "next/error";
+import { useEffect } from "react";
 
 export type GlobalErrorProps = {
   error: Error & { digest?: string };
@@ -26,15 +26,15 @@ export default function GlobalError({
       <body>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            height: '100vh',
-            width: '100vw',
-            fontSize: '1.5rem',
-            color: '#000',
-            backgroundColor: '#fff',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            height: "100vh",
+            width: "100vw",
+            fontSize: "1.5rem",
+            color: "#000",
+            backgroundColor: "#fff",
           }}
         >
           <h1>오류가 발생했습니다.</h1>

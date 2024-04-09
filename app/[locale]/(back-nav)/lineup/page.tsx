@@ -1,7 +1,6 @@
 import { get } from "@/api";
-import Carousel from "@/components/common/carousel";
+import { Carousel } from "@components/common";
 import { API_ROUTES } from "@/constants";
-import parseFestivalDate from "@/lib/utils/parser/parse-festival-date";
 
 export type FestivalDate = "FIRST_DAY" | "SECOND_DAY" | "THIRD_DAY";
 
