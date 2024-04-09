@@ -1,12 +1,13 @@
 'use client';
 
+import { useAuth } from '@/hooks';
+import { motion } from 'framer-motion';
+import { useLocale } from 'next-intl';
 import { default as NextLink } from 'next/link';
 import { useRouter } from 'next/navigation';
-import If from '../util/if';
-import { cn } from '@/lib/utils';
-import { useAuth } from '@/hooks';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
+
+import If from '../util/if';
 
 type Props = {
   children: React.ReactNode;
@@ -25,13 +26,14 @@ export default function Link({
 }: Props) {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
+  const locale = useLocale();
 
   const checkAuth = () => {
     if (!isLoggedIn) {
-      requestAnimationFrame(() => {
-        toast.error('로그인이 필요합니다.');
-      });
-      router.push('/login');
+      // requestAnimationFrame(() => {
+      //   toast.error('로그인이 필요합니다.');
+      // });
+      router.push(`/${locale}/login`);
     }
   };
 
@@ -39,14 +41,14 @@ export default function Link({
     <motion.div whileTap={{ scale: 0.98 }} className={className}>
       <If condition={back}>
         <If.Then>
-          <button onClick={() => router.back()} className='w-full h-full'>
+          <button onClick={() => router.back()} className="w-full h-full">
             {children}
           </button>
         </If.Then>
         <If.Else>
           <NextLink
-            href={href ?? '/'}
-            className='w-full h-full'
+            href={href ? `/${locale}${href}` : `/${locale}`}
+            className="w-full h-full"
             onClick={() => {
               if (auth) {
                 checkAuth();

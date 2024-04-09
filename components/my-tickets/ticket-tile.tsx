@@ -1,40 +1,64 @@
-import TicketIcon from '@/public/icons/ticket.svg';
-import Link from '@components/common/link';
-import { getLocale } from 'next-intl/server';
+import { TicketInfo } from '@app/[locale]/(back-nav)/my-tickets/action';
 import { FiCalendar } from 'react-icons/fi';
+import { HiMiniEllipsisHorizontal } from 'react-icons/hi2';
 
-export default async function TicketTile({ id }: { id: number }) {
-    const locale = await getLocale();
-    return (
-        <div className="relative flex h-[161px] w-[327px] flex-col items-start justify-between">
-            <div className="mx-5 mt-5 flex w-full flex-col gap-2">
-                <h4 className="text-base font-bold">
-                    단국대학교 2024 단페스타 1일차 티켓
-                </h4>
-                <div className="flex items-center gap-2">
-                    <FiCalendar color="#929497" />
-                    <span className="text-sm text-[#929497]">
-                        {new Date('2024-04-01').toLocaleDateString()}
-                    </span>
-                    <span className="text-sm text-[#929497]">~</span>
-                    <span className="text-sm text-[#929497]">
-                        {new Date('2024-04-03').toLocaleDateString()}
-                    </span>
-                </div>
-            </div>
-            <div className="w-full">
-                <Link
-                    href={`/${locale}/my-tickets/${id}`}
-                    className="w-full rounded-b-xl px-5 py-4 text-center text-primary"
-                    auth
-                >
-                    티켓 보기
-                </Link>
-            </div>
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../ui/accordion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import QrCode from './qr-code';
 
-            <div className="absolute right-1/2 top-0 -z-10 translate-x-1/2">
-                <TicketIcon />
-            </div>
+export default async function TicketTile({ id, event }: TicketInfo) {
+  return (
+    <AccordionItem
+      value={String(id)}
+      className="flex flex-col items-center justify-between border-[1px] border-neutral-300 w-full rounded-2xl dark:border-neutral-800"
+    >
+      <div className="w-full flex items-center justify-end pr-3 pt-1">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <HiMiniEllipsisHorizontal size={30} />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>티켓 관리</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>티켓 번호 보기</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+      <div className="px-5 pb-5 flex w-full flex-col gap-2">
+        <h4 className="text-base font-bold tex-start w-full">{event.name}</h4>
+        <div className="flex items-center gap-2">
+          <FiCalendar color="#929497" />
+          <span className="text-sm text-[#929497]">
+            {new Date(event.startAt).toLocaleDateString()}
+          </span>
+          <span className="text-sm text-[#929497]">~</span>
+          <span className="text-sm text-[#929497]">
+            {new Date(event.endAt).toLocaleDateString()}
+          </span>
         </div>
-    );
+      </div>
+      <AccordionTrigger className="flex items-center">
+        <span className="w-full rounded-b-xl px-5 text-center text-primary">
+          티켓 보기
+        </span>
+      </AccordionTrigger>
+      <AccordionContent>
+        <p className="text-xs text-neutral-500 w-full text-center mb-3">
+          디바이스의 밝기를 최대로 높여주세요.
+        </p>
+        <QrCode ticketId={id} className="w-full" />
+      </AccordionContent>
+    </AccordionItem>
+  );
 }

@@ -1,18 +1,22 @@
-import { If } from "@components/util";
-import { getMyTicketList } from "./action";
-import { TicketTile } from "@components/my-tickets";
+import { Accordion } from '@/components/ui/accordion';
+import { TicketTile } from '@components/my-tickets';
+import { If } from '@components/util';
+
+import { getMyTicketList } from './action';
 
 export default async function Page() {
   try {
     const tickets = await getMyTicketList();
 
     return (
-      <section className="flex w-full flex-col items-center justify-start gap-4">
+      <section className="flex w-full flex-col items-center justify-start gap-4 px-5 pb-20">
         <If condition={tickets.length > 0}>
           <If.Then>
-            {tickets.map((ticketId) => (
-              <TicketTile key={ticketId} id={ticketId} />
-            ))}
+            <Accordion type="multiple" className="flex flex-col w-full gap-4 ">
+              {tickets.map((ticket) => (
+                <TicketTile key={ticket.id} {...ticket} />
+              ))}
+            </Accordion>
           </If.Then>
           <If.Else>
             <span className="text-neutral-400 dark:text-neutral-600">

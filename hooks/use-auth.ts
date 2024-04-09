@@ -1,15 +1,14 @@
-"use client";
+'use client';
 
-import { AuthTokens, User } from "@/api/response";
-import { AuthInfoSchema } from "@/app/[locale]/(back-nav)/login/schema";
-import { API_ROUTES, API_URL, COOKIE_KEYS } from "@/constants";
-import { useCookies } from "next-client-cookies";
-import ApiError from "@/lib/utils/error/api-error";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import useAuthStore from "@/store/auth-store";
-import { get, post } from "@/api";
+import { AuthTokens, User, get, post } from '@/api';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/constants';
+import useAuthStore from '@/store/auth-store';
+import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
+import ApiError from '@lib/utils/error/api-error';
+import { useCookies } from 'next-client-cookies';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 export default function useAuth() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
@@ -23,26 +22,25 @@ export default function useAuth() {
       const refreshToken = cookies.get(COOKIE_KEYS.refreshToken);
 
       if (!accessToken || !refreshToken) {
-        throw new Error("토큰이 없습니다.");
+        throw new Error('토큰이 없습니다.');
       }
 
-      const res = await get<User>(API_ROUTES.user.me, {
-        token: accessToken,
-      });
+      const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then((res) => res.json() as Promise<User>);
 
       setUserInfo(res);
     } catch (error) {
-      throw new Error("사용자 정보를 가져오는데 실패했습니다.");
+      throw new Error('사용자 정보를 가져오는데 실패했습니다.');
     }
   };
 
-  const checkLogin = async () => {
-    try {
-      await getUserInfo();
-      setIsLoggedIn(true);
-    } catch (error) {
-      setIsLoggedIn(false);
-    }
+  const checkLogin = () => {
+    getUserInfo()
+      .then(() => setIsLoggedIn(true))
+      .catch(() => setIsLoggedIn(false));
   };
 
   useEffect(() => {
@@ -73,9 +71,9 @@ export default function useAuth() {
     cookies.remove(COOKIE_KEYS.accessToken);
     cookies.remove(COOKIE_KEYS.refreshToken);
     setUserInfo(null);
-    toast.info("로그아웃되었습니다.");
+    toast.info('로그아웃되었습니다.');
     setIsLoggedIn(false);
-    router.push("/");
+    router.push('/');
   };
 
   return {

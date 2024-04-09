@@ -4,72 +4,74 @@ import { API_IP, API_ROUTES, API_URL } from '../constants';
 import { DeepValueOf } from '../lib/utils';
 
 type APIOptions = {
-    token?: string;
+  token?: string;
 };
 
 export async function get<Res>(
-    path: DeepValueOf<typeof API_ROUTES> | string,
-    options?: APIOptions,
+  path: DeepValueOf<typeof API_ROUTES> | string,
+  options?: APIOptions,
 ) {
-    const response = await fetch(`${API_IP}${path}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            ...(options?.token &&
-                options.token.length > 0 && { Cookie: options.token }),
-        },
-    });
+  const response = await fetch(`${API_IP}${path}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options?.token &&
+        options.token.length > 0 && { Cookie: options.token }),
+    },
+  });
 
-    const json = await response.json();
+  const json = await response.json();
 
-    if ('statusCode' in json) {
-        const error: APIErrorResponse = json;
-        throw new APIError(error);
-    }
+  if ('statusCode' in json) {
+    const error: APIErrorResponse = json;
+    throw new APIError(error);
+  }
 
-    return json as Res;
+  return json as Res;
 }
 
 export async function post<Req, Res>(
-    path: DeepValueOf<typeof API_ROUTES> | string,
-    data: Req,
-    options?: APIOptions,
+  path: DeepValueOf<typeof API_ROUTES> | string,
+  data: Req,
+  options?: APIOptions,
 ) {
-    const response = await fetch(`${API_URL}${path}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            ...(options?.token &&
-                options.token.length > 0 && { Cookie: options.token }),
-        },
-        body: JSON.stringify(data),
-    });
+  const response = await fetch(`${API_URL}${path}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(options?.token &&
+        options.token.length > 0 && { Cookie: options.token }),
+    },
+    body: JSON.stringify(data),
+  });
 
-    const json = await response.json();
+  const json = await response.json();
 
-    if ('statusCode' in json) {
-        const error: APIErrorResponse = json;
-        throw new APIError(error);
-    }
+  if ('statusCode' in json) {
+    const error: APIErrorResponse = json;
+    throw new APIError(error);
+  }
 
-    return json as Res;
+  return json as Res;
 }
 
 export async function getImage(path: string, options?: APIOptions) {
-    const response = await fetch(`${API_URL}${path}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'image/png',
-            ...(options?.token &&
-                options.token.length > 0 && { Cookie: options.token }),
-        },
-    });
+  const response = await fetch(`${API_URL}${path}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'image/png',
+      ...(options?.token &&
+        options.token.length > 0 && { Cookie: options.token }),
+    },
+  });
 
-    const arrBuf = await response.arrayBuffer();
-    const text = String.fromCharCode.apply(null, new Uint8Array(arrBuf) as any);
+  const arrBuf = await response.arrayBuffer();
+  const text = String.fromCharCode.apply(null, new Uint8Array(arrBuf) as any);
 
-    return 'data:image/jpeg;base64,' + btoa(text);
+  return 'data:image/jpeg;base64,' + btoa(text);
 }
 
 export { default as getServerSideToken } from './get-server-side-token';
+
+export * from './response';

@@ -1,17 +1,17 @@
-import { FestivalDate } from "@/app/[locale]/(back-nav)/lineup/page";
+import { FestivalDate } from '@/app/[locale]/(back-nav)/lineup/page';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 export const API_IP = process.env.NEXT_PUBLIC_API_IP as string;
 
 export const COOKIE_KEYS = {
-  accessToken: "access-token",
-  refreshToken: "refresh-token",
+  accessToken: 'access-token',
+  refreshToken: 'refresh-token',
 } as const;
 
 export const API_ROUTES = {
   user: {
-    me: "/user",
-    login: "/user/login",
+    me: '/user',
+    login: '/user/login',
     signup: (token: string) => `/user/${token}`,
     /**
      * @name POST /user/reissue
@@ -20,10 +20,10 @@ export const API_ROUTES = {
      * @returns {string} accessToken - 엑세스 토큰
      * @returns {string} refreshToken - 리프레시 토큰
      */
-    reissue: "/user/reissue",
+    reissue: '/user/reissue',
     dku: {
-      verify: "/user/dku/verify",
-      reverify: "/user/dku/refresh",
+      verify: '/user/dku/verify',
+      reverify: '/user/dku/refresh',
     },
     sms: {
       send: (token: string) => `/user/sms/${token}`,
@@ -39,7 +39,7 @@ export const API_ROUTES = {
      * @param {string} captchaKey - 캡차 키
      * @param {string} captchaValue - 캡차 값
      */
-    apply: "/ticket",
+    apply: '/ticket',
     /**
      * @name GET /ticket/reservation/:eventId
      * @description 내 티켓 정보 조회
@@ -51,7 +51,12 @@ export const API_ROUTES = {
      * @description 행사 목록 조회
      * @returns {FestivalEvent[]} 행사 목록
      */
-    event: "/ticket/event",
+    event: '/ticket/event',
+    /**
+     * @name GET /ticket/event/my
+     * @description 내 티켓 목록 조회
+     */
+    myTicketList: '/ticket/event/my',
     /**
      * @name GET /ticket/:eventId
      * @description 내 티켓 조회
@@ -68,7 +73,7 @@ export const API_ROUTES = {
        * const key = await api.get(API_ROUTES.ticket.captcha.key);
        * console.log(key); // 'abc123'
        */
-      key: "/ticket/captcha/key",
+      key: '/ticket/captcha/key',
       /**
        * @name GET /ticket/captcha/image/:key
        * @description 캡차 이미지 조회
