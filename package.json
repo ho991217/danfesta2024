@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "next dev",
-    "start:server": "next build && next start",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
