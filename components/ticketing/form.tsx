@@ -31,15 +31,21 @@ export default function TicketingForm({
   const cookies = useCookies();
 
   const handleSubmit = async (v: Schema) => {
-    const atk = cookies.get(COOKIE_KEYS.accessToken);
-    if (!atk) throw new Error("로그인이 필요합니다.");
+    const token = cookies.get(COOKIE_KEYS.accessToken);
+    if (!token) throw new Error("로그인이 필요합니다.");
 
     try {
-      await post(API_ROUTES.ticket.apply, {
-        eventId,
-        captchaKey,
-        captchaValue: v.captchaValue,
-      });
+      await post(
+        API_ROUTES.ticket.apply,
+        {
+          eventId,
+          captchaKey,
+          captchaValue: v.captchaValue,
+        },
+        {
+          token,
+        },
+      );
 
       toast.success("신청이 완료되었습니다.");
       router.push(`/${locale}/ticketing/${eventId}/result`);
