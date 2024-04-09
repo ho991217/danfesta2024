@@ -1,17 +1,19 @@
-'use client';
+"use client";
 
-import { User } from '@/api/response';
-import { AuthInfoSchema } from '@/app/[locale]/(back-nav)/login/schema';
-import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/constants';
-import { useCookies } from 'next-client-cookies';
-import ApiError from '@/lib/utils/error/api-error';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { User } from "@/api/response";
+import { AuthInfoSchema } from "@/app/[locale]/(back-nav)/login/schema";
+import { API_ROUTES, API_URL, COOKIE_KEYS } from "@/constants";
+import { useCookies } from "next-client-cookies";
+import ApiError from "@/lib/utils/error/api-error";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import useAuthStore from "@/store/auth-store";
+import { post } from "@/api";
 
 export default function useAuth() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useAuthStore();
   const cookies = useCookies();
   const router = useRouter();
 
@@ -21,7 +23,7 @@ export default function useAuth() {
       const refreshToken = cookies.get(COOKIE_KEYS.refreshToken);
 
       if (!accessToken || !refreshToken) {
-        throw new Error('토큰이 없습니다.');
+        throw new Error("토큰이 없습니다.");
       }
       const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
         headers: {
@@ -31,7 +33,7 @@ export default function useAuth() {
 
       setUserInfo(res);
     } catch (error) {
-      throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+      throw new Error("사용자 정보를 가져오는데 실패했습니다.");
     }
   };
 
@@ -51,15 +53,20 @@ export default function useAuth() {
 
   const login = async (req: AuthInfoSchema) => {
     try {
-      const res = await fetch(`${API_URL}${API_ROUTES.user.login}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(req),
-      }).then((res) => res.json());
+      // const res = await fetch(`${API_URL}${API_ROUTES.user.login}`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(req),
+      // }).then((res) => res.json());
 
-      if (!res.accessToken || !res.refreshToken) throw new ApiError(res);
+      const res = await post<
+        AuthInfoSchema,
+        { accessToken: string; refreshToken: string }
+      >(API_ROUTES.user.login, req);
+
+      if (!res.accessToken || !res.refreshToken) throw new ApiError(res as any);
       cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 
@@ -75,9 +82,9 @@ export default function useAuth() {
     cookies.remove(COOKIE_KEYS.accessToken);
     cookies.remove(COOKIE_KEYS.refreshToken);
     setUserInfo(null);
-    toast.info('로그아웃되었습니다.');
+    toast.info("로그아웃되었습니다.");
     setIsLoggedIn(false);
-    router.push('/');
+    router.push("/");
   };
 
   return {
