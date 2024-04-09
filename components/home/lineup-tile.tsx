@@ -3,26 +3,35 @@ import TileHeader from './tile-header';
 import { API_ROUTES, API_URL } from '@/constants';
 import { LineupInfo } from '@/app/[locale]/(back-nav)/lineup/page';
 import { getTranslations } from 'next-intl/server';
+import axios from 'axios';
 
 export default async function LineupTile() {
   try {
     const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
-    const data = (
-      await Promise.all(
-        allDay.map((day) =>
-          fetch(`${API_URL}${API_ROUTES.lineup.list(day)}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            cache: 'no-store',
-          }).then((res) => {
-            return res.text();
-            // return res.json() as Promise<LineupInfo[]>;
-          })
-        )
-      )
-    ).flat();
+    // const data = await Promise.all(
+    //   allDay
+    //     .map((day) =>
+    //       fetch(`${API_URL}${API_ROUTES.lineup.list(day)}`, {
+    //         method: 'GET',
+    //         headers: {
+    //           'Content-Type': 'application/json',
+    //         },
+    //         cache: 'no-store',
+    //       }).then((res) => res.json())
+    //     )
+    //     .flat()
+    // );
+
+    const data = await fetch(
+      `${API_URL}${API_ROUTES.lineup.list('FIRST_DAY')}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-store',
+      }
+    ).then((res) => res.json());
     const t = await getTranslations('LineupTile');
 
     return (
@@ -32,8 +41,7 @@ export default async function LineupTile() {
           <TileHeader.SeeAll href='/lineup'>{t('seeAll')}</TileHeader.SeeAll>
         </TileHeader>
         <div className='w-full aspect-[3/4] relative'>
-          {/* <Carousel images={data} /> */}
-          {data.map((e) => e)}
+          <Carousel images={data} />
         </div>
       </div>
     );

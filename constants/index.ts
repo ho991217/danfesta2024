@@ -1,6 +1,6 @@
 import { FestivalDate } from '@/app/[locale]/(back-nav)/lineup/page';
 
-export const API_URL = 'https://next.danvery.com/api';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const COOKIE_KEYS = {
   accessToken: 'access-token',
