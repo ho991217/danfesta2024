@@ -13,14 +13,6 @@ const withPWAConfig = withPWA({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/:path*",
-        destination: "https://next.danvery.com/api/:path*",
-      },
-    ];
-  },
   productionBrowserSourceMaps: !prod,
   crossOrigin: "use-credentials",
   webpack: (config) => {

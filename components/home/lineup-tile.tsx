@@ -21,21 +21,24 @@ export default async function LineupTile() {
     //     .flat()
     // );
 
-    const data = await fetch(API_ROUTES.lineup.list("FIRST_DAY"), {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const data = await fetch(
+      "https://next.danvery.com/api/line-up?festivalDate=FIRST_DAY",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
       },
-      cache: "no-store",
-    }).then((res) => res.text());
-    const t = await getTranslations("LineupTile");
+    ).then((res) => res.text());
+    // const t = await getTranslations("LineupTile");
 
     return (
       <div className="w-full">
-        <TileHeader>
+        {/* <TileHeader>
           <TileHeader.Head>{t("title")}</TileHeader.Head>
           <TileHeader.SeeAll href="/lineup">{t("seeAll")}</TileHeader.SeeAll>
-        </TileHeader>
+        </TileHeader> */}
         <div className="relative aspect-[3/4] w-full">
           {/* <Carousel images={[data]} /> */}
           {data}
