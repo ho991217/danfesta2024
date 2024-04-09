@@ -14,6 +14,7 @@ export default async function LineupTile() {
           headers: {
             'Content-Type': 'application/json',
           },
+          cache: 'no-store',
         }).then((res) => res.json() as Promise<LineupInfo[]>)
       )
     )
