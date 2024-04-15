@@ -1,6 +1,6 @@
-import NextTopLoader from "nextjs-toploader";
-import { CookiesProvider } from "next-client-cookies/server";
-import { Toaster } from "@components/ui/sonner";
+import { Toaster } from '@components/ui/sonner';
+import { CookiesProvider } from 'next-client-cookies/server';
+import NextTopLoader from 'nextjs-toploader';
 
 type ProvidersProps = Readonly<{
   children: React.ReactNode;

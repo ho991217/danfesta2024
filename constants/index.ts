@@ -1,4 +1,5 @@
-import { FestivalDate } from '@/app/[locale]/(back-nav)/lineup/page';
+import { User } from '@/api';
+import { FestivalDate } from '@app/[locale]/(back-nav)/lineup/page';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 export const API_IP = process.env.NEXT_PUBLIC_API_IP as string;
@@ -11,6 +12,8 @@ export const COOKIE_KEYS = {
 export const API_ROUTES = {
   user: {
     me: '/user',
+    infoOf: (...scope: (keyof User)[]) =>
+      `/user/scoped-info?scope=${scope.join(' ')}`,
     login: '/user/login',
     signup: (token: string) => `/user/${token}`,
     /**

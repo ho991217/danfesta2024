@@ -6,93 +6,109 @@ import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
 import ApiError from '@lib/utils/error/api-error';
 import { useCookies } from 'next-client-cookies';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function useAuth() {
-   const [userInfo, setUserInfo] = useState<User | null>(null);
-   const { isLoggedIn, setIsLoggedIn } = useAuthStore();
-   const cookies = useCookies();
-   const router = useRouter();
+  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const { isLoggedIn, setIsLoggedIn } = useAuthStore();
+  const cookies = useCookies();
+  const router = useRouter();
 
-   const getUserInfo = async () => {
-      try {
-         const accessToken = cookies.get(COOKIE_KEYS.accessToken);
-         const refreshToken = cookies.get(COOKIE_KEYS.refreshToken);
+  const getUserInfo = async () => {
+    try {
+      const accessToken = cookies.get(COOKIE_KEYS.accessToken);
+      const refreshToken = cookies.get(COOKIE_KEYS.refreshToken);
 
-         if (!accessToken || !refreshToken) {
-            throw new Error('토큰이 없습니다.');
-         }
-
-         const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
-            headers: {
-               Authorization: `Bearer ${accessToken}`,
-            },
-         }).then((res) => res.json() as Promise<User>);
-
-         setUserInfo(res);
-      } catch (error) {
-         throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+      if (!accessToken || !refreshToken) {
+        throw new Error('토큰이 없습니다.');
       }
-   };
 
-   const checkLogin = () => {
-      getUserInfo()
-         .then(() => setIsLoggedIn(true))
-         .catch(() => setIsLoggedIn(false));
-   };
+      const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }).then((res) => res.json() as Promise<User>);
 
-   // const checkStudentVerified = async () => {
+      setUserInfo(res);
+    } catch (error) {
+      throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+    }
+  };
 
-   useEffect(() => {
-      if (isLoggedIn) return;
-      checkLogin();
-   }, []);
+  const checkLogin = () => {
+    getUserInfo()
+      .then(() => setIsLoggedIn(true))
+      .catch(() => setIsLoggedIn(false));
+  };
 
-   const login = async (req: AuthInfoSchema, redirect?: string) => {
-      try {
-         const res = await post<AuthInfoSchema, AuthTokens>(
-            API_ROUTES.user.login,
-            req,
-         );
+  const checkStudentVerified = async () => {
+    const accessToken = cookies.get(COOKIE_KEYS.accessToken);
 
-         if (!res.accessToken || !res.refreshToken)
-            throw new ApiError(res as any);
-         cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
-         cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
+    const { dkuChecked } = await fetch(
+      `${API_URL}${API_ROUTES.user.infoOf('dkuChecked')}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    ).then((res) => res.json() as Promise<User>);
 
-         setIsLoggedIn(true);
-         toast.info('로그인 되었습니다.', {
-            duration: 36000,
-            action: {
-               label: '확인',
-               onClick: () => {
-                  router.push('/ko/verify');
-               },
+    return dkuChecked;
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) return;
+    checkLogin();
+  }, []);
+
+  const login = async (req: AuthInfoSchema, redirect?: string) => {
+    try {
+      const res = await post<AuthInfoSchema, AuthTokens>(
+        API_ROUTES.user.login,
+        req,
+      );
+
+      if (!res.accessToken || !res.refreshToken) throw new ApiError(res as any);
+      cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
+      cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
+
+      setIsLoggedIn(true);
+      const isChecked = await checkStudentVerified();
+
+      if (!isChecked) {
+        toast.info('학생 인증을 해주세요.', {
+          duration: 36000,
+          action: {
+            label: '확인',
+            onClick: () => {
+              router.push('/ko/verify');
             },
-         });
-         router.push(redirect || '/');
-      } catch (error) {
-         const e = error as Error;
-         setIsLoggedIn(false);
-         throw e;
+          },
+        });
       }
-   };
-
-   const logout = () => {
-      cookies.remove(COOKIE_KEYS.accessToken);
-      cookies.remove(COOKIE_KEYS.refreshToken);
-      setUserInfo(null);
-      toast.info('로그아웃되었습니다.');
+      router.push(redirect || '/');
+    } catch (error) {
+      const e = error as Error;
       setIsLoggedIn(false);
-      router.push('/');
-   };
+      throw e;
+    }
+  };
 
-   return {
-      userInfo,
-      isLoggedIn,
-      login,
-      logout,
-   };
+  const logout = () => {
+    cookies.remove(COOKIE_KEYS.accessToken);
+    cookies.remove(COOKIE_KEYS.refreshToken);
+    setUserInfo(null);
+    toast.info('로그아웃되었습니다.');
+    setIsLoggedIn(false);
+    router.push('/');
+  };
+
+  return {
+    userInfo,
+    isLoggedIn,
+    login,
+    logout,
+  };
 }
