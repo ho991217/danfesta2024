@@ -1,16 +1,11 @@
 import { z } from 'zod';
 
-export const nickNameSchema = z.object({
-  nickname: z.string().min(2, '닉네임은 2자리 이상 입력해주세요.'),
-});
-
 export const passwordSchema = z.object({
   password: z.string().min(8, '비밀번호는 8자리 이상 입력해주세요.'),
 });
 
 export const signUpSchema = z
   .object({
-    nickname: z.string().min(2, '닉네임은 2자리 이상 입력해주세요.'),
     password: z.string().min(8, '비밀번호는 8자리 이상 입력해주세요.'),
     passwordCheck: z.string(),
   })

@@ -1,4 +1,5 @@
 import { User } from '@/api';
+import { PasswordSetType } from '@/app/[locale]/(back-nav)/password/page';
 import { SMSVerifyType } from '@/app/[locale]/(back-nav)/sms/page';
 import { FestivalDate } from '@app/[locale]/(back-nav)/lineup/page';
 
@@ -109,14 +110,18 @@ export const ROUTES = {
   home: '/',
   login: '/login',
   signup: {
-    info: (token: string) => `/signup/info?token=${token}`,
     complete: '/signup/complete',
   },
+  password: (token: string, type: PasswordSetType) =>
+    `/password?token=${token}&type=${type}`,
   sms: (type: SMSVerifyType) => `/sms?type=${type}`,
   verify: '/verify',
   findMy: {
     root: '/find-my',
-    password: (token: string) => `/find-my/password?token=${token}`,
+    password: {
+      root: (token: string) => `/find-my/password?token=${token}`,
+      complete: '/find-my/password/complete',
+    },
     id: { complete: '/find-my/id/complete' },
   },
   lineup: '/lineup',

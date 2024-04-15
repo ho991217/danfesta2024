@@ -90,22 +90,23 @@ export default function SMSPage({
   };
 
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
+    if (type === 'find-my-id') return;
+
     try {
       setLoading(true);
 
       switch (type) {
         case 'signup':
           await post(API_ROUTES.user.signup.verifySMS(token), { code });
-          router.push(`/${locale}${ROUTES.signup.info(token)}`);
           break;
         case 'find-my-password':
           await post(API_ROUTES.user.findMy.password.verifySMS, {
             token,
             code,
           });
-          router.push(`/${locale}${ROUTES.findMy.password(token)}`);
           break;
       }
+      router.push(`/${locale}${ROUTES.password(token, type)}`);
     } catch (error) {
       const e = error as Error;
       toast.error(e.message[1]);

@@ -29,7 +29,11 @@ async function SeeAll({
   href: string;
 }) {
   return (
-    <Link href={href} className="text-base font-normal text-primary">
+    <Link
+      href={href}
+      className="text-base font-normal text-primary w-auto p-1 h-auto"
+      variant="transparent"
+    >
       {children}
     </Link>
   );

@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { Button } from "@components/common";
-import * as Sentry from "@sentry/nextjs";
-import Error from "next/error";
-import { useEffect } from "react";
+import { ROUTES } from '@/constants';
+import { Link } from '@components/common';
+import * as Sentry from '@sentry/nextjs';
+import Error from 'next/error';
+import { useEffect } from 'react';
 
 export type GlobalErrorProps = {
   error: Error & { digest?: string };
@@ -24,26 +25,17 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            height: "100vh",
-            width: "100vw",
-            fontSize: "1.5rem",
-            color: "#000",
-            backgroundColor: "#fff",
-          }}
-        >
-          <h1>오류가 발생했습니다.</h1>
-          <p>잠시 후 다시 시도해주세요.</p>
-          <Button onClick={reset} animateOnClick>
-            새로고침
-          </Button>
+        <div className="flex h-[100dvh] w-full flex-col items-center justify-center">
+          <h2 className="text-xl">에러!</h2>
+          <span className="text-sm text-neutral-500">{error.props.title}</span>
+          <Link
+            href={ROUTES.home}
+            className="w-full h-full flex items-center justify-center"
+            variant="bottom"
+          >
+            홈으로
+          </Link>
         </div>
-        <Error statusCode={400} />
       </body>
     </html>
   );
