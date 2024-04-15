@@ -14,8 +14,13 @@ export default async function Home() {
           <span>
             티켓팅 등의 서비스를 이용하시려면 재학생 인증이 필요합니다.
           </span>
-          <Link href={`${ROUTES.verify}?reverify=true`}>
-            <Button variant="transparent" className="mt-2" animateOnClick>
+
+          <Link className="mt-2" href={`${ROUTES.verify}?reverify=true`}>
+            <Button
+              variant="transparent"
+              className="h-auto p-2 text-sm"
+              animateOnClick
+            >
               인증하러 가기
             </Button>
           </Link>
