@@ -15,7 +15,8 @@
     "liveMap": "부스맵",
     "login": "로그인",
     "logout": "로그아웃",
-    "myTickets": "내 티켓"
+    "myTickets": "내 티켓",
+    "notice": "공지사항"
   },
   "Home": {
     "description": "단국대학교 2024 대동제"

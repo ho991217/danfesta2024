@@ -99,3 +99,21 @@ export const API_ROUTES = {
     list: (date: FestivalDate) => `/line-up?festivalDate=${date}`,
   },
 } as const;
+
+export const ROUTES = {
+  home: '/',
+  login: '/login',
+  signup: {
+    phone: '/signup/phone',
+    info: '/signup/info',
+    complete: '/signup/complete',
+  },
+  verify: '/verify',
+  findMy: {
+    password: '/find-my/password',
+  },
+  lineup: '/lineup',
+  ticketing: { root: '/ticketing', id: (id: number) => `/ticketing/${id}` },
+  myTickets: '/my-tickets',
+  notice: '/notice',
+} as const;

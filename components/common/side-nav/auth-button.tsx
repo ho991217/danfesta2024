@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@/components/common';
+import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
 import { SheetClose } from '@components/ui/sheet';
 import { If } from '@components/util';
@@ -20,7 +21,7 @@ export default function AuthButton({ className }: { className?: string }) {
             <IoPersonSharp />
             {t('logout')}
           </SheetClose>
-          <Link href="/my-tickets">
+          <Link href={ROUTES.myTickets}>
             <SheetClose className={className}>
               <BsTicketFill />
               {t('myTickets')}
@@ -30,7 +31,7 @@ export default function AuthButton({ className }: { className?: string }) {
       </If.Then>
 
       <If.Else>
-        <Link href="/login">
+        <Link href={ROUTES.login}>
           <SheetClose className={className}>
             <IoPersonSharp />
             {t('login')}

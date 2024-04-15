@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants';
 import en from '@/messages/en.json';
 import ko from '@/messages/ko.json';
 import { Separator } from '@components/ui/separator';
@@ -20,12 +21,12 @@ export type LinkInfo = {
 const links: LinkInfo[] = [
   {
     id: 1,
-    link: '/',
+    link: ROUTES.home,
     nameKey: 'home',
   },
   {
     id: 2,
-    link: '/ticketing',
+    link: ROUTES.ticketing.root,
     nameKey: 'ticketing',
     privateRoute: true,
   },
@@ -38,6 +39,11 @@ const links: LinkInfo[] = [
     id: 4,
     link: '/live-map',
     nameKey: 'liveMap',
+  },
+  {
+    id: 5,
+    link: ROUTES.notice,
+    nameKey: 'notice',
   },
 ];
 

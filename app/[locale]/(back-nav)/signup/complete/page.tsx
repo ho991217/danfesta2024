@@ -1,5 +1,6 @@
 'use client';
 
+import { ROUTES } from '@/constants';
 import { Button, Link } from '@components/common';
 import useDimensions from '@hooks/use-dimensions';
 import { useLocale } from 'next-intl';
@@ -29,10 +30,10 @@ export default function Page() {
         />
       </div>
       <div className="absolute bottom-5 mx-auto flex w-[calc(100%-2.5rem)] flex-col gap-2">
-        <Link href="/login">
+        <Link href={ROUTES.login}>
           <Button variant="filled">로그인 하기</Button>
         </Link>
-        <Link href="/">
+        <Link href={ROUTES.home}>
           <Button variant="outlined" className="text-primary">
             홈으로 돌아가기
           </Button>

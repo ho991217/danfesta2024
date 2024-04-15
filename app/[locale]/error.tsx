@@ -1,5 +1,6 @@
 'use client';
 
+import { ROUTES } from '@/constants';
 import { Button, Link } from '@components/common';
 import * as Sentry from '@sentry/nextjs';
 import { useEffect } from 'react';
@@ -19,7 +20,7 @@ export default function Error({
     <div className="flex h-[100dvh] w-full flex-col items-center justify-center">
       <h2 className="text-xl">에러 발생</h2>
       <span className="text-sm text-neutral-500">{error.message}</span>
-      <Link href="/">
+      <Link href={ROUTES.home}>
         <Button>다시 시도</Button>
       </Link>
     </div>

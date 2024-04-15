@@ -1,6 +1,6 @@
 import { get, getServerSideToken } from '@/api';
 import Link from '@/components/common/link';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES, ROUTES } from '@/constants';
 
 export default async function Page({
   params: { eventId },
@@ -25,7 +25,7 @@ export default async function Page({
         하셨습니다.
       </span>
       <Link
-        href="/"
+        href={ROUTES.home}
         className="absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] rounded-lg bg-primary p-4 text-center text-neutral-50"
       >
         메인으로 이동

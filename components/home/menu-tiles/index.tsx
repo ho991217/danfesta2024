@@ -1,4 +1,5 @@
 import Link from '@/components/common/link';
+import { ROUTES } from '@/constants';
 import { AiFillStar } from 'react-icons/ai';
 import { BiSolidNavigation } from 'react-icons/bi';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
@@ -30,7 +31,7 @@ const tiles: TileInfo[] = [
         사전 티켓팅
       </TileHeader>
     ),
-    link: '/ticketing',
+    link: ROUTES.ticketing.root,
     icon: <BsTicketFill size={17} />,
     bgColor: 'bg-primary',
     textColor: 'text-neutral-50',
@@ -73,7 +74,7 @@ const tiles: TileInfo[] = [
         공지 및 알림
       </TileHeader>
     ),
-    link: '/notice',
+    link: ROUTES.notice,
     icon: <BsBellFill size={17} />,
     bgColor: 'bg-neutral-300 dark:bg-neutral-900',
   },

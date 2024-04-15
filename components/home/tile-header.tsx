@@ -1,5 +1,4 @@
 import Link from '@/components/common/link';
-import { getLocale } from 'next-intl/server';
 
 export default function TileHeader({
   children,
@@ -28,7 +27,6 @@ async function SeeAll({
   children: React.ReactNode;
   href: string;
 }) {
-  const locale = await getLocale();
   return (
     <Link href={href} className="text-base font-normal text-primary">
       {children}
