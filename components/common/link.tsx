@@ -1,5 +1,6 @@
 'use client';
 
+import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
 import { motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
@@ -28,15 +29,6 @@ export default function Link({
   const { isLoggedIn } = useAuth();
   const locale = useLocale();
 
-  const checkAuth = () => {
-    if (!isLoggedIn) {
-      // requestAnimationFrame(() => {
-      //   toast.error('로그인이 필요합니다.');
-      // });
-      router.push(`/${locale}/login`);
-    }
-  };
-
   return (
     <motion.div whileTap={{ scale: 0.98 }} className={className}>
       <If condition={back}>
@@ -47,13 +39,12 @@ export default function Link({
         </If.Then>
         <If.Else>
           <NextLink
-            href={href ? `/${locale}${href}` : `/${locale}`}
-            className="w-full h-full"
-            onClick={() => {
-              if (auth) {
-                checkAuth();
-              }
-            }}
+            href={
+              !auth || isLoggedIn
+                ? `/${locale}${href}`
+                : `/${locale}${ROUTES.login}?redirect=${href}`
+            }
+            className="w-full h-full flex justify-center items-center"
           >
             {children}
           </NextLink>

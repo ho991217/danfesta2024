@@ -45,21 +45,6 @@ export default function useAuth() {
       .catch(() => setIsLoggedIn(false));
   };
 
-  const checkStudentVerified = async () => {
-    const accessToken = cookies.get(COOKIE_KEYS.accessToken);
-
-    const { dkuChecked } = await fetch(
-      `${API_URL}${API_ROUTES.user.infoOf('dkuChecked')}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    ).then((res) => res.json() as Promise<User>);
-
-    return dkuChecked;
-  };
-
   useEffect(() => {
     if (isLoggedIn) return;
     checkLogin();
@@ -77,21 +62,8 @@ export default function useAuth() {
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 
       setIsLoggedIn(true);
-      const isChecked = await checkStudentVerified();
 
-      if (!isChecked) {
-        cookies.set(COOKIE_KEYS.verified, 'false');
-        toast.info('학생 인증을 해주세요.', {
-          duration: 36000,
-          action: {
-            label: '확인',
-            onClick: () => {
-              router.push(`/${locale}${ROUTES.verify}?reverify=true`);
-            },
-          },
-        });
-      }
-      router.push(redirect || '/');
+      router.push(redirect ?? ROUTES.home);
     } catch (error) {
       const e = error as Error;
       setIsLoggedIn(false);

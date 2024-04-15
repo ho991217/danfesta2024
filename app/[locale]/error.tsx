@@ -18,11 +18,13 @@ export default function Error({
 
   return (
     <div className="flex h-[100dvh] w-full flex-col items-center justify-center">
-      <h2 className="text-xl">에러 발생</h2>
+      <h2 className="text-xl">에러!</h2>
       <span className="text-sm text-neutral-500">{error.message}</span>
-      <Link href={ROUTES.home}>
-        <Button>다시 시도</Button>
-      </Link>
+      <Button variant="bottom">
+        <Link href={ROUTES.home} className="w-full h-full">
+          홈으로
+        </Link>
+      </Button>
     </div>
   );
 }
