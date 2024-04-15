@@ -6,7 +6,6 @@ import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
 import ApiError from '@lib/utils/error/api-error';
 import { useCookies } from 'next-client-cookies';
-import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -16,7 +15,6 @@ export default function useAuth() {
   const { isLoggedIn, setIsLoggedIn } = useAuthStore();
   const cookies = useCookies();
   const router = useRouter();
-  const locale = useLocale();
 
   const getUserInfo = async () => {
     try {

@@ -1,21 +1,21 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
 import { BottomSheet, Form } from '@components/common';
-import { TransformerSubtitle } from '@components/signup';
 import { Funnel, Header } from '@components/signup';
-import APIError from '@lib/utils/error/api-error';
+import { APIError, ErrorCause } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { tokenSchema } from '../schema';
+import { tokenSchema } from '../signup/schema';
 import {
-  type PhoneNumberSchema,
-  type SMSCodeSchema,
+  PhoneNumberSchema,
+  SMSCodeSchema,
   phoneNumberSchema,
   smsCodeSchema,
 } from './schema';
@@ -24,21 +24,37 @@ const steps = ['전화번호', '인증번호'] as const;
 
 type Steps = (typeof steps)[number];
 
-export default function Page() {
+export type SMSVerifyType = 'find-my-id' | 'find-my-password' | 'signup';
+
+type SMSRequest = {
+  phoneNumber: string;
+};
+
+export default function SMSPage({
+  searchParams: { token: tokenParam, type },
+}: {
+  searchParams: { token: string; type: SMSVerifyType };
+}) {
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string>(tokenParam);
   const [isOpen, openBT, closeBT] = useBottomSheet();
   const [step, setStep] = useState<Steps>('전화번호');
+  const [phoneNumberError, setPhoneNumberError] = useState<string>('');
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
-  const searchParams = useSearchParams();
-  const codeRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const locale = useLocale();
 
-  const token = searchParams.get('token');
   const validToken = tokenSchema.safeParse({ token });
 
-  if (!token || !validToken.success) {
-    throw new Error('비정상적인 토큰입니다.');
+  if (!type) {
+    throw new Error('비정상적인 접근입니다.', {
+      cause: ErrorCause['not-found'],
+    });
+  }
+
+  if (type === 'signup' && (!token || !validToken.success)) {
+    throw new Error('비정상적인 토큰입니다.', { cause: ErrorCause.invalid });
   }
 
   const handlePhoneNumberSubmit = async ({
@@ -46,11 +62,28 @@ export default function Page() {
   }: PhoneNumberSchema) => {
     try {
       setLoading(true);
-      await post(API_ROUTES.user.sms.send(token), { phoneNumber });
-      onNext(step);
+
+      switch (type) {
+        case 'signup':
+          await post(API_ROUTES.user.signup.sendSMS(token), { phoneNumber });
+          onNext(step);
+          break;
+        case 'find-my-id':
+          await post(API_ROUTES.user.findMy.id.sendSMS, { phoneNumber });
+          router.push(`/${locale}${ROUTES.findMy.id.complete}`);
+          break;
+        case 'find-my-password':
+          const { token: newToken } = await post<SMSRequest, { token: string }>(
+            API_ROUTES.user.findMy.password.sendSMS,
+            { phoneNumber },
+          );
+          setToken(newToken);
+          onNext(step);
+          break;
+      }
     } catch (error) {
       const e = error as APIError;
-      toast.error(e.message);
+      setPhoneNumberError(e.message);
     } finally {
       setLoading(false);
     }
@@ -59,11 +92,23 @@ export default function Page() {
   const handleSMSCodeSubmit = async ({ code }: SMSCodeSchema) => {
     try {
       setLoading(true);
-      await post(API_ROUTES.user.sms.verify(token), { code });
-      router.push(`/ko/signup/info?token=${token}`);
+
+      switch (type) {
+        case 'signup':
+          await post(API_ROUTES.user.signup.verifySMS(token), { code });
+          router.push(`/${locale}${ROUTES.signup.info(token)}`);
+          break;
+        case 'find-my-password':
+          await post(API_ROUTES.user.findMy.password.verifySMS, {
+            token,
+            code,
+          });
+          router.push(`/${locale}${ROUTES.findMy.password(token)}`);
+          break;
+      }
     } catch (error) {
-      const e = error as APIError;
-      toast.error(e.message);
+      const e = error as Error;
+      toast.error(e.message[1]);
       setStep('전화번호');
     } finally {
       closeBT();
@@ -79,20 +124,11 @@ export default function Page() {
     }
   };
 
-  useEffect(() => {
-    if (codeRef.current && step === '인증번호') {
-      codeRef.current.focus();
-    }
-  }, [codeRef, step]);
-
   return (
     <AnimatePresence initial={false}>
       <Header>
         <Header.Title>휴대폰 인증</Header.Title>
-        <Header.Subtitle>
-          <TransformerSubtitle text="전화번호를" />
-          <div className="ml-1">입력해주세요.</div>
-        </Header.Subtitle>
+        <Header.Subtitle>전화번호를 입력해주세요.</Header.Subtitle>
       </Header>
       <Funnel<typeof steps> step={step} steps={steps}>
         <Funnel.Step name="전화번호">
@@ -106,6 +142,7 @@ export default function Page() {
               label="사용자 전화번호"
               placeholder="01012345678"
               inputMode="tel"
+              customError={phoneNumberError}
               onChange={async (e) => {
                 if (e.target.value.length === 11) {
                   await handlePhoneNumberSubmit({
@@ -135,7 +172,6 @@ export default function Page() {
           schema={smsCodeSchema}
         >
           <Form.SMSCode
-            ref={codeRef}
             placeholder="숫자 6자리"
             label="발송된 인증번호 입력"
             onChange={(v) => {

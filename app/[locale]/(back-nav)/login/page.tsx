@@ -47,25 +47,18 @@ export default function LoginPage() {
           placeholder="비밀번호"
         />
         <Form.Group>
-          <div className="w-full flex items-center justify-end">
+          <div className="w-full flex items-end justify-end">
             <Link
-              href={ROUTES.findMy.password}
-              className="text-neutral-500 text-sm"
+              href={ROUTES.findMy.root}
+              className="text-neutral-500 text-sm w-auto"
+              variant="transparent"
             >
-              <Button
-                variant="transparent"
-                animateOnClick
-                className="py-2 h-auto"
-              >
-                <span>비밀번호를 잊으셨나요?</span>
-              </Button>
+              아이디/비밀번호를 잊으셨나요?
             </Link>
           </div>
-          <Button variant="transparent" animateOnClick>
-            <Link href={ROUTES.verify} className="flex">
-              회원가입
-            </Link>
-          </Button>
+          <Link href={ROUTES.verify} className="flex" variant="transparent">
+            회원가입
+          </Link>
         </Form.Group>
         <Form.Button type="submit" variant="bottom" isLoading={isLoading}>
           로그인

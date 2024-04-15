@@ -2,16 +2,17 @@
 
 import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
-import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 import { useLocale } from 'next-intl';
 import { default as NextLink } from 'next/link';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import If from '../util/if';
+import Button, { ButtonProps } from './button';
 
 type Props = {
   children: React.ReactNode;
+  variant?: 'text' | ButtonProps['variant'];
   href?: string;
   className?: string;
   back?: boolean;
@@ -22,6 +23,7 @@ export default function Link({
   children,
   href,
   className,
+  variant = 'text',
   back = false,
   auth = false,
 }: Props) {
@@ -30,26 +32,45 @@ export default function Link({
   const locale = useLocale();
 
   return (
-    <motion.div whileTap={{ scale: 0.98 }} className={className}>
-      <If condition={back}>
-        <If.Then>
-          <button onClick={() => router.back()} className="w-full h-full">
-            {children}
-          </button>
-        </If.Then>
-        <If.Else>
+    <If condition={back}>
+      <If.Then>
+        <button
+          onClick={() => router.back()}
+          className={cn('w-full h-full', className)}
+        >
+          {children}
+        </button>
+      </If.Then>
+      <If.Else>
+        {variant === 'text' ? (
           <NextLink
             href={
               !auth || isLoggedIn
                 ? `/${locale}${href}`
                 : `/${locale}${ROUTES.login}?redirect=${href}`
             }
-            className="w-full h-full flex justify-center items-center"
+            className={cn(
+              'w-full h-full flex justify-center items-center',
+              className,
+            )}
           >
             {children}
           </NextLink>
-        </If.Else>
-      </If>
-    </motion.div>
+        ) : (
+          <Button variant={variant} className={className} animateOnClick>
+            <NextLink
+              href={
+                !auth || isLoggedIn
+                  ? `/${locale}${href}`
+                  : `/${locale}${ROUTES.login}?redirect=${href}`
+              }
+              className="w-full h-full flex justify-center items-center"
+            >
+              {children}
+            </NextLink>
+          </Button>
+        )}
+      </If.Else>
+    </If>
   );
 }

@@ -1,4 +1,5 @@
 import { User } from '@/api';
+import { SMSVerifyType } from '@/app/[locale]/(back-nav)/sms/page';
 import { FestivalDate } from '@app/[locale]/(back-nav)/lineup/page';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
@@ -16,31 +17,25 @@ export const API_ROUTES = {
     infoOf: (...scope: (keyof User)[]) =>
       `/user/scoped-info?scope=${scope.join(' ')}`,
     login: '/user/login',
-    find: {
+    findMy: {
       password: {
-        sms: {
-          send: '/user/find/pwd',
-          verify: '/user/find/pwd/verify',
-        },
+        sendSMS: '/user/find/pwd',
+        verifySMS: '/user/find/pwd/verify',
         reset: '/user/find/pwd/reset',
       },
+      id: {
+        sendSMS: '/user/find/id',
+      },
     },
-    signup: (token: string) => `/user/${token}`,
-    /**
-     * @name POST /user/reissue
-     * @description 토큰 재발급
-     * @body {string} refreshToken - 리프레시 토큰
-     * @returns {string} accessToken - 엑세스 토큰
-     * @returns {string} refreshToken - 리프레시 토큰
-     */
+    signup: {
+      register: (token: string) => `/user/${token}`,
+      sendSMS: (token: string) => `/user/sms/${token}`,
+      verifySMS: (token: string) => `/user/sms/verify/${token}`,
+    },
     reissue: '/user/reissue',
     dku: {
       verify: '/user/dku/verify',
       reverify: '/user/dku/refresh',
-    },
-    sms: {
-      send: (token: string) => `/user/sms/${token}`,
-      verify: (token: string) => `/user/sms/verify/${token}`,
     },
     valid: (nickname: string) => `/user/valid?nickname=${nickname}`,
   },
@@ -114,13 +109,15 @@ export const ROUTES = {
   home: '/',
   login: '/login',
   signup: {
-    phone: '/signup/phone',
     info: (token: string) => `/signup/info?token=${token}`,
     complete: '/signup/complete',
   },
+  sms: (type: SMSVerifyType) => `/sms?type=${type}`,
   verify: '/verify',
   findMy: {
-    password: '/find-my/password',
+    root: '/find-my',
+    password: (token: string) => `/find-my/password?token=${token}`,
+    id: { complete: '/find-my/id/complete' },
   },
   lineup: '/lineup',
   ticketing: { root: '/ticketing', id: (id: number) => `/ticketing/${id}` },

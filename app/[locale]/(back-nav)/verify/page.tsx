@@ -1,7 +1,7 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
@@ -15,7 +15,7 @@ import {
 import { APIError, isStudentId } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useLocale } from 'next-intl';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -36,7 +36,11 @@ type DKUResponse = {
 
 type Steps = (typeof steps)[number];
 
-export default function Page() {
+export default function VerifyPage({
+  searchParams: { reverify },
+}: {
+  searchParams: { reverify?: string };
+}) {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
@@ -46,8 +50,6 @@ export default function Page() {
   const isLastStep = currentStep === steps.length;
   const locale = useLocale();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const isReverify = searchParams.get('reverify') === 'true';
 
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
@@ -66,28 +68,32 @@ export default function Page() {
     }
   };
 
-  const reverify = async (dkuData: DKUVerificationSchema) => {
+  const reVerify = async (dkuData: DKUVerificationSchema) => {
     try {
+      setIsLoading(true);
       await post<DKUVerificationSchema, {}>(
         API_ROUTES.user.dku.reverify,
         dkuData,
       );
       toast.success('재인증이 완료되었습니다.');
-      router.push('/');
+      router.push(ROUTES.home);
     } catch (error) {
       const message = error as APIError;
       toast.error(message.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSubmit = async (dkuData: DKUVerificationSchema) => {
     switch (step) {
       case '학번':
+        onNext(step);
       case '비밀번호':
-        isReverify ? reverify(dkuData) : verify(dkuData);
+        reverify ? reVerify(dkuData) : verify(dkuData);
         break;
       case '약관동의':
-        router.push(`/${locale}/signup/phone?token=${token}`);
+        router.push(`/${locale}${ROUTES.sms}?type=signup&token=${token}`);
     }
   };
 
@@ -111,68 +117,66 @@ export default function Page() {
   }, [step]);
 
   return (
-    <section className="flex flex-col px-5">
-      <AnimatePresence initial={false}>
-        <Header>
-          <Header.Title>단국대학교 재학생 인증</Header.Title>
-          <Header.Subtitle>
-            {step !== '약관동의' ? (
-              <>
-                <Header.Transformer step={step} steps={steps} />
-                <div>입력해주세요.</div>
-              </>
-            ) : (
-              <TransformerSubtitle>약관에 동의해주세요.</TransformerSubtitle>
-            )}
-          </Header.Subtitle>
-        </Header>
-        <Form
-          onSubmit={handleSubmit}
-          schema={dkuVerificationSchema}
-          validateOn="onChange"
+    <AnimatePresence initial={false}>
+      <Header>
+        <Header.Title>단국대학교 재학생 인증</Header.Title>
+        <Header.Subtitle>
+          {step !== '약관동의' ? (
+            <>
+              <Header.Transformer step={step} steps={steps} />
+              <div>입력해주세요.</div>
+            </>
+          ) : (
+            <TransformerSubtitle>약관에 동의해주세요.</TransformerSubtitle>
+          )}
+        </Header.Subtitle>
+      </Header>
+      <Form
+        onSubmit={handleSubmit}
+        schema={dkuVerificationSchema}
+        validateOn="onChange"
+      >
+        <Funnel<typeof steps> step={step} steps={steps}>
+          <Funnel.Step name="비밀번호">
+            <Form.Password
+              ref={passwordRef}
+              name="dkuPassword"
+              label="단국대학교 포털 비밀번호"
+              placeholder="8자 이상의 영문, 숫자"
+            />
+          </Funnel.Step>
+          <Funnel.Step name="학번">
+            <Form.ID
+              name="dkuStudentId"
+              label="단국대학교 포털 아이디"
+              placeholder="숫자 8자리"
+              onChange={async (event) => {
+                if (isStudentId(event.target.value) && step === '학번') {
+                  onNext(steps[currentStep]);
+                }
+                return event.target.value;
+              }}
+            />
+          </Funnel.Step>
+        </Funnel>
+
+        <BottomSheet
+          isOpen={isOpen}
+          header="이용동의"
+          onDismiss={() => {
+            setStep('비밀번호');
+            closeBT();
+          }}
         >
-          <Funnel<typeof steps> step={step} steps={steps}>
-            <Funnel.Step name="비밀번호">
-              <Form.Password
-                ref={passwordRef}
-                name="dkuPassword"
-                label="단국대학교 포털 비밀번호"
-                placeholder="8자 이상의 영문, 숫자"
-              />
-            </Funnel.Step>
-            <Funnel.Step name="학번">
-              <Form.ID
-                name="dkuStudentId"
-                label="단국대학교 포털 아이디"
-                placeholder="숫자 8자리"
-                onChange={async (event) => {
-                  if (isStudentId(event.target.value) && step === '학번') {
-                    onNext(steps[currentStep]);
-                  }
-                  return event.target.value;
-                }}
-              />
-            </Funnel.Step>
-          </Funnel>
+          <Terms />
+          <Form.Button isLoading={isLoading} variant="filled">
+            동의
+          </Form.Button>
+        </BottomSheet>
 
-          <BottomSheet
-            isOpen={isOpen}
-            header="이용동의"
-            onDismiss={() => {
-              setStep('비밀번호');
-              closeBT();
-            }}
-          >
-            <Terms />
-            <Form.Button isLoading={isLoading} variant="filled">
-              동의
-            </Form.Button>
-          </BottomSheet>
-
-          <Form.Button variant="bottom">다음</Form.Button>
-        </Form>
-      </AnimatePresence>
-    </section>
+        <Form.Button variant="bottom">다음</Form.Button>
+      </Form>
+    </AnimatePresence>
   );
 }
 

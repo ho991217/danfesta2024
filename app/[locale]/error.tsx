@@ -21,7 +21,10 @@ export default function Error({
       <h2 className="text-xl">에러!</h2>
       <span className="text-sm text-neutral-500">{error.message}</span>
       <Button variant="bottom">
-        <Link href={ROUTES.home} className="w-full h-full">
+        <Link
+          href={ROUTES.home}
+          className="w-full h-full flex items-center justify-center"
+        >
           홈으로
         </Link>
       </Button>
