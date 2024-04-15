@@ -19,5 +19,5 @@ export default function getRandomNickname() {
   const noun = data[type][getRandomInteger(data[type].length)];
   const number = getRandom4digitNumber();
 
-  return `${adjective} ${noun}#${number}`;
+  return `${adjective} ${noun}_${number}`;
 }

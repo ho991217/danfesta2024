@@ -11,8 +11,8 @@ export default function Page() {
   const locale = useLocale();
 
   return (
-    <section className="flex w-full flex-col items-start">
-      <div className="flex flex-col gap-2">
+    <>
+      <header className="flex flex-col gap-2 mt-8">
         <h1 className="text-3xl font-bold">회원가입 완료</h1>
         <h4 className="text-base text-neutral-500">
           단페스타 회원가입이 완료되었습니다. 🎉
@@ -28,7 +28,7 @@ export default function Page() {
           }}
           numberOfPieces={100}
         />
-      </div>
+      </header>
       <div className="absolute bottom-5 mx-auto flex w-[calc(100%-2.5rem)] flex-col gap-2">
         <Link href={ROUTES.login}>
           <Button variant="filled">로그인 하기</Button>
@@ -39,6 +39,6 @@ export default function Page() {
           </Button>
         </Link>
       </div>
-    </section>
+    </>
   );
 }

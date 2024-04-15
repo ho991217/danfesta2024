@@ -114,7 +114,8 @@ export const ROUTES = {
   },
   password: (token: string, type: PasswordSetType) =>
     `/password?token=${token}&type=${type}`,
-  sms: (type: SMSVerifyType) => `/sms?type=${type}`,
+  sms: (type: SMSVerifyType, token?: string | null) =>
+    `/sms?type=${type}${token && `&token=${token}`}`,
   verify: '/verify',
   findMy: {
     root: '/find-my',

@@ -93,7 +93,7 @@ export default function VerifyPage({
         reverify ? reVerify(dkuData) : verify(dkuData);
         break;
       case '약관동의':
-        router.push(`/${locale}${ROUTES.sms}?type=signup&token=${token}`);
+        router.push(`/${locale}${ROUTES.sms('signup', token)}`);
     }
   };
 
