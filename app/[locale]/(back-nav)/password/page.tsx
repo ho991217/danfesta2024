@@ -1,7 +1,7 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, ROUTES } from '@/constants';
+import { API_ROUTES, API_URL, ROUTES } from '@/constants';
 import { Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import APIError from '@lib/utils/error/api-error';
@@ -14,17 +14,17 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { tokenSchema } from '../signup/schema';
-import { SignUpSchema, signUpSchema } from './schema';
+import {
+  PasswordSchema,
+  SignUpSchema,
+  passwordSchema,
+  signUpSchema,
+} from './schema';
 
 const steps = ['비밀번호', '동일한 비밀번호'] as const;
 
 type SignupReqeust = {
   nickname: string;
-  password: SignUpSchema['password'];
-};
-
-type PasswordResetReqeust = {
-  token: string;
   password: SignUpSchema['password'];
 };
 
@@ -57,7 +57,7 @@ export default function PasswordSetPage({
     throw new Error('비정상적인 토큰입니다.');
   }
 
-  const handleSubmit = async ({ password }: SignUpSchema) => {
+  const handleSubmit = async ({ password }: PasswordSchema | SignUpSchema) => {
     switch (step) {
       case '비밀번호':
         setLoading(true);
@@ -79,11 +79,17 @@ export default function PasswordSetPage({
               router.push(`/${locale}${ROUTES.signup.complete}`);
               break;
             case 'find-my-password':
-              await post<PasswordResetReqeust, {}>(
-                API_ROUTES.user.findMy.password.reset,
+              await fetch(
+                `${API_URL}${API_ROUTES.user.findMy.password.reset}`,
                 {
-                  token,
-                  password,
+                  method: 'PATCH',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    token,
+                    password,
+                  }),
                 },
               );
               router.push(`/${locale}${ROUTES.findMy.password.complete}`);
@@ -109,19 +115,25 @@ export default function PasswordSetPage({
   useEffect(() => {
     if (passwordRef.current && step === '비밀번호') {
       passwordRef.current.focus();
+    } else if (passwordCheckRef.current && step === '동일한 비밀번호') {
+      passwordCheckRef.current.focus();
     }
-  }, [passwordRef, step]);
+  }, [passwordRef, passwordCheckRef, step]);
 
   return (
     <AnimatePresence initial={false}>
       <Header>
-        <Header.Title>사용자 정보 설정</Header.Title>
+        <Header.Title>비밀번호 설정</Header.Title>
         <Header.Subtitle>
           <Header.Transformer step={step} steps={steps} />
           <span>{josa(step)} 입력해주세요.</span>
         </Header.Subtitle>
       </Header>
-      <Form schema={signUpSchema} onSubmit={handleSubmit} validateOn="onChange">
+      <Form
+        schema={step === '비밀번호' ? passwordSchema : signUpSchema}
+        onSubmit={handleSubmit}
+        validateOn="onChange"
+      >
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name="비밀번호">
             <Form.Password

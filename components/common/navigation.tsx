@@ -33,9 +33,8 @@ export default function Navigation({ hasBackButton = false, title }: Props) {
               {t('description')}
             </span>
           </div>
-          <div>
-            <SideNav />
-          </div>
+
+          <SideNav />
         </If.Else>
       </If>
     </nav>

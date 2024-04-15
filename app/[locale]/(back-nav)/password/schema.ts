@@ -19,4 +19,5 @@ export const signUpSchema = z
     }
   });
 
+export type PasswordSchema = z.infer<typeof passwordSchema>;
 export type SignUpSchema = z.infer<typeof signUpSchema>;

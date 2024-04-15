@@ -1,8 +1,8 @@
 'use client';
 
-import { Link } from '@/components/common';
 import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
+import { Link } from '@components/common';
 import { SheetClose } from '@components/ui/sheet';
 import { If } from '@components/util';
 import { useTranslations } from 'next-intl';
@@ -16,18 +16,16 @@ export default function AuthButton({ className }: { className?: string }) {
   return (
     <If condition={isLoggedIn}>
       <If.Then>
-        <div>
-          <SheetClose className={className} onClick={logout}>
-            <IoPersonSharp />
-            {t('logout')}
+        <SheetClose className={className} onClick={logout}>
+          <IoPersonSharp />
+          {t('logout')}
+        </SheetClose>
+        <Link href={ROUTES.myTickets}>
+          <SheetClose className={className}>
+            <BsTicketFill />
+            {t('myTickets')}
           </SheetClose>
-          <Link href={ROUTES.myTickets}>
-            <SheetClose className={className}>
-              <BsTicketFill />
-              {t('myTickets')}
-            </SheetClose>
-          </Link>
-        </div>
+        </Link>
       </If.Then>
 
       <If.Else>

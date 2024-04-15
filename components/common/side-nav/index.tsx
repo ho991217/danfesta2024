@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import { IoIosMenu } from 'react-icons/io';
 
+import Button from '../button';
 import LocaleSwitcher from '../locale-switcher';
 import AuthButton from './auth-button';
 import Link from './link';
@@ -55,9 +56,15 @@ export default async function SideNav() {
 
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <IoIosMenu size={40} />
-      </SheetTrigger>
+      <Button
+        variant="transparent"
+        animateOnClick
+        className="w-auto h-auto p-1"
+      >
+        <SheetTrigger asChild>
+          <IoIosMenu size={40} />
+        </SheetTrigger>
+      </Button>
 
       <SheetContent className="bg-white dark:bg-[#0C0C0C] dark:border-[#181818] flex flex-col justify-between">
         <div className="flex flex-col items-end gap-4">
