@@ -109,6 +109,7 @@ export const API_ROUTES = {
 export const ROUTES = {
   home: '/',
   login: '/login',
+  mypage: '/mypage',
   signup: {
     complete: '/signup/complete',
   },

@@ -2,6 +2,7 @@
 
 import { post } from '@/api';
 import { API_ROUTES } from '@/constants';
+
 import { DKUVerificationSchema } from './schema';
 
 type DKUResponse = {
@@ -18,6 +19,6 @@ type DKUResponse = {
 export async function verifyDKUStudent(req: DKUVerificationSchema) {
   return post<DKUVerificationSchema, DKUResponse>(
     API_ROUTES.user.dku.verify,
-    req
+    req,
   );
 }

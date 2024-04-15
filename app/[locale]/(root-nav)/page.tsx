@@ -1,6 +1,6 @@
 import { getIsLoggedIn, getIsVerified } from '@/api';
 import { ROUTES } from '@/constants';
-import { AdBanner, Button, Link } from '@components/common';
+import { AdBanner, Link } from '@components/common';
 import { LineupTile, MenuTiles, NoticeTile } from '@components/home';
 
 export default async function Home() {
@@ -11,19 +11,16 @@ export default async function Home() {
     <div className="mb-20 flex flex-col gap-4 px-5">
       {isLoggedIn && !isVerified && (
         <NoticeTile>
-          <span>
-            티켓팅 등의 서비스를 이용하시려면 재학생 인증이 필요합니다.
-          </span>
-
-          <Link className="mt-2" href={`${ROUTES.verify}?reverify=true`}>
-            <Button
+          <span>티켓팅 서비스를 이용하려면 재학생 인증이 필요해요.</span>
+          <div className="w-full flex items-center justify-end mt-4">
+            <Link
+              className="h-auto w-auto p-2 text-primary font-medium dark:text-primary"
+              href={`${ROUTES.verify}?reverify=true`}
               variant="transparent"
-              className="h-auto p-2 text-sm"
-              animateOnClick
             >
-              인증하러 가기
-            </Button>
-          </Link>
+              재학생 인증하기
+            </Link>
+          </div>
         </NoticeTile>
       )}
       <LineupTile />

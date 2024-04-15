@@ -31,7 +31,7 @@ async function SeeAll({
   return (
     <Link
       href={href}
-      className="text-base font-normal text-primary w-auto p-1 h-auto"
+      className="text-base font-normal text-primary w-auto p-1 h-auto dark:text-primary"
       variant="transparent"
     >
       {children}

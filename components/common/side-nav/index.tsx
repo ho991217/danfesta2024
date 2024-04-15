@@ -68,12 +68,6 @@ export default async function SideNav() {
 
       <SheetContent className="bg-white dark:bg-[#0C0C0C] dark:border-[#181818] flex flex-col justify-between">
         <div className="flex flex-col items-end gap-4">
-          <ul className="flex flex-col items-end gap-1 w-full">
-            {links.map((link) => (
-              <Link key={link.id} className={className} {...link} />
-            ))}
-          </ul>
-          <Separator />
           <NextIntlClientProvider
             locale={locale}
             timeZone="Asia/Seoul"
@@ -81,6 +75,12 @@ export default async function SideNav() {
           >
             <AuthButton className={className} />
           </NextIntlClientProvider>
+          <Separator />
+          <ul className="flex flex-col items-end gap-1 w-full">
+            {links.map((link) => (
+              <Link key={link.id} className={className} {...link} />
+            ))}
+          </ul>
         </div>
         <NextIntlClientProvider
           locale={locale}

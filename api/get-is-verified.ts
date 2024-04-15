@@ -6,22 +6,18 @@ import { cookies } from 'next/headers';
 
 const getIsVerified = async () => {
   try {
-    const verified = cookies().get(COOKIE_KEYS.verified)?.value === 'true';
+    const verified = cookies().get(COOKIE_KEYS.verified)?.value;
     const token = await getServerSideToken();
 
-    if (!verified) {
-      const { dkuChecked } = await get<User>(
-        API_ROUTES.user.infoOf('dkuChecked'),
-        {
-          token,
-        },
-      );
-      cookies().set(COOKIE_KEYS.verified, String(dkuChecked));
+    if (verified === undefined || !Boolean(verified)) {
+      const { dkuChecked } = await get<User>(API_ROUTES.user.me, {
+        token,
+      });
 
       return dkuChecked;
     }
 
-    return verified;
+    return Boolean(verified);
   } catch {
     return false;
   }

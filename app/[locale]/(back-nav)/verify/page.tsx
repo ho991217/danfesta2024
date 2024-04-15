@@ -1,7 +1,7 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, ROUTES } from '@/constants';
+import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
@@ -14,6 +14,7 @@ import {
 } from '@components/ui/accordion';
 import { APIError, isStudentId } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
+import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -50,6 +51,7 @@ export default function VerifyPage({
   const isLastStep = currentStep === steps.length;
   const locale = useLocale();
   const router = useRouter();
+  const cookies = useCookies();
 
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
@@ -75,6 +77,7 @@ export default function VerifyPage({
         API_ROUTES.user.dku.reverify,
         dkuData,
       );
+      cookies.set(COOKIE_KEYS.verified, 'true');
       toast.success('재인증이 완료되었습니다.');
       router.push(ROUTES.home);
     } catch (error) {

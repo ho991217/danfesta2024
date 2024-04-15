@@ -29,7 +29,6 @@ export default async function LineupTile() {
     );
   } catch (error) {
     const e = error as Error;
-    console.error(error);
     return <span className="w-full text-neutral-500">{e.message}</span>;
   }
 }
