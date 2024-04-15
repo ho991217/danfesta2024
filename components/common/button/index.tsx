@@ -1,10 +1,11 @@
 'use client';
 
-import { MotionProps, motion } from 'framer-motion';
-import { variants } from './motion';
-import PulseLoader from 'react-spinners/PulseLoader';
-import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { cva } from 'class-variance-authority';
+import { MotionProps, motion } from 'framer-motion';
+import PulseLoader from 'react-spinners/PulseLoader';
+
+import { variants } from './motion';
 
 export type ButtonProps = MotionProps & {
   className?: string;
@@ -26,7 +27,7 @@ export const buttonVariants = cva(
         filled: 'bg-primary text-neutral-50',
         outlined: 'border border-primary',
         transparent:
-          'text-neutral-500 dark:text-neutral-500 bg-white dark:bg-[#0C0C0C]',
+          'text-neutral-500 dark:text-neutral-500 bg-white dark:bg-[#0C0C0C] dark:active:bg-[#1C1C1C]',
         bottom:
           'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
       },
@@ -39,7 +40,7 @@ export const buttonVariants = cva(
       variant: 'filled',
       disabled: false,
     },
-  }
+  },
 );
 
 export default function Button({
@@ -48,7 +49,7 @@ export default function Button({
   variant = 'filled',
   type = 'button',
   onClick,
-  animateOnClick = false,
+  animateOnClick = true,
   isLoading = false,
   disabled,
 }: ButtonProps) {
@@ -66,7 +67,7 @@ export default function Button({
       className={cn(buttonVariants({ variant, disabled }), className)}
       {...motionProps}
     >
-      {isLoading ? <PulseLoader size={8} color='#f0f0f0' /> : children}
+      {isLoading ? <PulseLoader size={8} color="#f0f0f0" /> : children}
     </motion.button>
   );
 }
