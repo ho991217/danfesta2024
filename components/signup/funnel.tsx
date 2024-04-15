@@ -1,14 +1,19 @@
-import { Children, isValidElement, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import { variants } from './motion';
-import { NonEmptyArray } from '@/types/util';
+'use client';
 
-type StepType = Readonly<NonEmptyArray<string>>;
+import { cn } from '@/lib/utils';
+import { NonEmptyArray } from '@/types/util';
+import { motion } from 'framer-motion';
+import { Children, isValidElement, useEffect } from 'react';
+
+import { variants } from './motion';
+
+export type StepType = Readonly<NonEmptyArray<string>>;
 
 interface StepProps<Steps extends StepType> {
   name: Steps[number];
   onEnter?: () => void;
   children: React.ReactNode;
+  className?: string;
 }
 
 interface FunnelProps<Steps extends StepType> {
@@ -17,12 +22,14 @@ interface FunnelProps<Steps extends StepType> {
   children:
     | Array<React.ReactElement<StepProps<Steps>>>
     | React.ReactElement<StepProps<Steps>>;
+  accumulate?: boolean;
 }
 
 export default function Funnel<Steps extends StepType>({
   step,
   steps,
   children,
+  accumulate = true,
 }: FunnelProps<Steps>) {
   const currentStep = steps.indexOf(step);
 
@@ -31,25 +38,30 @@ export default function Funnel<Steps extends StepType>({
   }
 
   const validChildren = Children.toArray(children).filter((child) =>
-    isValidElement(child)
+    isValidElement(child),
   );
-  const stepElements = steps
-    .slice(0, currentStep + 1)
-    .map((name) => {
-      const child = validChildren.find(
-        (child) =>
-          (child as React.ReactElement<StepProps<Steps>>).props.name === name
-      );
-      return child;
-    })
-    .reverse();
+  if (accumulate) {
+    const stepElements = steps
+      .slice(0, currentStep + 1)
+      .map((name) => {
+        const child = validChildren.find(
+          (child) =>
+            (child as React.ReactElement<StepProps<Steps>>).props.name === name,
+        );
+        return child;
+      })
+      .reverse();
 
-  return stepElements;
+    return stepElements;
+  } else {
+    return validChildren[currentStep];
+  }
 }
 
 export const Step = <Steps extends StepType>({
   onEnter,
   children,
+  className,
 }: StepProps<Steps>) => {
   useEffect(() => {
     onEnter?.();
@@ -59,10 +71,10 @@ export const Step = <Steps extends StepType>({
   return (
     <motion.div
       variants={variants}
-      initial='hidden'
-      animate='visible'
-      exit='hidden'
-      className='w-full'
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      className={cn('w-full', className)}
     >
       {children}
     </motion.div>

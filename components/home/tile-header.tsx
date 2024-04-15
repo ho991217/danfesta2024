@@ -1,4 +1,5 @@
-import Link from '@/components/common/link';
+import { Link } from '@components/common';
+import type { PropsWithChildren } from 'react';
 
 export default function TileHeader({
   children,
@@ -14,7 +15,7 @@ export default function TileHeader({
   );
 }
 
-function Head({ children }: { children: React.ReactNode }) {
+function Head({ children }: PropsWithChildren) {
   return <h3 className="text-2xl font-bold">{children}</h3>;
 }
 

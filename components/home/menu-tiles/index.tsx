@@ -1,5 +1,6 @@
-import Link from '@/components/common/link';
 import { ROUTES } from '@/constants';
+import { Link } from '@components/common';
+import type { PropsWithChildren } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { BiSolidNavigation } from 'react-icons/bi';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
@@ -16,7 +17,7 @@ export type TileInfo = {
   textColor?: string;
 };
 
-const TileHeader = ({ children }: { children: React.ReactNode }) => (
+const TileHeader = ({ children }: PropsWithChildren) => (
   <div className="font-bold">{children}</div>
 );
 

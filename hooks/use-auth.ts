@@ -1,11 +1,12 @@
 'use client';
 
 import { AuthTokens, User, get, post } from '@/api';
-import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/constants';
+import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@/constants';
 import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
 import ApiError from '@lib/utils/error/api-error';
 import { useCookies } from 'next-client-cookies';
+import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -15,6 +16,7 @@ export default function useAuth() {
   const { isLoggedIn, setIsLoggedIn } = useAuthStore();
   const cookies = useCookies();
   const router = useRouter();
+  const locale = useLocale();
 
   const getUserInfo = async () => {
     try {
@@ -78,12 +80,13 @@ export default function useAuth() {
       const isChecked = await checkStudentVerified();
 
       if (!isChecked) {
+        cookies.set(COOKIE_KEYS.verified, 'false');
         toast.info('학생 인증을 해주세요.', {
           duration: 36000,
           action: {
             label: '확인',
             onClick: () => {
-              router.push('/ko/verify');
+              router.push(`/${locale}${ROUTES.verify}?reverify=true`);
             },
           },
         });
@@ -102,8 +105,10 @@ export default function useAuth() {
     setUserInfo(null);
     toast.info('로그아웃되었습니다.');
     setIsLoggedIn(false);
-    router.push('/');
+    router.push(ROUTES.home);
   };
+
+  const isAdmin = async () => {};
 
   return {
     userInfo,

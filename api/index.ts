@@ -75,3 +75,5 @@ export async function getImage(path: string, options?: APIOptions) {
 export { default as getServerSideToken } from './get-server-side-token';
 
 export * from './response';
+export { default as getIsVerified } from './get-is-verified';
+export { default as getIsLoggedIn } from './get-is-logged-in';

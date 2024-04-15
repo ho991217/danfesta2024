@@ -7,6 +7,7 @@ export const API_IP = process.env.NEXT_PUBLIC_API_IP as string;
 export const COOKIE_KEYS = {
   accessToken: 'access-token',
   refreshToken: 'refresh-token',
+  verified: 'danfesta-verified-student',
 } as const;
 
 export const API_ROUTES = {
@@ -15,6 +16,15 @@ export const API_ROUTES = {
     infoOf: (...scope: (keyof User)[]) =>
       `/user/scoped-info?scope=${scope.join(' ')}`,
     login: '/user/login',
+    find: {
+      password: {
+        sms: {
+          send: '/user/find/pwd',
+          verify: '/user/find/pwd/verify',
+        },
+        reset: '/user/find/pwd/reset',
+      },
+    },
     signup: (token: string) => `/user/${token}`,
     /**
      * @name POST /user/reissue
@@ -105,7 +115,7 @@ export const ROUTES = {
   login: '/login',
   signup: {
     phone: '/signup/phone',
-    info: '/signup/info',
+    info: (token: string) => `/signup/info?token=${token}`,
     complete: '/signup/complete',
   },
   verify: '/verify',

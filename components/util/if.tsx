@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { type PropsWithChildren } from 'react';
 
 type IfProps = {
   condition: boolean;
-  children: React.ReactNode;
-};
-
-type ChildProps = {
   children: React.ReactNode;
 };
 
@@ -25,10 +21,10 @@ export default function If({ condition, children }: IfProps) {
   });
 }
 
-If.Then = function Then({ children }: ChildProps) {
+If.Then = function Then({ children }: PropsWithChildren) {
   return children;
 };
 
-If.Else = function Else({ children }: ChildProps) {
+If.Else = function Else({ children }: PropsWithChildren) {
   return children;
 };

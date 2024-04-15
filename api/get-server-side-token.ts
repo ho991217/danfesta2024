@@ -1,8 +1,10 @@
 'use server';
 
 import { API_ROUTES, COOKIE_KEYS } from '@/constants';
-import assertToken, { ErrorCause } from '@/lib/utils/assertToken';
+import { ErrorCause } from '@lib/utils';
+import assertToken from '@lib/utils/assertToken';
 import { cookies } from 'next/headers';
+
 import { post } from '.';
 
 export default async function getServerSideToken() {
@@ -11,7 +13,9 @@ export default async function getServerSideToken() {
   let rtk = cookie.get(COOKIE_KEYS.refreshToken)?.value;
 
   if (!atk || !rtk) {
-    throw new Error('로그인이 필요합니다.');
+    throw new Error('로그인이 필요합니다.', {
+      cause: ErrorCause['not-loggen-in'],
+    });
   }
 
   try {
@@ -19,9 +23,9 @@ export default async function getServerSideToken() {
   } catch (error) {
     const e = error as Error;
     switch (e.cause as ErrorCause) {
-      case 'invalid':
+      case ErrorCause.invalid:
         throw new Error(e.message);
-      case 'expired':
+      case ErrorCause.expiredToken:
         const { accessToken, refreshToken } = await reissue(rtk);
         cookie.set(COOKIE_KEYS.accessToken, accessToken);
         cookie.set(COOKIE_KEYS.refreshToken, refreshToken);
