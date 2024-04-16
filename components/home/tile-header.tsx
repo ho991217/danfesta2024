@@ -1,16 +1,10 @@
 import { Link } from '@components/common';
 import type { PropsWithChildren } from 'react';
 
-export default function TileHeader({
-  children,
-}: {
-  children?: React.ReactNode;
-}) {
+export default function TileHeader({ children }: PropsWithChildren) {
   return (
-    <div>
-      <div className="w-full flex justify-between items-end mb-4">
-        {children}
-      </div>
+    <div className="w-full flex justify-between items-end mb-4 lg:max-w-full lg:w-full">
+      {children}
     </div>
   );
 }
@@ -24,10 +18,9 @@ TileHeader.Head = Head;
 async function SeeAll({
   children,
   href,
-}: {
-  children: React.ReactNode;
+}: PropsWithChildren<{
   href: string;
-}) {
+}>) {
   return (
     <Link
       href={href}

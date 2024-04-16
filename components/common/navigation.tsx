@@ -16,7 +16,7 @@ export default function Navigation({ hasBackButton = false, title }: Props) {
   return (
     <nav
       className={cn(
-        'flex w-full justify-between items-start px-5',
+        'flex w-full justify-between items-start px-5 lg:max-w-full',
         hasBackButton ? 'py-5' : 'h-[100px] pt-5',
       )}
     >

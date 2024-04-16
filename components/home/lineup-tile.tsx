@@ -17,12 +17,12 @@ export default async function LineupTile() {
     const t = await getTranslations('LineupTile');
 
     return (
-      <div className="w-full">
+      <div className="w-full lg:max-w-full">
         <TileHeader>
           <TileHeader.Head>{t('title')}</TileHeader.Head>
           <TileHeader.SeeAll href="/lineup">{t('seeAll')}</TileHeader.SeeAll>
         </TileHeader>
-        <div className="relative aspect-[3/4] w-full">
+        <div className="relative aspect-[3/4] w-full lg:min-h-[500px] lg:aspect-auto">
           <Carousel lineups={lineups} />
         </div>
       </div>

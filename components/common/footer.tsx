@@ -9,7 +9,7 @@ import Button from './button';
 
 export default function Footer() {
   return (
-    <footer className="w-full flex flex-col px-5 pt-10 pb-20 items-center rounded-t-3xl border-neutral-200 border-[1px] dark:border-neutral-800">
+    <footer className="w-full flex flex-col px-5 pt-10 pb-20 items-center rounded-t-3xl border-neutral-200 border-[1px] dark:border-neutral-800 lg:max-w-full">
       <Block className="-translate-x-3 py-5">
         <DanfestaLogo className="w-16" />
         <div className="flex flex-col items-start">

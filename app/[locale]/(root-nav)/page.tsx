@@ -8,7 +8,7 @@ export default async function Home() {
   const isLoggedIn = await getIsLoggedIn();
 
   return (
-    <div className="mb-20 flex flex-col gap-4 px-5">
+    <div className="mb-20 flex flex-col gap-4 px-5 lg:mx-auto lg:max-w-full lg:px-10 lg:gap-8">
       {isLoggedIn && !isVerified && (
         <NoticeTile>
           <span>티켓팅 서비스를 이용하려면 재학생 인증이 필요해요.</span>
