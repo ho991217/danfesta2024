@@ -1,5 +1,6 @@
 import { get, getImage, getServerSideToken } from '@/api';
 import { API_ROUTES } from '@/constants';
+import assert from '@/lib/utils/assert';
 import { Form, RefetchButton } from '@components/ticketing';
 import {
   Accordion,
@@ -8,8 +9,14 @@ import {
   AccordionTrigger,
 } from '@components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card';
+import { type Params } from '@lib/types';
 import Image from 'next/image';
 import { Suspense } from 'react';
+
+type Term = {
+  index: string;
+  content: string;
+};
 
 const terms: Term[] = [
   {
@@ -36,16 +43,9 @@ const terms: Term[] = [
   },
 ];
 
-type Term = {
-  index: string;
-  content: string;
-};
-
 export default async function Page({
   params: { eventId },
-}: {
-  params: { eventId: string };
-}) {
+}: Params<{ eventId: string }>) {
   let captchaKey = '';
   let captchaImage = '';
 

@@ -1,6 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 
-import { ErrorCause } from './error';
+import { ErrorCause } from '../error';
 
 type JwtPayload = {
   userRole: string;
@@ -11,18 +11,18 @@ type JwtPayload = {
 
 const userRole = ['ROLE_ADMIN', 'ROLE_USER'] as const;
 
-export default function assertToken(token: string) {
+export default function assertJWT(jwt: string) {
   const isValidString =
-    typeof token === 'string' &&
-    token.split('.').length === 3 &&
-    token.split('.').every((part) => part.length > 0);
+    typeof jwt === 'string' &&
+    jwt.split('.').length === 3 &&
+    jwt.split('.').every((part) => part.length > 0);
 
   if (!isValidString)
-    throw new Error('토큰이 아닙니다.', {
+    throw new Error('jwt가 아닙니다.', {
       cause: ErrorCause.invalid,
     });
 
-  const decoded = jwtDecode<JwtPayload>(token);
+  const decoded = jwtDecode<JwtPayload>(jwt);
 
   const isValidRole = typeof decoded.userRole === 'string';
   if (!isValidRole)

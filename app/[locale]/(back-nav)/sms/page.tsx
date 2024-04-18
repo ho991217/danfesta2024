@@ -3,8 +3,10 @@
 import { post } from '@/api';
 import { API_ROUTES, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
+import assert from '@/lib/utils/assert';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
+import { SearchParams } from '@lib/types';
 import { APIError, ErrorCause } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useLocale } from 'next-intl';
@@ -12,7 +14,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { tokenSchema } from '../signup/schema';
 import {
   PhoneNumberSchema,
   SMSCodeSchema,
@@ -32,9 +33,10 @@ type SMSRequest = {
 
 export default function SMSPage({
   searchParams: { token: tokenParam, type },
-}: {
-  searchParams: { token: string; type: SMSVerifyType };
-}) {
+}: SearchParams<{ token: string; type: SMSVerifyType }>) {
+  assert('params', [tokenParam, type]);
+  assert('uuid', tokenParam);
+
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>(tokenParam);
   const [isOpen, openBT, closeBT] = useBottomSheet();
@@ -45,17 +47,17 @@ export default function SMSPage({
   const router = useRouter();
   const locale = useLocale();
 
-  const validToken = tokenSchema.safeParse({ token });
+  // const validToken = tokenSchema.safeParse({ token });
 
-  if (!type) {
-    throw new Error('비정상적인 접근입니다.', {
-      cause: ErrorCause['not-found'],
-    });
-  }
+  // if (!type) {
+  //   throw new Error('비정상적인 접근입니다.', {
+  //     cause: ErrorCause['not-found'],
+  //   });
+  // }
 
-  if (type === 'signup' && (!token || !validToken.success)) {
-    throw new Error('비정상적인 토큰입니다.', { cause: ErrorCause.invalid });
-  }
+  // if (type === 'signup' && (!token || !validToken.success)) {
+  //   throw new Error('비정상적인 토큰입니다.', { cause: ErrorCause.invalid });
+  // }
 
   const handlePhoneNumberSubmit = async ({
     phoneNumber,

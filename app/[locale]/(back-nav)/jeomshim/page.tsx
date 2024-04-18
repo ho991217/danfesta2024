@@ -1,5 +1,5 @@
-import { Link } from '@/components/common';
 import FoodImg from '@/public/images/perspaleta2_0020.png';
+import { Link } from '@components/common';
 import getJeomshim from 'jeom-mae-chu';
 import Image from 'next/image';
 

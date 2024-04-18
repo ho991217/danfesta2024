@@ -3,4 +3,5 @@ export enum ErrorCause {
   'expiredToken',
   'not-loggen-in',
   'not-found',
+  'no-params',
 }

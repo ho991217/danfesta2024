@@ -1,4 +1,6 @@
+import { Params } from '@/lib/types';
 import type { Metadata, Viewport } from 'next';
+import { PropsWithChildren } from 'react';
 
 import './globals.css';
 import Providers from './providers';
@@ -21,10 +23,7 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
   params: { locale },
-}: Readonly<{
-  children: React.ReactNode;
-  params: { locale: string };
-}>) {
+}: PropsWithChildren<Params<{ locale: string }>>) {
   return (
     <html lang={locale}>
       <body className={'font-Pretendard'}>

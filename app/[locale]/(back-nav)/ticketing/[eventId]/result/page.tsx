@@ -1,12 +1,11 @@
 import { get, getServerSideToken } from '@/api';
-import Link from '@/components/common/link';
 import { API_ROUTES, ROUTES } from '@/constants';
+import Link from '@components/common/link';
+import { Params } from '@lib/types';
 
 export default async function Page({
   params: { eventId },
-}: {
-  params: { eventId: string };
-}) {
+}: Params<{ eventId: string }>) {
   const token = await getServerSideToken();
   const { turn } = await get<{ turn: number }>(
     API_ROUTES.ticket.reservation(Number(eventId)),

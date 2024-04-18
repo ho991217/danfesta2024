@@ -3,6 +3,7 @@
 import { post } from '@/api';
 import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
+import { SearchParams } from '@/lib/types';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import { TransformerSubtitle } from '@components/signup';
@@ -39,9 +40,7 @@ type Steps = (typeof steps)[number];
 
 export default function VerifyPage({
   searchParams: { reverify },
-}: {
-  searchParams: { reverify?: string };
-}) {
+}: SearchParams<{ reverify?: string }>) {
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);

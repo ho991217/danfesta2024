@@ -2,6 +2,8 @@
 
 import { post } from '@/api';
 import { API_ROUTES, API_URL, ROUTES } from '@/constants';
+import { SearchParams } from '@/lib/types';
+import assert from '@/lib/utils/assert';
 import { Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import APIError from '@lib/utils/error/api-error';
@@ -13,7 +15,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
-import { tokenSchema } from '../signup/schema';
 import {
   PasswordSchema,
   SignUpSchema,
@@ -38,9 +39,10 @@ export type PasswordSetType = 'signup' | 'find-my-password';
 
 export default function PasswordSetPage({
   searchParams: { token, type },
-}: {
-  searchParams: { token: string; type: PasswordSetType };
-}) {
+}: SearchParams<{ token: string; type: PasswordSetType }>) {
+  assert('params', [token, type]);
+  assert('uuid', token);
+
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<Steps>('비밀번호');
   const currentStep = steps.indexOf(step);
@@ -48,14 +50,9 @@ export default function PasswordSetPage({
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordCheckRef = useRef<HTMLInputElement>(null);
 
-  const validToken = tokenSchema.safeParse({ token });
   const locale = useLocale();
   const router = useRouter();
   const josa = getJosaPicker('을');
-
-  if (!token || !validToken.success) {
-    throw new Error('비정상적인 토큰입니다.');
-  }
 
   const handleSubmit = async ({ password }: PasswordSchema | SignUpSchema) => {
     switch (step) {

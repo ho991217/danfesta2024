@@ -1,8 +1,8 @@
 'use server';
 
 import { API_ROUTES, COOKIE_KEYS } from '@/constants';
+import assertToken from '@/lib/utils/assert/jwt';
 import { ErrorCause } from '@lib/utils';
-import assertToken from '@lib/utils/assertToken';
 import { cookies } from 'next/headers';
 
 import { post } from '.';

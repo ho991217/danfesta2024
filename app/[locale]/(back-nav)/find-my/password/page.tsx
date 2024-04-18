@@ -1,19 +1,14 @@
 'use client';
 
-import { ErrorCause } from '@/lib/utils';
-
-import { tokenSchema } from '../../signup/schema';
+import assert from '@/lib/utils/assert';
+import { SearchParams } from '@lib/types';
+import { ErrorCause } from '@lib/utils';
 
 export default function FindMyPasswordPage({
   searchParams: { token },
-}: {
-  searchParams: { token: string };
-}) {
-  if (!token || !tokenSchema.safeParse({ token }).success) {
-    throw new Error('비정상적인 접근입니다.', {
-      cause: ErrorCause['not-found'],
-    });
-  }
+}: SearchParams<{ token: string }>) {
+  assert('params', token);
+  assert('uuid', token);
 
   return <div>{token}</div>;
 }
