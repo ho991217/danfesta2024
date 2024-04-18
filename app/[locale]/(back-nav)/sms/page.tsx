@@ -3,11 +3,11 @@
 import { post } from '@/api';
 import { useBottomSheet } from '@/hooks';
 import { API_ROUTES, ROUTES } from '@/lib/constants';
+import assert from '@/lib/utils/validation/assert';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import { SearchParams } from '@lib/types';
 import { APIError } from '@lib/utils';
-import assert from '@lib/utils/assert';
 import { AnimatePresence } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';

@@ -1,5 +1,5 @@
 export * from './device';
 export * from './cn';
 export * from './parser';
-export * from './validators';
-export * from './error';
+export * from './validation';
+export { default as getRandomNickname } from './get-random-nickname';

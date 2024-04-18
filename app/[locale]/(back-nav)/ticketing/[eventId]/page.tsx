@@ -1,6 +1,6 @@
 import { get, getImage, getServerSideToken } from '@/api';
 import { API_ROUTES } from '@/lib/constants';
-import assert from '@/lib/utils/assert';
+import assert from '@/lib/utils/validation/assert';
 import { Form, RefetchButton } from '@components/ticketing';
 import {
   Accordion,

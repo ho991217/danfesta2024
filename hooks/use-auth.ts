@@ -1,10 +1,10 @@
 'use client';
 
-import { AuthTokens, User, get, post } from '@/api';
-import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@/lib/constants';
+import { AuthTokens, User, post } from '@/api';
 import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
-import ApiError from '@lib/utils/error/api-error';
+import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@lib/constants';
+import { APIError } from '@lib/utils/validation';
 import { useCookies } from 'next-client-cookies';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -55,7 +55,7 @@ export default function useAuth() {
         req,
       );
 
-      if (!res.accessToken || !res.refreshToken) throw new ApiError(res as any);
+      if (!res.accessToken || !res.refreshToken) throw new APIError(res as any);
       cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 

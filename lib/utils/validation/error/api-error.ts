@@ -7,7 +7,7 @@ export type APIErrorResponse = {
   message: string[];
 };
 
-class APIError extends Error {
+export class APIError extends Error {
   timestamp: string;
   trackingId: string;
   statusCode: number;
@@ -32,5 +32,3 @@ class APIError extends Error {
     this.trackingId = trackingId;
   }
 }
-
-export default APIError;

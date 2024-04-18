@@ -1,6 +1,6 @@
 import { API_IP, API_ROUTES, API_URL } from '@lib/constants';
 import { DeepValueOf } from '@lib/types';
-import APIError, { type APIErrorResponse } from '@lib/utils/error/api-error';
+import { APIError, type APIErrorResponse } from '@lib/utils/validation';
 
 type APIOptions = {
   token?: string;

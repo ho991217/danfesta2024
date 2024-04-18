@@ -1,8 +1,8 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/lib/constants';
-import APIError from '@/lib/utils/error/api-error';
+import { API_ROUTES, COOKIE_KEYS } from '@lib/constants';
+import { APIError } from '@lib/utils/validation';
 import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';

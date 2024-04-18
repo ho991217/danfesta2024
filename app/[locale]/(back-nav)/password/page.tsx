@@ -2,12 +2,11 @@
 
 import { post } from '@/api';
 import { API_ROUTES, API_URL, ROUTES } from '@/lib/constants';
-import { SearchParams } from '@/lib/types';
-import assert from '@/lib/utils/assert';
 import { Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
-import APIError from '@lib/utils/error/api-error';
-import getRandomNickname from '@lib/utils/generator/generate-random-nickname';
+import { SearchParams } from '@lib/types';
+import { getRandomNickname } from '@lib/utils';
+import { APIError, assert } from '@lib/utils/validation';
 import { AnimatePresence } from 'framer-motion';
 import { getJosaPicker } from 'josa';
 import { useLocale } from 'next-intl';
