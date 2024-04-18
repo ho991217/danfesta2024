@@ -1,4 +1,4 @@
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import { Link } from '@components/common';
 import { Card } from '@components/ui/card';
 

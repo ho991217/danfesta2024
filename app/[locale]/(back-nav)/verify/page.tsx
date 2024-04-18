@@ -1,8 +1,8 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
+import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/lib/constants';
 import { SearchParams } from '@/lib/types';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';

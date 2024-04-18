@@ -1,7 +1,7 @@
 'use client';
 
-import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
+import { ROUTES } from '@/lib/constants';
 import { Button, Form, Link } from '@components/common';
 import APIError from '@lib/utils/error/api-error';
 import { useLocale } from 'next-intl';

@@ -2,7 +2,7 @@
 
 import { get } from '@/api';
 import getServerSideToken from '@/api/get-server-side-token';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES } from '@/lib/constants';
 
 export type TicketInfo = {
   id: number;

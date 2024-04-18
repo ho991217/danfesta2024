@@ -1,13 +1,13 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, ROUTES } from '@/constants';
 import { useBottomSheet } from '@/hooks';
-import assert from '@/lib/utils/assert';
+import { API_ROUTES, ROUTES } from '@/lib/constants';
 import { BottomSheet, Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import { SearchParams } from '@lib/types';
-import { APIError, ErrorCause } from '@lib/utils';
+import { APIError } from '@lib/utils';
+import assert from '@lib/utils/assert';
 import { AnimatePresence } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -34,8 +34,12 @@ type SMSRequest = {
 export default function SMSPage({
   searchParams: { token: tokenParam, type },
 }: SearchParams<{ token: string; type: SMSVerifyType }>) {
-  assert('params', [tokenParam, type]);
-  assert('uuid', tokenParam);
+  assert('params', type);
+
+  if (type === 'signup') {
+    assert('params', tokenParam);
+    assert('uuid', tokenParam);
+  }
 
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>(tokenParam);
@@ -46,18 +50,6 @@ export default function SMSPage({
   const isLastStep = currentStep === steps.length;
   const router = useRouter();
   const locale = useLocale();
-
-  // const validToken = tokenSchema.safeParse({ token });
-
-  // if (!type) {
-  //   throw new Error('비정상적인 접근입니다.', {
-  //     cause: ErrorCause['not-found'],
-  //   });
-  // }
-
-  // if (type === 'signup' && (!token || !validToken.success)) {
-  //   throw new Error('비정상적인 토큰입니다.', { cause: ErrorCause.invalid });
-  // }
 
   const handlePhoneNumberSubmit = async ({
     phoneNumber,

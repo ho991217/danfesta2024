@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { NonEmptyArray } from '@/types/util';
+import { NonEmptyArray } from '@lib/types';
 import { motion } from 'framer-motion';
 import { Children, isValidElement, useEffect } from 'react';
 

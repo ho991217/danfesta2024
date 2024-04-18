@@ -1,5 +1,5 @@
 import { get } from '@/api';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES } from '@/lib/constants';
 import { LineupInfo } from '@app/[locale]/(back-nav)/lineup/page';
 import { getTranslations } from 'next-intl/server';
 

@@ -1,5 +1,5 @@
 import { get, getImage, getServerSideToken } from '@/api';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES } from '@/lib/constants';
 import assert from '@/lib/utils/assert';
 import { Form, RefetchButton } from '@components/ticketing';
 import {

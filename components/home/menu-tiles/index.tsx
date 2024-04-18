@@ -1,4 +1,4 @@
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import { Link } from '@components/common';
 import type { PropsWithChildren } from 'react';
 import { AiFillStar } from 'react-icons/ai';

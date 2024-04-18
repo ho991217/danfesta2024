@@ -1,6 +1,6 @@
 'use client';
 
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import { Button } from '@components/common';
 import Link from 'next/link';
 

@@ -1,4 +1,4 @@
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import en from '@/messages/en.json';
 import ko from '@/messages/ko.json';
 import { Separator } from '@components/ui/separator';

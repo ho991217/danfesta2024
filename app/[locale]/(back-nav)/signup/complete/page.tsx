@@ -1,6 +1,6 @@
 'use client';
 
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import { Button, Link } from '@components/common';
 import useDimensions from '@hooks/use-dimensions';
 import { useLocale } from 'next-intl';

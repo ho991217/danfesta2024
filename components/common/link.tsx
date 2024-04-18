@@ -1,7 +1,7 @@
 'use client';
 
-import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
+import { ROUTES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { useLocale } from 'next-intl';
 import { default as NextLink } from 'next/link';

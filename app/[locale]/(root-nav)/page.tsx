@@ -1,5 +1,5 @@
 import { getIsLoggedIn, getIsVerified } from '@/api';
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import { AdBanner, Link } from '@components/common';
 import { LineupTile, MenuTiles, NoticeTile } from '@components/home';
 

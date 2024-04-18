@@ -1,17 +1,18 @@
-"use client";
+'use client';
 
-import { Form } from "../common";
-import { z } from "zod";
-import APIError from "@/lib/utils/error/api-error";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useLocale } from "next-intl";
-import { API_ROUTES, API_URL, COOKIE_KEYS } from "@/constants";
-import { useCookies } from "next-client-cookies";
-import { post } from "@/api";
+import { post } from '@/api';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from '@/lib/constants';
+import APIError from '@/lib/utils/error/api-error';
+import { useCookies } from 'next-client-cookies';
+import { useLocale } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { z } from 'zod';
+
+import { Form } from '../common';
 
 const schema = z.object({
-  captchaValue: z.string().trim().min(1, { message: "필수 입력 사항입니다." }),
+  captchaValue: z.string().trim().min(1, { message: '필수 입력 사항입니다.' }),
 });
 
 export type TicketApplyRequest = {
@@ -25,14 +26,14 @@ type Schema = z.infer<typeof schema>;
 export default function TicketingForm({
   eventId,
   captchaKey,
-}: Omit<TicketApplyRequest, "captchaValue">) {
+}: Omit<TicketApplyRequest, 'captchaValue'>) {
   const router = useRouter();
   const locale = useLocale();
   const cookies = useCookies();
 
   const handleSubmit = async (v: Schema) => {
     const token = cookies.get(COOKIE_KEYS.accessToken);
-    if (!token) throw new Error("로그인이 필요합니다.");
+    if (!token) throw new Error('로그인이 필요합니다.');
 
     try {
       await post(
@@ -47,12 +48,12 @@ export default function TicketingForm({
         },
       );
 
-      toast.success("신청이 완료되었습니다.");
+      toast.success('신청이 완료되었습니다.');
       router.push(`/${locale}/ticketing/${eventId}/result`);
     } catch (error) {
       const e = error as APIError;
       toast.error(e.message);
-      if (e.message !== "이미 신청했습니다.") router.refresh();
+      if (e.message !== '이미 신청했습니다.') router.refresh();
     }
   };
 

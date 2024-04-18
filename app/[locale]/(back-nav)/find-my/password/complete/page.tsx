@@ -1,5 +1,5 @@
 import { Button, Link } from '@/components/common';
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 
 export default function FindMyPasswordCompletePage() {
   return (

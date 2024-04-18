@@ -1,7 +1,7 @@
 'use client';
 
-import { ROUTES } from '@/constants';
 import { useAuth } from '@/hooks';
+import { ROUTES } from '@/lib/constants';
 import { Link } from '@components/common';
 import { SheetClose } from '@components/ui/sheet';
 import { If } from '@components/util';

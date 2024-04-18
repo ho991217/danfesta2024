@@ -1,6 +1,6 @@
 'use client';
 
-import { ROUTES } from '@/constants';
+import { ROUTES } from '@/lib/constants';
 import { Link } from '@components/common';
 import * as Sentry from '@sentry/nextjs';
 import Error from 'next/error';

@@ -1,4 +1,4 @@
-import { COOKIE_KEYS } from '@/constants';
+import { COOKIE_KEYS } from '@/lib/constants';
 import { useCookies } from 'next-client-cookies';
 
 export default function useClientSideToken() {

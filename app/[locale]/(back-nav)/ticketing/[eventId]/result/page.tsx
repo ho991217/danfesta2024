@@ -1,5 +1,5 @@
 import { get, getServerSideToken } from '@/api';
-import { API_ROUTES, ROUTES } from '@/constants';
+import { API_ROUTES, ROUTES } from '@/lib/constants';
 import Link from '@components/common/link';
 import { Params } from '@lib/types';
 

@@ -1,7 +1,7 @@
 'use server';
 
 import { User, get, getServerSideToken } from '@/api';
-import { API_ROUTES, COOKIE_KEYS } from '@/constants';
+import { API_ROUTES, COOKIE_KEYS } from '@/lib/constants';
 import { cookies } from 'next/headers';
 
 const getIsVerified = async () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, API_URL, ROUTES } from '@/constants';
+import { API_ROUTES, API_URL, ROUTES } from '@/lib/constants';
 import { SearchParams } from '@/lib/types';
 import assert from '@/lib/utils/assert';
 import { Form } from '@components/common';

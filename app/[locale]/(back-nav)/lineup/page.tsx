@@ -1,8 +1,8 @@
-import { get } from "@/api";
-import { Carousel } from "@components/common";
-import { API_ROUTES } from "@/constants";
+import { get } from '@/api';
+import { API_ROUTES } from '@/lib/constants';
+import { Carousel } from '@components/common';
 
-export type FestivalDate = "FIRST_DAY" | "SECOND_DAY" | "THIRD_DAY";
+export type FestivalDate = 'FIRST_DAY' | 'SECOND_DAY' | 'THIRD_DAY';
 
 export type LineupImage = {
   url: string;
@@ -12,16 +12,16 @@ export type LineupImage = {
 
 export type LineupInfo = {
   id: number | null;
-  singer: string | "공개 예정";
+  singer: string | '공개 예정';
   images: LineupImage[];
-  description: string | "공개 예정";
+  description: string | '공개 예정';
   performanceTime: string | null;
   festivalDate: FestivalDate | null;
   opened: boolean;
 };
 
 export default async function LineupPage() {
-  const allDay = ["FIRST_DAY", "SECOND_DAY", "THIRD_DAY"] as const;
+  const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
   const data = await Promise.all(
     allDay.map((day) => get<LineupInfo[]>(API_ROUTES.lineup.list(day))),
   );

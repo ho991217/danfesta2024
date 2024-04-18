@@ -1,5 +1,5 @@
 import { get } from '@/api';
-import { API_ROUTES } from '@/constants';
+import { API_ROUTES } from '@/lib/constants';
 import { Card } from '@components/ticketing';
 
 export type FestivalEvent = {
