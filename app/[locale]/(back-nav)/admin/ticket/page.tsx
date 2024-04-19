@@ -1,44 +1,28 @@
 'use client';
 
 import { type QRScanResult, QrReader } from '@components/admin';
-import jwt, { VerifyErrors } from 'jsonwebtoken';
-import { InvalidTokenError, jwtDecode } from 'jwt-decode';
+import { CustomError } from '@lib/utils';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET ?? '';
-
-type Payload = {
-  ticketId: number;
-};
+import { decodeTicket } from './action';
 
 export default function TicketManage() {
   const [ticketId, setTicketId] = useState<number | null>(null);
   const [isValidTicket, setIsValidTicket] = useState<boolean>(false);
   const [execScan, setExecScan] = useState<boolean>(true);
-  const [isVerified, setIsVerified] = useState<any>();
 
-  const onScan = ({ data }: QRScanResult) => {
+  const onScan = async ({ data }: QRScanResult) => {
     setExecScan(false);
     try {
-      const verified = jwt.verify(data, SECRET);
-      setIsVerified(verified);
-    } catch (e) {
-      const error = e as VerifyErrors;
-      toast.error(error.message);
-      return;
-    }
-
-    try {
-      const { ticketId } = jwtDecode<Payload>(data);
+      const { ticketId } = await decodeTicket(data);
       setIsValidTicket(true);
       setTicketId(ticketId);
     } catch (e) {
-      const error = e as InvalidTokenError;
-      toast.error(error.message);
-      return;
-    } finally {
-      setExecScan(true);
+      if (e instanceof CustomError) {
+        toast.error(e.message);
+      }
+      setIsValidTicket(false);
     }
   };
 
