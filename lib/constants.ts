@@ -50,6 +50,13 @@ export const API_ROUTES = {
      */
     apply: '/ticket',
     /**
+     * @name GET /ticket
+     * @description 내 티켓 정보 조회 -- 관리자용, 호출시 SMS가 발송됨
+     * @returns {TicketInfo} 티켓 정보
+     *
+     */
+    info: (ticketId: number) => `/ticket/${ticketId}`,
+    /**
      * @name GET /ticket/reservation/:eventId
      * @description 내 티켓 정보 조회
      * @param eventId - 행사 ID

@@ -81,7 +81,7 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
   }, [qrOn]);
 
   return (
-    <div className="aspect-square overflow-hidden rounded-2xl lg:min-w-[400px] relative bg-neutral-100 dark:bg-neutral-900">
+    <div className="aspect-square overflow-hidden rounded-2xl relative bg-neutral-100 dark:bg-neutral-900">
       <video ref={videoEl} className="object-cover w-full h-full"></video>
       <Button
         onClick={changeFacingMode}
