@@ -1,4 +1,5 @@
 import { COOKIE_KEYS } from '@lib/constants';
+import { ErrorCause, assert } from '@lib/utils/validation';
 import { useCookies } from 'next-client-cookies';
 
 export default function useClientSideToken() {
@@ -6,5 +7,16 @@ export default function useClientSideToken() {
   const accessToken = cookies.get(COOKIE_KEYS.accessToken);
   const refreshToken = cookies.get(COOKIE_KEYS.refreshToken);
 
-  return `${COOKIE_KEYS.accessToken}=${accessToken}; ${COOKIE_KEYS.refreshToken}=${refreshToken}`;
+  if (!accessToken || !refreshToken) return;
+
+  try {
+    assert('jwt', accessToken);
+
+    return `${COOKIE_KEYS.accessToken}=${accessToken}; ${COOKIE_KEYS.refreshToken}=${refreshToken}`;
+  } catch (e) {
+    const error = e as Error;
+    if (error.cause === ErrorCause.EXPIRED_TOKEN) {
+      // Reissue token
+    }
+  }
 }

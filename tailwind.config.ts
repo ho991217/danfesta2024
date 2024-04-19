@@ -42,7 +42,10 @@ const config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        primary: '#C892EA',
+        primary: '#0073E5',
+        secondary: '#DD2DE7',
+        ternary: '#00E7E7',
+        // primary: '#C892EA',
         // primary: '#0262E9',
       },
       fontFamily: {

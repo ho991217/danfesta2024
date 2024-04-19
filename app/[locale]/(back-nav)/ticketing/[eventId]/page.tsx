@@ -1,6 +1,4 @@
 import { get, getImage, getServerSideToken } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
-import assert from '@/lib/utils/validation/assert';
 import { Form, RefetchButton } from '@components/ticketing';
 import {
   Accordion,
@@ -9,6 +7,7 @@ import {
   AccordionTrigger,
 } from '@components/ui/accordion';
 import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card';
+import { API_ROUTES } from '@lib/constants';
 import { type Params } from '@lib/types';
 import Image from 'next/image';
 import { Suspense } from 'react';

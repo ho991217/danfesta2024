@@ -1,8 +1,9 @@
 'use client';
 
 import { post } from '@/api';
+import { useClientSideToken } from '@/hooks';
 import { API_ROUTES, COOKIE_KEYS } from '@lib/constants';
-import { APIError } from '@lib/utils/validation';
+import { APIError, CustomError, ErrorCause } from '@lib/utils/validation';
 import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
@@ -29,11 +30,10 @@ export default function TicketingForm({
 }: Omit<TicketApplyRequest, 'captchaValue'>) {
   const router = useRouter();
   const locale = useLocale();
-  const cookies = useCookies();
+  const token = useClientSideToken();
 
   const handleSubmit = async (v: Schema) => {
-    const token = cookies.get(COOKIE_KEYS.accessToken);
-    if (!token) throw new Error('로그인이 필요합니다.');
+    if (!token) throw new CustomError(ErrorCause.NOT_LOGGED_IN);
 
     try {
       await post(

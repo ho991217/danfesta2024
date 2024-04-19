@@ -77,7 +77,7 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
   }, [onScanSuccess]);
 
   useEffect(() => {
-    if (!qrOn) toast('카메라 권한 설정을 확인해주세요.ㅋ');
+    if (!qrOn) toast('카메라 권한 설정을 확인해주세요.');
   }, [qrOn]);
 
   return (

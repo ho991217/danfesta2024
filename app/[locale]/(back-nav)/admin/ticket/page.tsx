@@ -1,6 +1,8 @@
 'use client';
 
 import Keypad from '@/components/admin/keypad';
+import { StudentInfo } from '@/components/admin/result-tile';
+import { Button } from '@/components/common';
 import DanfestaLogo from '@/public/icons/logo-white.svg';
 import Glass from '@/public/images/glass.jpeg';
 import { type QRScanResult, QrReader } from '@components/admin';
@@ -13,9 +15,9 @@ import { TicketInfo, getTicketInfoByAdmin } from './action';
 
 export default function TicketManage() {
   const [ticketId, setTicketId] = useState<number | null>(null);
-  const [isValidTicket, setIsValidTicket] = useState<boolean>(false);
   const [execScan, setExecScan] = useState<boolean>(true);
   const [ticketInfo, setTicketInfo] = useState<TicketInfo | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [smsCode, setSmsCode] = useState<string>('');
 
   const onScan = async ({ data }: QRScanResult) => {
@@ -23,36 +25,39 @@ export default function TicketManage() {
     try {
       const ticketInfo = await getTicketInfoByAdmin(data);
       setTicketInfo(ticketInfo);
-      setIsValidTicket(true);
       setTicketId(ticketId);
     } catch (e) {
       if (e instanceof CustomError) {
-        toast.error(e.message);
+        setError(e.message);
+      } else {
+        toast.error('QR 코드를 읽는 중 오류가 발생했습니다.');
       }
-      setIsValidTicket(false);
     }
+  };
+
+  const reset = () => {
+    setTicketId(null);
+    setExecScan(true);
+    setTicketInfo(null);
+    setSmsCode('');
   };
 
   return (
     <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-8">
       <QrReader onScan={onScan} execScan={execScan} />
-      <div
-        className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-8 dark:bg-neutral-900 lg:min-w-full"
-        onClick={() => {
-          setTicketId(null);
-          setIsValidTicket(false);
-          setExecScan(true);
-        }}
-      >
-        <h2 className="text-2xl font-bold">QR 코드 정보</h2>
-        <p className="text-lg">{ticketId}</p>
-        <p className="text-neutral-400">유효한 티켓: {`${isValidTicket}`}</p>
-        <p className="text-neutral-400">클릭하여 초기화</p>
-        <p className="text-neutral-400">{ticketInfo?.name}</p>
-        <p className="text-neutral-400">{ticketInfo?.major}</p>
-        <p className="text-neutral-400">{ticketInfo?.studentId}</p>
-        <p className="text-neutral-400">{ticketInfo?.issued}</p>
-        <p className="text-neutral-400">{ticketInfo?.turn}</p>
+      <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-8 dark:bg-neutral-900 lg:min-w-full flex flex-col justify-between items-center">
+        <StudentInfo info={ticketInfo} />
+        <Button
+          onClick={reset}
+          disabled={
+            ticketId === null &&
+            execScan &&
+            ticketInfo === null &&
+            smsCode === ''
+          }
+        >
+          초기화
+        </Button>
       </div>
       <div className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900 lg:row-span-2">
         <Keypad value={smsCode} onChange={(v) => setSmsCode(v)} />
