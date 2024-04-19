@@ -1,5 +1,6 @@
 'use client';
 
+import Keypad from '@/components/admin/keypad';
 import DanfestaLogo from '@/public/icons/logo-white.svg';
 import Glass from '@/public/images/glass.jpeg';
 import { type QRScanResult, QrReader } from '@components/admin';
@@ -15,6 +16,7 @@ export default function TicketManage() {
   const [isValidTicket, setIsValidTicket] = useState<boolean>(false);
   const [execScan, setExecScan] = useState<boolean>(true);
   const [ticketInfo, setTicketInfo] = useState<TicketInfo | null>(null);
+  const [smsCode, setSmsCode] = useState<string>('');
 
   const onScan = async ({ data }: QRScanResult) => {
     setExecScan(false);
@@ -32,9 +34,16 @@ export default function TicketManage() {
   };
 
   return (
-    <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-[65px]">
+    <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-8">
       <QrReader onScan={onScan} execScan={execScan} />
-      <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-8 dark:bg-neutral-900 lg:min-w-full">
+      <div
+        className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-8 dark:bg-neutral-900 lg:min-w-full"
+        onClick={() => {
+          setTicketId(null);
+          setIsValidTicket(false);
+          setExecScan(true);
+        }}
+      >
         <h2 className="text-2xl font-bold">QR 코드 정보</h2>
         <p className="text-lg">{ticketId}</p>
         <p className="text-neutral-400">유효한 티켓: {`${isValidTicket}`}</p>
@@ -45,15 +54,8 @@ export default function TicketManage() {
         <p className="text-neutral-400">{ticketInfo?.issued}</p>
         <p className="text-neutral-400">{ticketInfo?.turn}</p>
       </div>
-      <div
-        className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900 lg:row-span-2"
-        onClick={() => {
-          setTicketId(null);
-          setIsValidTicket(false);
-          setExecScan(true);
-        }}
-      >
-        키패드
+      <div className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900 lg:row-span-2">
+        <Keypad value={smsCode} onChange={(v) => setSmsCode(v)} />
       </div>
       <div className="hidden overflow-hidden rounded-2xl bg-neutral-900 col-span-2 relative lg:flex lg:min-w-full">
         <div className="absolute left-8 top-1/2 -translate-y-1/2 flex gap-3 items-center text-neutral-100">
