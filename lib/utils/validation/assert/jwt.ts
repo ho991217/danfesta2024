@@ -2,14 +2,14 @@ import { jwtDecode } from 'jwt-decode';
 
 import { CustomError, ErrorCause } from '../error';
 
-type JwtPayload = {
+export type AccessToken = {
   userRole: string;
   exp: number;
   userId: string;
   iat: number;
 };
 
-const userRole = ['ROLE_ADMIN', 'ROLE_USER'] as const;
+export const userRole = ['ROLE_ADMIN', 'ROLE_USER'] as const;
 
 export default function assertJWT(jwt: string) {
   const isValidString =
@@ -20,7 +20,7 @@ export default function assertJWT(jwt: string) {
   if (!isValidString)
     throw new CustomError(ErrorCause.INVALID, '올바르지 않은 JWT입니다.');
 
-  const decoded = jwtDecode<JwtPayload>(jwt);
+  const decoded = jwtDecode<AccessToken>(jwt);
 
   const isValidRole = typeof decoded.userRole === 'string';
   if (!isValidRole) throw new CustomError(ErrorCause.NOT_AUTHORIZED);

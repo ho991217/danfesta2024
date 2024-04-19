@@ -44,7 +44,7 @@ export default function useAuth() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) return;
+    if (isLoggedIn && userInfo !== null) return;
     checkLogin();
   }, []);
 
@@ -78,12 +78,13 @@ export default function useAuth() {
     router.push(ROUTES.home);
   };
 
-  const isAdmin = async () => {};
+  const isAdmin = userInfo === null ? false : userInfo.admin;
 
   return {
     userInfo,
     isLoggedIn,
     login,
     logout,
+    isAdmin,
   };
 }

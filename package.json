@@ -42,6 +42,7 @@
     "next-themes": "^0.3.0",
     "next-video": "^0.17.3",
     "nextjs-toploader": "^1.6.11",
+    "qr-scanner": "^1.4.2",
     "react": "^18",
     "react-confetti": "^6.1.0",
     "react-dom": "^18",

@@ -1,15 +1,15 @@
-import { ROUTES } from '@/lib/constants';
 import en from '@/messages/en.json';
 import ko from '@/messages/ko.json';
 import { Separator } from '@components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@components/ui/sheet';
+import { ROUTES } from '@lib/constants';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale } from 'next-intl/server';
 import { IoIosMenu } from 'react-icons/io';
 
 import Button from '../button';
 import LocaleSwitcher from '../locale-switcher';
-import AuthButton from './auth-button';
+import AuthGroup from './auth-group';
 import Link from './link';
 
 export type LinkInfo = {
@@ -73,7 +73,7 @@ export default async function SideNav() {
             timeZone="Asia/Seoul"
             messages={locale === 'ko' ? ko : en}
           >
-            <AuthButton className={className} />
+            <AuthGroup className={className} />
           </NextIntlClientProvider>
           <Separator />
           <ul className="flex flex-col items-end gap-1 w-full">

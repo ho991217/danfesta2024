@@ -107,6 +107,7 @@ export const API_ROUTES = {
 } as const;
 
 export const ROUTES = {
+  admin: '/admin',
   home: '/',
   login: '/login',
   mypage: '/mypage',
