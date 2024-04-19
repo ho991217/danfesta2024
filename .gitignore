@@ -52,3 +52,5 @@ next-env.d.ts
 **/public/fallback-*.js
 public/sw.js.map
 public/sw.js.map
+
+**/*.pem

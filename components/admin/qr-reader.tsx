@@ -1,7 +1,7 @@
 'use client';
 
 import QrScanner from 'qr-scanner';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { MdOutlineChangeCircle } from 'react-icons/md';
 import { toast } from 'sonner';
 
@@ -24,9 +24,12 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
     'environment',
   );
 
-  const onScanSuccess = (result: QRScanResult) => {
-    onScan?.(result);
-  };
+  const onScanSuccess = useCallback(
+    (result: QRScanResult) => {
+      onScan?.(result);
+    },
+    [onScan],
+  );
 
   const onScanFail = (err: string | Error) => {
     // toast('QR 코드를 찾을 수 없습니다.');
@@ -47,8 +50,9 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
   }, [execScan]);
 
   useEffect(() => {
-    if (videoEl?.current && !scanner.current) {
-      scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
+    const video = videoEl?.current;
+    if (video && !scanner.current) {
+      scanner.current = new QrScanner(video, onScanSuccess, {
         onDecodeError: onScanFail,
         preferredCamera: 'environment',
         highlightScanRegion: true,
@@ -66,11 +70,11 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
     }
 
     return () => {
-      if (!videoEl?.current) {
+      if (!video) {
         scanner?.current?.stop();
       }
     };
-  }, []);
+  }, [onScanSuccess]);
 
   useEffect(() => {
     if (!qrOn) toast('카메라 권한 설정을 확인해주세요.ㅋ');

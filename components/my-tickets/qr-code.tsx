@@ -2,7 +2,7 @@
 
 import { Button } from '@components/common';
 import { cn, parseMStoMinSec } from '@lib/utils';
-import sign from 'jwt-encode';
+import jwt from 'jsonwebtoken';
 import { useQRCode } from 'next-qrcode';
 import { useEffect, useRef, useState } from 'react';
 
@@ -17,8 +17,6 @@ type QrCodeProps = {
 
 type Payload = {
   ticketId: number;
-  exp: number;
-  iat: number;
 };
 
 export default function QrCode({
@@ -38,8 +36,11 @@ export default function QrCode({
   const generateToken = () => {
     const iat = Date.now();
     const exp = iat + validTime;
-    const payload: Payload = { ticketId, iat, exp };
-    const newToken = sign(payload, SECRET, { algorithm: 'HS256' });
+    const payload: Payload = { ticketId };
+    const newToken = jwt.sign(payload, SECRET, {
+      algorithm: 'HS256',
+      expiresIn: validTime,
+    });
     setToken(newToken);
   };
 

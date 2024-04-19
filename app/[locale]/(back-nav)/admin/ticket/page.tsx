@@ -1,30 +1,45 @@
 'use client';
 
 import { type QRScanResult, QrReader } from '@components/admin';
-import { jwtDecode } from 'jwt-decode';
+import jwt, { VerifyErrors } from 'jsonwebtoken';
+import { InvalidTokenError, jwtDecode } from 'jwt-decode';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET ?? '';
+
 type Payload = {
   ticketId: number;
-  exp: number;
-  iat: number;
 };
 
 export default function TicketManage() {
   const [ticketId, setTicketId] = useState<number | null>(null);
   const [isValidTicket, setIsValidTicket] = useState<boolean>(false);
   const [execScan, setExecScan] = useState<boolean>(true);
+  const [isVerified, setIsVerified] = useState<any>();
 
-  const onScan = (result: QRScanResult) => {
-    const { ticketId, exp } = jwtDecode<Payload>(result.data);
+  const onScan = ({ data }: QRScanResult) => {
     setExecScan(false);
-    if (exp < Date.now()) {
-      toast.error('만료된 티켓입니다.');
+    try {
+      const verified = jwt.verify(data, SECRET);
+      setIsVerified(verified);
+    } catch (e) {
+      const error = e as VerifyErrors;
+      toast.error(error.message);
       return;
     }
-    setIsValidTicket(true);
-    setTicketId(ticketId);
+
+    try {
+      const { ticketId } = jwtDecode<Payload>(data);
+      setIsValidTicket(true);
+      setTicketId(ticketId);
+    } catch (e) {
+      const error = e as InvalidTokenError;
+      toast.error(error.message);
+      return;
+    } finally {
+      setExecScan(true);
+    }
   };
 
   return (
@@ -35,15 +50,14 @@ export default function TicketManage() {
         onClick={() => {
           setTicketId(null);
           setIsValidTicket(false);
+          setExecScan(true);
         }}
       >
         <div className="p-4">
-          <h2 className="text-xl font-bold">QR 코드 정보</h2>
+          <h2 className="text-2xl font-bold">QR 코드 정보</h2>
           <p className="text-lg">{ticketId}</p>
-          <p className="text-sm text-neutral-400">
-            유효한 티켓: {`${isValidTicket}`}
-          </p>
-          <p className="text-sm text-neutral-400">클릭하여 초기화</p>
+          <p className="text-neutral-400">유효한 티켓: {`${isValidTicket}`}</p>
+          <p className="text-neutral-400">클릭하여 초기화</p>
         </div>
       </div>
     </div>
