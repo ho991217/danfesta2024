@@ -1,6 +1,5 @@
 import { get, getServerSideToken } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
-import { FestivalEvent } from '@app/[locale]/(back-nav)/ticketing/page';
+import { type FestivalEvent } from '@app/[locale]/(back-nav)/ticketing/action';
 import {
   Card as CardComponent,
   CardDescription,
@@ -8,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@components/ui/card';
+import { API_ROUTES } from '@lib/constants';
 import { cn } from '@lib/utils';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';

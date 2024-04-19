@@ -4,6 +4,7 @@ import { APIError, type APIErrorResponse } from '@lib/utils/validation';
 
 type APIOptions = {
   token?: string;
+  cache?: boolean;
 };
 
 export async function get<Res>(
@@ -16,6 +17,12 @@ export async function get<Res>(
       'Content-Type': 'application/json',
       ...(options?.token &&
         options.token.length > 0 && { Cookie: options.token }),
+      cache:
+        options?.cache === undefined
+          ? 'default'
+          : options.cache
+            ? 'force-cache'
+            : 'no-store',
     },
   });
 
