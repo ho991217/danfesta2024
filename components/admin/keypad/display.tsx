@@ -4,10 +4,10 @@ import { PropsWithChildren } from 'react';
 
 type DisplayProps = {
   value: string;
-  slot?: number;
+  slot: number;
 };
 
-export default function Display({ value, slot = 4 }: DisplayProps) {
+export default function Display({ value, slot }: DisplayProps) {
   return (
     <div className="flex gap-2 w-full px-8">
       {Array.from({ length: slot }).map((_, i) => (

@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import {
   PiArrowArcLeftBold,
   PiNumberEightBold,
@@ -33,31 +34,46 @@ const keys = [
 type KeysProps = {
   value: string;
   onChange: (value: string) => void;
+  slot: number;
 };
 
-export default function Keys({ value, onChange }: KeysProps) {
+export default function Keys({ value, onChange, slot }: KeysProps) {
+  const values = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    'Clear',
+    '0',
+    'Delete',
+  ] as const;
+
+  const onClick = (v: string) => {
+    switch (v) {
+      case 'Clear':
+        onChange('');
+        break;
+      case 'Delete':
+        onChange(value.slice(0, -1));
+        break;
+      default:
+        if (value.length >= slot) return;
+        onChange(value + v);
+    }
+  };
+
   return (
     <div className="w-full h-full grid grid-cols-3 grid-rows-4 gap-4">
-      {Array.from({ length: 12 }).map((_, i) => {
-        const v = i + 1;
-        return (
-          <Key
-            key={i}
-            value={v === 10 ? 'C' : v === 11 ? '0' : v === 12 ? 'D' : String(v)}
-            onClick={(v) => {
-              if (v === 'C') {
-                onChange('');
-              } else if (v === 'D') {
-                onChange(value.slice(0, -1));
-              } else {
-                onChange(value + v);
-              }
-            }}
-          >
-            {keys[i]}
-          </Key>
-        );
-      })}
+      {values.map((v, i) => (
+        <Key key={v} value={v} onClick={onClick}>
+          {keys[i]}
+        </Key>
+      ))}
     </div>
   );
 }
@@ -72,11 +88,13 @@ function Key({
   children?: React.ReactNode;
 }) {
   return (
-    <button
+    <motion.button
+      type="button"
       className="w-full h-full text-4xl flex items-center justify-center rounded-xl bg-neutral-100 dark:bg-neutral-900"
       onClick={() => onClick(value)}
+      whileTap={{ scale: 0.95, filter: 'brightness(0.8)' }}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }
