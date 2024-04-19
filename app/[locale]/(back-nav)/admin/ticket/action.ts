@@ -3,7 +3,7 @@
 import { get, getServerSideToken } from '@/api';
 import { API_ROUTES } from '@/lib/constants';
 import { CustomError, ErrorCause } from '@lib/utils';
-import jwt, { type JwtPayload, TokenExpiredError } from 'jsonwebtoken';
+import jwt, { type JwtPayload, VerifyErrors } from 'jsonwebtoken';
 
 export interface Payload extends JwtPayload {
   ticketId: number;
@@ -31,7 +31,8 @@ export async function decodeTicket(qrDate: string) {
     const verified = jwt.verify(qrDate, SECRET);
     return verified as Payload;
   } catch (e) {
-    if (e instanceof TokenExpiredError) {
+    const error = e as Error;
+    if (error.message === 'jwt expired') {
       throw new CustomError(ErrorCause.EXPIRED_TOKEN);
     } else {
       throw new CustomError(ErrorCause.INVALID, '유효하지 않은 티켓입니다.');

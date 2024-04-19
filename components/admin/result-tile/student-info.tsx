@@ -3,7 +3,7 @@ import { If } from '@components/util';
 
 export default function StudentInfo({ info }: { info: TicketInfo | null }) {
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col p-8">
       <h2 className="text-3xl font-bold mb-6">QR 코드 정보</h2>
       <If condition={info === null}>
         <If.Then>

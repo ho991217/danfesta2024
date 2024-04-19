@@ -1,59 +1,66 @@
 'use client';
 
-import Keypad from '@/components/admin/keypad';
-import { StudentInfo } from '@/components/admin/result-tile';
-import { Button } from '@/components/common';
 import DanfestaLogo from '@/public/icons/logo-white.svg';
 import Glass from '@/public/images/glass.jpeg';
-import { type QRScanResult, QrReader } from '@components/admin';
-import { CustomError } from '@lib/utils';
+import {
+  ErrorTile,
+  Keypad,
+  type QRScanResult,
+  QrReader,
+  StudentInfo,
+} from '@components/admin';
+import { Button } from '@components/common';
 import Image from 'next/image';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 import { TicketInfo, getTicketInfoByAdmin } from './action';
 
 export default function TicketManage() {
   const [ticketId, setTicketId] = useState<number | null>(null);
-  const [execScan, setExecScan] = useState<boolean>(true);
+  const [scannerPaused, setScannerPaused] = useState(false);
   const [ticketInfo, setTicketInfo] = useState<TicketInfo | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [smsCode, setSmsCode] = useState<string>('');
+  const [smsCode, setSmsCode] = useState('');
 
   const onScan = async ({ data }: QRScanResult) => {
-    setExecScan(false);
+    if (!data) return;
+    const jwtRegex = /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/;
+    if (!jwtRegex.test(data)) return;
+
+    setScannerPaused(true);
     try {
       const ticketInfo = await getTicketInfoByAdmin(data);
       setTicketInfo(ticketInfo);
       setTicketId(ticketId);
     } catch (e) {
-      if (e instanceof CustomError) {
-        setError(e.message);
-      } else {
-        toast.error('QR 코드를 읽는 중 오류가 발생했습니다.');
-      }
+      const err = e as Error;
+      setError(err.message);
     }
   };
 
   const reset = () => {
     setTicketId(null);
-    setExecScan(true);
+    setScannerPaused(false);
     setTicketInfo(null);
     setSmsCode('');
+    setError(null);
   };
 
   return (
     <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-8">
-      <QrReader onScan={onScan} execScan={execScan} />
-      <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-8 dark:bg-neutral-900 lg:min-w-full flex flex-col justify-between items-center">
-        <StudentInfo info={ticketInfo} />
+      <QrReader onScan={onScan} paused={scannerPaused} />
+      <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-0 dark:bg-neutral-900 lg:min-w-full flex flex-col justify-between items-center relative">
+        {!error && <StudentInfo info={ticketInfo} />}
+        {error && <ErrorTile error={error} />}
         <Button
+          className="absolute bottom-8 left-8 right-8 w-auto"
           onClick={reset}
           disabled={
             ticketId === null &&
-            execScan &&
+            !scannerPaused &&
             ticketInfo === null &&
-            smsCode === ''
+            smsCode === '' &&
+            error === null
           }
         >
           초기화

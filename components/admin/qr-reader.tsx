@@ -11,18 +11,16 @@ export type QRScanResult = QrScanner.ScanResult;
 
 type QrReaderProps = {
   onScan?: (result: QRScanResult) => void;
-  execScan?: boolean;
+  paused?: boolean;
 };
 
-const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
+const QrReader = ({ onScan, paused }: QrReaderProps) => {
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
 
-  const [facingMode, setFacingMode] = useState<'user' | 'environment'>(
-    'environment',
-  );
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user');
 
   const onScanSuccess = useCallback(
     (result: QRScanResult) => {
@@ -31,10 +29,6 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
     [onScan],
   );
 
-  const onScanFail = (err: string | Error) => {
-    // toast('QR 코드를 찾을 수 없습니다.');
-  };
-
   const changeFacingMode = () => {
     const facing = facingMode === 'user' ? 'environment' : 'user';
     setFacingMode(facing);
@@ -42,23 +36,14 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
   };
 
   useEffect(() => {
-    if (execScan) {
-      scanner.current?.start();
-    } else {
-      scanner.current?.stop();
-    }
-  }, [execScan]);
-
-  useEffect(() => {
     const video = videoEl?.current;
     if (video && !scanner.current) {
       scanner.current = new QrScanner(video, onScanSuccess, {
-        onDecodeError: onScanFail,
-        preferredCamera: 'environment',
+        preferredCamera: facingMode,
         highlightScanRegion: true,
         highlightCodeOutline: true,
         overlay: qrBoxEl?.current || undefined,
-        maxScansPerSecond: 40,
+        maxScansPerSecond: 1,
       });
 
       scanner?.current
@@ -74,11 +59,19 @@ const QrReader = ({ onScan, execScan = true }: QrReaderProps) => {
         scanner?.current?.stop();
       }
     };
-  }, [onScanSuccess]);
+  }, [onScanSuccess, facingMode]);
 
   useEffect(() => {
     if (!qrOn) toast('카메라 권한 설정을 확인해주세요.');
   }, [qrOn]);
+
+  useEffect(() => {
+    if (paused) {
+      scanner?.current?.pause();
+    } else {
+      scanner?.current?.start();
+    }
+  }, [paused]);
 
   return (
     <div className="aspect-square overflow-hidden rounded-2xl relative bg-neutral-100 dark:bg-neutral-900">
