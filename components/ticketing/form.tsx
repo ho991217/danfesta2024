@@ -64,7 +64,11 @@ export default function TicketingForm({
       className="flex gap-0"
       validateOn="onSubmit"
     >
-      <Form.Text name="captchaValue" className="mb-4" />
+      <Form.Text
+        name="captchaValue"
+        className="mb-4"
+        placeholder="캡차를 입력하세요."
+      />
       <Form.Button type="submit" variant="filled" className="mb-2">
         신청
       </Form.Button>

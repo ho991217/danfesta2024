@@ -47,7 +47,11 @@ export async function getTicketInfoByAdmin(qrDate: string) {
       token: await getServerSideToken(),
     });
     return info;
-  } catch {
+  } catch (e) {
+    const error = e as Error;
+    if (error.message === '해당 티켓을 찾을 수 없습니다.') {
+      throw new CustomError(ErrorCause.NOT_FOUND, error.message);
+    }
     return null;
   }
 }

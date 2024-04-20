@@ -1,7 +1,7 @@
 'use server';
 
 import { get } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
+import { API_ROUTES } from '@lib/constants';
 
 export type FestivalEvent = {
   id: number;

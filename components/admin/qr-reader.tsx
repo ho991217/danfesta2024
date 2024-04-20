@@ -43,7 +43,7 @@ const QrReader = ({ onScan, paused }: QrReaderProps) => {
         highlightScanRegion: true,
         highlightCodeOutline: true,
         overlay: qrBoxEl?.current || undefined,
-        maxScansPerSecond: 1,
+        maxScansPerSecond: 3,
       });
 
       scanner?.current
