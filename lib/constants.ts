@@ -138,4 +138,5 @@ export const ROUTES = {
   ticketing: { root: '/ticketing', id: (id: number) => `/ticketing/${id}` },
   myTickets: '/my-tickets',
   notice: '/notice',
+  stamp: '/stamp',
 } as const;

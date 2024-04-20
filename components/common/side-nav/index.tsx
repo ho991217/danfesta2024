@@ -33,8 +33,8 @@ const links: LinkInfo[] = [
   },
   {
     id: 3,
-    link: '/events',
-    nameKey: 'events',
+    link: ROUTES.stamp,
+    nameKey: 'stamp',
   },
   {
     id: 4,

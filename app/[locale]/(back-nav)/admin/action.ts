@@ -1,9 +1,9 @@
 'use server';
 
 import { get, getServerSideToken } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
+import { API_ROUTES } from '@lib/constants';
 import { CustomError, ErrorCause } from '@lib/utils';
-import jwt, { type JwtPayload, VerifyErrors } from 'jsonwebtoken';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
 
 export interface Payload extends JwtPayload {
   ticketId: number;
@@ -29,7 +29,7 @@ export async function decodeTicket(qrDate: string) {
 
   try {
     const verified = jwt.verify(qrDate, SECRET);
-    return verified as Payload;
+    return verified;
   } catch (e) {
     const error = e as Error;
     if (error.message === 'jwt expired') {
@@ -41,8 +41,13 @@ export async function decodeTicket(qrDate: string) {
 }
 
 export async function getTicketInfoByAdmin(qrDate: string) {
-  const { ticketId } = await decodeTicket(qrDate);
+  const decoded = await decodeTicket(qrDate);
+  if (typeof decoded === 'string') {
+    throw new CustomError(ErrorCause.INVALID, '유효하지 않은 티켓입니다.');
+  }
+
   try {
+    const { ticketId } = decoded as Payload;
     const info = await get<TicketInfo>(API_ROUTES.ticket.info(ticketId), {
       token: await getServerSideToken(),
     });

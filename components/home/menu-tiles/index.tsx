@@ -1,9 +1,9 @@
 import { ROUTES } from '@/lib/constants';
 import { Link } from '@components/common';
 import type { PropsWithChildren } from 'react';
-import { AiFillStar } from 'react-icons/ai';
 import { BiSolidNavigation } from 'react-icons/bi';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
+import { FaStamp } from 'react-icons/fa';
 
 import Tile from './tile';
 
@@ -39,16 +39,16 @@ const tiles: TileInfo[] = [
   },
   {
     id: 2,
-    subtitle: 'events',
+    subtitle: 'stamp',
     title: (
       <TileHeader>
-        이벤트
+        스탬프
         <br />
         확인하기
       </TileHeader>
     ),
-    link: '/events',
-    icon: <AiFillStar size={17} />,
+    link: ROUTES.stamp,
+    icon: <FaStamp size={17} />,
     bgColor: 'bg-white dark:bg-neutral-950',
   },
   {
