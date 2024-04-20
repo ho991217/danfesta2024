@@ -1,4 +1,4 @@
-import { type TicketInfo } from '@app/[locale]/(back-nav)/admin/ticket/action';
+import { type TicketInfo } from '@/app/[locale]/(back-nav)/admin/action';
 import { If } from '@components/util';
 
 export default function StudentInfo({ info }: { info: TicketInfo | null }) {
