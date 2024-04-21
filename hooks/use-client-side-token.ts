@@ -11,8 +11,7 @@ export default function useClientSideToken() {
 
   try {
     assert('jwt', accessToken);
-
-    return `${COOKIE_KEYS.accessToken}=${accessToken}; ${COOKIE_KEYS.refreshToken}=${refreshToken}`;
+    return accessToken;
   } catch (e) {
     const error = e as Error;
     if (error.cause === ErrorCause.EXPIRED_TOKEN) {

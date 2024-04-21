@@ -4,13 +4,14 @@ import { Separator } from '@components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@components/ui/sheet';
 import { ROUTES } from '@lib/constants';
 import { NextIntlClientProvider } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { getLocale } from 'next-intl/server';
 import { IoIosMenu } from 'react-icons/io';
 
 import Button from '../button';
 import LocaleSwitcher from '../locale-switcher';
 import AuthGroup from './auth-group';
-import Link from './link';
+import NavLink from './nav-link';
 
 export type LinkInfo = {
   id: number;
@@ -50,6 +51,7 @@ const links: LinkInfo[] = [
 
 export default async function SideNav() {
   const locale = await getLocale();
+  const t = await getTranslations('SideNav');
 
   const className =
     'text-neutral-400 flex items-center justify-end gap-2 w-full text-end py-3 px-4 rounded-lg active:scale-[0.98] active:dark:bg-neutral-800 active:bg-neutral-200 transition-all duration-200 ease-in-out';
@@ -78,7 +80,9 @@ export default async function SideNav() {
           <Separator />
           <ul className="flex flex-col items-end gap-1 w-full">
             {links.map((link) => (
-              <Link key={link.id} className={className} {...link} />
+              <NavLink key={link.id} className={className} link={link.link}>
+                {t(link.nameKey)}
+              </NavLink>
             ))}
           </ul>
         </div>

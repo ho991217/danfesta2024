@@ -2,9 +2,8 @@
 
 import { post } from '@/api';
 import { useClientSideToken } from '@/hooks';
-import { API_ROUTES, COOKIE_KEYS } from '@lib/constants';
+import { API_ROUTES } from '@lib/constants';
 import { APIError, CustomError, ErrorCause } from '@lib/utils/validation';
-import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
@@ -36,22 +35,20 @@ export default function TicketingForm({
     if (!token) throw new CustomError(ErrorCause.NOT_LOGGED_IN);
 
     try {
-      await post(
-        API_ROUTES.ticket.apply,
-        {
-          eventId,
-          captchaKey,
-          captchaValue: v.captchaValue,
-        },
-        {
-          token,
-        },
-      );
+      const data = {
+        eventId,
+        captchaKey,
+        captchaValue: v.captchaValue,
+      };
+      await post(API_ROUTES.ticket.apply, data, {
+        token,
+      });
 
       toast.success('신청이 완료되었습니다.');
       router.push(`/${locale}/ticketing/${eventId}/result`);
     } catch (error) {
       const e = error as APIError;
+      console.error(e);
       toast.error(e.message);
       if (e.message !== '이미 신청했습니다.') router.refresh();
     }

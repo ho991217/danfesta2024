@@ -1,10 +1,9 @@
-import { jwtDecode as decode, jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { User, get } from './api';
-import { API_ROUTES, COOKIE_KEYS, ROUTES } from './lib/constants';
+import { COOKIE_KEYS, ROUTES } from './lib/constants';
 import { AccessToken } from './lib/utils/validation/assert/jwt';
 
 const protectedRoutes: string[] = [ROUTES.admin];

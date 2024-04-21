@@ -16,13 +16,18 @@ export async function get<Res>(
     headers: {
       'Content-Type': 'application/json',
       ...(options?.token &&
-        options.token.length > 0 && { Cookie: options.token }),
+        options.token.length > 0 && {
+          Authorization: `Bearer ${options?.token}`,
+        }),
       cache:
         options?.cache === undefined
           ? 'default'
           : options.cache
             ? 'force-cache'
             : 'no-store',
+    },
+    next: {
+      revalidate: options?.cache ? 60 : 0,
     },
   });
 
@@ -46,7 +51,9 @@ export async function post<Req, Res>(
     headers: {
       'Content-Type': 'application/json',
       ...(options?.token &&
-        options.token.length > 0 && { Cookie: options.token }),
+        options.token.length > 0 && {
+          Authorization: `Bearer ${options?.token}`,
+        }),
     },
     body: JSON.stringify(data),
   });
@@ -68,7 +75,9 @@ export async function getImage(path: string, options?: APIOptions) {
     headers: {
       'Content-Type': 'image/png',
       ...(options?.token &&
-        options.token.length > 0 && { Cookie: options.token }),
+        options.token.length > 0 && {
+          Authorization: `Bearer ${options?.token}`,
+        }),
     },
   });
 

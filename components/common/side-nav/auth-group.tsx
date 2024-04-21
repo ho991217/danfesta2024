@@ -1,11 +1,13 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import { Link } from '@components/common';
+import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { SheetClose } from '@components/ui/sheet';
 import { If } from '@components/util';
 import { ROUTES } from '@lib/constants';
 import { useTranslations } from 'next-intl';
+import { IoChevronForwardOutline } from 'react-icons/io5';
 import {
   IoPersonCircleOutline,
   IoPersonSharp,
@@ -13,37 +15,62 @@ import {
 } from 'react-icons/io5';
 import { MdLogin, MdLogout } from 'react-icons/md';
 
+import NavLink from './nav-link';
+
 export default function AuthGroup({ className }: { className?: string }) {
-  const { logout, isLoggedIn, isAdmin } = useAuth();
+  const { logout, isLoggedIn, isAdmin, userInfo } = useAuth();
   const t = useTranslations('SideNav');
 
   return (
-    <div>
+    <div className="w-full">
       <If condition={isLoggedIn}>
         <If.Then>
           <If condition={isAdmin}>
             <If.Then>
-              <Link href={ROUTES.admin} className="h-auto">
-                <SheetClose className={className}>
-                  <IoPersonSharp />
-                  관리자 페이지
-                </SheetClose>
-              </Link>
+              <NavLink link={ROUTES.admin} className={className}>
+                <IoPersonSharp />
+                관리자 페이지
+              </NavLink>
             </If.Then>
 
             <If.Else>
-              <Link href={ROUTES.mypage} className="h-auto">
-                <SheetClose className={className}>
-                  <IoPersonCircleOutline />
-                  {t('mypage')}
-                </SheetClose>
-              </Link>
-              <Link href={ROUTES.myTickets} className="h-auto">
-                <SheetClose className={className}>
-                  <IoTicketOutline />
-                  {t('myTickets')}
-                </SheetClose>
-              </Link>
+              <NavLink
+                link={ROUTES.mypage}
+                className={cn(
+                  'dark:bg-neutral-900 bg-neutral-100 w-full p-3 rounded-lg mb-4',
+                  className,
+                )}
+              >
+                <div className="w-full flex flex-col gap-4 pt-1">
+                  <div className="w-full flex items-center justify-center gap-2">
+                    <Avatar className="w-6 h-6 ring-1 ring-offset-1">
+                      <AvatarImage
+                        className="object-cover"
+                        src={userInfo?.profileImage}
+                      />
+                      <AvatarFallback>U</AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm text-neutral-500">
+                      안녕하세요,{' '}
+                      <strong className="font-medium text-black dark:text-white">
+                        {userInfo?.username} 님!
+                      </strong>
+                    </span>
+                  </div>
+
+                  <div className="text-neutral-500 text-sm flex items-center justify-end">
+                    마이페이지 가기 <IoChevronForwardOutline size={16} />
+                  </div>
+                </div>
+              </NavLink>
+              <NavLink link={ROUTES.myTickets} className={className}>
+                <IoPersonCircleOutline className="mr-2" />
+                {t('mypage')}
+              </NavLink>
+              <NavLink link={ROUTES.myTickets} className={className}>
+                <IoTicketOutline className="mr-2" />
+                {t('myTickets')}
+              </NavLink>
             </If.Else>
           </If>
 
@@ -54,12 +81,10 @@ export default function AuthGroup({ className }: { className?: string }) {
         </If.Then>
 
         <If.Else>
-          <Link href={ROUTES.login}>
-            <SheetClose className={className}>
-              <MdLogin />
-              {t('login')}
-            </SheetClose>
-          </Link>
+          <NavLink link={ROUTES.login} className={className}>
+            <MdLogin className="mr-2" />
+            {t('login')}
+          </NavLink>
         </If.Else>
       </If>
     </div>

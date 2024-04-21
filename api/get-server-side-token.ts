@@ -1,9 +1,7 @@
 'use server';
 
-import { API_ROUTES, COOKIE_KEYS } from '@/lib/constants';
-import assert from '@/lib/utils/validation/assert';
-import assertToken from '@/lib/utils/validation/assert/jwt';
-import { CustomError, ErrorCause } from '@lib/utils';
+import { API_ROUTES, COOKIE_KEYS } from '@lib/constants';
+import { CustomError, ErrorCause, assert } from '@lib/utils';
 import { cookies } from 'next/headers';
 
 import { post } from '.';
@@ -31,12 +29,12 @@ export default async function getServerSideToken() {
     }
   }
 
-  return `${COOKIE_KEYS.accessToken}=${atk}; ${COOKIE_KEYS.refreshToken}=${atk}`;
+  return atk;
 }
 
 async function reissue(rtk: string) {
   try {
-    assertToken(rtk);
+    assert('jwt', rtk);
 
     const { accessToken, refreshToken } = await post<
       { refreshToken: string },

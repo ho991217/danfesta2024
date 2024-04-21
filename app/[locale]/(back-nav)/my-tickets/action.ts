@@ -22,6 +22,7 @@ export type TicketInfo = {
 export async function getMyTicket(eventId: number) {
   const data = await get<TicketInfo>(API_ROUTES.ticket.myTicket(eventId), {
     token: await getServerSideToken(),
+    cache: false,
   });
 
   return data;
@@ -30,6 +31,7 @@ export async function getMyTicket(eventId: number) {
 export async function getMyTicketList() {
   const data = await get<TicketInfo[]>(API_ROUTES.ticket.myTicketList, {
     token: await getServerSideToken(),
+    cache: false,
   });
 
   return data;
