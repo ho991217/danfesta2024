@@ -1,7 +1,9 @@
 import { get, getServerSideToken } from '@/api';
-import { API_ROUTES, ROUTES } from '@/lib/constants';
-import Link from '@components/common/link';
+import Glass from '@/public/images/glass.jpeg';
+import { Link } from '@components/common';
+import { API_ROUTES, ROUTES } from '@lib/constants';
 import { Params } from '@lib/types';
+import Image from 'next/image';
 
 export default async function Page({
   params: { eventId },
@@ -25,10 +27,16 @@ export default async function Page({
       </span>
       <Link
         href={ROUTES.home}
+        variant="bottom"
         className="absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] rounded-lg bg-primary p-4 text-center text-neutral-50"
       >
         메인으로 이동
       </Link>
+      <Image
+        src={Glass}
+        alt="유리"
+        className="absolute bottom-4 -z-20 mix-blend-difference h-[500px] object-cover left-0"
+      />
     </div>
   );
 }

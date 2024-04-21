@@ -16,7 +16,7 @@
     "login": "Login",
     "logout": "Logout",
     "myTickets": "My Tickets",
-    "mypage": "My Page",
+    "gotoMypage": "go to mypage",
     "notice": "Notice"
   },
   "Home": {

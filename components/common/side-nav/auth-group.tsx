@@ -59,13 +59,10 @@ export default function AuthGroup({ className }: { className?: string }) {
                   </div>
 
                   <div className="text-neutral-500 text-sm flex items-center justify-end">
-                    마이페이지 가기 <IoChevronForwardOutline size={16} />
+                    <IoPersonCircleOutline className="mr-2" /> {t('gotoMypage')}{' '}
+                    <IoChevronForwardOutline size={16} />
                   </div>
                 </div>
-              </NavLink>
-              <NavLink link={ROUTES.myTickets} className={className}>
-                <IoPersonCircleOutline className="mr-2" />
-                {t('mypage')}
               </NavLink>
               <NavLink link={ROUTES.myTickets} className={className}>
                 <IoTicketOutline className="mr-2" />
