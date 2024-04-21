@@ -1,11 +1,11 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
 import { SheetClose } from '@components/ui/sheet';
 import { If } from '@components/util';
 import { ROUTES } from '@lib/constants';
+import { cn } from '@lib/utils';
 import { useTranslations } from 'next-intl';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import {
@@ -28,7 +28,7 @@ export default function AuthGroup({ className }: { className?: string }) {
           <If condition={isAdmin}>
             <If.Then>
               <NavLink link={ROUTES.admin} className={className}>
-                <IoPersonSharp />
+                <IoPersonSharp className="mr-2" />
                 관리자 페이지
               </NavLink>
             </If.Then>
