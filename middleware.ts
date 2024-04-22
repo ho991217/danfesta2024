@@ -7,6 +7,7 @@ import { COOKIE_KEYS, ROUTES } from './lib/constants';
 import { AccessToken } from './lib/utils/validation/assert/jwt';
 
 const protectedRoutes: string[] = [ROUTES.admin];
+const privateRoutes: string[] = [ROUTES.mypage, ROUTES.ticketing.root];
 
 const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],
@@ -20,6 +21,7 @@ const middleware = async (req: NextRequest) => {
   const isProtectedRoute = protectedRoutes.some((route) =>
     path.includes(route),
   );
+  const isPrivateRoute = privateRoutes.some((route) => path.includes(route));
 
   if (isProtectedRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
@@ -32,6 +34,18 @@ const middleware = async (req: NextRequest) => {
 
     if (!isAdmin) {
       return NextResponse.redirect(new URL('/', req.nextUrl));
+    }
+  } else if (isPrivateRoute) {
+    const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
+    if (!jwt) {
+      return NextResponse.redirect(
+        new URL(
+          `/ko${ROUTES.login}?redirect=${encodeURIComponent(
+            req.nextUrl.pathname,
+          )}`,
+          req.nextUrl,
+        ),
+      );
     }
   }
 

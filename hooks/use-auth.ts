@@ -60,8 +60,8 @@ export default function useAuth() {
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 
       setIsLoggedIn(true);
-
-      router.push(redirect ?? ROUTES.home);
+      // redirect가 작동 안하는 중
+      router.push(redirect ? decodeURIComponent(redirect) : ROUTES.home);
     } catch (error) {
       const e = error as Error;
       setIsLoggedIn(false);

@@ -1,9 +1,10 @@
 'use client';
 
 import { useAuth } from '@/hooks';
-import { ROUTES } from '@/lib/constants';
-import { APIError } from '@/lib/utils/validation';
 import { Form, Link } from '@components/common';
+import { ROUTES } from '@lib/constants';
+import { SearchParams } from '@lib/types';
+import { APIError } from '@lib/utils/validation';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -11,7 +12,9 @@ import { toast } from 'sonner';
 
 import { AuthInfoSchema, authInfoSchema } from './schema';
 
-export default function LoginPage() {
+export default function LoginPage({
+  searchParams: { redirect },
+}: SearchParams<{ redirect?: string }>) {
   const [isLoading, setIsLoading] = useState(false);
   const locale = useLocale();
   const { login } = useAuth();
@@ -20,7 +23,7 @@ export default function LoginPage() {
   const onSubmit = async (data: AuthInfoSchema) => {
     try {
       setIsLoading(true);
-      await login(data);
+      await login(data, redirect);
       router.push(`/${locale}/`);
     } catch (error) {
       const e = error as APIError;
