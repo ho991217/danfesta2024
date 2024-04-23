@@ -1,9 +1,10 @@
-import { ROUTES } from '@/lib/constants';
 import { Link } from '@components/common';
+import { ROUTES } from '@lib/constants';
 import type { PropsWithChildren } from 'react';
 import { BiSolidNavigation } from 'react-icons/bi';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
 import { FaStamp } from 'react-icons/fa';
+import { TiStarFullOutline } from 'react-icons/ti';
 
 import Tile from './tile';
 
@@ -53,16 +54,16 @@ const tiles: TileInfo[] = [
   },
   {
     id: 3,
-    subtitle: 'live-map',
+    subtitle: 'events',
     title: (
       <TileHeader>
-        부스별 위치
+        이벤트
         <br />
-        라이브 맵
+        확인하기
       </TileHeader>
     ),
-    link: '/live-map',
-    icon: <BiSolidNavigation size={17} />,
+    link: ROUTES.events,
+    icon: <TiStarFullOutline size={17} />,
     bgColor: 'bg-white dark:bg-neutral-950',
   },
   {

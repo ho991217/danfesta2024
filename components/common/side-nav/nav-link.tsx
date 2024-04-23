@@ -26,7 +26,7 @@ export default function NavLink({
 
       return (
         <li className="flex justify-end w-full">
-          <Link href={link} className={cn('w-full', className)}>
+          <Link href={link} auth className={cn('w-full', className)}>
             <SheetClose className="flex w-full ">{children}</SheetClose>
           </Link>
         </li>

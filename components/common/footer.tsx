@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import FeastaLogo from '@/public/icons/feasta-logo.png';
 import GithubLogo from '@/public/icons/github.svg';
 import DanfestaLogo from '@/public/icons/logo.svg';
+import UMateLogo from '@/public/icons/u-mate-logo.webp';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -38,8 +39,20 @@ export default function Footer() {
           대학 축제 통합 솔루션 <em>Feasta</em>
         </span>
       </Block>
-      <Block className="py-5">단버리 자리</Block>
-      <Block href="https://github.com/ho991217/danfesta2024" className="py-2">
+      <Block className="py-4 flex gap-2 my-2">
+        <Image
+          src={UMateLogo}
+          alt="유메이트"
+          width={512}
+          height={512}
+          className="object-cover w-14"
+        />
+        <span className="text-neutral-500 text-sm">U-Mate</span>
+      </Block>
+      <Block
+        href="https://github.com/ho991217/danfesta2024"
+        className="py-2 my-2"
+      >
         <div className="flex items-center gap-2">
           <GithubLogo />
           <span className="text-neutral-500">소스코드</span>

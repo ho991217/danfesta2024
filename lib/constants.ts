@@ -139,4 +139,5 @@ export const ROUTES = {
   myTickets: '/my-tickets',
   notice: '/notice',
   stamp: '/stamp',
+  events: '/events',
 } as const;

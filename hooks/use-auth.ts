@@ -76,6 +76,7 @@ export default function useAuth() {
     toast.info('로그아웃되었습니다.');
     setIsLoggedIn(false);
     router.push(ROUTES.home);
+    router.refresh();
   };
 
   const isAdmin = userInfo === null ? false : userInfo.admin;
