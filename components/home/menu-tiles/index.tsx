@@ -16,6 +16,7 @@ export type TileInfo = {
   icon: React.ReactNode;
   bgColor: string;
   textColor?: string;
+  privateRoute?: boolean;
 };
 
 const TileHeader = ({ children }: PropsWithChildren) => (
@@ -37,6 +38,7 @@ const tiles: TileInfo[] = [
     icon: <BsTicketFill size={17} />,
     bgColor: 'bg-primary',
     textColor: 'text-neutral-50',
+    privateRoute: true,
   },
   {
     id: 2,
@@ -51,6 +53,7 @@ const tiles: TileInfo[] = [
     link: ROUTES.stamp,
     icon: <FaStamp size={17} />,
     bgColor: 'bg-white dark:bg-neutral-950',
+    privateRoute: true,
   },
   {
     id: 3,
@@ -85,8 +88,8 @@ const tiles: TileInfo[] = [
 export default function MenuTiles() {
   return (
     <div className="w-full grid grid-cols-2 grid-rows-2 gap-4 aspect-square lg:flex lg:max-w-full lg:aspect-auto lg:gap-8">
-      {tiles.map((tile) => (
-        <Link key={tile.id} href={tile.link}>
+      {tiles.map(({ privateRoute, ...tile }) => (
+        <Link key={tile.id} href={tile.link} auth={privateRoute}>
           <Tile {...tile} />
         </Link>
       ))}

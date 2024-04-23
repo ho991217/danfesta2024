@@ -24,7 +24,6 @@ export default function LoginPage({
     try {
       setIsLoading(true);
       await login(data, redirect);
-      router.push(`/${locale}/`);
     } catch (error) {
       const e = error as APIError;
       toast.error(e.message);

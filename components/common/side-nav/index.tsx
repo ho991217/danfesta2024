@@ -36,11 +36,12 @@ const links: LinkInfo[] = [
     id: 3,
     link: ROUTES.stamp,
     nameKey: 'stamp',
+    privateRoute: true,
   },
   {
     id: 4,
-    link: '/live-map',
-    nameKey: 'liveMap',
+    link: ROUTES.events,
+    nameKey: 'events',
   },
   {
     id: 5,
@@ -80,7 +81,12 @@ export default async function SideNav() {
           <Separator />
           <ul className="flex flex-col items-end gap-1 w-full">
             {links.map((link) => (
-              <NavLink key={link.id} className={className} link={link.link}>
+              <NavLink
+                key={link.id}
+                className={className}
+                link={link.link}
+                privateRoute={link.privateRoute}
+              >
                 {t(link.nameKey)}
               </NavLink>
             ))}

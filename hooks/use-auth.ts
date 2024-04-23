@@ -60,8 +60,9 @@ export default function useAuth() {
       cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
 
       setIsLoggedIn(true);
-      // redirect가 작동 안하는 중
-      router.push(redirect ? decodeURIComponent(redirect) : ROUTES.home);
+      setTimeout(() => {
+        router.replace(redirect ? decodeURIComponent(redirect) : ROUTES.home);
+      }, 500);
     } catch (error) {
       const e = error as Error;
       setIsLoggedIn(false);
@@ -73,10 +74,12 @@ export default function useAuth() {
     cookies.remove(COOKIE_KEYS.accessToken);
     cookies.remove(COOKIE_KEYS.refreshToken);
     setUserInfo(null);
-    toast.info('로그아웃되었습니다.');
     setIsLoggedIn(false);
-    router.push(ROUTES.home);
-    router.refresh();
+    setTimeout(() => {
+      router.replace(ROUTES.home);
+      router.refresh();
+      toast.info('로그아웃되었습니다.');
+    }, 500);
   };
 
   const isAdmin = userInfo === null ? false : userInfo.admin;
