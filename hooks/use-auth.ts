@@ -5,6 +5,7 @@ import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
 import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@lib/constants';
 import { APIError } from '@lib/utils/validation';
+import { deleteCookie, setCookie } from 'cookies-next';
 import { useCookies } from 'next-client-cookies';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -56,13 +57,12 @@ export default function useAuth() {
       );
 
       if (!res.accessToken || !res.refreshToken) throw new APIError(res as any);
-      cookies.set(COOKIE_KEYS.accessToken, res.accessToken);
-      cookies.set(COOKIE_KEYS.refreshToken, res.refreshToken);
+      setCookie(COOKIE_KEYS.accessToken, res.accessToken);
+      setCookie(COOKIE_KEYS.refreshToken, res.refreshToken);
 
       setIsLoggedIn(true);
-      setTimeout(() => {
-        router.replace(redirect ? decodeURIComponent(redirect) : ROUTES.home);
-      }, 500);
+
+      router.replace(redirect ? decodeURIComponent(redirect) : ROUTES.home);
     } catch (error) {
       const e = error as Error;
       setIsLoggedIn(false);
@@ -71,15 +71,13 @@ export default function useAuth() {
   };
 
   const logout = () => {
-    cookies.remove(COOKIE_KEYS.accessToken);
-    cookies.remove(COOKIE_KEYS.refreshToken);
+    deleteCookie(COOKIE_KEYS.accessToken);
+    deleteCookie(COOKIE_KEYS.refreshToken);
     setUserInfo(null);
     setIsLoggedIn(false);
-    setTimeout(() => {
-      router.replace(ROUTES.home);
-      router.refresh();
-      toast.info('로그아웃되었습니다.');
-    }, 500);
+    router.replace(ROUTES.home);
+    router.refresh();
+    toast.info('로그아웃되었습니다.');
   };
 
   const isAdmin = userInfo === null ? false : userInfo.admin;
