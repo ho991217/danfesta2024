@@ -60,3 +60,20 @@ export async function getTicketInfoByAdmin(qrDate: string) {
     return null;
   }
 }
+
+export async function resendSMSCode(ticketId: number) {
+  try {
+    const { code } = await get<{ code: TicketInfo['code'] }>(
+      API_ROUTES.ticket.resendSMS(ticketId),
+      {
+        token: await getServerSideToken(),
+      },
+    );
+    return code;
+  } catch (e) {
+    const error = e as Error;
+    if (error.message === '해당 티켓을 찾을 수 없습니다.') {
+      throw new CustomError(ErrorCause.NOT_FOUND, error.message);
+    }
+  }
+}

@@ -1,23 +1,41 @@
 'use client';
 
+import { Button } from '@components/common';
+import { useEffect, useState } from 'react';
+
 import Display from './display';
 import Keys from './keys';
 
 type KeypadProps = {
-  value: string;
-  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
   slot?: number;
 };
 
-export default function Keypad({ value, onChange, slot = 6 }: KeypadProps) {
+export default function Keypad({ slot = 6, onSubmit }: KeypadProps) {
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (value.length === slot) {
+      onSubmit(value);
+      timer = setTimeout(() => {
+        setValue('');
+      }, 100);
+    }
+    return () => clearTimeout(timer);
+  }, [value, slot, onSubmit]);
+
   return (
-    <div className="w-full h-full grid grid-rows-2">
+    <div className="w-full h-full grid grid-rows-2 relative">
       <div className="flex flex-col gap-2 items-center justify-center">
         <span>SMS로 받은 인증 코드를 입력 해주세요.</span>
         <Display value={value} slot={slot} />
+        <Button className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2">
+          재전송
+        </Button>
       </div>
       <div className="px-5 pb-8">
-        <Keys value={value} onChange={onChange} slot={slot} />
+        <Keys value={value} onChange={setValue} slot={slot} />
       </div>
     </div>
   );
