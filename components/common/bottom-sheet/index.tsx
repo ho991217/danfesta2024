@@ -3,14 +3,14 @@
 import clsx from 'clsx';
 import {
   AnimatePresence,
-  motion,
   PanInfo,
+  motion,
   useDragControls,
 } from 'framer-motion';
 import { PointerEvent, useEffect, useState } from 'react';
 
-import { variants, transition } from './motion';
 import Overlay from '../overlay';
+import { transition, variants } from './motion';
 import { Height } from './types';
 
 export interface BottomSheetProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -59,7 +59,7 @@ export default function BottomSheet({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className='relative h-full w-full touch-none'>
+        <div className="fixed top-0 left-0 bottom-0 right-0 touch-none">
           <motion.div
             drag
             dragConstraints={{
@@ -72,35 +72,35 @@ export default function BottomSheet({
             dragControls={controls}
             dragListener={false}
             onDragEnd={handleDragend}
-            initial='hidden'
+            initial="hidden"
             animate={touching ? 'smaller' : 'visible'}
-            exit='hidden'
+            exit="hidden"
             variants={variants.bottomSheet.container}
             transition={transition.container}
-            className='z-50 fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl'
+            className="z-[999] fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl lg:max-w-[500px] lg:bottom-8 lg:mx-auto"
           >
             <div
               onPointerDown={startDrag}
               onTouchStart={() => setTouching(true)}
               onTouchEnd={() => setTouching(false)}
-              className='flex justify-center flex-col'
+              className="flex justify-center flex-col"
             >
-              <motion.div className='w-[50px] h-1 mx-auto mt-2 mb-10 bg-neutral-300 dark:bg-neutral-700 rounded-full' />
+              <motion.div className="w-[50px] h-1 mx-auto mt-2 mb-10 bg-neutral-300 dark:bg-neutral-700 rounded-full" />
               {!!header && (
                 <motion.h2
-                  initial='initial'
-                  animate='animate'
+                  initial="initial"
+                  animate="animate"
                   variants={variants.bottomSheet.content}
                   transition={transition.content}
-                  className='mb-7 text-xl font-bold text-neutral-900 dark:text-neutral-100'
+                  className="mb-7 text-xl font-bold text-neutral-900 dark:text-neutral-100"
                 >
                   {header}
                 </motion.h2>
               )}
             </div>
             <motion.div
-              initial='initial'
-              animate='animate'
+              initial="initial"
+              animate="animate"
               variants={variants.bottomSheet.content}
               transition={transition.content}
               className={clsx(
@@ -110,7 +110,7 @@ export default function BottomSheet({
                 currentHeight === '2/3' && 'h-[66svh]',
                 height !== 'auto' && expandTo !== undefined
                   ? 'overflow-scroll pb-0'
-                  : 'overflow-hidden pb-7'
+                  : 'overflow-hidden pb-7',
               )}
             >
               {children}

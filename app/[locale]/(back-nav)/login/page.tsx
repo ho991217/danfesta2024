@@ -5,8 +5,6 @@ import { Form, Link } from '@components/common';
 import { ROUTES } from '@lib/constants';
 import { SearchParams } from '@lib/types';
 import { APIError } from '@lib/utils/validation';
-import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -16,9 +14,7 @@ export default function LoginPage({
   searchParams: { redirect },
 }: SearchParams<{ redirect?: string }>) {
   const [isLoading, setIsLoading] = useState(false);
-  const locale = useLocale();
   const { login } = useAuth();
-  const router = useRouter();
 
   const onSubmit = async (data: AuthInfoSchema) => {
     try {

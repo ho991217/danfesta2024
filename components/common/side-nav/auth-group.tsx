@@ -35,6 +35,7 @@ export default function AuthGroup({ className }: { className?: string }) {
 
             <If.Else>
               <NavLink
+                privateRoute
                 link={ROUTES.mypage}
                 className={cn(
                   'dark:bg-neutral-900 bg-neutral-100 w-full p-3 rounded-lg mb-4',

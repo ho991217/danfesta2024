@@ -47,7 +47,7 @@ export default function Link({
             href={
               !auth || isLoggedIn
                 ? `/${locale}${href}`
-                : `/${locale}${ROUTES.login}${href ? `?redirect=${decodeURIComponent(href)}` : ``}`
+                : `/${locale}${ROUTES.login}${href ? `?redirect=${decodeURIComponent(`/${locale}${href}`)}` : ``}`
             }
             className={cn(
               'w-full h-full flex justify-center items-center',
@@ -62,7 +62,7 @@ export default function Link({
               href={
                 !auth || isLoggedIn
                   ? `/${locale}${href}`
-                  : `/${locale}${ROUTES.login}${href ? `?redirect=${decodeURIComponent(href)}` : ``}`
+                  : `/${locale}${ROUTES.login}${href ? `?redirect=${decodeURIComponent(`/${locale}${href}`)}` : ``}`
               }
               className="w-full h-full flex justify-center items-center"
             >
