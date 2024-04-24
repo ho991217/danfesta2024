@@ -57,6 +57,13 @@ export const API_ROUTES = {
      */
     info: (ticketId: number) => `/ticket/${ticketId}`,
     /**
+     * @name POST /ticket/:ticketId/sms
+     * @description 티켓 인증 코드 재전송
+     * @param ticketId - 티켓 ID
+     * @returns { code: string }
+     */
+    resendSMS: (ticketId: number) => `/ticket/${ticketId}/sms`,
+    /**
      * @name GET /ticket/reservation/:eventId
      * @description 내 티켓 정보 조회
      * @param eventId - 행사 ID
