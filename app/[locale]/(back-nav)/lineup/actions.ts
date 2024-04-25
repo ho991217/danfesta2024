@@ -43,7 +43,15 @@ export async function getAllLineupInfo() {
     await Promise.all(allDay.map(getLineupInfoByDay))
   ).flat();
 
-  
+  const withBase64 = await Promise.all(
+    allLineupInfo.map(async (lineup) => {
+      if (lineup.images.length === 0) return lineup;
+      const base64 = await dynamicBlurDataUrl(lineup.images[0].url);
+      return { ...lineup, images: [{ ...lineup.images[0], base64 }] };
+    }),
+  );
+
+  return withBase64;
 }
 
 export async function getLineupInfoByDay(day: FestivalDate) {

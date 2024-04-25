@@ -3,9 +3,12 @@ import { ROUTES } from '@/lib/constants';
 import { AdBanner, Link } from '@components/common';
 import { LineupTile, MenuTiles, NoticeTile } from '@components/home';
 
+import { getAllLineupInfo } from '../(back-nav)/lineup/actions';
+
 export default async function Home() {
   const isVerified = await getIsVerified();
   const isLoggedIn = await getIsLoggedIn();
+  const lineups = await getAllLineupInfo();
 
   return (
     <div className="mb-20 flex flex-col gap-4 px-5 lg:mx-auto lg:max-w-full lg:px-10 lg:gap-8">
@@ -23,7 +26,7 @@ export default async function Home() {
           </div>
         </NoticeTile>
       )}
-      <LineupTile />
+      <LineupTile lineups={lineups} />
       <AdBanner />
       <MenuTiles />
     </div>

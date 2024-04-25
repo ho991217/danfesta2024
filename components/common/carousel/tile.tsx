@@ -15,6 +15,8 @@ export default function Tile({
 }: LineupInfo & { priority?: boolean }) {
   const format = useFormatter();
   const imageUrl = images.length > 0 ? images[0].url : NoLineup.src;
+  const blurDataUrl =
+    images.length > 0 ? images[0].base64 : NoLineup.blurDataURL;
   const altText =
     images.length > 0 ? images[0].originalName : '아티스트 미공개';
 
@@ -29,7 +31,7 @@ export default function Tile({
           placeholder="blur"
           loading={'eager'}
           quality={100}
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFklEQVR42mN8//HLfwYiAOOoQvoqBABbWyZJf74GZgAAAABJRU5ErkJggg=="
+          blurDataURL={blurDataUrl}
           fill
         />
       </div>

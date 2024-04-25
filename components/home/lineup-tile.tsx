@@ -6,13 +6,17 @@ import { getTranslations } from 'next-intl/server';
 import Carousel from '../common/carousel';
 import TileHeader from './tile-header';
 
-export default async function LineupTile() {
+export default async function LineupTile({
+  lineups,
+}: {
+  lineups: LineupInfo[];
+}) {
   try {
-    const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
-    const data = await Promise.all(
-      allDay.map((day) => get<LineupInfo[]>(API_ROUTES.lineup.list(day))),
-    );
-    const lineups = data.flat();
+    // const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
+    // const data = await Promise.all(
+    //   allDay.map((day) => get<LineupInfo[]>(API_ROUTES.lineup.list(day))),
+    // );
+    // const lineups = data.flat();
 
     const t = await getTranslations('LineupTile');
 
