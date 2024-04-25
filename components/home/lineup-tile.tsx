@@ -1,6 +1,6 @@
 import { get } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
 import { LineupInfo } from '@app/[locale]/(back-nav)/lineup/page';
+import { API_ROUTES } from '@lib/constants';
 import { getTranslations } from 'next-intl/server';
 
 import Carousel from '../common/carousel';
