@@ -8,6 +8,7 @@ export type LineupImage = {
   url: string;
   originalName: string;
   mimeType: string;
+  base64?: string;
 };
 
 export type LineupInfo = {

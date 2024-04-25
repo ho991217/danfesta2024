@@ -11,7 +11,7 @@ export default function Tile({
   description,
   festivalDate,
   performanceTime,
-  priority,
+  priority = false,
 }: LineupInfo & { priority?: boolean }) {
   const format = useFormatter();
   const imageUrl = images.length > 0 ? images[0].url : NoLineup.src;
