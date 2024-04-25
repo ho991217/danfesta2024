@@ -1,3 +1,5 @@
+import withBundleAnalyzer from '@next/bundle-analyzer';
+import withPlaiceholder from '@plaiceholder/next';
 import { withSentryConfig } from '@sentry/nextjs';
 import createNextIntlPlugin from 'next-intl/plugin';
 import withPWA from 'next-pwa';
@@ -9,6 +11,10 @@ const withNextIntl = createNextIntlPlugin('./i18n.ts');
 const withPWAConfig = withPWA({
   dest: 'public',
   disable: !prod,
+});
+
+const withBundleAnalyzerConfig = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
 });
 
 /** @type {import('next').NextConfig} */
@@ -41,20 +47,22 @@ const nextConfig = {
   },
 };
 
-export default withPWAConfig(
-  withSentryConfig(
-    withNextIntl(nextConfig),
-    {
-      silent: true,
-      org: 'danfesta',
-      project: 'javascript-nextjs',
-    },
-    {
-      widenClientFileUpload: true,
-      tunnelRoute: '/monitoring',
-      hideSourceMaps: true,
-      disableLogger: true,
-      automaticVercelMonitors: true,
-    },
+export default withBundleAnalyzerConfig(
+  withPWAConfig(
+    withSentryConfig(
+      withNextIntl(withPlaiceholder(nextConfig)),
+      {
+        silent: true,
+        org: 'danfesta',
+        project: 'javascript-nextjs',
+      },
+      {
+        widenClientFileUpload: true,
+        tunnelRoute: '/monitoring',
+        hideSourceMaps: true,
+        disableLogger: true,
+        automaticVercelMonitors: true,
+      },
+    ),
   ),
 );
