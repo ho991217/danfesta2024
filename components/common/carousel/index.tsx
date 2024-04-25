@@ -32,8 +32,8 @@ export default function Carousel({ lineups }: CarouselProps) {
       }}
       locale={locale}
     >
-      <div className="absolute left-0 right-0" ref={emblaRef}>
-        <div className="flex gap-3 lg:gap">
+      <div className="absolute left-0 right-0 lg:max-w-[600px]" ref={emblaRef}>
+        <div className="flex gap-3 lg:gap lg:max-w-[600px]">
           {lineups.map((tile, index) => (
             <Tile key={index} {...tile} />
           ))}

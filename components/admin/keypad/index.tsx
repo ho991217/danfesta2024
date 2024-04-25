@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@components/common';
+import { delayFn } from '@lib/utils';
 import { useEffect, useState } from 'react';
 
 import Display from './display';
@@ -15,14 +16,10 @@ export default function Keypad({ slot = 6, onSubmit }: KeypadProps) {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
     if (value.length === slot) {
       onSubmit(value);
-      timer = setTimeout(() => {
-        setValue('');
-      }, 100);
+      delayFn(() => setValue(''));
     }
-    return () => clearTimeout(timer);
   }, [value, slot, onSubmit]);
 
   return (
