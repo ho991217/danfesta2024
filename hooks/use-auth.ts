@@ -30,6 +30,7 @@ export default function useAuth() {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        cache: 'force-cache',
       }).then((res) => res.json() as Promise<User>);
 
       setUserInfo(res);
@@ -45,7 +46,7 @@ export default function useAuth() {
   };
 
   useEffect(() => {
-    if (isLoggedIn && userInfo !== null) return;
+    if (isLoggedIn) return;
     checkLogin();
   }, []);
 
