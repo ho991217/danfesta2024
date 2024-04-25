@@ -2,6 +2,8 @@ import { get } from '@/api';
 import { API_ROUTES } from '@/lib/constants';
 import { Carousel } from '@components/common';
 
+import { getAllLineupInfo, getLineupInfoByDay } from './actions';
+
 export type FestivalDate = 'FIRST_DAY' | 'SECOND_DAY' | 'THIRD_DAY';
 
 export type LineupImage = {
@@ -22,23 +24,11 @@ export type LineupInfo = {
 };
 
 export default async function LineupPage() {
-  const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
-  const data = await Promise.all(
-    allDay.map((day) => get<LineupInfo[]>(API_ROUTES.lineup.list(day))),
-  );
+  const lineups = await getLineupInfoByDay('FIRST_DAY');
 
   return (
     <div className="mb-20 flex flex-col gap-4 px-5">
-      {data.map((d, i) => (
-        <>
-          <div>
-            <h2 className="text-2xl font-bold">{i + 1}일차</h2>
-          </div>
-          <div key={i} className="relative aspect-[3/4] w-full">
-            <Carousel lineups={d} />
-          </div>
-        </>
-      ))}
+      <Carousel lineups={lineups} />
     </div>
   );
 }
