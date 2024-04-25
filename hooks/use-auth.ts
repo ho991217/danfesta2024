@@ -12,8 +12,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 export default function useAuth() {
-  const [userInfo, setUserInfo] = useState<User | null>(null);
-  const { isLoggedIn, setIsLoggedIn } = useAuthStore();
+  const { isLoggedIn, setIsLoggedIn, userInfo, setUserInfo } = useAuthStore();
   const cookies = useCookies();
   const router = useRouter();
 
@@ -46,8 +45,12 @@ export default function useAuth() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) return;
-    checkLogin();
+    if (!isLoggedIn) {
+      checkLogin();
+    }
+    if (userInfo === null) {
+      getUserInfo();
+    }
   }, []);
 
   const login = async (req: AuthInfoSchema, redirect?: string) => {
