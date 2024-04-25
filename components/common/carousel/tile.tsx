@@ -11,7 +11,8 @@ export default function Tile({
   description,
   festivalDate,
   performanceTime,
-}: LineupInfo) {
+  priority,
+}: LineupInfo & { priority?: boolean }) {
   const format = useFormatter();
   const imageUrl = images.length > 0 ? images[0].url : NoLineup.src;
   const altText =
@@ -21,6 +22,7 @@ export default function Tile({
     <div className="relative aspect-[3/4] flex-[0_0_100%] overflow-hidden rounded-2xl bg-neutral-500 lg:flex lg:flex-col lg:aspect-auto lg:overflow-visible lg:dark:bg-[#0C0C0C] lg:bg-[#FFF] lg:max-w-[600px]">
       <div className="aspect-[3/4] lg:aspect-video lg:relative">
         <Image
+          priority={priority}
           src={imageUrl}
           alt={altText}
           className="absolute bottom-0 left-0 right-0 top-0 object-cover rounded-2xl"
