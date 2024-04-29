@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="./public/banner.png" alt="단페스타 2024 페이지 배너" />
+    <img src="./.github/banner.png" alt="단페스타 2024 페이지 배너" />
 </div>
 
 <br/>
