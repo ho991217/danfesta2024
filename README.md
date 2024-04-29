@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/ho991217/danfesta2024/main/public/banner.png" alt="단페스타 2024 페이지 배너" />
+    <img src="./public/banner.png" alt="단페스타 2024 페이지 배너" />
 </div>
 
 <br/>
