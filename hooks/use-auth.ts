@@ -32,16 +32,20 @@ export default function useAuth() {
         cache: 'force-cache',
       }).then((res) => res.json() as Promise<User>);
 
-      setUserInfo(res);
-    } catch (error) {
-      throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+      return res;
+    } catch {
+      return null;
     }
   };
 
   const checkLogin = () => {
-    getUserInfo()
-      .then(() => setIsLoggedIn(true))
-      .catch(() => setIsLoggedIn(false));
+    getUserInfo().then((user) => {
+      if (user === null) {
+        setIsLoggedIn(false);
+        return;
+      }
+      setIsLoggedIn(true);
+    });
   };
 
   useEffect(() => {
@@ -49,7 +53,12 @@ export default function useAuth() {
       checkLogin();
     }
     if (userInfo === null) {
-      getUserInfo().catch();
+      getUserInfo().then((user) => {
+        if (user === null) {
+          return;
+        }
+        setUserInfo(user);
+      });
     }
   }, []);
 
