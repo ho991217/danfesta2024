@@ -1,4 +1,5 @@
 import { Toaster } from '@components/ui/sonner';
+import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CookiesProvider } from 'next-client-cookies/server';
 import NextTopLoader from 'nextjs-toploader';
@@ -10,6 +11,7 @@ export default function Providers({ children }: PropsWithChildren) {
       <NextTopLoader color="#0262E9" showSpinner={false} shadow={false} />
       <Toaster position="top-center" />
       <SpeedInsights />
+      <Analytics />
       {children}
     </CookiesProvider>
   );
