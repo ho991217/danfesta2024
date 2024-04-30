@@ -22,7 +22,7 @@ export default function FindMyPage() {
           비밀번호 재설정
         </Link>
       </Card>
-      <Link href={ROUTES.login} variant="transparent">
+      <Link href={ROUTES.verify} variant="transparent">
         회원가입
       </Link>
     </div>
