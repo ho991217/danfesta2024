@@ -1,7 +1,7 @@
 'use client';
 
 import { post } from '@/api';
-import { API_ROUTES, API_URL, ROUTES } from '@/lib/constants';
+import { API_ROUTES, API_IP, ROUTES } from '@/lib/constants';
 import { Form } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import { SearchParams } from '@lib/types';
@@ -76,7 +76,7 @@ export default function PasswordSetPage({
               break;
             case 'find-my-password':
               await fetch(
-                `${API_URL}${API_ROUTES.user.findMy.password.reset}`,
+                `${API_IP}${API_ROUTES.user.findMy.password.reset}`,
                 {
                   method: 'PATCH',
                   headers: {

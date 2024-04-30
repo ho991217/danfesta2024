@@ -3,7 +3,7 @@
 import { AuthTokens, User, post } from '@/api';
 import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
-import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@lib/constants';
+import { API_IP, API_ROUTES, COOKIE_KEYS, ROUTES } from '@lib/constants';
 import { APIError } from '@lib/utils/validation';
 import { deleteCookie, setCookie } from 'cookies-next';
 import { useCookies } from 'next-client-cookies';
@@ -25,23 +25,27 @@ export default function useAuth() {
         throw new Error('토큰이 없습니다.');
       }
 
-      const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
+      const res = await fetch(`${API_IP}${API_ROUTES.user.me}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         cache: 'force-cache',
       }).then((res) => res.json() as Promise<User>);
 
-      setUserInfo(res);
-    } catch (error) {
-      throw new Error('사용자 정보를 가져오는데 실패했습니다.');
+      return res;
+    } catch {
+      return null;
     }
   };
 
   const checkLogin = () => {
-    getUserInfo()
-      .then(() => setIsLoggedIn(true))
-      .catch(() => setIsLoggedIn(false));
+    getUserInfo().then((user) => {
+      if (user === null) {
+        setIsLoggedIn(false);
+        return;
+      }
+      setIsLoggedIn(true);
+    });
   };
 
   useEffect(() => {
@@ -49,7 +53,12 @@ export default function useAuth() {
       checkLogin();
     }
     if (userInfo === null) {
-      getUserInfo();
+      getUserInfo().then((user) => {
+        if (user === null) {
+          return;
+        }
+        setUserInfo(user);
+      });
     }
   }, []);
 
