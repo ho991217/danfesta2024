@@ -12,6 +12,6 @@ const meta: Meta<typeof Overlay> = {
 export default meta;
 type Story = StoryObj<typeof Overlay>;
 
-export const AD_BANNER: Story = {
+export const OVERLAY: Story = {
   args: { darker: true, onClick: fn() },
 };
