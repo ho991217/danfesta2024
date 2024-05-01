@@ -10246,6 +10246,7 @@ __metadata:
     "@vercel/blob": "npm:^0.22.3"
     "@vercel/speed-insights": "npm:^1.0.10"
     autoprefixer: "npm:^10.0.1"
+    chromatic: "npm:^11.3.0"
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.0"
     cookies-next: "npm:^4.1.1"
