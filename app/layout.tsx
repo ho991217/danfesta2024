@@ -11,6 +11,19 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   viewport:
     'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    title: '단페스타 2024',
+    description: '단국대학교 대동제 2024 공식 홈페이지 입니다.',
+    url: 'https://danfesta.com',
+    siteName: '단페스타 2024',
+    images: [
+      {
+        url: 'https://danfesta.com/opengraph-image.png',
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
