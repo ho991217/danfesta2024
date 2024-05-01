@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@lib/utils';
 import clsx from 'clsx';
 import {
   AnimatePresence,
@@ -30,6 +31,7 @@ export default function BottomSheet({
   height = 'auto',
   expandTo,
   onDismiss,
+  className,
 }: BottomSheetProps) {
   const controls = useDragControls();
   const [dragging, setDragging] = useState(false);
@@ -77,7 +79,10 @@ export default function BottomSheet({
             exit="hidden"
             variants={variants.bottomSheet.container}
             transition={transition.container}
-            className="z-[999] fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl lg:max-w-[500px] lg:bottom-8 lg:mx-auto"
+            className={cn(
+              'z-[999] fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl lg:max-w-[500px] lg:bottom-8 lg:mx-auto',
+              className,
+            )}
           >
             <div
               onPointerDown={startDrag}

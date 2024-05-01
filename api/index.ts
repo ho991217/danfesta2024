@@ -1,4 +1,4 @@
-import { API_IP, API_ROUTES } from '@lib/constants';
+import { API_ROUTES, API_URL } from '@lib/constants';
 import { DeepValueOf } from '@lib/types';
 import { APIError, type APIErrorResponse } from '@lib/utils/validation';
 
@@ -11,7 +11,7 @@ export async function get<Res>(
   path: DeepValueOf<typeof API_ROUTES> | string,
   options?: APIOptions,
 ) {
-  const response = await fetch(`${API_IP}${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export async function post<Req, Res>(
   data: Req,
   options?: APIOptions,
 ) {
-  const response = await fetch(`${API_IP}${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export async function post<Req, Res>(
 }
 
 export async function getImage(path: string, options?: APIOptions) {
-  const response = await fetch(`${API_IP}${path}`, {
+  const response = await fetch(`${API_URL}${path}`, {
     method: 'GET',
     credentials: 'include',
     headers: {

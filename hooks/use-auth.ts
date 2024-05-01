@@ -3,7 +3,7 @@
 import { AuthTokens, User, post } from '@/api';
 import useAuthStore from '@/store/auth-store';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
-import { API_IP, API_ROUTES, COOKIE_KEYS, ROUTES } from '@lib/constants';
+import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@lib/constants';
 import { APIError } from '@lib/utils/validation';
 import { deleteCookie, setCookie } from 'cookies-next';
 import { useCookies } from 'next-client-cookies';
@@ -25,7 +25,7 @@ export default function useAuth() {
         throw new Error('토큰이 없습니다.');
       }
 
-      const res = await fetch(`${API_IP}${API_ROUTES.user.me}`, {
+      const res = await fetch(`${API_URL}${API_ROUTES.user.me}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

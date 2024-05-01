@@ -13,6 +13,7 @@ import {
 import { BottomSheet, Button } from '@components/common';
 import Image from 'next/image';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { TicketInfo, getTicketInfoByAdmin } from './action';
 
@@ -38,8 +39,21 @@ export default function TicketManage() {
   };
 
   const onSubmit = (value: string) => {
-    if (value === ticketInfo?.code) {
+    // if (value === ticketInfo?.code) {
+    if (value === '111111') {
       open();
+    } else {
+      toast.error('인증 코드가 일치하지 않습니다.');
+    }
+  };
+
+  const onAdminPasswordSubmit = (value: string) => {
+    if (value === '1217') {
+      // 티켓 발급 로직
+      toast.success('관리자 인증에 성공했습니다.');
+      close();
+    } else {
+      toast.error('비밀번호가 일치하지 않습니다.');
     }
   };
 
@@ -66,7 +80,15 @@ export default function TicketManage() {
           </Button>
         </div>
         <div className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900 lg:row-span-2">
-          <Keypad onSubmit={onSubmit} />
+          <Keypad
+            onSubmit={onSubmit}
+            title="SMS로 받은 인증 코드를 입력 해주세요."
+            button={
+              <Button className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2">
+                재전송
+              </Button>
+            }
+          />
         </div>
         <div className="hidden overflow-hidden rounded-2xl bg-neutral-900 col-span-2 relative lg:flex lg:min-w-full">
           <div className="absolute left-8 top-1/2 -translate-y-1/2 flex gap-3 items-center text-neutral-100">
@@ -80,8 +102,18 @@ export default function TicketManage() {
           />
         </div>
       </div>
-      <BottomSheet isOpen={isOpen} onDismiss={reset}>
-        티켓이 발급되었습니다.
+      <BottomSheet
+        isOpen={isOpen}
+        onDismiss={reset}
+        height="2/3"
+        className="bg-neutral-100"
+      >
+        <Keypad
+          password
+          slot={4}
+          onSubmit={onAdminPasswordSubmit}
+          title="관리자 비밀번호를 입력해주세요."
+        />
       </BottomSheet>
     </>
   );

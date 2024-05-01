@@ -10,9 +10,18 @@ import Keys from './keys';
 type KeypadProps = {
   onSubmit: (value: string) => void;
   slot?: number;
+  title: string;
+  button?: React.ReactNode;
+  password?: boolean;
 };
 
-export default function Keypad({ slot = 6, onSubmit }: KeypadProps) {
+export default function Keypad({
+  slot = 6,
+  onSubmit,
+  title,
+  button,
+  password,
+}: KeypadProps) {
   const [value, setValue] = useState('');
 
   useEffect(() => {
@@ -25,11 +34,9 @@ export default function Keypad({ slot = 6, onSubmit }: KeypadProps) {
   return (
     <div className="w-full h-full grid grid-rows-2 relative">
       <div className="flex flex-col gap-2 items-center justify-center">
-        <span>SMS로 받은 인증 코드를 입력 해주세요.</span>
-        <Display value={value} slot={slot} />
-        <Button className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2">
-          재전송
-        </Button>
+        <span>{title}</span>
+        <Display value={value} slot={slot} password={password} />
+        {button}
       </div>
       <div className="px-5 pb-8">
         <Keys value={value} onChange={setValue} slot={slot} />
