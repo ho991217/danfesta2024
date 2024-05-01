@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: '단페스타 2024',
     images: [
       {
-        url: 'https://danfesta.com/opengraph-image.png',
+        url: 'https://www.danfesta.com/opengraph-image.png',
       },
     ],
   },
