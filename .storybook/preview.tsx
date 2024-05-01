@@ -23,7 +23,7 @@ const preview: Preview = {
           <div
             style={{
               paddingTop: '20 10',
-              height: '70dvh',
+              height: '80dvh',
               width: '50dvw',
             }}
           >
