@@ -44,5 +44,9 @@ const config: StorybookConfig = {
 
     return config;
   },
+  env: (config) => ({
+    ...config,
+    NEXT_PUBLIC_JWT_SECRET: 'TEST',
+  }),
 };
 export default config;
