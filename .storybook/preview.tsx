@@ -20,7 +20,13 @@ const preview: Preview = {
     (Story) => {
       return (
         <IntlProvider locale="ko">
-          <div style={{ paddingTop: '20 10' }}>
+          <div
+            style={{
+              paddingTop: '20 10',
+              height: '70dvh',
+              width: '50dvw',
+            }}
+          >
             <Toaster position="top-center" />
             <Story />
           </div>
