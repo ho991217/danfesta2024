@@ -43,7 +43,7 @@ const QrReader = ({ onScan, paused }: QrReaderProps) => {
         highlightScanRegion: true,
         highlightCodeOutline: true,
         overlay: qrBoxEl?.current || undefined,
-        maxScansPerSecond: 3,
+        maxScansPerSecond: 1,
       });
 
       scanner?.current
@@ -57,6 +57,7 @@ const QrReader = ({ onScan, paused }: QrReaderProps) => {
     return () => {
       if (!video) {
         scanner?.current?.stop();
+        scanner?.current?.destroy();
       }
     };
   }, [onScanSuccess, facingMode]);

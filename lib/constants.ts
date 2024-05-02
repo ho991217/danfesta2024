@@ -56,6 +56,12 @@ export const API_ROUTES = {
      */
     info: (ticketId: number) => `/ticket/${ticketId}`,
     /**
+     * @name POST /ticket/:titkcetId/permit
+     * @description 티켓 발급
+     * @param titkcetId - 티켓 ID
+     */
+    issue: (titkcetId: number) => `/ticket/${titkcetId}/permit`,
+    /**
      * @name POST /ticket/:ticketId/sms
      * @description 티켓 인증 코드 재전송
      * @param ticketId - 티켓 ID

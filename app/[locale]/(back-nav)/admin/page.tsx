@@ -1,6 +1,7 @@
 'use client';
 
 import { useBottomSheet } from '@/hooks';
+import { throttle } from '@/lib/utils';
 import DanfestaLogo from '@/public/icons/logo-white.svg';
 import Glass from '@/public/images/glass.jpeg';
 import {
@@ -15,7 +16,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { TicketInfo, getTicketInfoByAdmin } from './action';
+import { TicketInfo, getTicketInfoByAdmin, resendSMSCode } from './action';
 
 export default function TicketManage() {
   const [scannerPaused, setScannerPaused] = useState(false);
@@ -23,7 +24,19 @@ export default function TicketManage() {
   const [error, setError] = useState<string | null>(null);
   const [isOpen, open, close] = useBottomSheet();
 
-  const onScan = async ({ data }: QRScanResult) => {
+  const resendSMS = async () => {
+    try {
+      if (ticketInfo === null) return;
+      const code = await resendSMSCode(ticketInfo?.id ?? 0);
+      const newTicketInfo: TicketInfo = { ...ticketInfo, code };
+      setTicketInfo(newTicketInfo);
+    } catch (e) {
+      const err = e as Error;
+      toast.error(err.message);
+    }
+  };
+
+  const onScan = throttle(async ({ data }: QRScanResult) => {
     if (!data) return;
     const jwtRegex = /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/;
     if (!jwtRegex.test(data)) return;
@@ -36,11 +49,10 @@ export default function TicketManage() {
       const err = e as Error;
       setError(err.message);
     }
-  };
+  });
 
   const onSubmit = (value: string) => {
-    // if (value === ticketInfo?.code) {
-    if (value === '111111') {
+    if (value === ticketInfo?.code) {
       open();
     } else {
       toast.error('인증 코드가 일치하지 않습니다.');
@@ -67,7 +79,10 @@ export default function TicketManage() {
   return (
     <>
       <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-8">
-        <QrReader onScan={onScan} paused={scannerPaused} />
+        <QrReader
+          onScan={onScan}
+          paused={scannerPaused}
+        />
         <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-0 dark:bg-neutral-900 lg:min-w-full flex flex-col justify-between items-center relative">
           {!error && <StudentInfo info={ticketInfo} />}
           {error && <ErrorTile error={error} />}
@@ -84,7 +99,10 @@ export default function TicketManage() {
             onSubmit={onSubmit}
             title="SMS로 받은 인증 코드를 입력 해주세요."
             button={
-              <Button className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2">
+              <Button
+                className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2"
+                onClick={resendSMS}
+              >
                 재전송
               </Button>
             }

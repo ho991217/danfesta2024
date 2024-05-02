@@ -1,6 +1,6 @@
 'use server';
 
-import { get, getServerSideToken } from '@/api';
+import { get, getServerSideToken, post } from '@/api';
 import { API_ROUTES } from '@lib/constants';
 import { CustomError, ErrorCause } from '@lib/utils';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
@@ -70,6 +70,23 @@ export async function resendSMSCode(ticketId: number) {
       },
     );
     return code;
+  } catch (e) {
+    const error = e as Error;
+    if (error.message === '해당 티켓을 찾을 수 없습니다.') {
+      throw new CustomError(ErrorCause.NOT_FOUND, error.message);
+    }
+    throw new CustomError(
+      ErrorCause.INVALID,
+      '인증 코드를 재전송할 수 없습니다.',
+    );
+  }
+}
+
+export async function issueTicket(ticketId: number) {
+  try {
+    await post(API_ROUTES.ticket.issue(ticketId), {
+      token: await getServerSideToken(),
+    });
   } catch (e) {
     const error = e as Error;
     if (error.message === '해당 티켓을 찾을 수 없습니다.') {
