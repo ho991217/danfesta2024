@@ -9,7 +9,7 @@ import {
 import QrCode from './qr-code';
 import TicketTool from './ticket-tool';
 
-export default async function Ticket({ id, event }: TicketInfo) {
+export default async function Ticket({ id, event, issued }: TicketInfo) {
   return (
     <AccordionItem
       value={String(id)}
@@ -31,17 +31,21 @@ export default async function Ticket({ id, event }: TicketInfo) {
           </span>
         </div>
       </div>
-      <AccordionTrigger className="flex items-center">
-        <span className="w-full rounded-b-xl px-5 text-center text-primary">
-          티켓 보기
-        </span>
-      </AccordionTrigger>
-      <AccordionContent>
-        <p className="text-xs text-neutral-500 w-full text-center mb-3">
-          디바이스의 밝기를 최대로 높여주세요.
-        </p>
-        <QrCode ticketId={id} className="w-full" />
-      </AccordionContent>
+      {!issued && (
+        <>
+          <AccordionTrigger className="flex items-center">
+            <span className="w-full rounded-b-xl px-5 text-center text-primary">
+              티켓 보기
+            </span>
+          </AccordionTrigger>
+          <AccordionContent>
+            <p className="text-xs text-neutral-500 w-full text-center mb-3">
+              디바이스의 밝기를 최대로 높여주세요.
+            </p>
+            <QrCode ticketId={id} className="w-full" />
+          </AccordionContent>
+        </>
+      )}
     </AccordionItem>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useBottomSheet } from '@/hooks';
-import { throttle } from '@/lib/utils';
 import DanfestaLogo from '@/public/icons/logo-white.svg';
 import Glass from '@/public/images/glass.jpeg';
 import {
@@ -12,11 +11,17 @@ import {
   StudentInfo,
 } from '@components/admin';
 import { BottomSheet, Button } from '@components/common';
+import { CustomError, ErrorCause, throttle } from '@lib/utils';
 import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { TicketInfo, getTicketInfoByAdmin, resendSMSCode } from './action';
+import {
+  TicketInfo,
+  getTicketInfoByAdmin,
+  issueTicket,
+  resendSMSCode,
+} from './action';
 
 export default function TicketManage() {
   const [scannerPaused, setScannerPaused] = useState(false);
@@ -25,11 +30,14 @@ export default function TicketManage() {
   const [isOpen, open, close] = useBottomSheet();
 
   const resendSMS = async () => {
+    if (ticketInfo?.id === undefined) return;
+
     try {
       if (ticketInfo === null) return;
-      const code = await resendSMSCode(ticketInfo?.id ?? 0);
+      const code = await resendSMSCode(ticketInfo.id);
       const newTicketInfo: TicketInfo = { ...ticketInfo, code };
       setTicketInfo(newTicketInfo);
+      toast.success('인증 코드를 재전송했습니다.');
     } catch (e) {
       const err = e as Error;
       toast.error(err.message);
@@ -38,9 +46,10 @@ export default function TicketManage() {
 
   const onScan = throttle(async ({ data }: QRScanResult) => {
     if (!data) return;
+    if (ticketInfo !== null) return;
+
     const jwtRegex = /^[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+\.[a-zA-Z0-9-_]+$/;
     if (!jwtRegex.test(data)) return;
-
     setScannerPaused(true);
     try {
       const ticketInfo = await getTicketInfoByAdmin(data);
@@ -59,13 +68,23 @@ export default function TicketManage() {
     }
   };
 
-  const onAdminPasswordSubmit = (value: string) => {
-    if (value === '1217') {
-      // 티켓 발급 로직
-      toast.success('관리자 인증에 성공했습니다.');
+  const onAdminPasswordSubmit = async (value: string) => {
+    if (ticketInfo?.id === undefined) return;
+    try {
+      if (value !== '1217') {
+        throw new CustomError(
+          ErrorCause.NOT_AUTHORIZED,
+          '관리자 권한이 없습니다.',
+        );
+      }
+
+      await issueTicket(ticketInfo.id);
+      toast.success('티켓이 발급되었습니다.');
+      reset();
       close();
-    } else {
-      toast.error('비밀번호가 일치하지 않습니다.');
+    } catch (e) {
+      const err = e as Error;
+      toast.error(err.message);
     }
   };
 
@@ -79,10 +98,7 @@ export default function TicketManage() {
   return (
     <>
       <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-8">
-        <QrReader
-          onScan={onScan}
-          paused={scannerPaused}
-        />
+        <QrReader onScan={onScan} paused={scannerPaused} />
         <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-0 dark:bg-neutral-900 lg:min-w-full flex flex-col justify-between items-center relative">
           {!error && <StudentInfo info={ticketInfo} />}
           {error && <ErrorTile error={error} />}

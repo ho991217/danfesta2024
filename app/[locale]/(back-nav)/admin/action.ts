@@ -63,8 +63,9 @@ export async function getTicketInfoByAdmin(qrDate: string) {
 
 export async function resendSMSCode(ticketId: number) {
   try {
-    const { code } = await get<{ code: TicketInfo['code'] }>(
+    const { code } = await post<{}, { code: TicketInfo['code'] }>(
       API_ROUTES.ticket.resendSMS(ticketId),
+      {},
       {
         token: await getServerSideToken(),
       },
