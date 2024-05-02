@@ -44,7 +44,7 @@ export const Default: Template = {
   ),
 };
 
-export const CARD_HEADER: Template = {
+export const Header: Template = {
   render: () => (
     <Card>
       <CardHeader>
@@ -58,7 +58,7 @@ export const CARD_HEADER: Template = {
   ),
 };
 
-export const CARD_NOT_FOOTER: Template = {
+export const Non_Footer: Template = {
   render: () => (
     <Card>
       <CardHeader>

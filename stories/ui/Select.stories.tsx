@@ -42,7 +42,7 @@ export const Default: Template = {
   ),
 };
 
-export const Select_Group: Template = {
+export const Group: Template = {
   render: (args) => (
     <Select {...args}>
       <SelectTrigger>
@@ -71,7 +71,7 @@ export const Select_Group: Template = {
 
 const foods = Array.from({ length: 100 }, (_, i) => `Food ${i + 1}`);
 
-export const Select_Scroll: Template = {
+export const Scroll: Template = {
   render: (args) => (
     <Select>
       <SelectTrigger aria-label="Food">

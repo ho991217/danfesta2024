@@ -20,6 +20,6 @@ const meta: Meta<typeof AdBanner> = {
 export default meta;
 type Story = StoryObj<typeof AdBanner>;
 
-export const AD_BANNER: Story = {
+export const Default: Story = {
   args: {},
 };

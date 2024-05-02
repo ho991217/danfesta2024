@@ -12,7 +12,7 @@ const meta: Meta<typeof BottomSheet> = {
 export default meta;
 type Story = StoryObj<typeof BottomSheet>;
 
-export const BOOTOMSHEET: Story = {
+export const Default: Story = {
   args: {
     isOpen: true,
     header: 'TITLE',
@@ -20,7 +20,7 @@ export const BOOTOMSHEET: Story = {
   },
 };
 
-export const BOOTOMSHEET_OVER: Story = {
+export const Height_Over: Story = {
   args: {
     isOpen: true,
     header: 'TITLE',
@@ -29,7 +29,7 @@ export const BOOTOMSHEET_OVER: Story = {
   },
 };
 
-export const BOOTOMSHEET_FULL: Story = {
+export const Height_Full: Story = {
   args: {
     isOpen: true,
     header: 'TITLE',

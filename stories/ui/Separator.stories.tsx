@@ -17,7 +17,7 @@ const meta: Meta<typeof Separator> = {
 export default meta;
 type Template = StoryObj<typeof Separator>;
 
-export const SEPARATOR: Template = {
+export const Default: Template = {
   args: {
     decorative: true,
     orientation: 'horizontal',

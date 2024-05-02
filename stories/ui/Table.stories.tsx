@@ -21,7 +21,7 @@ export default meta;
 
 type Template = StoryObj<typeof Table>;
 
-export const TABLE: Template = {
+export const Default: Template = {
   render: (args) => (
     <Table {...args}>
       <TableCaption>Caption for Table</TableCaption>
@@ -51,7 +51,7 @@ export const TABLE: Template = {
   ),
 };
 
-export const TABLE_NON_FOOTER: Template = {
+export const Non_Footer: Template = {
   render: (args) => (
     <Table {...args}>
       <TableCaption> 캡션</TableCaption>

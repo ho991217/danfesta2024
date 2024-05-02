@@ -22,14 +22,14 @@ const meta: Meta<typeof FloatingButton> = {
 export default meta;
 type Story = StoryObj<typeof FloatingButton>;
 
-export const FlOATING_TICKET_ADMIN: Story = {
+export const Admin: Story = {
   args: {
     href: '/',
     children: '관리자 페이지',
   },
 };
 
-export const FlOATING_TICKET_USER: Story = {
+export const User: Story = {
   args: {
     href: '/',
     children: <BsTicketFill />,

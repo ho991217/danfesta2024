@@ -23,7 +23,7 @@ export const Default: Template = {
   ),
 };
 
-export const NoImage: Template = {
+export const No_Image: Template = {
   render: (args) => (
     <Avatar {...args}>
       <AvatarImage src="" alt="Avatar" />

@@ -26,7 +26,7 @@ export default {
 
 type Template = StoryObj<typeof SheetContent>;
 
-export const RightSide: Template = {
+export const Default: Template = {
   args: {
     side: 'right',
   },

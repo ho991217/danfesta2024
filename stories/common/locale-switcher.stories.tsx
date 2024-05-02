@@ -20,7 +20,7 @@ const meta: Meta<typeof LocaleSwitcher> = {
 export default meta;
 type Story = StoryObj<typeof LocaleSwitcher>;
 
-export const LOCALE_SWITCHER: Story = {
+export const Default: Story = {
   args: {
     children: ['ko', 'en'].map((item) => (
       <SelectItem key={item} value={item}>

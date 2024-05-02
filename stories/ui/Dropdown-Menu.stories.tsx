@@ -26,7 +26,7 @@ export default {
 
 type Template = StoryObj<typeof DropdownMenu>;
 
-export const SimpleDropdown: Template = {
+export const Default: Template = {
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,7 +54,7 @@ export const SimpleDropdown: Template = {
   ),
 };
 
-export const NestedDropdown: Template = {
+export const Nested: Template = {
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

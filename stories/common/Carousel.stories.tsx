@@ -98,19 +98,19 @@ const meta: Meta<typeof Carousel> = {
 export default meta;
 type Story = StoryObj<typeof Carousel>;
 
-export const CAROUSEL: Story = {
+export const Default: Story = {
   args: {
     lineups: lineups,
   },
 };
 
-export const NO_LINE_UP_CAROUSEL: Story = {
+export const No_Line_Up: Story = {
   args: {
     lineups: noLineups,
   },
 };
 
-export const TILE: Story = {
+export const Tile: Story = {
   args: {
     lineups: lineups,
   },

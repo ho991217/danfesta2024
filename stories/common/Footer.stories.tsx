@@ -10,4 +10,4 @@ const meta: Meta<typeof Footer> = {
 export default meta;
 type Story = StoryObj<typeof Footer>;
 
-export const FOOTER: Story = {};
+export const Default: Story = {};

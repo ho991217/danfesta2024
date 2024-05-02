@@ -12,6 +12,6 @@ const meta: Meta<typeof Overlay> = {
 export default meta;
 type Story = StoryObj<typeof Overlay>;
 
-export const OVERLAY: Story = {
+export const Default: Story = {
   args: { darker: true, onClick: fn() },
 };
