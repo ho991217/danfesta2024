@@ -43,6 +43,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'webinfo.dankook.ac.kr',
       },
+      { protocol: 'https', hostname: 'image.yes24.com' },
     ],
   },
 };
