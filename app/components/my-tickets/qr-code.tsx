@@ -1,60 +1,40 @@
 'use client';
 
-import { Button } from '@/app/components/common';
-import { cn, parseMStoMinSec } from '@/app/lib/utils';
-import jwt from 'jsonwebtoken';
-import { useQRCode } from 'next-qrcode';
+import { Button } from '@components/common';
+import { cn, parseMStoMinSec } from '@lib/utils';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
+import { getQRCode } from './actions';
+
 const SECOND = 1000;
 
 type QrCodeProps = {
   ticketId: number;
-  validTime?: number;
+  lifetime?: number;
   className?: string;
-};
-
-type Payload = {
-  ticketId: number;
 };
 
 export default function QrCode({
   ticketId,
-  validTime = 1000 * 60 * 3,
+  lifetime = 1000 * 60 * 3,
   className,
 }: QrCodeProps) {
-  if (!SECRET) throw new Error('JWT 시크릿이 설정되지 않았습니다.');
-
-  const { Canvas } = useQRCode();
-  const [isLoading, setIsLoading] = useState(true);
-  const [token, setToken] = useState<string>('no token');
-  const [leftTime, setLeftTime] = useState<number>(validTime);
+  const [qrcode, setQrcode] = useState('');
+  const [leftTime, setLeftTime] = useState(lifetime);
   const interval = useRef<ReturnType<typeof setInterval> | null>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const generateToken = () => {
-    const iat = Date.now();
-    const exp = iat + validTime;
-    const payload: Payload = { ticketId };
-    const newToken = jwt.sign(payload, SECRET, {
-      algorithm: 'HS256',
-      expiresIn: validTime,
-    });
-    setToken(newToken);
-  };
 
   const startTimer = () => {
     if (interval.current) clearInterval(interval.current);
     if (timer.current) clearInterval(timer.current);
 
-    setLeftTime(validTime);
-    generateToken();
-    setIsLoading(false);
+    setLeftTime(lifetime);
+    getQRCode(ticketId, lifetime).then(setQrcode);
     interval.current = setInterval(() => {
-      setLeftTime(validTime);
-      generateToken();
-    }, validTime);
+      setLeftTime(lifetime);
+      getQRCode(ticketId, lifetime).then(setQrcode);
+    }, lifetime);
 
     timer.current = setInterval(() => {
       setLeftTime((prev) => prev - SECOND);
@@ -74,11 +54,10 @@ export default function QrCode({
   return (
     <div className={cn('flex flex-col w-full items-center ', className)}>
       <div className="rounded-2xl overflow-hidden">
-        {!isLoading && (
-          <Canvas
-            text={token}
-            options={{ errorCorrectionLevel: 'L', width: 300 }}
-          />
+        {qrcode ? (
+          <Image src={qrcode} alt="qr 코드 이미지" width={300} height={300} />
+        ) : (
+          <div className="w-[300px] h-[300px] bg-neutral-100 dark:bg-neutral-900 rounded-2xl animate-pulse" />
         )}
       </div>
       <div className="flex flex-col py-4 w-full gap-4">

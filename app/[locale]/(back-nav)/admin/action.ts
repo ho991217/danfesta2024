@@ -20,7 +20,7 @@ export type TicketInfo = {
   eventId: number;
 };
 
-const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
+const SECRET = process.env.JWT_SECRET;
 
 export async function decodeTicket(qrDate: string) {
   if (!SECRET) {
