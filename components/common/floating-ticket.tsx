@@ -11,7 +11,7 @@ import { BsTicketFill } from 'react-icons/bs';
 
 const MotionLink = motion(Link);
 
-function FloatingButton({
+export function FloatingButton({
   children,
   href,
 }: PropsWithChildren<{ href: string }>) {

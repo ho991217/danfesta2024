@@ -67,7 +67,7 @@ export default function Button({
       className={cn(buttonVariants({ variant, disabled }), className)}
       {...motionProps}
     >
-      {isLoading ? <PulseLoader size={8} color="#f0f0f0" /> : children}
+      {isLoading ? <PulseLoader role='status' size={8} color="#f0f0f0" /> : children}
     </motion.button>
   );
 }
