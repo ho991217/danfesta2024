@@ -32,16 +32,14 @@ export default async function Ticket({ id, event, issued }: TicketInfo) {
           className="mix-blend-lighten absolute -right-20 -top-8 scale-125 opacity-50"
         />
       </div>
-      <div className="pt-5 px-5 flex w-full flex-col gap-2">
+      <div className="pt-5 px-5 flex w-full flex-col gap-2 z-0 bg-white dark:bg-neutral-950">
         <div>
           <span className="text-xs text-neutral-500">2024 단페스타</span>
           <h4 className="text-2xl font-bold w-full">{event.name}</h4>
         </div>
         <div className="flex items-center gap-2">
           <FiClock color="#929497" />
-          <span className="text-sm text-[#929497]">
-            6시부터 입장 가능
-          </span>
+          <span className="text-sm text-[#929497]">6시부터 입장 가능</span>
         </div>
       </div>
       {issued ? (
