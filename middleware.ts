@@ -3,11 +3,13 @@ import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { COOKIE_KEYS, ROUTES } from './lib/constants';
+import {
+  COOKIE_KEYS,
+  ROUTES,
+  privateRoutes,
+  protectedRoutes,
+} from './lib/constants';
 import { AccessToken } from './lib/utils/validation/assert/jwt';
-
-const protectedRoutes: string[] = [ROUTES.admin];
-const privateRoutes: string[] = [ROUTES.mypage, ROUTES.ticketing.root];
 
 const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],

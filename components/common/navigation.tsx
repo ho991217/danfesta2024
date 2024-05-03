@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import Link from '@components/common/link';
+import { cn } from '@lib/utils';
 import { useTranslations } from 'next-intl';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
@@ -8,10 +8,10 @@ import SideNav from './side-nav';
 
 type Props = {
   hasBackButton?: boolean;
-  title?: string;
+  scheme?: 'light' | 'dark';
 };
 
-export default function Navigation({ hasBackButton = false, title }: Props) {
+export default function Navigation({ hasBackButton = false, scheme }: Props) {
   const t = useTranslations('GNB');
   return (
     <nav
@@ -23,7 +23,16 @@ export default function Navigation({ hasBackButton = false, title }: Props) {
       <If condition={hasBackButton}>
         <If.Then>
           <Link back>
-            <IoArrowBackOutline size={25} />
+            <IoArrowBackOutline
+              size={25}
+              className={cn(
+                scheme === undefined
+                  ? null
+                  : scheme === 'dark'
+                    ? 'text-white'
+                    : 'text-black',
+              )}
+            />
           </Link>
         </If.Then>
         <If.Else>

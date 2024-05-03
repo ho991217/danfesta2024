@@ -153,3 +153,6 @@ export const ROUTES = {
   stamp: '/stamp',
   events: '/events',
 } as const;
+
+export const protectedRoutes: string[] = [ROUTES.admin];
+export const privateRoutes: string[] = [ROUTES.mypage, ROUTES.ticketing.root];

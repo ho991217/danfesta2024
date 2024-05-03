@@ -1,10 +1,10 @@
 import { Navigation } from '@components/common';
 import { PropsWithChildren } from 'react';
 
-export default function BackNavLayout({ children }: PropsWithChildren) {
+export default function DarkSchemeLayout({ children }: PropsWithChildren) {
   return (
     <>
-      <Navigation hasBackButton />
+      <Navigation hasBackButton scheme="dark" />
       {children}
     </>
   );

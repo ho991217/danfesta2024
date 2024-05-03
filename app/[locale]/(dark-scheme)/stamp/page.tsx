@@ -14,7 +14,7 @@ import StampBoard from '@/public/images/stamp/스탬프판_문체.png';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-const stampClassname = 'w-[80px] h-[80px] absolute z-20';
+const stampClassname = 'w-[80px] h-[80px] absolute z-20 animate-pulse';
 
 const stamps = [
   <Image

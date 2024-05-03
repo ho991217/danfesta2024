@@ -1,7 +1,7 @@
 import { FloatingTicket, Footer, Navigation } from '@components/common';
 import { PropsWithChildren } from 'react';
 
-export default function LocaleLayout({ children }: PropsWithChildren) {
+export default function RootNavLayout({ children }: PropsWithChildren) {
   return (
     <>
       <Navigation />
