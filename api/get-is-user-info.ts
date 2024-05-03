@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 
 import { User, get, getServerSideToken } from '.';
 
-const getUserInfo = async () => {
+export default async function getUserInfo(): Promise<User> {
   const accessToken = cookies().get(COOKIE_KEYS.accessToken);
   const refreshToken = cookies().get(COOKIE_KEYS.refreshToken);
   const token = await getServerSideToken();
@@ -20,6 +20,4 @@ const getUserInfo = async () => {
   });
 
   return res;
-};
-
-export default getUserInfo;
+}

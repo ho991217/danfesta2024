@@ -1,5 +1,4 @@
-'use client';
-
+import getUserInfo from '@/api/get-is-user-info';
 import { cn } from '@/lib/utils';
 import Logo from '@/public/icons/orbit_logo.png';
 import Universe from '@/public/images/stamp/universe_bg.jpeg';
@@ -11,7 +10,6 @@ import Stamp5 from '@/public/images/stamp/스탬프판_문체-06.webp';
 import Stamp6 from '@/public/images/stamp/스탬프판_문체-07.webp';
 import Stamp7 from '@/public/images/stamp/스탬프판_문체-08.webp';
 import StampBoard from '@/public/images/stamp/스탬프판_문체.png';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const stampClassname = 'w-[80px] h-[80px] absolute z-20 animate-pulse';
@@ -61,34 +59,22 @@ const stamps = [
   />,
 ];
 
-export default function StampPage() {
+export default async function StampPage() {
+  const { studentId } = await getUserInfo();
+  // 스탬프 조회 기능 추가
   return (
-    <div className="w-full h-full relative flex flex-col items-center">
+    <div className="w-full h-full relative flex flex-col items-center px-5">
       <Image
         src={Universe}
         alt="stamp board"
         className="h-screen fixed top-0 left-1/2 transform -translate-x-1/2 object-cover -z-10 brightness-50"
       />
-      <div className="mx-5 flex h-1/3 flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-4 text-white shadow-lg backdrop-blur-xl backdrop-filter">
-        sadasd
+      <div className="w-full flex flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-4 text-white backdrop-blur-xl backdrop-filter">
+        학번 {studentId}
       </div>
       <div className="w-[450px] h-[450px] relative">
         {stamps.map((stamp, index) => (
-          <motion.div
-            key={index}
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: index * 0.1,
-              ease: 'easeInOut',
-            }}
-          >
-            {stamp}
-          </motion.div>
+          <>{stamp}</>
         ))}
         <Image
           src={StampBoard}
