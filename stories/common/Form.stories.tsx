@@ -1,4 +1,4 @@
-import { Form } from '@components/common/';
+import { Form } from '@/app/components/common';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 import React from 'react';

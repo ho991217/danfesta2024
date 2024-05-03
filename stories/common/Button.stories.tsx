@@ -1,4 +1,4 @@
-import { Button } from '@/components/common';
+import { Button } from '@/app/components/common';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 

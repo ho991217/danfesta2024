@@ -8,8 +8,8 @@ import {
   ROUTES,
   privateRoutes,
   protectedRoutes,
-} from './lib/constants';
-import { AccessToken } from './lib/utils/validation/assert/jwt';
+} from './app/lib/constants';
+import { AccessToken } from './app/lib/utils/validation/assert/jwt';
 
 const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],

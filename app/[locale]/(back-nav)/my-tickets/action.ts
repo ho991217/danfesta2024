@@ -1,8 +1,8 @@
 'use server';
 
-import { get } from '@/api';
-import getServerSideToken from '@/api/get-server-side-token';
-import { API_ROUTES } from '@/lib/constants';
+import { get } from '@/app/api';
+import getServerSideToken from '@/app/api/get-server-side-token';
+import { API_ROUTES } from '@/app/lib/constants';
 
 export type TicketInfo = {
   id: number;

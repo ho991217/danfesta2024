@@ -7,7 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
+} from '@/app/components/ui/sheet';
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 

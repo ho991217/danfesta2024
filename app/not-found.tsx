@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@components/common';
-import { ROUTES } from '@lib/constants';
+import { Button } from '@/app/components/common';
+import { ROUTES } from '@/app/lib/constants';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';

@@ -1,7 +1,7 @@
 'use server';
 
-import { post } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
+import { post } from '@/app/api';
+import { API_ROUTES } from '@/app/lib/constants';
 
 import { DKUVerificationSchema } from './schema';
 

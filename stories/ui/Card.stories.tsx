@@ -5,7 +5,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/app/components/ui/card';
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 

@@ -1,19 +1,19 @@
 'use client';
 
-import { post } from '@/api';
-import { useBottomSheet } from '@/hooks';
-import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/lib/constants';
-import { SearchParams } from '@/lib/types';
-import { BottomSheet, Form } from '@components/common';
-import { Funnel, Header } from '@components/signup';
-import { TransformerSubtitle } from '@components/signup';
+import { post } from '@/app/api';
+import { BottomSheet, Form } from '@/app/components/common';
+import { Funnel, Header } from '@/app/components/signup';
+import { TransformerSubtitle } from '@/app/components/signup';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@components/ui/accordion';
-import { APIError, isStudentId } from '@lib/utils';
+} from '@/app/components/ui/accordion';
+import { useBottomSheet } from '@/app/hooks';
+import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/app/lib/constants';
+import { SearchParams } from '@/app/lib/types';
+import { APIError, isStudentId } from '@/app/lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';

@@ -1,4 +1,4 @@
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from '@/app/components/ui/checkbox';
 import type { Meta, StoryObj } from '@storybook/react';
 
 export default {

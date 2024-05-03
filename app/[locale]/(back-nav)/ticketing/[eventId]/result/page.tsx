@@ -1,8 +1,8 @@
-import { get, getServerSideToken } from '@/api';
+import { get, getServerSideToken } from '@/app/api';
+import { Link } from '@/app/components/common';
+import { API_ROUTES, ROUTES } from '@/app/lib/constants';
+import { Params } from '@/app/lib/types';
 import Glass from '@/public/images/glass.jpeg';
-import { Link } from '@components/common';
-import { API_ROUTES, ROUTES } from '@lib/constants';
-import { Params } from '@lib/types';
 import Image from 'next/image';
 
 export default async function Page({

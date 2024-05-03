@@ -1,4 +1,4 @@
-import Overlay from '@/components/common/overlay';
+import Overlay from '@/app/components/common/overlay';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 

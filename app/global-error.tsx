@@ -1,7 +1,7 @@
 'use client';
 
-import { ROUTES } from '@/lib/constants';
-import { Link } from '@components/common';
+import { Link } from '@/app/components/common';
+import { ROUTES } from '@/app/lib/constants';
 import * as Sentry from '@sentry/nextjs';
 import Error from 'next/error';
 import { useEffect } from 'react';

@@ -11,7 +11,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '@/app/components/ui/dropdown-menu';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { HiMiniEllipsisHorizontal } from 'react-icons/hi2';

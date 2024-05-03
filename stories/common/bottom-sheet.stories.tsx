@@ -1,4 +1,4 @@
-import { BottomSheet } from '@/components/common';
+import { BottomSheet } from '@/app/components/common';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 

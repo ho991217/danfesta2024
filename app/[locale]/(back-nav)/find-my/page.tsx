@@ -1,6 +1,6 @@
-import { ROUTES } from '@/lib/constants';
-import { Link } from '@components/common';
-import { Card } from '@components/ui/card';
+import { Link } from '@/app/components/common';
+import { Card } from '@/app/components/ui/card';
+import { ROUTES } from '@/app/lib/constants';
 
 export default function FindMyPage() {
   return (

@@ -1,4 +1,4 @@
-import { Separator } from '@/components/ui/separator';
+import { Separator } from '@/app/components/ui/separator';
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 

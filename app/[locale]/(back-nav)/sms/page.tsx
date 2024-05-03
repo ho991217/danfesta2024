@@ -1,13 +1,13 @@
 'use client';
 
-import { post } from '@/api';
-import { useBottomSheet } from '@/hooks';
-import { API_ROUTES, ROUTES } from '@/lib/constants';
-import assert from '@/lib/utils/validation/assert';
-import { BottomSheet, Form } from '@components/common';
-import { Funnel, Header } from '@components/signup';
-import { SearchParams } from '@lib/types';
-import { APIError } from '@lib/utils';
+import { post } from '@/app/api';
+import { BottomSheet, Form } from '@/app/components/common';
+import { Funnel, Header } from '@/app/components/signup';
+import { useBottomSheet } from '@/app/hooks';
+import { API_ROUTES, ROUTES } from '@/app/lib/constants';
+import { SearchParams } from '@/app/lib/types';
+import { APIError } from '@/app/lib/utils';
+import assert from '@/app/lib/utils/validation/assert';
 import { AnimatePresence } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';

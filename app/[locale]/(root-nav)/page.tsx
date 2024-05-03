@@ -1,7 +1,7 @@
-import { getIsLoggedIn, getIsVerified } from '@/api';
-import { ROUTES } from '@/lib/constants';
-import { AdBanner, Link } from '@components/common';
-import { LineupTile, MenuTiles, NoticeTile } from '@components/home';
+import { getIsLoggedIn, getIsVerified } from '@/app/api';
+import { AdBanner, Link } from '@/app/components/common';
+import { LineupTile, MenuTiles, NoticeTile } from '@/app/components/home';
+import { ROUTES } from '@/app/lib/constants';
 
 import { getAllLineupInfo } from '../(back-nav)/lineup/actions';
 

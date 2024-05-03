@@ -1,6 +1,6 @@
-import "@testing-library/jest-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { Button } from "@components/common";
+import { Button } from '@/app/components/common';
+import '@testing-library/jest-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Button 컴포넌트 테스트 스위트', () => {
   test('정상적으로 렌더링됩니다.', () => {
@@ -23,7 +23,6 @@ describe('Button 컴포넌트 테스트 스위트', () => {
     expect(button).toBeDisabled();
   });
 
-
   test('disabled 경우 비활성화됩니다.', () => {
     // given
     render(<Button disabled>{'this is child'}</Button>);
@@ -36,8 +35,15 @@ describe('Button 컴포넌트 테스트 스위트', () => {
   const variants = [
     { variant: 'filled', expected: 'bg-primary text-neutral-50' },
     { variant: 'outlined', expected: 'border border-primary' },
-    { variant: 'transparent', expected: 'text-neutral-500 bg-white dark:bg-[#0C0C0C]' },
-    { variant: 'bottom', expected: 'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50' },
+    {
+      variant: 'transparent',
+      expected: 'text-neutral-500 bg-white dark:bg-[#0C0C0C]',
+    },
+    {
+      variant: 'bottom',
+      expected:
+        'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
+    },
   ] as const;
 
   variants.forEach(({ variant, expected }) => {

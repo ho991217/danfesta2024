@@ -10,7 +10,7 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from '@components/ui/select';
+} from '@/app/components/ui/select';
 import { Meta, StoryObj } from '@storybook/react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import React from 'react';

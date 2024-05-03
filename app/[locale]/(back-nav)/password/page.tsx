@@ -1,12 +1,12 @@
 'use client';
 
-import { post } from '@/api';
-import { API_ROUTES, API_URL, ROUTES } from '@/lib/constants';
-import { Form } from '@components/common';
-import { Funnel, Header } from '@components/signup';
-import { SearchParams } from '@lib/types';
-import { getRandomNickname } from '@lib/utils';
-import { APIError, assert } from '@lib/utils/validation';
+import { post } from '@/app/api';
+import { Form } from '@/app/components/common';
+import { Funnel, Header } from '@/app/components/signup';
+import { API_ROUTES, API_URL, ROUTES } from '@/app/lib/constants';
+import { SearchParams } from '@/app/lib/types';
+import { getRandomNickname } from '@/app/lib/utils';
+import { APIError, assert } from '@/app/lib/utils/validation';
 import { AnimatePresence } from 'framer-motion';
 import { getJosaPicker } from 'josa';
 import { useLocale } from 'next-intl';

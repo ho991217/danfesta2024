@@ -1,4 +1,4 @@
-import { FloatingButton } from '@/components/common/floating-ticket';
+import { FloatingButton } from '@/app/components/common/floating-ticket';
 import type { Meta, StoryObj } from '@storybook/react';
 import { BsTicketFill } from 'react-icons/bs';
 

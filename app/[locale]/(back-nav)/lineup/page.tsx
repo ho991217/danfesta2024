@@ -1,6 +1,6 @@
-import { get } from '@/api';
-import { API_ROUTES } from '@/lib/constants';
-import { Carousel } from '@components/common';
+import { get } from '@/app/api';
+import { Carousel } from '@/app/components/common';
+import { API_ROUTES } from '@/app/lib/constants';
 
 import { getAllLineupInfo, getLineupInfoByDay } from './actions';
 

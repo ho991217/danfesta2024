@@ -1,8 +1,8 @@
 'use client';
 
-import { ROUTES } from '@/lib/constants';
-import { Button, Link } from '@components/common';
-import useDimensions from '@hooks/use-dimensions';
+import { Button, Link } from '@/app/components/common';
+import useDimensions from '@/app/hooks/use-dimensions';
+import { ROUTES } from '@/app/lib/constants';
 import { useLocale } from 'next-intl';
 import Confetti from 'react-confetti';
 

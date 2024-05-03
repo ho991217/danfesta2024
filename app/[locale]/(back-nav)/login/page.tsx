@@ -1,10 +1,10 @@
 'use client';
 
-import { useAuth } from '@/hooks';
-import { Form, Link } from '@components/common';
-import { ROUTES } from '@lib/constants';
-import { SearchParams } from '@lib/types';
-import { APIError } from '@lib/utils/validation';
+import { Form, Link } from '@/app/components/common';
+import { useAuth } from '@/app/hooks';
+import { ROUTES } from '@/app/lib/constants';
+import { SearchParams } from '@/app/lib/types';
+import { APIError } from '@/app/lib/utils/validation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 

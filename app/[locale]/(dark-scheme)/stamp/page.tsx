@@ -1,5 +1,5 @@
-import getUserInfo from '@/api/get-is-user-info';
-import { cn } from '@/lib/utils';
+import getUserInfo from '@/app/api/get-is-user-info';
+import { cn } from '@/app/lib/utils';
 import Logo from '@/public/icons/orbit_logo.png';
 import Universe from '@/public/images/stamp/universe_bg.jpeg';
 import Stamp1 from '@/public/images/stamp/스탬프판_문체-02.webp';

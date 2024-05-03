@@ -1,4 +1,4 @@
-import { Params } from '@/lib/types';
+import { Params } from '@/app/lib/types';
 import type { Metadata, Viewport } from 'next';
 import { PropsWithChildren } from 'react';
 
