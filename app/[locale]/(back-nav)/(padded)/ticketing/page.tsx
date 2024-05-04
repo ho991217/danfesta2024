@@ -6,7 +6,7 @@ export default async function Page() {
   try {
     const events = await getEvents();
     return (
-      <div className="flex flex-col gap-4 px-5">
+      <div className="flex flex-col gap-4">
         {events ? (
           events.map((e) => <Card key={e.id} {...e} />)
         ) : (

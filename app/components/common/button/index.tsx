@@ -3,6 +3,7 @@
 import { cn } from '@/app/lib/utils';
 import { cva } from 'class-variance-authority';
 import { MotionProps, motion } from 'framer-motion';
+import { useFormContext } from 'react-hook-form';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import { variants } from './motion';
@@ -53,6 +54,8 @@ export default function Button({
   isLoading = false,
   disabled,
 }: ButtonProps) {
+  const { formState } = useFormContext();
+  const { isSubmitting, isValid, isDirty } = formState;
   const motionProps = {
     variants: variants.button,
     initial: 'initial',
@@ -63,7 +66,7 @@ export default function Button({
     <motion.button
       type={type}
       onClick={onClick}
-      disabled={isLoading || disabled}
+      disabled={!isValid || !isDirty || isSubmitting || isLoading || disabled}
       className={cn(buttonVariants({ variant, disabled }), className)}
       {...motionProps}
     >

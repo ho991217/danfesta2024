@@ -1,8 +1,8 @@
 'use server';
 
-import { get, getServerSideToken, post } from '@/app/api';
-import { API_ROUTES } from '@/app/lib/constants';
-import { CustomError, ErrorCause } from '@/app/lib/utils';
+import { get, getServerSideToken, post } from '@app/api';
+import { API_ROUTES } from '@lib/constants';
+import { CustomError, ErrorCause } from '@lib/utils';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 
 export interface Payload extends JwtPayload {

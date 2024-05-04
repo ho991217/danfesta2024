@@ -65,7 +65,7 @@ export default async function Page({
     captchaImage = image;
 
     return (
-      <div className="flex flex-col gap-4 mb-20 px-5">
+      <div className="flex flex-col gap-4 mb-20">
         <Card className="overflow-hidden">
           <CardHeader>개인정보 제 3자 제공 동의</CardHeader>
           <CardContent className="text-neutral-500">

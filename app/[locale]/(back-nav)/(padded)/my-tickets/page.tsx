@@ -9,7 +9,7 @@ export default async function Page() {
     const tickets = await getMyTicketList();
 
     return (
-      <section className="flex w-full flex-col items-center justify-start gap-4 px-5 pb-20">
+      <section className="flex w-full flex-col items-center justify-start gap-4 pb-20">
         <If condition={tickets.length > 0}>
           <If.Then>
             <Accordion type="multiple" className="flex flex-col w-full gap-4 ">

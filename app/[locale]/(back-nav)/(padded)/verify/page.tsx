@@ -1,19 +1,18 @@
 'use client';
 
-import { post } from '@/app/api';
-import { BottomSheet, Form } from '@/app/components/common';
-import { Funnel, Header } from '@/app/components/signup';
-import { TransformerSubtitle } from '@/app/components/signup';
+import { post } from '@app/api';
+import { useBottomSheet } from '@app/hooks';
+import { BottomSheet, Button, Form, ID, Password } from '@components/common';
+import { Funnel, Header, TransformerSubtitle } from '@components/signup';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/app/components/ui/accordion';
-import { useBottomSheet } from '@/app/hooks';
-import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@/app/lib/constants';
-import { SearchParams } from '@/app/lib/types';
-import { APIError, isStudentId } from '@/app/lib/utils';
+} from '@components/ui/accordion';
+import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@lib/constants';
+import { type SearchParams } from '@lib/types';
+import { APIError, isStudentId } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';
@@ -140,7 +139,7 @@ export default function VerifyPage({
       >
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name="비밀번호">
-            <Form.Password
+            <Password
               ref={passwordRef}
               name="dkuPassword"
               label="단국대학교 포털 비밀번호"
@@ -148,7 +147,7 @@ export default function VerifyPage({
             />
           </Funnel.Step>
           <Funnel.Step name="학번">
-            <Form.ID
+            <ID
               name="dkuStudentId"
               label="단국대학교 포털 아이디"
               placeholder="숫자 8자리"
@@ -171,12 +170,12 @@ export default function VerifyPage({
           }}
         >
           <Terms />
-          <Form.Button isLoading={isLoading} variant="filled">
+          <Button isLoading={isLoading} variant="filled">
             동의
-          </Form.Button>
+          </Button>
         </BottomSheet>
 
-        <Form.Button variant="bottom">다음</Form.Button>
+        <Button variant="bottom">다음</Button>
       </Form>
     </AnimatePresence>
   );

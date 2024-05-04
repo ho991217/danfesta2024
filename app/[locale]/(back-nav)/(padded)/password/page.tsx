@@ -1,12 +1,12 @@
 'use client';
 
-import { post } from '@/app/api';
-import { Form } from '@/app/components/common';
-import { Funnel, Header } from '@/app/components/signup';
-import { API_ROUTES, API_URL, ROUTES } from '@/app/lib/constants';
-import { SearchParams } from '@/app/lib/types';
-import { getRandomNickname } from '@/app/lib/utils';
-import { APIError, assert } from '@/app/lib/utils/validation';
+import { post } from '@app/api';
+import { Button, Form, Password } from '@components/common';
+import { Funnel, Header } from '@components/signup';
+import { API_ROUTES, API_URL, ROUTES } from '@lib/constants';
+import { SearchParams } from '@lib/types';
+import { getRandomNickname } from '@lib/utils';
+import { APIError, assert } from '@lib/utils/validation';
 import { AnimatePresence } from 'framer-motion';
 import { getJosaPicker } from 'josa';
 import { useLocale } from 'next-intl';
@@ -132,7 +132,7 @@ export default function PasswordSetPage({
       >
         <Funnel<typeof steps> step={step} steps={steps}>
           <Funnel.Step name="비밀번호">
-            <Form.Password
+            <Password
               className="mb-4"
               ref={passwordRef}
               label="비밀번호"
@@ -140,7 +140,7 @@ export default function PasswordSetPage({
             />
           </Funnel.Step>
           <Funnel.Step name="동일한 비밀번호">
-            <Form.Password
+            <Password
               ref={passwordCheckRef}
               label="비밀번호 확인"
               name="passwordCheck"
@@ -148,9 +148,9 @@ export default function PasswordSetPage({
             />
           </Funnel.Step>
         </Funnel>
-        <Form.Button variant="bottom" isLoading={loading}>
+        <Button variant="bottom" isLoading={loading}>
           다음
-        </Form.Button>
+        </Button>
       </Form>
     </AnimatePresence>
   );

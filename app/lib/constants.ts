@@ -1,5 +1,5 @@
-import { PasswordSetType } from '@/app/[locale]/(back-nav)/password/page';
-import { SMSVerifyType } from '@/app/[locale]/(back-nav)/sms/page';
+import { PasswordSetType } from '@/app/[locale]/(back-nav)/(padded)/password/page';
+import { SMSVerifyType } from '@/app/[locale]/(back-nav)/(padded)/sms/page';
 import { User } from '@/app/api';
 import { FestivalDate } from '@app/[locale]/(back-nav)/lineup/page';
 

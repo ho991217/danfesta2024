@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import { Form } from '../common';
+import { Button, Form, Input } from '../common';
 
 const schema = z.object({
   captchaValue: z.string().trim().min(1, { message: '필수 입력 사항입니다.' }),
@@ -61,14 +61,14 @@ export default function TicketingForm({
       className="flex gap-0"
       validateOn="onSubmit"
     >
-      <Form.Text
+      <Input
         name="captchaValue"
         className="mb-4"
         placeholder="캡차를 입력하세요."
       />
-      <Form.Button type="submit" variant="filled" className="mb-2">
+      <Button type="submit" variant="filled" className="mb-2">
         신청
-      </Form.Button>
+      </Button>
       <span className="text-[10px] text-neutral-500">
         이벤트 신청 시 개인정보 제공에 동의한 것으로 간주합니다.
       </span>

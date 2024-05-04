@@ -139,7 +139,7 @@ const data: Notice[] = [
 
 export default async function Page() {
   return (
-    <Accordion type="single" className="px-5 mb-20">
+    <Accordion type="single">
       {data.map((notice) => (
         <Notice key={notice.id} {...notice} />
       ))}

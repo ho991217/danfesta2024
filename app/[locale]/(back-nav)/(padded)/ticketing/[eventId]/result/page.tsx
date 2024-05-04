@@ -17,7 +17,7 @@ export default async function Page({
   );
 
   return (
-    <div className="flex w-full flex-col items-start justify-start px-5">
+    <div className="flex w-full flex-col items-start justify-start">
       <h1 className="mb-2 mt-10 text-3xl font-bold">
         티켓팅이 완료되었습니다.
       </h1>

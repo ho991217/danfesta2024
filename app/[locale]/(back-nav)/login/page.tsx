@@ -1,10 +1,10 @@
 'use client';
 
-import { Form, Link } from '@/app/components/common';
 import { useAuth } from '@/app/hooks';
-import { ROUTES } from '@/app/lib/constants';
-import { SearchParams } from '@/app/lib/types';
-import { APIError } from '@/app/lib/utils/validation';
+import { Button, Form, ID, Link, Password } from '@components/common';
+import { ROUTES } from '@lib/constants';
+import { type SearchParams } from '@lib/types';
+import { APIError } from '@lib/utils/validation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -39,11 +39,8 @@ export default function LoginPage({
         onSubmit={onSubmit}
         schema={authInfoSchema}
       >
-        <Form.ID label="단국대학교 포털 아이디" placeholder="32123456" />
-        <Form.Password
-          label="단국대학교 포털 비밀번호"
-          placeholder="비밀번호"
-        />
+        <ID label="단국대학교 포털 아이디" placeholder="32123456" />
+        <Password label="단국대학교 포털 비밀번호" placeholder="비밀번호" />
         <Form.Group>
           <div className="w-full flex items-end justify-end">
             <Link
@@ -58,9 +55,9 @@ export default function LoginPage({
             회원가입
           </Link>
         </Form.Group>
-        <Form.Button type="submit" variant="bottom" isLoading={isLoading}>
+        <Button type="submit" variant="bottom" isLoading={isLoading}>
           로그인
-        </Form.Button>
+        </Button>
       </Form>
     </section>
   );

@@ -8,7 +8,7 @@ import {
 } from '@/app/components/ui/card';
 import { API_ROUTES } from '@/app/lib/constants';
 import { cn } from '@/app/lib/utils';
-import { type FestivalEvent } from '@app/[locale]/(back-nav)/ticketing/action';
+import { type FestivalEvent } from '@/app/[locale]/(back-nav)/(padded)/ticketing/action';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { FiCalendar, FiClock } from 'react-icons/fi';

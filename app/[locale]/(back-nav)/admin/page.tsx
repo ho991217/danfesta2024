@@ -1,17 +1,17 @@
 'use client';
 
+import { useBottomSheet } from '@/app/hooks';
+import DanfestaLogo from '@/public/icons/logo-white.svg';
+import Glass from '@/public/images/glass.jpeg';
 import {
   ErrorTile,
   Keypad,
   type QRScanResult,
   QrReader,
   StudentInfo,
-} from '@/app/components/admin';
-import { BottomSheet, Button } from '@/app/components/common';
-import { useBottomSheet } from '@/app/hooks';
-import { CustomError, ErrorCause, throttle } from '@/app/lib/utils';
-import DanfestaLogo from '@/public/icons/logo-white.svg';
-import Glass from '@/public/images/glass.jpeg';
+} from '@components/admin';
+import { BottomSheet, Button } from '@components/common';
+import { CustomError, ErrorCause, throttle } from '@lib/utils';
 import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'sonner';
