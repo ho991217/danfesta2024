@@ -1,7 +1,6 @@
-import { getIsLoggedIn, getIsVerified } from '@/app/api';
-import { AdBanner, Link } from '@/app/components/common';
-import { LineupTile, MenuTiles, NoticeTile } from '@/app/components/home';
-import { ROUTES } from '@/app/lib/constants';
+import { getIsLoggedIn, getIsVerified } from '@api/.';
+import { AdBanner, Link } from '@components/common';
+import { LineupTile, MenuTiles, NoticeTile } from '@components/home';
 
 import { getAllLineupInfo } from '../(back-nav)/lineup/actions';
 
@@ -18,7 +17,10 @@ export default async function Home() {
           <div className="w-full flex items-center justify-end mt-4">
             <Link
               className="h-auto w-auto p-2 text-primary font-medium dark:text-primary"
-              href={`${ROUTES.verify}?reverify=true`}
+              href={{
+                pathname: '/verify',
+                query: { reverify: 'true' },
+              }}
               variant="transparent"
             >
               재학생 인증하기

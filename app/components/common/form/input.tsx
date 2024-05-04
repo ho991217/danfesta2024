@@ -1,3 +1,5 @@
+'use client';
+
 import { cn } from '@lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { HTMLAttributes, type HTMLInputTypeAttribute, forwardRef } from 'react';
@@ -67,6 +69,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
             }
           }
         }}
+        type={type}
         variants={variants.input}
         initial="initial"
         whileTap="active"

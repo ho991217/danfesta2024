@@ -1,5 +1,7 @@
+'use client';
+
+import { type SMSVerificationType } from '@/app/components/common/form/phone';
 import { Phone } from '@components/common';
-import { type SMSVerificationType } from '@components/common/form/phone';
 import { Header } from '@components/signup';
 import { type SearchParams } from '@lib/types';
 import { assert } from '@lib/utils';

@@ -1,21 +1,21 @@
-import { Separator } from '@/app/components/ui/separator';
-import { Sheet, SheetContent, SheetTrigger } from '@/app/components/ui/sheet';
-import { ROUTES } from '@/app/lib/constants';
 import en from '@/messages/en.json';
 import ko from '@/messages/ko.json';
-import { NextIntlClientProvider } from 'next-intl';
+import { Separator } from '@components/ui/separator';
+import { Sheet, SheetContent, SheetTrigger } from '@components/ui/sheet';
+import { Pathnames } from '@lib/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getLocale } from 'next-intl/server';
 import { IoIosMenu } from 'react-icons/io';
 
 import Button from '../button';
+import IntlProvider from '../intl-provider';
 import LocaleSwitcher from '../locale-switcher';
 import AuthGroup from './auth-group';
 import NavLink from './nav-link';
 
 export type LinkInfo = {
   id: number;
-  link: string;
+  link: Pathnames;
   nameKey: string;
   privateRoute?: boolean;
 };
@@ -23,29 +23,29 @@ export type LinkInfo = {
 const links: LinkInfo[] = [
   {
     id: 1,
-    link: ROUTES.home,
+    link: '/',
     nameKey: 'home',
   },
   {
     id: 2,
-    link: ROUTES.ticketing.root,
+    link: '/ticketing',
     nameKey: 'ticketing',
     privateRoute: true,
   },
   {
     id: 3,
-    link: ROUTES.stamp,
+    link: '/stamp',
     nameKey: 'stamp',
     privateRoute: true,
   },
   {
     id: 4,
-    link: ROUTES.events,
+    link: '/events',
     nameKey: 'events',
   },
   {
     id: 5,
-    link: ROUTES.notice,
+    link: '/notice',
     nameKey: 'notice',
   },
 ];
@@ -71,13 +71,9 @@ export default async function SideNav() {
 
       <SheetContent className="bg-white dark:bg-[#0C0C0C] dark:border-[#181818] flex flex-col justify-between">
         <div className="flex flex-col items-end gap-4">
-          <NextIntlClientProvider
-            locale={locale}
-            timeZone="Asia/Seoul"
-            messages={locale === 'ko' ? ko : en}
-          >
+          <IntlProvider>
             <AuthGroup className={className} />
-          </NextIntlClientProvider>
+          </IntlProvider>
           <Separator />
           <ul className="flex flex-col items-end gap-1 w-full">
             {links.map((link) => (
@@ -92,13 +88,9 @@ export default async function SideNav() {
             ))}
           </ul>
         </div>
-        <NextIntlClientProvider
-          locale={locale}
-          timeZone="Asia/Seoul"
-          messages={locale === 'ko' ? ko : en}
-        >
+        {/* <IntlProvider>
           <LocaleSwitcher />
-        </NextIntlClientProvider>
+        </IntlProvider> */}
       </SheetContent>
     </Sheet>
   );

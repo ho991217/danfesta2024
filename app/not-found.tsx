@@ -1,8 +1,6 @@
 'use client';
 
-import { Button } from '@/app/components/common';
-import { ROUTES } from '@/app/lib/constants';
-import Link from 'next/link';
+import { Link } from '@components/common';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,14 +13,14 @@ export default function NotFound() {
           <span className="text-sm text-neutral-500">
             홈화면으로 이동해주세요.
           </span>
-          <Button variant="bottom">
-            <Link
-              href={ROUTES.home}
-              className="w-full h-full flex items-center justify-center"
-            >
-              홈으로
-            </Link>
-          </Button>
+
+          <Link
+            variant="bottom"
+            href="/"
+            className="w-full h-full flex items-center justify-center"
+          >
+            홈으로
+          </Link>
         </div>
       </body>
     </html>

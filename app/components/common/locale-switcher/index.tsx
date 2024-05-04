@@ -1,7 +1,7 @@
 'use client';
 
-import { SelectItem } from '@/app/components/ui/select';
-import { locales } from '@/app/lib/navigation';
+import { SelectItem } from '@components/ui/select';
+import { locales } from '@lib/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import LocaleSwitcherSelect from './locale-switcher-select';

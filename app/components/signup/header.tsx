@@ -1,7 +1,9 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { PropsWithChildren } from 'react';
 
-import Funnel, { StepType } from './funnel';
+import Funnel, { type StepType } from './funnel';
 
 export default function Header({ children }: PropsWithChildren) {
   return <header className="flex flex-col gap-2 mb-10">{children}</header>;

@@ -1,14 +1,35 @@
 import {
-  createLocalizedPathnamesNavigation,
-  Pathnames,
+  Pathnames as Paths,
+  createSharedPathnamesNavigation,
 } from 'next-intl/navigation';
 
 export const locales = ['en', 'ko'] as const;
+export const localePrefix = 'always';
 
 export const pathnames = {
   '/': '/',
+  '/admin': '/admin',
+  '/login': '/login',
+  '/mypage': '/mypage',
+  '/signup/complete': '/signup/complete',
+  '/password': '/password',
+  '/sms': '/sms',
+  '/verify': '/verify',
+  '/find-my': '/find-my',
+  '/find-my/password': '/find-my/password',
+  '/find-my/password/complete': '/find-my/password/complete',
+  '/find-my/id': '/find-my/id',
+  '/find-my/id/complete': '/find-my/id/complete',
   '/lineup': '/lineup',
-} satisfies Pathnames<typeof locales>;
+  '/ticketing': '/ticketing',
+  '/ticketing/[id]': '/ticketing/[id]',
+  '/my-tikcets': '/my-tikcets',
+  '/notice': '/notice',
+  '/stamp': '/stamp',
+  '/events': '/events',
+} satisfies Paths<typeof locales>;
+
+export type Pathnames = keyof typeof pathnames;
 
 export const { Link, redirect, usePathname, useRouter } =
-  createLocalizedPathnamesNavigation({ locales, pathnames });
+  createSharedPathnamesNavigation({ locales, localePrefix });

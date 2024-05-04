@@ -1,8 +1,8 @@
-import { get, getServerSideToken } from '@/app/api';
-import { Link } from '@/app/components/common';
-import { API_ROUTES, ROUTES } from '@/app/lib/constants';
-import { Params } from '@/app/lib/types';
-import Glass from '@/public/images/glass.jpeg';
+import { get, getServerSideToken } from '@api/.';
+import { Link } from '@components/common';
+import Glass from '@images/glass.jpeg';
+import { API_ROUTES } from '@lib/constants';
+import { type Params } from '@lib/types';
 import Image from 'next/image';
 
 export default async function Page({
@@ -26,7 +26,7 @@ export default async function Page({
         하셨습니다.
       </span>
       <Link
-        href={ROUTES.home}
+        href="/"
         variant="bottom"
         className="absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] rounded-lg bg-primary p-4 text-center text-neutral-50"
       >

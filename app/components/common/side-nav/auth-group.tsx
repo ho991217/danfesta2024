@@ -1,15 +1,10 @@
 'use client';
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/app/components/ui/avatar';
-import { SheetClose } from '@/app/components/ui/sheet';
-import { If } from '@/app/components/util';
-import { useAuth } from '@/app/hooks';
-import { ROUTES } from '@/app/lib/constants';
-import { cn } from '@/app/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
+import { SheetClose } from '@components/ui/sheet';
+import { If } from '@components/util';
+import { useAuth } from '@hooks/.';
+import { cn } from '@lib/utils';
 import { useTranslations } from 'next-intl';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import {
@@ -31,7 +26,7 @@ export default function AuthGroup({ className }: { className?: string }) {
         <If.Then>
           <If condition={isAdmin}>
             <If.Then>
-              <NavLink link={ROUTES.admin} className={className}>
+              <NavLink link="/admin" className={className}>
                 <IoPersonSharp className="mr-2" />
                 관리자 페이지
               </NavLink>
@@ -40,7 +35,7 @@ export default function AuthGroup({ className }: { className?: string }) {
             <If.Else>
               <NavLink
                 privateRoute
-                link={ROUTES.mypage}
+                link="/mypage"
                 className={cn(
                   'dark:bg-neutral-900 bg-neutral-100 w-full p-3 rounded-lg mb-4',
                   className,
@@ -69,7 +64,7 @@ export default function AuthGroup({ className }: { className?: string }) {
                   </div>
                 </div>
               </NavLink>
-              <NavLink link={ROUTES.myTickets} className={className}>
+              <NavLink link="/my-tikcets" className={className}>
                 <IoTicketOutline className="mr-2" />
                 {t('myTickets')}
               </NavLink>
@@ -83,7 +78,7 @@ export default function AuthGroup({ className }: { className?: string }) {
         </If.Then>
 
         <If.Else>
-          <NavLink link={ROUTES.login} className={className}>
+          <NavLink link="/login" className={className}>
             <MdLogin className="mr-2" />
             {t('login')}
           </NavLink>

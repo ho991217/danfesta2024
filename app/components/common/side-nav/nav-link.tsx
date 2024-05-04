@@ -1,13 +1,13 @@
 'use client';
 
-import { getIsLoggedIn } from '@/app/api';
-import { Link } from '@/app/components/common';
-import { SheetClose } from '@/app/components/ui/sheet';
-import { useAuth } from '@/app/hooks';
-import { cn } from '@/app/lib/utils';
+import { Link } from '@components/common';
+import { SheetClose } from '@components/ui/sheet';
+import { useAuth } from '@hooks/.';
+import { Pathnames } from '@lib/navigation';
+import { cn } from '@lib/utils';
 
 type NavLinkProps = {
-  link: string;
+  link: Pathnames;
   children?: React.ReactNode;
   className?: string;
   privateRoute?: boolean;

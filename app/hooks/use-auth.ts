@@ -1,14 +1,14 @@
 'use client';
 
-import { AuthTokens, User, post } from '@/app/api';
-import { API_ROUTES, API_URL, COOKIE_KEYS, ROUTES } from '@/app/lib/constants';
-import { APIError } from '@/app/lib/utils/validation';
-import useAuthStore from '@/app/store/auth-store';
+import { AuthTokens, User, post } from '@api/.';
 import { AuthInfoSchema } from '@app/[locale]/(back-nav)/login/schema';
+import { API_ROUTES, API_URL, COOKIE_KEYS } from '@lib/constants';
+import { useRouter } from '@lib/navigation';
+import { APIError } from '@lib/utils/validation';
+import useAuthStore from '@store/auth-store';
 import { deleteCookie, setCookie } from 'cookies-next';
 import { useCookies } from 'next-client-cookies';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 export default function useAuth() {
@@ -60,6 +60,7 @@ export default function useAuth() {
         setUserInfo(user);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const login = async (req: AuthInfoSchema, redirect?: string) => {
@@ -75,7 +76,7 @@ export default function useAuth() {
 
       setIsLoggedIn(true);
 
-      router.replace(redirect ? decodeURIComponent(redirect) : ROUTES.home);
+      router.replace(redirect ? decodeURIComponent(redirect) : '/');
     } catch (error) {
       const e = error as Error;
       setIsLoggedIn(false);
@@ -88,7 +89,7 @@ export default function useAuth() {
     deleteCookie(COOKIE_KEYS.refreshToken);
     setUserInfo(null);
     setIsLoggedIn(false);
-    router.replace(ROUTES.home);
+    router.replace('/');
     router.refresh();
     toast.info('로그아웃되었습니다.');
   };

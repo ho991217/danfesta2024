@@ -1,7 +1,7 @@
-import { PasswordSetType } from '@/app/[locale]/(back-nav)/(padded)/password/page';
-import { SMSVerifyType } from '@/app/[locale]/(back-nav)/(padded)/sms/page';
-import { User } from '@/app/api';
+import { type User } from '@api/.';
 import { FestivalDate } from '@app/[locale]/(back-nav)/lineup/page';
+
+import { type Pathnames } from './navigation';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -125,34 +125,34 @@ export const API_ROUTES = {
   },
 } as const;
 
-export const ROUTES = {
-  admin: '/admin',
-  home: '/',
-  login: '/login',
-  mypage: '/mypage',
-  signup: {
-    complete: '/signup/complete',
-  },
-  password: (token: string, type: PasswordSetType) =>
-    `/password?token=${token}&type=${type}`,
-  sms: (type: SMSVerifyType, token?: string | null) =>
-    `/sms?type=${type}${token ? `&token=${token}` : ''}`,
-  verify: '/verify',
-  findMy: {
-    root: '/find-my',
-    password: {
-      root: (token: string) => `/find-my/password?token=${token}`,
-      complete: '/find-my/password/complete',
-    },
-    id: { complete: '/find-my/id/complete' },
-  },
-  lineup: '/lineup',
-  ticketing: { root: '/ticketing', id: (id: number) => `/ticketing/${id}` },
-  myTickets: '/my-tickets',
-  notice: '/notice',
-  stamp: '/stamp',
-  events: '/events',
-} as const;
+// export const ROUTES = {
+//   admin: '/admin',
+//   home: '/',
+//   login: '/login',
+//   mypage: '/mypage',
+//   signup: {
+//     complete: '/signup/complete',
+//   },
+//   password: (token: string, type: PasswordSetType) =>
+//     `/password?token=${token}&type=${type}`,
+//   sms: (type: SMSVerifyType, token?: string | null) =>
+//     `/sms?type=${type}${token ? `&token=${token}` : ''}`,
+//   verify: '/verify',
+//   findMy: {
+//     root: '/find-my',
+//     password: {
+//       root: (token: string) => `/find-my/password?token=${token}`,
+//       complete: '/find-my/password/complete',
+//     },
+//     id: { complete: '/find-my/id/complete' },
+//   },
+//   lineup: '/lineup',
+//   ticketing: { root: '/ticketing', id: (id: number) => `/ticketing/${id}` },
+//   myTickets: '/my-tickets',
+//   notice: '/notice',
+//   stamp: '/stamp',
+//   events: '/events',
+// } as const;
 
-export const protectedRoutes: string[] = [ROUTES.admin];
-export const privateRoutes: string[] = [ROUTES.mypage, ROUTES.ticketing.root];
+export const protectedRoutes: Pathnames[] = ['/admin'];
+export const privateRoutes: Pathnames[] = ['/mypage', '/ticketing'];

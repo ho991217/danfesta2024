@@ -1,23 +1,20 @@
 'use client';
 
-import { useAuth } from '@/app/hooks';
-import { ROUTES } from '@/app/lib/constants';
-import { cn } from '@/app/lib/utils';
-import { useLocale } from 'next-intl';
-import { default as NextLink } from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useAuth } from '@app/hooks';
+import { Link as IntlLink, Pathnames, useRouter } from '@lib/navigation';
+import { CustomError, ErrorCause, cn } from '@lib/utils';
+import { ComponentProps } from 'react';
 
-import If from '../util/if';
 import Button, { ButtonProps } from './button';
 
 type Props = {
   children: React.ReactNode;
   variant?: 'text' | ButtonProps['variant'];
-  href?: string;
   className?: string;
   back?: boolean;
   auth?: boolean;
-};
+  href?: Pathnames | { pathname: Pathnames; query: Record<string, string> };
+} & Omit<ComponentProps<typeof IntlLink>, 'href'>;
 
 export default function Link({
   children,
@@ -29,48 +26,47 @@ export default function Link({
 }: Props) {
   const router = useRouter();
   const { isLoggedIn } = useAuth();
-  const locale = useLocale();
 
-  return (
-    <If condition={back}>
-      <If.Then>
-        <button
-          onClick={() => router.back()}
-          className={cn('w-full h-full', className)}
-        >
-          {children}
-        </button>
-      </If.Then>
-      <If.Else>
-        {variant === 'text' ? (
-          <NextLink
-            href={
-              !auth || isLoggedIn
-                ? `/${locale}${href}`
-                : `/${locale}${ROUTES.login}${href ? `?redirect=${decodeURIComponent(`/${locale}${href}`)}` : ``}`
-            }
-            className={cn(
-              'w-full h-full flex justify-center items-center',
-              className,
-            )}
-          >
-            {children}
-          </NextLink>
-        ) : (
-          <Button variant={variant} className={className} animateOnClick>
-            <NextLink
-              href={
-                !auth || isLoggedIn
-                  ? `/${locale}${href}`
-                  : `/${locale}${ROUTES.login}${href ? `?redirect=${decodeURIComponent(`/${locale}${href}`)}` : ``}`
-              }
-              className="w-full h-full flex justify-center items-center"
-            >
-              {children}
-            </NextLink>
-          </Button>
-        )}
-      </If.Else>
-    </If>
+  if (back) {
+    return (
+      <button
+        onClick={() => router.back()}
+        className={cn('w-full h-full', className)}
+      >
+        {children}
+      </button>
+    );
+  }
+
+  if (href === undefined)
+    throw new CustomError(ErrorCause.INVALID, 'href is required');
+
+  return variant === 'text' ? (
+    <IntlLink
+      href={
+        !auth || isLoggedIn
+          ? href
+          : { pathname: '/login', query: { redirect: href.toString() } }
+      }
+      className={cn(
+        'w-full h-full flex justify-center items-center',
+        className,
+      )}
+    >
+      {children}
+    </IntlLink>
+  ) : (
+    <Button variant={variant} className={className} animateOnClick>
+      <IntlLink
+        href={
+          !auth || isLoggedIn
+            ? href
+            : { pathname: '/login', query: { redirect: href.toString() } }
+        }
+        className="w-full h-full flex justify-center items-center"
+      >
+        {children}
+      </IntlLink>
+    </Button>
   );
 }

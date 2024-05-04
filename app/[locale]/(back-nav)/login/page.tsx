@@ -1,10 +1,10 @@
 'use client';
 
-import { useAuth } from '@/app/hooks';
 import { Button, Form, ID, Link, Password } from '@components/common';
-import { ROUTES } from '@lib/constants';
-import { type SearchParams } from '@lib/types';
+import { useAuth } from '@hooks/.';
+import { type Params, type SearchParams } from '@lib/types';
 import { APIError } from '@lib/utils/validation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -15,6 +15,7 @@ export default function LoginPage({
 }: SearchParams<{ redirect?: string }>) {
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
+  const t = useTranslations('LoginPage');
 
   const onSubmit = async (data: AuthInfoSchema) => {
     try {
@@ -31,32 +32,32 @@ export default function LoginPage({
   return (
     <section className="w-full">
       <div className="flex flex-col items-center w-full pt-6 pb-10">
-        <h1 className="text-3xl font-bold text-center">LOGIN</h1>
-        <span className="text-sm">서비스를 이용하시려면 로그인해주세요.</span>
+        <h1 className="text-3xl font-bold text-center">{t('title')}</h1>
+        <span className="text-sm">{t('subTitle')}</span>
       </div>
       <Form
         className="flex flex-col gap-2 px-5 mt-3 z-50"
         onSubmit={onSubmit}
         schema={authInfoSchema}
       >
-        <ID label="단국대학교 포털 아이디" placeholder="32123456" />
-        <Password label="단국대학교 포털 비밀번호" placeholder="비밀번호" />
+        <ID label={t('username')} placeholder="32123456" />
+        <Password label={t('password')} placeholder="비밀번호" />
         <Form.Group>
           <div className="w-full flex items-end justify-end">
             <Link
-              href={ROUTES.findMy.root}
+              href="/find-my"
               className="text-neutral-500 text-sm w-auto"
               variant="transparent"
             >
-              아이디/비밀번호를 잊으셨나요?
+              {t('forgot')}
             </Link>
           </div>
-          <Link href={ROUTES.verify} className="flex" variant="transparent">
-            회원가입
+          <Link href="/verify" className="flex" variant="transparent">
+            {t('signup')}
           </Link>
         </Form.Group>
         <Button type="submit" variant="bottom" isLoading={isLoading}>
-          로그인
+          {t('login')}
         </Button>
       </Form>
     </section>

@@ -1,4 +1,5 @@
-import { Link } from '@/app/components/common';
+import { Link } from '@components/common';
+import { Pathnames } from '@lib/navigation';
 import type { PropsWithChildren } from 'react';
 
 export default function TileHeader({ children }: PropsWithChildren) {
@@ -19,7 +20,7 @@ async function SeeAll({
   children,
   href,
 }: PropsWithChildren<{
-  href: string;
+  href: Pathnames;
 }>) {
   return (
     <Link

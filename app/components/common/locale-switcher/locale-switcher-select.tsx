@@ -5,8 +5,8 @@ import {
   SelectContent,
   SelectTrigger,
   SelectValue,
-} from '@/app/components/ui/select';
-import { usePathname, useRouter } from '@/app/lib/navigation';
+} from '@components/ui/select';
+import { usePathname, useRouter } from '@lib/navigation';
 import { useLocale } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { ReactNode, useTransition } from 'react';

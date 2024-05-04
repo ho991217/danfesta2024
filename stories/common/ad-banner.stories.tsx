@@ -1,5 +1,4 @@
-import { AdBanner } from '@/app/components/common';
-import { SelectItem } from '@/app/components/ui/select';
+import { AdBanner } from '@components/common';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof AdBanner> = {

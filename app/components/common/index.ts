@@ -8,3 +8,4 @@ export { default as Footer } from './footer';
 export { default as Carousel } from './carousel';
 export { default as FloatingTicket } from './floating-ticket';
 export * from './form';
+export { default as IntlProvider } from './intl-provider';

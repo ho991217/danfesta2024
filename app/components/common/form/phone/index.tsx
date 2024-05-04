@@ -2,23 +2,18 @@
 
 import { post } from '@app/api';
 import { useBottomSheet } from '@app/hooks';
-import { API_ROUTES, ROUTES } from '@lib/constants';
+import { API_ROUTES } from '@lib/constants';
+import { useRouter } from '@lib/navigation';
 import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from '../../ui/input-otp';
-import BottomSheet from '../bottom-sheet';
-import Button from '../button';
-import Form from './form';
-import Input from './input';
+import BottomSheet from '../../bottom-sheet';
+import Button from '../../button';
+import Form from '../form';
+import Input from '../input';
+import OTP from './otp';
 
 export const phoneNumberSchema = z.object({
   phoneNumber: z.string().length(11, '전화번호는 11자리로 입력해주세요.'),
@@ -61,7 +56,7 @@ export default function Phone({ type, token: tokenParam }: PhoneProps) {
         case 'find-my-id':
           await post(API_ROUTES.user.findMy.id.sendSMS, { phoneNumber });
 
-          router.push(`${locale}${ROUTES.findMy.id.complete}`);
+          router.push('/find-my/id/complete');
           break;
         case 'find-my-password':
           const { token: newToken } = await post<
@@ -95,7 +90,7 @@ export default function Phone({ type, token: tokenParam }: PhoneProps) {
           });
           break;
       }
-      router.push(`${locale}${ROUTES.password(token, type)}`);
+      router.push(`/password?token=${token}&type=${type}`);
     } catch (error) {
       const e = error as Error;
       toast.error(e.message[1]);
@@ -117,9 +112,16 @@ export default function Phone({ type, token: tokenParam }: PhoneProps) {
           placeholder="01012345678"
           label="전화번호"
           onChange={(e) => {
-            if (e.target.value.length === 6) return e.target.value;
+            if (e.target.value.length === 11) {
+              handlePhoneNumberSubmit({ phoneNumber: e.target.value });
+              return;
+            }
+            return e.target.value;
           }}
         />
+        <Button type="submit" variant="bottom">
+          다음
+        </Button>
       </Form>
 
       <BottomSheet
@@ -134,25 +136,7 @@ export default function Phone({ type, token: tokenParam }: PhoneProps) {
           onSubmit={handleSMSCodeSubmit}
           schema={smsCodeSchema}
         >
-          <InputOTP
-            name="code"
-            maxLength={6}
-            render={({ slots }) => (
-              <>
-                <InputOTPGroup>
-                  {slots.slice(0, 3).map((slot, index) => (
-                    <InputOTPSlot key={index} {...slot} />
-                  ))}
-                </InputOTPGroup>
-                <InputOTPSeparator className="text-2xl" />
-                <InputOTPGroup>
-                  {slots.slice(3).map((slot, index) => (
-                    <InputOTPSlot key={index + 3} {...slot} />
-                  ))}
-                </InputOTPGroup>
-              </>
-            )}
-          />
+          <OTP onSubmit={(v) => handleSMSCodeSubmit({ code: v })} />
           <span className="text-xs mt-4">
             휴대폰으로 발송된 6자리 인증번호를 입력해주세요.
           </span>

@@ -1,9 +1,9 @@
 'use client';
 
-import { post } from '@app/api';
+import { post } from '@api/.';
 import { Button, Form, Password } from '@components/common';
 import { Funnel, Header } from '@components/signup';
-import { API_ROUTES, API_URL, ROUTES } from '@lib/constants';
+import { API_ROUTES, API_URL } from '@lib/constants';
 import { SearchParams } from '@lib/types';
 import { getRandomNickname } from '@lib/utils';
 import { APIError, assert } from '@lib/utils/validation';
@@ -72,7 +72,7 @@ export default function PasswordSetPage({
                   password,
                 },
               );
-              router.push(`/${locale}${ROUTES.signup.complete}`);
+              router.push('/signup/complete');
               break;
             case 'find-my-password':
               await fetch(
@@ -88,7 +88,7 @@ export default function PasswordSetPage({
                   }),
                 },
               );
-              router.push(`/${locale}${ROUTES.findMy.password.complete}`);
+              router.push('/find-my/password/complete');
               break;
           }
         } catch (error) {
@@ -148,7 +148,7 @@ export default function PasswordSetPage({
             />
           </Funnel.Step>
         </Funnel>
-        <Button variant="bottom" isLoading={loading}>
+        <Button type="submit" variant="bottom" isLoading={loading}>
           다음
         </Button>
       </Form>

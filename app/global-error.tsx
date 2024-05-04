@@ -1,7 +1,6 @@
 'use client';
 
-import { Link } from '@/app/components/common';
-import { ROUTES } from '@/app/lib/constants';
+import { Link } from '@components/common';
 import * as Sentry from '@sentry/nextjs';
 import Error from 'next/error';
 import { useEffect } from 'react';
@@ -29,7 +28,7 @@ export default function GlobalError({
           <h2 className="text-xl">에러!</h2>
           <span className="text-sm text-neutral-500">{error.props.title}</span>
           <Link
-            href={ROUTES.home}
+            href="/login"
             className="w-full h-full flex items-center justify-center"
             variant="bottom"
           >

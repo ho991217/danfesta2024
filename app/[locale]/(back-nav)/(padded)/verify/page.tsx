@@ -10,13 +10,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@components/ui/accordion';
-import { API_ROUTES, COOKIE_KEYS, ROUTES } from '@lib/constants';
+import { API_ROUTES, COOKIE_KEYS } from '@lib/constants';
+import { useRouter } from '@lib/navigation';
 import { type SearchParams } from '@lib/types';
 import { APIError, isStudentId } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
 import { useCookies } from 'next-client-cookies';
 import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -77,7 +77,7 @@ export default function VerifyPage({
       );
       cookies.set(COOKIE_KEYS.verified, 'true');
       toast.success('재인증이 완료되었습니다.');
-      router.push(ROUTES.home);
+      router.push('/');
     } catch (error) {
       const message = error as APIError;
       toast.error(message.message);
@@ -94,7 +94,7 @@ export default function VerifyPage({
         reverify ? reVerify(dkuData) : verify(dkuData);
         break;
       case '약관동의':
-        router.push(`/${locale}${ROUTES.sms('signup', token)}`);
+        router.push(`/sms?type=signup&token=${token}`);
     }
   };
 
@@ -170,12 +170,14 @@ export default function VerifyPage({
           }}
         >
           <Terms />
-          <Button isLoading={isLoading} variant="filled">
+          <Button type="submit" isLoading={isLoading} variant="filled">
             동의
           </Button>
         </BottomSheet>
 
-        <Button variant="bottom">다음</Button>
+        <Button type="submit" variant="bottom">
+          다음
+        </Button>
       </Form>
     </AnimatePresence>
   );

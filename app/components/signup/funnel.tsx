@@ -1,7 +1,7 @@
 'use client';
 
-import { NonEmptyArray } from '@/app/lib/types';
-import { cn } from '@/app/lib/utils';
+import { type NonEmptyArray } from '@lib/types';
+import { cn } from '@lib/utils';
 import { motion } from 'framer-motion';
 import { Children, isValidElement, useEffect } from 'react';
 

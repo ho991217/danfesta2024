@@ -1,14 +1,11 @@
 'use client';
 
-import { Button, Link } from '@/app/components/common';
-import useDimensions from '@/app/hooks/use-dimensions';
-import { ROUTES } from '@/app/lib/constants';
-import { useLocale } from 'next-intl';
+import { Link } from '@components/common';
+import useDimensions from '@hooks/use-dimensions';
 import Confetti from 'react-confetti';
 
 export default function Page() {
   const { width, height } = useDimensions();
-  const locale = useLocale();
 
   return (
     <>
@@ -30,13 +27,11 @@ export default function Page() {
         />
       </header>
       <div className="absolute bottom-5 mx-auto flex w-[calc(100%-2.5rem)] flex-col gap-2">
-        <Link href={ROUTES.login}>
-          <Button variant="filled">로그인 하기</Button>
+        <Link href="/login" variant="filled">
+          로그인 하기
         </Link>
-        <Link href={ROUTES.home}>
-          <Button variant="outlined" className="text-primary">
-            홈으로 돌아가기
-          </Button>
+        <Link href="/" variant="outlined" className="text-primary">
+          홈으로 돌아가기
         </Link>
       </div>
     </>

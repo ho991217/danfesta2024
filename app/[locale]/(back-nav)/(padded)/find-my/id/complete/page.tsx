@@ -1,5 +1,4 @@
-import { Button, Link } from '@/app/components/common';
-import { ROUTES } from '@/app/lib/constants';
+import { Link } from '@components/common';
 
 export default function FindMyIdCompletePage() {
   return (
@@ -12,14 +11,13 @@ export default function FindMyIdCompletePage() {
           전송받은 아이디(학번)으로 <br /> 로그인 해 주세요.
         </span>
       </header>
-      <Button variant="bottom">
-        <Link
-          href={ROUTES.login}
-          className="w-full h-full flex items-center justify-center"
-        >
-          로그인하러 가기
-        </Link>
-      </Button>
+      <Link
+        href="/login"
+        className="w-full h-full flex items-center justify-center"
+        variant="bottom"
+      >
+        로그인하러 가기
+      </Link>
     </>
   );
 }

@@ -14,7 +14,6 @@ export type ButtonProps = MotionProps & {
   onClick?: () => void;
   isLoading?: boolean;
   type?: 'submit' | 'reset' | 'button';
-  to?: string;
   disabled?: boolean;
   variant?: 'filled' | 'outlined' | 'transparent' | 'bottom';
   animateOnClick?: boolean;
@@ -32,14 +31,14 @@ export const buttonVariants = cva(
         bottom:
           'absolute bottom-5 mx-auto w-[calc(100%-2.5rem)] bg-primary text-neutral-50',
       },
-      disabled: {
+      isDisabled: {
         true: 'bg-neutral-500',
         false: '',
       },
     },
     defaultVariants: {
       variant: 'filled',
-      disabled: false,
+      isDisabled: false,
     },
   },
 );
@@ -54,20 +53,24 @@ export default function Button({
   isLoading = false,
   disabled,
 }: ButtonProps) {
-  const { formState } = useFormContext();
-  const { isSubmitting, isValid, isDirty } = formState;
+  const { formState } = useFormContext() ?? {};
   const motionProps = {
     variants: variants.button,
     initial: 'initial',
     whileTap: animateOnClick ? 'dimmedAndSmaller' : 'dimmed',
   };
 
+  const isDisabled =
+    type === 'submit'
+      ? formState?.isSubmitting || !formState?.isValid || disabled || isLoading
+      : disabled || isLoading;
+
   return (
     <motion.button
       type={type}
       onClick={onClick}
-      disabled={!isValid || !isDirty || isSubmitting || isLoading || disabled}
-      className={cn(buttonVariants({ variant, disabled }), className)}
+      disabled={isDisabled}
+      className={cn(buttonVariants({ variant, isDisabled }), className)}
       {...motionProps}
     >
       {isLoading ? (

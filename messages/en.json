@@ -38,10 +38,13 @@
   "Carousel": {
     "nextup": "Next up"
   },
-  "Login": {
-    "title": "Login",
-    "username": "StudentId",
+  "LoginPage": {
+    "title": "LOGIN",
+    "subTitle": "Login to get full access to Danfesta 2024!",
+    "username": "DKU portal id",
     "password": "Password",
+    "forgot": "Forgot your password?",
+    "signup": "Sign up",
     "login": "Login"
   }
 }

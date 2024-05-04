@@ -1,7 +1,6 @@
-import { Link } from '@/app/components/common';
-import { ROUTES } from '@/app/lib/constants';
+import { Link } from '@components/common';
+import { Pathnames } from '@lib/navigation';
 import type { PropsWithChildren } from 'react';
-import { BiSolidNavigation } from 'react-icons/bi';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
 import { FaStamp } from 'react-icons/fa';
 import { TiStarFullOutline } from 'react-icons/ti';
@@ -12,7 +11,7 @@ export type TileInfo = {
   id: number;
   subtitle: string;
   title: JSX.Element;
-  link: string;
+  link: Pathnames;
   icon: React.ReactNode;
   bgColor: string;
   textColor?: string;
@@ -34,7 +33,7 @@ const tiles: TileInfo[] = [
         사전 티켓팅
       </TileHeader>
     ),
-    link: ROUTES.ticketing.root,
+    link: '/ticketing',
     icon: <BsTicketFill size={17} />,
     bgColor: 'bg-primary',
     textColor: 'text-neutral-50',
@@ -50,7 +49,7 @@ const tiles: TileInfo[] = [
         확인하기
       </TileHeader>
     ),
-    link: ROUTES.stamp,
+    link: '/stamp',
     icon: <FaStamp size={17} />,
     bgColor: 'bg-white dark:bg-neutral-950',
     privateRoute: true,
@@ -65,7 +64,7 @@ const tiles: TileInfo[] = [
         확인하기
       </TileHeader>
     ),
-    link: ROUTES.events,
+    link: '/events',
     icon: <TiStarFullOutline size={17} />,
     bgColor: 'bg-white dark:bg-neutral-950',
   },
@@ -79,7 +78,7 @@ const tiles: TileInfo[] = [
         공지 및 알림
       </TileHeader>
     ),
-    link: ROUTES.notice,
+    link: '/notice',
     icon: <BsBellFill size={17} />,
     bgColor: 'bg-neutral-300 dark:bg-neutral-900',
   },

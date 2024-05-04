@@ -1,8 +1,8 @@
 'use client';
 
-import { If } from '@/app/components/util';
-import { useAuth } from '@/app/hooks';
-import { ROUTES } from '@/app/lib/constants';
+import { useAuth } from '@app/hooks';
+import { If } from '@components/util';
+import { Pathnames } from '@lib/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
 import Link from 'next/link';
@@ -14,7 +14,7 @@ const MotionLink = motion(Link);
 export function FloatingButton({
   children,
   href,
-}: PropsWithChildren<{ href: string }>) {
+}: PropsWithChildren<{ href: Pathnames }>) {
   const locale = useLocale();
   return (
     <MotionLink
@@ -37,10 +37,10 @@ export default function FloatingTicket() {
       {isLoggedIn && userInfo !== null && (
         <If condition={isAdmin}>
           <If.Then>
-            <FloatingButton href={ROUTES.admin}>관리자 페이지</FloatingButton>
+            <FloatingButton href="/admin">관리자 페이지</FloatingButton>
           </If.Then>
           <If.Else>
-            <FloatingButton href={ROUTES.myTickets}>
+            <FloatingButton href="/my-tikcets">
               <BsTicketFill size={25} />
             </FloatingButton>
           </If.Else>
