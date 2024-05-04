@@ -23,7 +23,7 @@ export const pathnames = {
   '/lineup': '/lineup',
   '/ticketing': '/ticketing',
   '/ticketing/[id]': '/ticketing/[id]',
-  '/my-tikcets': '/my-tikcets',
+  '/my-tickets': '/my-tickets',
   '/notice': '/notice',
   '/stamp': '/stamp',
   '/events': '/events',

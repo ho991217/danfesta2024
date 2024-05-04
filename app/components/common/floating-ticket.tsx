@@ -1,31 +1,26 @@
 'use client';
 
-import { useAuth } from '@app/hooks';
+import { Link } from '@components/common';
 import { If } from '@components/util';
+import { useAuth } from '@hooks/.';
 import { Pathnames } from '@lib/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useLocale } from 'next-intl';
-import Link from 'next/link';
 import { PropsWithChildren } from 'react';
 import { BsTicketFill } from 'react-icons/bs';
-
-const MotionLink = motion(Link);
 
 export function FloatingButton({
   children,
   href,
 }: PropsWithChildren<{ href: Pathnames }>) {
-  const locale = useLocale();
   return (
-    <MotionLink
-      href={`/${locale}${href}`}
+    <motion.div
       className="fixed bottom-4 right-4 p-4 bg-primary text-white rounded-full shadow-lg z-50 font-bold"
       whileTap={{ scale: 0.95 }}
       initial={{ scale: 0, y: 100 }}
       animate={{ scale: 1, y: 0 }}
     >
-      {children}
-    </MotionLink>
+      <Link href={href}>{children}</Link>
+    </motion.div>
   );
 }
 
@@ -40,7 +35,7 @@ export default function FloatingTicket() {
             <FloatingButton href="/admin">관리자 페이지</FloatingButton>
           </If.Then>
           <If.Else>
-            <FloatingButton href="/my-tikcets">
+            <FloatingButton href="/my-tickets">
               <BsTicketFill size={25} />
             </FloatingButton>
           </If.Else>
