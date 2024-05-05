@@ -2,14 +2,8 @@
 
 import { post } from '@app/api';
 import { useBottomSheet } from '@app/hooks';
-import { BottomSheet, Button, Form, ID, Password } from '@components/common';
+import { Button, Form, ID, Password, Terms } from '@components/common';
 import { Funnel, Header, TransformerSubtitle } from '@components/signup';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@components/ui/accordion';
 import { API_ROUTES, COOKIE_KEYS } from '@lib/constants';
 import { useRouter } from '@lib/navigation';
 import { type SearchParams } from '@lib/types';
@@ -21,6 +15,7 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
+import { signupTerms } from './terms';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
 
@@ -43,7 +38,7 @@ export default function VerifyPage({
   const [step, setStep] = useState<Steps>('학번');
   const [isLoading, setIsLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
-  const [isOpen, openBT, closeBT] = useBottomSheet();
+  const [isOpen, openTerm, closeTerm] = useBottomSheet();
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
@@ -107,7 +102,7 @@ export default function VerifyPage({
       setStep('비밀번호');
     } else if (currentStep === '비밀번호') {
       setStep('약관동의');
-      openBT();
+      openTerm();
     }
   };
 
@@ -164,57 +159,19 @@ export default function VerifyPage({
           </Funnel.Step>
         </Funnel>
 
-        <BottomSheet
+        <Terms
+          terms={signupTerms}
           isOpen={isOpen}
-          header="이용동의"
-          onDismiss={() => {
+          onDecline={() => {
+            closeTerm();
             setStep('비밀번호');
-            closeBT();
           }}
-        >
-          <Terms />
-          <Button type="submit" isLoading={isLoading} variant="filled">
-            동의
-          </Button>
-        </BottomSheet>
+        />
 
-        <Button type="submit" variant="bottom">
+        <Button type="submit" variant="bottom" isLoading={isLoading}>
           다음
         </Button>
       </Form>
     </AnimatePresence>
-  );
-}
-
-function Terms() {
-  return (
-    <Accordion type="single" collapsible className="w-full mb-10 text-sm">
-      <AccordionItem value="item-1">
-        <AccordionTrigger>어떤 정보를 제공해야 하나요?</AccordionTrigger>
-        <AccordionContent>
-          단페스타 2024 서비스를 이용하기 위해서는 다음과 같은 정보를
-          제공해야합니다.
-          <ul>
-            <li> - 학번</li>
-            <li> - 단국대학교 포털 비밀번호</li>
-            <li> - 전화번호</li>
-          </ul>
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-2">
-        <AccordionTrigger>제공한 정보는 어디에 사용되나요?</AccordionTrigger>
-        <AccordionContent>
-          제공된 정보는 단페스타 2024 서비스 이용을 위한 목적으로만 사용되며
-          다른 목적으로 사용되지 않습니다.
-        </AccordionContent>
-      </AccordionItem>
-      <AccordionItem value="item-3">
-        <AccordionTrigger>포털 비밀번호도 제공해야 하나요?</AccordionTrigger>
-        <AccordionContent>
-          단국대학교 포털 비밀번호는 학생 인증을 위한 목적으로만 사용되며 즉시
-          삭제됩니다.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
   );
 }
