@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-export default function useBottomSheet(): [boolean, () => void, () => void] {
+export default function useBottomSheet(): [
+  isOpen: boolean,
+  open: () => void,
+  close: () => void,
+] {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => setIsOpen(true);

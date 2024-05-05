@@ -20,7 +20,7 @@ export type ButtonProps = MotionProps & {
 };
 
 export const buttonVariants = cva(
-  'w-full rounded-md h-12 px-4 flex items-center justify-center transition-colors duration-200',
+  'w-full rounded-md h-12 px-4 flex items-center justify-center transition-colors duration-200 z-0',
   {
     variants: {
       variant: {
