@@ -1,4 +1,4 @@
-import { Toaster } from '@/app/components/ui/sonner';
+import { Toaster } from '@components/ui/sonner';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { CookiesProvider } from 'next-client-cookies/server';

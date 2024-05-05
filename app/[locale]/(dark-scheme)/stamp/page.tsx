@@ -2,69 +2,35 @@ import getUserInfo from '@api/get-is-user-info';
 import { Link } from '@components/common';
 import Logo from '@icons/orbit_logo.png';
 import Universe from '@images/stamp/universe_bg.jpeg';
-import Stamp1 from '@images/stamp/스탬프판_문체-02.webp';
-import Stamp2 from '@images/stamp/스탬프판_문체-03.webp';
-import Stamp3 from '@images/stamp/스탬프판_문체-04.webp';
-import Stamp4 from '@images/stamp/스탬프판_문체-05.webp';
-import Stamp5 from '@images/stamp/스탬프판_문체-06.webp';
-import Stamp6 from '@images/stamp/스탬프판_문체-07.webp';
-import Stamp7 from '@images/stamp/스탬프판_문체-08.webp';
 import StampBoard from '@images/stamp/스탬프판_문체.png';
 import { cn } from '@lib/utils';
 import Image from 'next/image';
 
-import { getStampMissions, getStamps } from './action';
+import { getStampMissions } from './action';
 
-const stampClassname = 'w-[80px] h-[80px] absolute z-20 animate-pulse';
+const stampPosition = [
+  '-bottom-[1px] left-[8px]',
+  'bottom-[64px] left-[42px]',
+  'bottom-[77px] left-[118px]',
+  'bottom-[180px] left-[202px]',
+  'bottom-[190px] left-[286px]',
+  'bottom-[269px] left-[313px]',
+  'bottom-[323px] left-[243px]',
+];
 
-const stamps = [
-  <Image
-    key={1}
-    className={cn(stampClassname, 'bottom-[3px] left-[14px]')}
-    src={Stamp1}
-    alt="스탬프 1"
-  />,
-  <Image
-    key={2}
-    className={cn(stampClassname, 'bottom-[77px] left-[52px]')}
-    src={Stamp2}
-    alt="스탬프 2"
-  />,
-  <Image
-    key={3}
-    className={cn(stampClassname, 'bottom-[92px] left-[138px]')}
-    src={Stamp3}
-    alt="스탬프 3"
-  />,
-  <Image
-    key={4}
-    className={cn(stampClassname, 'bottom-[206px] left-[232px]')}
-    src={Stamp4}
-    alt="스탬프 4"
-  />,
-  <Image
-    key={5}
-    className={cn(stampClassname, 'bottom-[218px] left-[326px]')}
-    src={Stamp5}
-    alt="스탬프 5"
-  />,
-  <Image
-    key={6}
-    className={cn(stampClassname, 'bottom-[307px] left-[357px]')}
-    src={Stamp6}
-    alt="스탬프 6"
-  />,
-  <Image
-    key={7}
-    className={cn(stampClassname, 'bottom-[369px] left-[279px]')}
-    src={Stamp7}
-    alt="스탬프 7"
-  />,
+const titlePosition = [
+  '-bottom-11',
+  'bottom-7',
+  '-bottom-11',
+  '-bottom-11',
+  '-bottom-11',
+  'bottom-7',
+  'top-1/2 -translate-y-1/2 -left-3',
 ];
 
 export default async function StampPage() {
-  const { studentId } = await getUserInfo();
-  const stampInfos = await getStamps();
+  const { studentId, username } = await getUserInfo();
+  const missionInfos = await getStampMissions();
 
   return (
     <div className="w-full h-full relative flex flex-col items-center px-5">
@@ -73,18 +39,47 @@ export default async function StampPage() {
         alt="stamp board"
         className="h-screen fixed top-0 left-1/2 transform -translate-x-1/2 object-cover -z-10 brightness-50"
       />
-      <div className="w-full flex flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-4 text-white backdrop-blur-xl backdrop-filter">
-        학번 {studentId}
+      <div className="w-full flex flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-6 text-white backdrop-blur-xl backdrop-filter gap-2">
+        <span className="w-full text-center text-xl font-medium mb-2">
+          별자리를 터치해 미션을 알아보세요!
+        </span>
+        <div className="flex flex-col items-center text-neutral-400">
+          <span>학번: {studentId}</span>
+          <span>이름: {username}</span>
+        </div>
       </div>
-      <div className="w-[450px] h-[450px] relative">
-        {stampInfos.map(
-          (isDone, index) =>
-            isDone && (
-              <Link key={index} href={`/stamp/${index + 1}`}>
-                {stamps[index]}
-              </Link>
-            ),
-        )}
+      <div className="w-[400px] h-[400px] relative">
+        {missionInfos.map((mission, index) => (
+          <Link
+            key={index}
+            className={cn(
+              'w-auto h-auto min-w-[80px] min-h-[80px] absolute z-20 animate-pulse flex flex-col items-center text-white text-xs font-medium',
+              stampPosition[index],
+            )}
+            href={`/stamp/${index + 1}`}
+          >
+            <div className="relative w-full h-full">
+              <Image
+                src={mission.stampImage}
+                className={cn(
+                  'w-[80px] h-[80px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover',
+                  mission.done ? 'visible' : 'invisible',
+                )}
+                width={80}
+                height={80}
+                alt={`스탬프 ${index + 1}`}
+              />
+              <span
+                className={cn(
+                  'absolute left-1/2 -translate-x-1/2 w-full text-center text-ellipsis',
+                  titlePosition[index],
+                )}
+              >
+                {mission.title}
+              </span>
+            </div>
+          </Link>
+        ))}
         <Image
           src={StampBoard}
           alt="stamp board"

@@ -1,3 +1,12 @@
+import Stamp1 from '@images/stamp/스탬프판_문체-02.webp';
+import Stamp2 from '@images/stamp/스탬프판_문체-03.webp';
+import Stamp3 from '@images/stamp/스탬프판_문체-04.webp';
+import Stamp4 from '@images/stamp/스탬프판_문체-05.webp';
+import Stamp5 from '@images/stamp/스탬프판_문체-06.webp';
+import Stamp6 from '@images/stamp/스탬프판_문체-07.webp';
+import Stamp7 from '@images/stamp/스탬프판_문체-08.webp';
+import { StaticImageData } from 'next/image';
+
 export type MissionInfo = {
   id: number;
   title: string;
@@ -5,6 +14,7 @@ export type MissionInfo = {
   image: string;
   location: string;
   done: boolean;
+  stampImage: StaticImageData;
 };
 
 export const missionInfo: MissionInfo[] = [
@@ -15,6 +25,7 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 1 이미지',
     location: '스탬프 1 위치',
     done: false,
+    stampImage: Stamp1,
   },
   {
     id: 2,
@@ -23,6 +34,7 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 2 이미지',
     location: '스탬프 2 위치',
     done: false,
+    stampImage: Stamp2,
   },
   {
     id: 3,
@@ -31,6 +43,7 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 3 이미지',
     location: '스탬프 3 위치',
     done: false,
+    stampImage: Stamp3,
   },
   {
     id: 4,
@@ -39,6 +52,7 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 4 이미지',
     location: '스탬프 4 위치',
     done: false,
+    stampImage: Stamp4,
   },
   {
     id: 5,
@@ -47,6 +61,7 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 5 이미지',
     location: '스탬프 5 위치',
     done: false,
+    stampImage: Stamp5,
   },
   {
     id: 6,
@@ -55,6 +70,7 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 6 이미지',
     location: '스탬프 6 위치',
     done: false,
+    stampImage: Stamp6,
   },
   {
     id: 7,
@@ -63,5 +79,6 @@ export const missionInfo: MissionInfo[] = [
     image: '스탬프 7 이미지',
     location: '스탬프 7 위치',
     done: false,
+    stampImage: Stamp7,
   },
 ];

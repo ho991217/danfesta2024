@@ -9,3 +9,4 @@ export { default as Carousel } from './carousel';
 export { default as FloatingTicket } from './floating-ticket';
 export * from './form';
 export { default as IntlProvider } from './intl-provider';
+export * from './animated';

@@ -49,3 +49,17 @@ export async function getStampMissions(): Promise<MissionInfo[]> {
     return [];
   }
 }
+
+export async function getStampMission(id: number): Promise<MissionInfo> {
+  const index = id - 1;
+  try {
+    const stampInfo = await getStamps();
+
+    return {
+      ...missionInfo[index],
+      done: stampInfo[index],
+    };
+  } catch {
+    return missionInfo[index];
+  }
+}
