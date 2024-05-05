@@ -1,19 +1,14 @@
-import { get, getImage, getServerSideToken } from '@/app/api';
-import { Form, RefetchButton } from '@/app/components/ticketing';
+import { get, getImage, getServerSideToken } from '@api/.';
+import { Form, RefetchButton } from '@components/ticketing';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/app/components/ui/accordion';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/app/components/ui/card';
-import { API_ROUTES } from '@/app/lib/constants';
-import { type Params } from '@/app/lib/types';
+} from '@components/ui/accordion';
+import { Card, CardContent, CardHeader, CardTitle } from '@components/ui/card';
+import { API_ROUTES } from '@lib/constants';
+import { type Params } from '@lib/types';
 import Image from 'next/image';
 import { Suspense } from 'react';
 

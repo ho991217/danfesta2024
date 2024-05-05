@@ -26,7 +26,6 @@ export default function GlobalError({
       <body>
         <div className="flex h-[100dvh] w-full flex-col items-center justify-center">
           <h2 className="text-xl">에러!</h2>
-          <span className="text-sm text-neutral-500">{error.props.title}</span>
           <Link
             href="/login"
             className="w-full h-full flex items-center justify-center"

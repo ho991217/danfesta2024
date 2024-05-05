@@ -1,9 +1,9 @@
-import Link from '@/app/components/common/link';
-import { cn } from '@/app/lib/utils';
+import { cn } from '@lib/utils';
 import { useTranslations } from 'next-intl';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
 import If from '../util/if';
+import BackButton from './back-button';
 import SideNav from './side-nav';
 
 type Props = {
@@ -22,7 +22,7 @@ export default function Navigation({ hasBackButton = false, scheme }: Props) {
     >
       <If condition={hasBackButton}>
         <If.Then>
-          <Link back>
+          <BackButton>
             <IoArrowBackOutline
               size={25}
               className={cn(
@@ -33,7 +33,7 @@ export default function Navigation({ hasBackButton = false, scheme }: Props) {
                     : 'text-black',
               )}
             />
-          </Link>
+          </BackButton>
         </If.Then>
         <If.Else>
           <div className="flex flex-col justify-start">

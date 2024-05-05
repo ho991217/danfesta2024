@@ -1,8 +1,6 @@
-import { get } from '@/app/api';
-import { Carousel } from '@/app/components/common';
-import { API_ROUTES } from '@/app/lib/constants';
+import { Carousel } from '@components/common';
 
-import { getAllLineupInfo, getLineupInfoByDay } from './actions';
+import { getLineupInfoByDay } from './actions';
 
 export type FestivalDate = 'FIRST_DAY' | 'SECOND_DAY' | 'THIRD_DAY';
 

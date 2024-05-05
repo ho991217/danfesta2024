@@ -1,4 +1,4 @@
-import { Card } from '@/app/components/ticketing';
+import { Card } from '@components/ticketing';
 
 import { getEvents } from './action';
 

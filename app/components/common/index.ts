@@ -10,3 +10,4 @@ export { default as FloatingTicket } from './floating-ticket';
 export * from './form';
 export { default as IntlProvider } from './intl-provider';
 export * from './animated';
+export { default as BackButton } from './back-button';
