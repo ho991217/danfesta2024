@@ -3,6 +3,8 @@
 import { getServerSideToken, post } from '@api/.';
 import { API_ROUTES } from '@lib/constants';
 
+import { MissionInfo, missionInfo } from './mission-info';
+
 type StampInfo = {
   mission1: boolean;
   mission2: boolean;
@@ -30,6 +32,19 @@ export async function getStamps(): Promise<boolean[]> {
       response.mission6,
       response.mission7,
     ];
+  } catch {
+    return [];
+  }
+}
+
+export async function getStampMissions(): Promise<MissionInfo[]> {
+  try {
+    const stampInfo = await getStamps();
+
+    return missionInfo.map((mission, index) => ({
+      ...mission,
+      done: stampInfo[index],
+    }));
   } catch {
     return [];
   }

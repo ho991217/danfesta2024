@@ -1,5 +1,4 @@
 import { Link } from '@components/common';
-import { Pathnames } from '@lib/navigation';
 import type { PropsWithChildren } from 'react';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
 import { FaStamp } from 'react-icons/fa';
@@ -11,7 +10,7 @@ export type TileInfo = {
   id: number;
   subtitle: string;
   title: JSX.Element;
-  link: Pathnames;
+  link: string;
   icon: React.ReactNode;
   bgColor: string;
   textColor?: string;

@@ -1,8 +1,6 @@
 import { type User } from '@api/.';
 import { type FestivalDate } from '@page/(back-nav)/lineup/page';
 
-import { type Pathnames } from './navigation';
-
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 export const COOKIE_KEYS = {
@@ -133,5 +131,5 @@ export const API_ROUTES = {
   },
 } as const;
 
-export const protectedRoutes: Pathnames[] = ['/admin'];
-export const privateRoutes: Pathnames[] = ['/mypage', '/ticketing'];
+export const protectedRoutes = ['/admin'];
+export const privateRoutes = ['/mypage', '/ticketing'];

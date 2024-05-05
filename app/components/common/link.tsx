@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@app/hooks';
-import { Link as IntlLink, Pathnames, useRouter } from '@lib/navigation';
+import { Link as IntlLink, useRouter } from '@lib/navigation';
 import { CustomError, ErrorCause, cn } from '@lib/utils';
 import { ComponentProps } from 'react';
 
@@ -13,7 +13,7 @@ type Props = {
   className?: string;
   back?: boolean;
   auth?: boolean;
-  href?: Pathnames | { pathname: Pathnames; query: Record<string, string> };
+  href?: string | { pathname: string; query: Record<string, string> };
 } & Omit<ComponentProps<typeof IntlLink>, 'href'>;
 
 export default function Link({

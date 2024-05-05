@@ -26,10 +26,9 @@ export const pathnames = {
   '/my-tickets': '/my-tickets',
   '/notice': '/notice',
   '/stamp': '/stamp',
+  '/stamp/[missionId]': '/stamp/[missionId]',
   '/events': '/events',
 } satisfies Paths<typeof locales>;
-
-export type Pathnames = keyof typeof pathnames;
 
 export const { Link, redirect, usePathname, useRouter } =
   createSharedPathnamesNavigation({ locales, localePrefix });

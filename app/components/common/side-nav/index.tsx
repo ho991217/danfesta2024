@@ -1,8 +1,5 @@
-import en from '@/messages/en.json';
-import ko from '@/messages/ko.json';
 import { Separator } from '@components/ui/separator';
 import { Sheet, SheetContent, SheetTrigger } from '@components/ui/sheet';
-import { Pathnames } from '@lib/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getLocale } from 'next-intl/server';
 import { IoIosMenu } from 'react-icons/io';
@@ -15,7 +12,7 @@ import NavLink from './nav-link';
 
 export type LinkInfo = {
   id: number;
-  link: Pathnames;
+  link: string;
   nameKey: string;
   privateRoute?: boolean;
 };

@@ -3,7 +3,6 @@
 import { Link } from '@components/common';
 import { If } from '@components/util';
 import { useAuth } from '@hooks/.';
-import { Pathnames } from '@lib/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { PropsWithChildren } from 'react';
 import { BsTicketFill } from 'react-icons/bs';
@@ -11,7 +10,7 @@ import { BsTicketFill } from 'react-icons/bs';
 export function FloatingButton({
   children,
   href,
-}: PropsWithChildren<{ href: Pathnames }>) {
+}: PropsWithChildren<{ href: string }>) {
   return (
     <motion.div
       className="fixed bottom-4 right-4 p-4 bg-primary text-white rounded-full shadow-lg z-50 font-bold"

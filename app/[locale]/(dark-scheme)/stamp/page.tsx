@@ -1,4 +1,5 @@
 import getUserInfo from '@api/get-is-user-info';
+import { Link } from '@components/common';
 import Logo from '@icons/orbit_logo.png';
 import Universe from '@images/stamp/universe_bg.jpeg';
 import Stamp1 from '@images/stamp/스탬프판_문체-02.webp';
@@ -12,7 +13,7 @@ import StampBoard from '@images/stamp/스탬프판_문체.png';
 import { cn } from '@lib/utils';
 import Image from 'next/image';
 
-import { getStamps } from './action';
+import { getStampMissions, getStamps } from './action';
 
 const stampClassname = 'w-[80px] h-[80px] absolute z-20 animate-pulse';
 
@@ -63,7 +64,7 @@ const stamps = [
 
 export default async function StampPage() {
   const { studentId } = await getUserInfo();
-  const stampLog = await getStamps();
+  const stampInfos = await getStamps();
 
   return (
     <div className="w-full h-full relative flex flex-col items-center px-5">
@@ -76,7 +77,14 @@ export default async function StampPage() {
         학번 {studentId}
       </div>
       <div className="w-[450px] h-[450px] relative">
-        {stampLog.map((isDone, index) => isDone && <>{stamps[index]}</>)}
+        {stampInfos.map(
+          (isDone, index) =>
+            isDone && (
+              <Link key={index} href={`/stamp/${index + 1}`}>
+                {stamps[index]}
+              </Link>
+            ),
+        )}
         <Image
           src={StampBoard}
           alt="stamp board"
