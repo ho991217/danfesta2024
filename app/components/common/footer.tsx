@@ -1,8 +1,8 @@
-import { cn } from '@/app/lib/utils';
-import FeastaLogo from '@/public/icons/feasta-logo.png';
-import GithubLogo from '@/public/icons/github.svg';
-import DanfestaLogo from '@/public/icons/logo.svg';
-import UMateLogo from '@/public/icons/u-mate-logo.webp';
+import GithubLogo from '@icons/github.svg';
+import DanfestaLogo from '@icons/logo.svg';
+import SwiftyLogo from '@icons/swifty-logo.svg';
+import UMateLogo from '@icons/u-mate-logo.webp';
+import { cn } from '@lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -28,15 +28,9 @@ export default function Footer() {
         <br /> <b>주최</b> | 단국대학교 총학생회 두드림
       </p>
       <Block align="vertical" className="py-5 min-h-[140px]">
-        <Image
-          className="object-cover"
-          src={FeastaLogo}
-          alt="피스타 로고"
-          width={140}
-          height={30}
-        />
+        <SwiftyLogo size={140} width={140} className="w-[140px]" />
         <span className="text-sm text-neutral-500">
-          대학 축제 통합 솔루션 <em>Feasta</em>
+          대학 축제 통합 솔루션 <em>Swifty</em>
         </span>
       </Block>
       <Block className="py-4 flex gap-2 my-2">
