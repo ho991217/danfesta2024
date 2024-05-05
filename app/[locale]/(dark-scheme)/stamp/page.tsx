@@ -1,16 +1,18 @@
-import getUserInfo from '@/app/api/get-is-user-info';
-import { cn } from '@/app/lib/utils';
-import Logo from '@/public/icons/orbit_logo.png';
-import Universe from '@/public/images/stamp/universe_bg.jpeg';
-import Stamp1 from '@/public/images/stamp/스탬프판_문체-02.webp';
-import Stamp2 from '@/public/images/stamp/스탬프판_문체-03.webp';
-import Stamp3 from '@/public/images/stamp/스탬프판_문체-04.webp';
-import Stamp4 from '@/public/images/stamp/스탬프판_문체-05.webp';
-import Stamp5 from '@/public/images/stamp/스탬프판_문체-06.webp';
-import Stamp6 from '@/public/images/stamp/스탬프판_문체-07.webp';
-import Stamp7 from '@/public/images/stamp/스탬프판_문체-08.webp';
-import StampBoard from '@/public/images/stamp/스탬프판_문체.png';
+import getUserInfo from '@api/get-is-user-info';
+import Logo from '@icons/orbit_logo.png';
+import Universe from '@images/stamp/universe_bg.jpeg';
+import Stamp1 from '@images/stamp/스탬프판_문체-02.webp';
+import Stamp2 from '@images/stamp/스탬프판_문체-03.webp';
+import Stamp3 from '@images/stamp/스탬프판_문체-04.webp';
+import Stamp4 from '@images/stamp/스탬프판_문체-05.webp';
+import Stamp5 from '@images/stamp/스탬프판_문체-06.webp';
+import Stamp6 from '@images/stamp/스탬프판_문체-07.webp';
+import Stamp7 from '@images/stamp/스탬프판_문체-08.webp';
+import StampBoard from '@images/stamp/스탬프판_문체.png';
+import { cn } from '@lib/utils';
 import Image from 'next/image';
+
+import { getStamps } from './action';
 
 const stampClassname = 'w-[80px] h-[80px] absolute z-20 animate-pulse';
 
@@ -61,7 +63,8 @@ const stamps = [
 
 export default async function StampPage() {
   const { studentId } = await getUserInfo();
-  // 스탬프 조회 기능 추가
+  const stampLog = await getStamps();
+
   return (
     <div className="w-full h-full relative flex flex-col items-center px-5">
       <Image
@@ -73,9 +76,7 @@ export default async function StampPage() {
         학번 {studentId}
       </div>
       <div className="w-[450px] h-[450px] relative">
-        {stamps.map((stamp, index) => (
-          <>{stamp}</>
-        ))}
+        {stampLog.map((isDone, index) => isDone && <>{stamps[index]}</>)}
         <Image
           src={StampBoard}
           alt="stamp board"

@@ -1,5 +1,5 @@
 import { type User } from '@api/.';
-import { FestivalDate } from '@app/[locale]/(back-nav)/lineup/page';
+import { type FestivalDate } from '@page/(back-nav)/lineup/page';
 
 import { type Pathnames } from './navigation';
 
@@ -123,36 +123,15 @@ export const API_ROUTES = {
      */
     list: (date: FestivalDate) => `/line-up?festivalDate=${date}`,
   },
+  stamp: {
+    /**
+     * @name POST /stamp - 왜 POST인지 모르겠음. 백엔드에 물어보기
+     * @description 내가 받은 스탬프 조회
+     * @returns {StampInfo[]} 스탬프 정보
+     */
+    list: '/stamp/my',
+  },
 } as const;
-
-// export const ROUTES = {
-//   admin: '/admin',
-//   home: '/',
-//   login: '/login',
-//   mypage: '/mypage',
-//   signup: {
-//     complete: '/signup/complete',
-//   },
-//   password: (token: string, type: PasswordSetType) =>
-//     `/password?token=${token}&type=${type}`,
-//   sms: (type: SMSVerifyType, token?: string | null) =>
-//     `/sms?type=${type}${token ? `&token=${token}` : ''}`,
-//   verify: '/verify',
-//   findMy: {
-//     root: '/find-my',
-//     password: {
-//       root: (token: string) => `/find-my/password?token=${token}`,
-//       complete: '/find-my/password/complete',
-//     },
-//     id: { complete: '/find-my/id/complete' },
-//   },
-//   lineup: '/lineup',
-//   ticketing: { root: '/ticketing', id: (id: number) => `/ticketing/${id}` },
-//   myTickets: '/my-tickets',
-//   notice: '/notice',
-//   stamp: '/stamp',
-//   events: '/events',
-// } as const;
 
 export const protectedRoutes: Pathnames[] = ['/admin'];
 export const privateRoutes: Pathnames[] = ['/mypage', '/ticketing'];
