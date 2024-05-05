@@ -64,7 +64,7 @@ export default function AuthGroup({ className }: { className?: string }) {
                   </div>
                 </div>
               </NavLink>
-              <NavLink link="/my-tikcets" className={className}>
+              <NavLink link="/my-tickets" className={className}>
                 <IoTicketOutline className="mr-2" />
                 {t('myTickets')}
               </NavLink>
