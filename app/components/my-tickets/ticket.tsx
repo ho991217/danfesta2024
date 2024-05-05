@@ -1,6 +1,6 @@
-import { TicketInfo } from '@/app/[locale]/(back-nav)/(padded)/my-tickets/action';
-import Logo from '@/public/icons/logo-white.svg';
-import Glass from '@/public/images/glass.jpeg';
+import Logo from '@icons/logo-white.svg';
+import Glass from '@images/glass.jpeg';
+import { TicketInfo } from '@page/(back-nav)/(padded)/my-tickets/action';
 import Image from 'next/image';
 import { FiClock } from 'react-icons/fi';
 

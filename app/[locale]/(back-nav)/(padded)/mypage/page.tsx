@@ -1,4 +1,4 @@
-import getUserInfo from '@/app/api/get-is-user-info';
+import getUserInfo from '@api/get-is-user-info';
 import Image from 'next/image';
 
 export default async function MyPage() {

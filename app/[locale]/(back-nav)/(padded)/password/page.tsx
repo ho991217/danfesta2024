@@ -4,13 +4,12 @@ import { post } from '@api/.';
 import { Button, Form, Password } from '@components/common';
 import { Funnel, Header } from '@components/signup';
 import { API_ROUTES, API_URL } from '@lib/constants';
+import { useRouter } from '@lib/navigation';
 import { SearchParams } from '@lib/types';
 import { getRandomNickname } from '@lib/utils';
 import { APIError, assert } from '@lib/utils/validation';
 import { AnimatePresence } from 'framer-motion';
 import { getJosaPicker } from 'josa';
-import { useLocale } from 'next-intl';
-import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -49,7 +48,6 @@ export default function PasswordSetPage({
   const passwordRef = useRef<HTMLInputElement>(null);
   const passwordCheckRef = useRef<HTMLInputElement>(null);
 
-  const locale = useLocale();
   const router = useRouter();
   const josa = getJosaPicker('을');
 

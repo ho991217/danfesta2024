@@ -61,7 +61,7 @@ export default function BottomSheet({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed top-0 left-0 bottom-0 right-0 touch-none">
+        <div className="fixed top-0 left-0 bottom-0 right-0 touch-none z-[9999]">
           <motion.div
             drag
             dragConstraints={{

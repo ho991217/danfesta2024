@@ -1,14 +1,14 @@
-import { get, getServerSideToken } from '@/app/api';
+import { get, getServerSideToken } from '@api/.';
 import {
   Card as CardComponent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/app/components/ui/card';
-import { API_ROUTES } from '@/app/lib/constants';
-import { cn } from '@/app/lib/utils';
-import { type FestivalEvent } from '@/app/[locale]/(back-nav)/(padded)/ticketing/action';
+} from '@components/ui/card';
+import { API_ROUTES } from '@lib/constants';
+import { cn } from '@lib/utils';
+import { type FestivalEvent } from '@page/(back-nav)/(padded)/ticketing/action';
 import { getLocale } from 'next-intl/server';
 import Link from 'next/link';
 import { FiCalendar, FiClock } from 'react-icons/fi';

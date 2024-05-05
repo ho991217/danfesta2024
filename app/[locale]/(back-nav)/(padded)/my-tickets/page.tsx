@@ -1,6 +1,6 @@
-import { Ticket } from '@/app/components/my-tickets';
-import { Accordion } from '@/app/components/ui/accordion';
-import { If } from '@/app/components/util';
+import { Ticket } from '@components/my-tickets';
+import { Accordion } from '@components/ui/accordion';
+import { If } from '@components/util';
 
 import { getMyTicketList } from './action';
 
