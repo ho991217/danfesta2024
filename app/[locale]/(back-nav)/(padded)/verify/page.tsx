@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { DKUVerificationSchema, dkuVerificationSchema } from './schema';
-import { signupTerms } from './terms';
+import { reverifyTerms, signupTerms } from './terms';
 
 const steps = ['학번', '비밀번호', '약관동의'] as const;
 
@@ -74,8 +74,7 @@ export default function VerifyPage({
         dkuData,
       );
       cookies.set(COOKIE_KEYS.verified, 'true');
-      toast.success('재인증이 완료되었습니다.');
-      router.push('/');
+      onNext(steps[currentStep]);
     } catch (error) {
       const message = error as APIError;
       toast.error(message.message);
@@ -92,6 +91,11 @@ export default function VerifyPage({
         reverify ? reVerify(dkuData) : verify(dkuData);
         break;
       case '약관동의':
+        if (reverify) {
+          toast.success('재인증이 완료되었습니다.');
+          router.push('/');
+          return;
+        }
         router.push(`/sms?type=signup&token=${token}`);
     }
   };
@@ -160,7 +164,7 @@ export default function VerifyPage({
         </Funnel>
 
         <Terms
-          terms={signupTerms}
+          terms={reverify ? reverifyTerms : signupTerms}
           isOpen={isOpen}
           onDecline={() => {
             closeTerm();
