@@ -15,8 +15,8 @@ import { useRouter } from '@lib/navigation';
 import { type SearchParams } from '@lib/types';
 import { APIError, isStudentId } from '@lib/utils';
 import { AnimatePresence } from 'framer-motion';
+import { getJosaPicker } from 'josa';
 import { useCookies } from 'next-client-cookies';
-import { useLocale } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -47,9 +47,9 @@ export default function VerifyPage({
   const passwordRef = useRef<HTMLInputElement>(null);
   const currentStep = steps.indexOf(step);
   const isLastStep = currentStep === steps.length;
-  const locale = useLocale();
   const router = useRouter();
   const cookies = useCookies();
+  const josa = getJosaPicker('을');
 
   const verify = async (dkuData: DKUVerificationSchema) => {
     try {
@@ -61,8 +61,11 @@ export default function VerifyPage({
       setToken(signupToken);
       onNext(steps[currentStep]);
     } catch (error) {
-      const message = error as APIError;
-      toast.error(message.message);
+      const err = error as APIError;
+      toast.error(err.message);
+      if (err.message === '이미 같은 학번으로 회원가입되어 있습니다.') {
+        router.push('/login');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -125,7 +128,7 @@ export default function VerifyPage({
           {step !== '약관동의' ? (
             <>
               <Header.Transformer step={step} steps={steps} />
-              <div>입력해주세요.</div>
+              <span>{josa(step)} 입력해주세요.</span>
             </>
           ) : (
             <TransformerSubtitle>약관에 동의해주세요.</TransformerSubtitle>
