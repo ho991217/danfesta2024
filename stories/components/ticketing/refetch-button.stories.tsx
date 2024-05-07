@@ -1,4 +1,4 @@
-import { RefetchButton } from '@/components/ticketing';
+import { RefetchButton } from '@/app/components/ticketing';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof RefetchButton> = {

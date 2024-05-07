@@ -1,8 +1,8 @@
 'use client';
 
-import { LineupInfo } from '@/app/[locale]/(back-nav)/lineup/page';
-import { Carousel } from '@/components/common';
-import TileComponent from '@/components/common/carousel/tile';
+import { Carousel } from '@components/common';
+import TileComponent from '@components/common/carousel/tile';
+import { type LineupInfo } from '@page/(back-nav)/lineup/page';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const lineups: LineupInfo[] = [

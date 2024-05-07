@@ -1,6 +1,6 @@
 'use server';
 
-import { get, getServerSideToken, post } from '@/api';
+import { get, getServerSideToken, post } from '@app/api';
 import { API_ROUTES } from '@lib/constants';
 import { CustomError, ErrorCause } from '@lib/utils';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
@@ -20,7 +20,7 @@ export type TicketInfo = {
   eventId: number;
 };
 
-const SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
+const SECRET = process.env.JWT_SECRET;
 
 export async function decodeTicket(qrDate: string) {
   if (!SECRET) {
@@ -85,13 +85,18 @@ export async function resendSMSCode(ticketId: number) {
 
 export async function issueTicket(ticketId: number) {
   try {
-    await post(API_ROUTES.ticket.issue(ticketId), {
-      token: await getServerSideToken(),
-    });
+    await post(
+      API_ROUTES.ticket.issue(ticketId),
+      {},
+      {
+        token: await getServerSideToken(),
+      },
+    );
   } catch (e) {
     const error = e as Error;
     if (error.message === '해당 티켓을 찾을 수 없습니다.') {
       throw new CustomError(ErrorCause.NOT_FOUND, error.message);
     }
+    throw new CustomError(ErrorCause.INVALID, error.message);
   }
 }

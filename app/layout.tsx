@@ -1,4 +1,4 @@
-import { Params } from '@/lib/types';
+import { Params } from '@lib/types';
 import type { Metadata, Viewport } from 'next';
 import { PropsWithChildren } from 'react';
 
@@ -24,6 +24,7 @@ export const metadata: Metadata = {
       },
     ],
   },
+  metadataBase: new URL('/', 'https://www.danfesta.com/'),
 };
 
 export const viewport: Viewport = {

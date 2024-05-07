@@ -1,4 +1,4 @@
-import { Keypad } from '@/components/admin';
+import { Keypad } from '@/app/components/admin';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 

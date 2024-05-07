@@ -1,4 +1,4 @@
-import QrReader from '@/components/admin/qr-reader';
+import QrReader from '@/app/components/admin/qr-reader';
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 

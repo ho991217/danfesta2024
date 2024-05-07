@@ -1,4 +1,4 @@
-import { QrCode } from '@/components/my-tickets';
+import { QrCode } from '@/app/components/my-tickets';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof QrCode> = {

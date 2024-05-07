@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@components/ui/table';
+} from '@/app/components/ui/table';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 

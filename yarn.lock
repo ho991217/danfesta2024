@@ -7468,6 +7468,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/qrcode@npm:^1":
+  version: 1.5.5
+  resolution: "@types/qrcode@npm:1.5.5"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/b8e6709905d1edb32dda414408acab18ac4aefcbe7bf96d9e32ba94218f45b99c8938ba7a09863ce82a67b226195099fd0f48881d16ee844899087b7f249955f
+  languageName: node
+  linkType: hard
+
 "@types/qs@npm:*, @types/qs@npm:^6.9.5":
   version: 6.9.15
   resolution: "@types/qs@npm:6.9.15"
@@ -10240,6 +10249,7 @@ __metadata:
     "@types/jwt-encode": "npm:^1"
     "@types/next-pwa": "npm:^5"
     "@types/node": "npm:^20"
+    "@types/qrcode": "npm:^1"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     "@vercel/analytics": "npm:^1.2.2"
@@ -10278,6 +10288,7 @@ __metadata:
     prettier: "npm:^3.2.5"
     prettier-plugin-tailwindcss: "npm:^0.5.13"
     qr-scanner: "npm:^1.4.2"
+    qrcode: "npm:^1.5.3"
     react: "npm:^18"
     react-confetti: "npm:^6.1.0"
     react-dom: "npm:^18"

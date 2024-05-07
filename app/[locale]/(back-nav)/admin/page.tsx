@@ -1,6 +1,6 @@
 'use client';
 
-import { useBottomSheet } from '@/hooks';
+import { useBottomSheet } from '@/app/hooks';
 import DanfestaLogo from '@/public/icons/logo-white.svg';
 import Glass from '@/public/images/glass.jpeg';
 import {

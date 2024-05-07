@@ -1,5 +1,5 @@
-import LocaleSwitcher from '@/components/common/locale-switcher/locale-switcher-select';
-import { SelectItem } from '@components/ui/select';
+import LocaleSwitcher from '@/app/components/common/locale-switcher/locale-switcher-select';
+import { SelectItem } from '@/app/components/ui/select';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof LocaleSwitcher> = {
