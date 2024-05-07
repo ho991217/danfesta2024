@@ -6,4 +6,4 @@
 
 단국대학교 2024 티켓팅 시스템입니다.
 
-- [Storybook](https://6617cc6b749cda32414848fb-xoqzodramz.chromatic.com/)
+- [Storybook](https://6617cc6b749cda32414848fb-mrqxxgzkgm.chromatic.com/)
