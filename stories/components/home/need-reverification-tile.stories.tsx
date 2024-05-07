@@ -3,7 +3,6 @@ import { NeedReverificationTile } from '@/app/components/home';
 import type { Meta, StoryObj } from '@storybook/react';
 import { createMock } from 'storybook-addon-module-mock';
 
-// { getIsLoggedIn, getIsVerified }
 const meta: Meta<typeof NeedReverificationTile> = {
   title: 'COMPONENTS/HOME/NeedReverificationTile',
   component: NeedReverificationTile,

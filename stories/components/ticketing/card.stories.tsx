@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as nextIntlServer from 'next-intl/server';
 import { createMock } from 'storybook-addon-module-mock';
 
-// { getIsLoggedIn, getIsVerified }
 const meta: Meta<typeof Card> = {
   title: 'COMPONENTS/TICKETING/Card',
   argTypes: {

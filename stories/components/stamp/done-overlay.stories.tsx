@@ -1,5 +1,4 @@
 import { DoneOverlay } from '@/app/components/stamp';
-import { Card } from '@/app/components/ticketing';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof DoneOverlay> = {
