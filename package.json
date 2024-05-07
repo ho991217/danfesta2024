@@ -113,6 +113,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.13",
     "storybook": "^8.0.9",
+    "storybook-addon-module-mock": "^1.2.3",
     "tailwindcss": "^3.3.0",
     "ts-node": "^10.9.2",
     "typescript": "^5"
