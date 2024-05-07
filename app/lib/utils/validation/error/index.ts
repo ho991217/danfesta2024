@@ -1,3 +1,7 @@
+export const ErrorMessages = {
+  NEED_REVERIFICATION: '단국대학교 학생 인증이 갱신되지 않았습니다.',
+} as const;
+
 export enum ErrorCause {
   INVALID,
   NOT_AUTHORIZED,
