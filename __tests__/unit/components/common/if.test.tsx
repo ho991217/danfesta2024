@@ -1,4 +1,4 @@
-import { If } from '@/components/util';
+import { If } from '@/app/components/util';
 import { render } from '@testing-library/react';
 import React from 'react';
 
