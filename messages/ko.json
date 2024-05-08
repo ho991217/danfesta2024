@@ -38,10 +38,13 @@
   "Carousel": {
     "nextup": "공연 예정 아티스트"
   },
-  "Login": {
-    "title": "로그인",
-    "username": "학번",
+  "LoginPage": {
+    "title": "LOGIN",
+    "subTitle": "서비스를 이용하시려면 로그인이 필요합니다.",
+    "username": "단국대학교 포털 아이디",
     "password": "비밀번호",
+    "forgot": "학번/비밀번호 찾기",
+    "signup": "회원가입",
     "login": "로그인"
   }
 }

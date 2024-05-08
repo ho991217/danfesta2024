@@ -3,11 +3,12 @@ import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { COOKIE_KEYS, ROUTES } from './lib/constants';
-import { AccessToken } from './lib/utils/validation/assert/jwt';
-
-const protectedRoutes: string[] = [ROUTES.admin];
-const privateRoutes: string[] = [ROUTES.mypage, ROUTES.ticketing.root];
+import {
+  COOKIE_KEYS,
+  privateRoutes,
+  protectedRoutes,
+} from './app/lib/constants';
+import { AccessToken } from './app/lib/utils/validation/assert/jwt';
 
 const i18nMiddleware = createMiddleware({
   locales: ['en', 'ko'],
@@ -26,7 +27,7 @@ const middleware = async (req: NextRequest) => {
   if (isProtectedRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
-      return NextResponse.redirect(new URL(`/ko${ROUTES.login}`, req.nextUrl));
+      return NextResponse.redirect(new URL(`/ko/login`, req.nextUrl));
     }
     const { userRole } = jwtDecode<AccessToken>(jwt);
     const userRoles = userRole.split(',');
@@ -40,9 +41,7 @@ const middleware = async (req: NextRequest) => {
     if (!jwt) {
       return NextResponse.redirect(
         new URL(
-          `/ko${ROUTES.login}?redirect=${encodeURIComponent(
-            req.nextUrl.pathname,
-          )}`,
+          `/ko/login?redirect=${encodeURIComponent(req.nextUrl.pathname)}`,
           req.nextUrl,
         ),
       );
