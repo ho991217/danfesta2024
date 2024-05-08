@@ -1,12 +1,12 @@
 import "@testing-library/jest-dom";
 import { act } from "react-dom/test-utils";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { captchaSchema } from "@/components/ticketing/form";
-import { passwordSchema, signUpSchema } from "@/app/[locale]/(back-nav)/password/schema";
-import { phoneNumberSchema, smsCodeSchema } from "@/app/[locale]/(back-nav)/sms/schema";
 import { authInfoSchema } from "@/app/[locale]/(back-nav)/login/schema";
-import { dkuVerificationSchema } from "@/app/[locale]/(back-nav)/verify/schema";
-import { Form } from "@components/common";
+import { Button, Form, ID, Input, Password } from "@components/common";
+import { captchaSchema } from "@/app/components/ticketing/form";
+import { dkuVerificationSchema } from "@/app/[locale]/(back-nav)/(padded)/verify/schema";
+import { phoneNumberSchema, smsCodeSchema } from "@/app/components/common/form/phone";
+import { passwordSchema, signUpSchema } from "@/app/[locale]/(back-nav)/(padded)/password/schema";
 
 describe('Form 컴포넌트 테스트 스위트', () => {
   describe('1. captchaSchema', () => {
@@ -15,11 +15,11 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display required error when captchaValue is invalid', async () => {
       render(
         <Form onSubmit={spy} schema={captchaSchema}>
-          <Form.Text
+          <Input
             name="captchaValue"
             placeholder="캡차를 입력하세요."
           />
-          <Form.Button>신청</Form.Button>
+          <Button type='submit'>신청</Button>
         </Form>
       );
 
@@ -38,11 +38,11 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should not display matching error when captchaValue is valid', async () => {
       render(
         <Form onSubmit={spy} schema={captchaSchema}>
-          <Form.Text
+          <Input
             name="captchaValue"
             placeholder="캡차를 입력하세요."
           />
-          <Form.Button>신청</Form.Button>
+          <Button type='submit'>신청</Button>
         </Form>
       );
 
@@ -63,19 +63,19 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when dkuPassword, dkuStudentId are invalid', async () => {
       render(
         <Form onSubmit={spy} schema={dkuVerificationSchema}>
-          <Form.Password
+          <Password
             name="dkuPassword"
             label="단국대학교 포털 비밀번호"
             placeholder="8자 이상의 영문, 숫자"
           />
-          <Form.ID
+          <ID
             name="dkuStudentId"
             label="단국대학교 포털 아이디"
             placeholder="숫자 8자리"
           />
-          <Form.Button>
+          <Button type='submit'>
             다음
-          </Form.Button>
+          </Button>
         </Form >
       );
 
@@ -100,17 +100,17 @@ describe('Form 컴포넌트 테스트 스위트', () => {
           onSubmit={spy}
           schema={dkuVerificationSchema}
         >
-          <Form.Password
+          <Password
             name="dkuPassword"
             label="단국대학교 포털 비밀번호"
             placeholder="8자 이상의 영문, 숫자"
           />
-          <Form.ID
+          <ID
             name="dkuStudentId"
             label="단국대학교 포털 아이디"
             placeholder="숫자 8자리"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type="submit">다음</Button>
         </Form>
       );
 
@@ -132,13 +132,13 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when phoneNumber is invalid', async () => {
       render(
         <Form onSubmit={spy} schema={phoneNumberSchema}>
-          <Form.Text
+          <Input
             name="phoneNumber"
             label="사용자 전화번호"
             placeholder="01012345678"
             inputMode="tel"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type='submit'>다음</Button>
         </Form>
       );
 
@@ -157,13 +157,13 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should not display matching error when phoneNumber is valid', async () => {
       render(
         <Form onSubmit={spy} schema={phoneNumberSchema}>
-          <Form.Text
+          <Input
             name="phoneNumber"
             label="사용자 전화번호"
             placeholder="01012345678"
             inputMode="tel"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type='submit'>다음</Button>
         </Form>
       );
 
@@ -187,12 +187,12 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when code is invalid', async () => {
       render(
         <Form onSubmit={spy} schema={smsCodeSchema}>
-          <Form.Text
+          <Input
             name='code'
             placeholder="숫자 6자리"
             label="발송된 인증번호 입력"
           />
-          <Form.Button>확인</Form.Button>
+          <Button type="submit">확인</Button>
         </Form>
       );
 
@@ -211,12 +211,12 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should not display matching error when code is valid', async () => {
       render(
         <Form onSubmit={spy} schema={smsCodeSchema}>
-          <Form.Text
+          <Input
             name='code'
             placeholder="숫자 6자리"
             label="발송된 인증번호 입력"
           />
-          <Form.Button>확인</Form.Button>
+          <Button type="submit">확인</Button>
         </Form>
       );
 
@@ -237,15 +237,15 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when studentId, password are invalid', async () => {
       render(
         <Form onSubmit={spy} schema={authInfoSchema}>
-          <Form.ID
+          <ID
             label="단국대학교 포털 아이디"
             placeholder="32123456"
           />
-          <Form.Password
+          <Password
             label="단국대학교 포털 비밀번호"
             placeholder="비밀번호"
           />
-          <Form.Button>로그인</Form.Button>
+          <Button type="submit">로그인</Button>
         </Form>
       );
 
@@ -266,15 +266,15 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should not display matching error when studentId, password are valid', async () => {
       render(
         <Form onSubmit={spy} schema={authInfoSchema}>
-          <Form.ID
+          <ID
             label="단국대학교 포털 아이디"
             placeholder="32123456"
           />
-          <Form.Password
+          <Password
             label="단국대학교 포털 비밀번호"
             placeholder="비밀번호"
           />
-          <Form.Button>로그인</Form.Button>
+          <Button type="submit">로그인</Button>
         </Form>
       );
 
@@ -296,11 +296,11 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when password is invalid', async () => {
       render(
         <Form onSubmit={spy} schema={passwordSchema}>
-          <Form.Password
+          <Password
             label="비밀번호"
             placeholder="8자 이상"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type='submit'>다음</Button>
         </Form>
       );
 
@@ -319,11 +319,11 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should not display matching error when password is valid', async () => {
       render(
         <Form onSubmit={spy} schema={passwordSchema}>
-          <Form.Password
+          <Password
             label="비밀번호"
             placeholder="8자 이상"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type="submit">다음</Button>
         </Form>
       );
 
@@ -344,16 +344,16 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when password, passwordCheck are invalid', async () => {
       render(
         <Form onSubmit={spy} schema={signUpSchema}>
-          <Form.Password
+          <Password
             label="비밀번호"
             placeholder="8자 이상"
           />
-          <Form.Password
+          <Password
             label="비밀번호 확인"
             name="passwordCheck"
             placeholder="8자 이상"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type="submit">다음</Button>
         </Form>
       );
 
@@ -373,16 +373,16 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should display matching error when password, passwordCheck are diff', async () => {
       render(
         <Form onSubmit={spy} schema={signUpSchema}>
-          <Form.Password
+          <Password
             label="비밀번호"
             placeholder="8자 이상"
           />
-          <Form.Password
+          <Password
             label="비밀번호 확인"
             name="passwordCheck"
             placeholder="8자 이상"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type="submit">다음</Button>
         </Form>
       );
 
@@ -402,16 +402,16 @@ describe('Form 컴포넌트 테스트 스위트', () => {
     it('should not display matching error when password, passwordCheck are valid', async () => {
       render(
         <Form onSubmit={spy} schema={signUpSchema}>
-          <Form.Password
+          <Password
             label="비밀번호"
             placeholder="8자 이상"
           />
-          <Form.Password
+          <Password
             label="비밀번호 확인"
             name="passwordCheck"
             placeholder="8자 이상"
           />
-          <Form.Button>다음</Form.Button>
+          <Button type="submit">다음</Button>
         </Form>
       );
 
