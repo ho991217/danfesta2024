@@ -1,4 +1,4 @@
-import { IntlProvider } from '@components/common';
+import { IntlProvider, Link } from '@components/common';
 import LocaleSwitcher from '@components/common/locale-switcher';
 import { Card } from '@components/ui/card';
 import { getTranslations } from 'next-intl/server';
@@ -16,10 +16,11 @@ export default async function UnderConstruction() {
   const t = await getTranslations('UnderConstruction');
   return (
     <main className="flex flex-col items-center justify-center w-full h-screen">
-      {/* <RemainTimer targetDate={new Date('2024-05-13')} /> */}
       <section className="w-full flex flex-col items-center justify-center">
         <h1 className="text-3xl font-semibold flex gap-2 items-center">
-          <FaGear className="animate-spin" />
+          <Link href="/jeomshim" className="w-auto">
+            <FaGear className="animate-spin" />
+          </Link>
           {t('title')}
         </h1>
         <p className="text-sm mt-2 max-w-[400px] text-neutral-500 text-center">
@@ -28,7 +29,7 @@ export default async function UnderConstruction() {
           })}
         </p>
       </section>
-      <Card className="mt-6 p-4 w-full flex items-center gap-4 justify-center text-neutral-500 text-sm">
+      <Card className="mt-6 p-4 w-full flex items-center gap-4 justify-start text-neutral-500 text-sm">
         <FaExclamation />
         <p>{t('notice')}</p>
       </Card>
