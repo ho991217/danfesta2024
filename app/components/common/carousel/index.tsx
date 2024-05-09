@@ -1,6 +1,6 @@
 'use client';
 
-import { type LineupInfo } from '@page/(back-nav)/lineup/page';
+import { type LineupInfo } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
 import useEmblaCarousel from 'embla-carousel-react';
 import React from 'react';
 

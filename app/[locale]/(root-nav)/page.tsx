@@ -5,7 +5,7 @@ import {
   NeedReverificationTile,
 } from '@components/home';
 
-import { getAllLineupInfo } from '../(back-nav)/lineup/actions';
+import { getAllLineupInfo } from '../(back-nav)/(padded)/lineup/actions';
 
 export default async function Home() {
   const lineups = await getAllLineupInfo();
