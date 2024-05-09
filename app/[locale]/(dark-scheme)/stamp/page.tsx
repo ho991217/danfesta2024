@@ -21,11 +21,11 @@ const stampPosition = [
 const titlePosition = [
   '-bottom-11',
   'bottom-7',
-  '-bottom-11',
+  '-bottom-14',
   '-bottom-11',
   '-bottom-11',
   'bottom-7',
-  'top-1/2 -translate-y-1/2 -left-3',
+  'top-1/2 -translate-y-1/2 -left-5',
 ];
 
 export default async function StampPage() {
