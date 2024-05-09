@@ -1,3 +1,4 @@
+import { get } from '@vercel/edge-config';
 import { jwtDecode } from 'jwt-decode';
 import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
@@ -17,6 +18,16 @@ const i18nMiddleware = createMiddleware({
 });
 
 const middleware = async (req: NextRequest) => {
+  const isMaintenance = await get('is_maintenance');
+  if (
+    isMaintenance &&
+    !req.nextUrl.pathname.includes('/ko/under-construction')
+  ) {
+    return NextResponse.redirect(
+      new URL('/ko/under-construction', req.nextUrl),
+    );
+  }
+
   const response = i18nMiddleware(req);
   const path = req.nextUrl.pathname;
   const isProtectedRoute = protectedRoutes.some((route) =>
