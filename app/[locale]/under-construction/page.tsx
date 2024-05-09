@@ -3,7 +3,7 @@ import LocaleSwitcher from '@components/common/locale-switcher';
 import { Card } from '@components/ui/card';
 import { getTranslations } from 'next-intl/server';
 import dynamic from 'next/dynamic';
-import { FaGear } from 'react-icons/fa6';
+import { FaExclamation, FaGear } from 'react-icons/fa6';
 
 const RemainTimer = dynamic(
   () => import('@components/under-construction/remain-timer'),
@@ -16,6 +16,7 @@ export default async function UnderConstruction() {
   const t = await getTranslations('UnderConstruction');
   return (
     <main className="flex flex-col items-center justify-center w-full h-screen">
+      {/* <RemainTimer targetDate={new Date('2024-05-13')} /> */}
       <section className="w-full flex flex-col items-center justify-center">
         <h1 className="text-3xl font-semibold flex gap-2 items-center">
           <FaGear className="animate-spin" />
@@ -27,10 +28,9 @@ export default async function UnderConstruction() {
           })}
         </p>
       </section>
-      <Card className="mt-6 p-4 w-full flex flex-col items-center gap-2 justify-center">
-        <span className="text-sm text-neutral-500">오픈 까지</span>
-        <RemainTimer targetDate={new Date('2024-05-13')} />
-        <span className="text-sm text-neutral-500">남았어요.</span>
+      <Card className="mt-6 p-4 w-full flex items-center gap-4 justify-center text-neutral-500 text-sm">
+        <FaExclamation />
+        <p>{t('notice')}</p>
       </Card>
       <div className="fixed bottom-5 w-full px-5">
         <IntlProvider>
