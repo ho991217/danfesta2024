@@ -1,5 +1,5 @@
-import { Link } from '@/app/components/common';
-import FoodImg from '@/public/images/perspaleta2_0020.png';
+import { Link } from '@components/common';
+import FoodImg from '@images/perspaleta2_0020.png';
 import getJeomshim from 'jeom-mae-chu';
 import Image from 'next/image';
 
@@ -16,8 +16,8 @@ export default function JeomshimPage() {
       <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[300px]">
         <Image src={FoodImg} alt="점심 메뉴" width={1080} height={1080} />
       </div>
-      <Link href="/" variant="bottom">
-        홈으로
+      <Link href="/jeomshim" variant="bottom">
+        한번 더 돌리기
       </Link>
     </>
   );
