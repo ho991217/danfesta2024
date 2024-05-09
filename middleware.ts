@@ -1,6 +1,7 @@
 import { get } from '@vercel/edge-config';
 import { jwtDecode } from 'jwt-decode';
 import createMiddleware from 'next-intl/middleware';
+import { getLocale } from 'next-intl/server';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -18,47 +19,39 @@ const i18nMiddleware = createMiddleware({
 });
 
 const middleware = async (req: NextRequest) => {
-  const [, locale, ...segments] = req.nextUrl.pathname.split('/');
+  const { pathname } = req.nextUrl.clone();
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.includes(route),
+  );
+  const isPrivateRoute = privateRoutes.some((route) =>
+    pathname.includes(route),
+  );
 
   const isMaintenance = await get('is_maintenance');
-  if (isMaintenance && !segments.includes('under-construction')) {
-    return NextResponse.redirect(
-      new URL(`/${locale}/under-construction`, req.nextUrl),
-    );
+  if (isMaintenance && !pathname.includes('under-construction')) {
+    req.nextUrl.pathname = '/under-construction';
   }
-
-  const response = i18nMiddleware(req);
-  const path = req.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    path.includes(route),
-  );
-  const isPrivateRoute = privateRoutes.some((route) => path.includes(route));
 
   if (isProtectedRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
-      return NextResponse.redirect(new URL(`/${locale}/login`, req.nextUrl));
+      req.nextUrl.pathname = '/login';
     }
-    const { userRole } = jwtDecode<AccessToken>(jwt);
+    const { userRole } = jwtDecode<AccessToken>(jwt ?? '');
     const userRoles = userRole.split(',');
     const isAdmin = userRoles.includes('ROLE_ADMIN');
 
     if (!isAdmin) {
-      return NextResponse.redirect(new URL(`/${locale}`, req.nextUrl));
+      return req.nextUrl.pathname === '/';
     }
   } else if (isPrivateRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
-      return NextResponse.redirect(
-        new URL(
-          `/${locale}/login?redirect=${encodeURIComponent(req.nextUrl.pathname)}`,
-          req.nextUrl,
-        ),
-      );
+      req.nextUrl.pathname = `/login?redirect=${encodeURIComponent(pathname)}`;
     }
   }
 
-  return response;
+  return i18nMiddleware(req);
 };
 
 export const config = {

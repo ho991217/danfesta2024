@@ -1,7 +1,16 @@
 import { IntlProvider } from '@components/common';
 import LocaleSwitcher from '@components/common/locale-switcher';
+import { Card } from '@components/ui/card';
 import { getTranslations } from 'next-intl/server';
+import dynamic from 'next/dynamic';
 import { FaGear } from 'react-icons/fa6';
+
+const RemainTimer = dynamic(
+  () => import('@components/under-construction/remain-timer'),
+  {
+    ssr: false,
+  },
+);
 
 export default async function UnderConstruction() {
   const t = await getTranslations('UnderConstruction');
@@ -18,6 +27,11 @@ export default async function UnderConstruction() {
           })}
         </p>
       </section>
+      <Card className="mt-6 p-4 w-full flex flex-col items-center gap-2 justify-center">
+        <span className="text-sm text-neutral-500">오픈 까지</span>
+        <RemainTimer targetDate={new Date('2024-05-13')} />
+        <span className="text-sm text-neutral-500">남았어요.</span>
+      </Card>
       <div className="fixed bottom-5 w-full px-5">
         <IntlProvider>
           <LocaleSwitcher />
