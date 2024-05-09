@@ -1,8 +1,5 @@
 'use client';
 
-import { useBottomSheet } from '@/app/hooks';
-import DanfestaLogo from '@/public/icons/logo-white.svg';
-import Glass from '@/public/images/glass.jpeg';
 import {
   ErrorTile,
   Keypad,
@@ -10,7 +7,11 @@ import {
   QrReader,
   StudentInfo,
 } from '@components/admin';
+import { checkAdminPassword } from '@components/admin/action';
 import { BottomSheet, Button } from '@components/common';
+import { useBottomSheet } from '@hooks/.';
+import DanfestaLogo from '@icons/logo-white.svg';
+import Glass from '@images/glass.jpeg';
 import { CustomError, ErrorCause, throttle } from '@lib/utils';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -71,7 +72,8 @@ export default function TicketManage() {
   const onAdminPasswordSubmit = async (value: string) => {
     if (ticketInfo?.id === undefined) return;
     try {
-      if (value !== '1217') {
+      const authorized = await checkAdminPassword(value);
+      if (!authorized) {
         throw new CustomError(
           ErrorCause.NOT_AUTHORIZED,
           '관리자 권한이 없습니다.',
