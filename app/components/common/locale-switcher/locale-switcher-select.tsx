@@ -8,7 +8,6 @@ import {
 } from '@components/ui/select';
 import { usePathname, useRouter } from '@lib/navigation';
 import { useLocale } from 'next-intl';
-import { useParams } from 'next/navigation';
 import { ReactNode, useTransition } from 'react';
 
 type Props = {
@@ -25,16 +24,11 @@ export default function LocaleSwitcherSelect({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
-  const params = useParams();
   const locale = useLocale();
 
   function onSelectChange(value: string) {
     startTransition(() => {
-      router.replace(
-        // @ts-expect-error
-        { pathname, params },
-        { locale: value },
-      );
+      router.replace(pathname, { locale: value });
     });
   }
 

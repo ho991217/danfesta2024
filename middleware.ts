@@ -18,13 +18,12 @@ const i18nMiddleware = createMiddleware({
 });
 
 const middleware = async (req: NextRequest) => {
+  const [, locale, ...segments] = req.nextUrl.pathname.split('/');
+
   const isMaintenance = await get('is_maintenance');
-  if (
-    isMaintenance &&
-    !req.nextUrl.pathname.includes('/ko/under-construction')
-  ) {
+  if (isMaintenance && !segments.includes('under-construction')) {
     return NextResponse.redirect(
-      new URL('/ko/under-construction', req.nextUrl),
+      new URL(`/${locale}/under-construction`, req.nextUrl),
     );
   }
 
@@ -38,21 +37,21 @@ const middleware = async (req: NextRequest) => {
   if (isProtectedRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
-      return NextResponse.redirect(new URL(`/ko/login`, req.nextUrl));
+      return NextResponse.redirect(new URL(`/${locale}/login`, req.nextUrl));
     }
     const { userRole } = jwtDecode<AccessToken>(jwt);
     const userRoles = userRole.split(',');
     const isAdmin = userRoles.includes('ROLE_ADMIN');
 
     if (!isAdmin) {
-      return NextResponse.redirect(new URL('/', req.nextUrl));
+      return NextResponse.redirect(new URL(`/${locale}`, req.nextUrl));
     }
   } else if (isPrivateRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
       return NextResponse.redirect(
         new URL(
-          `/ko/login?redirect=${encodeURIComponent(req.nextUrl.pathname)}`,
+          `/${locale}/login?redirect=${encodeURIComponent(req.nextUrl.pathname)}`,
           req.nextUrl,
         ),
       );
