@@ -1,4 +1,4 @@
-import { getIsLoggedIn, getIsVerified } from '@/app/api';
+import { getIsLoggedIn, getIsVerified } from '@api/.';
 
 import { Link } from '../common';
 import NoticeTile from './notice-tile';

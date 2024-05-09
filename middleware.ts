@@ -28,7 +28,7 @@ const middleware = async (req: NextRequest) => {
 
   const isMaintenance = await get('is_maintenance');
   if (
-    true &&
+    isMaintenance &&
     !pathname.includes('under-construction') &&
     !pathname.includes('jeomshim')
   ) {

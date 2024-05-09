@@ -14,6 +14,7 @@ const getIsVerified = async () => {
         cache: false,
       });
 
+      if (dkuChecked === undefined) return false;
       return dkuChecked;
     }
 

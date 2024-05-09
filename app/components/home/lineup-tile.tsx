@@ -1,9 +1,8 @@
-import { get } from '@/app/api';
-import { API_ROUTES } from '@/app/lib/constants';
 import { LineupInfo } from '@app/[locale]/(back-nav)/lineup/page';
 import { getTranslations } from 'next-intl/server';
 
 import Carousel from '../common/carousel';
+import Tile from '../common/carousel/tile';
 import TileHeader from './tile-header';
 
 export default async function LineupTile({
@@ -12,22 +11,31 @@ export default async function LineupTile({
   lineups: LineupInfo[];
 }) {
   try {
-    // const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as const;
-    // const data = await Promise.all(
-    //   allDay.map((day) => get<LineupInfo[]>(API_ROUTES.lineup.list(day))),
-    // );
-    // const lineups = data.flat();
-
     const t = await getTranslations('LineupTile');
+    const isLineupEmpty = lineups.length === 0;
 
     return (
       <div className="w-full lg:max-w-full">
         <TileHeader>
           <TileHeader.Head>{t('title')}</TileHeader.Head>
-          <TileHeader.SeeAll href="/lineup">{t('seeAll')}</TileHeader.SeeAll>
+          {!isLineupEmpty && (
+            <TileHeader.SeeAll href="/lineup">{t('seeAll')}</TileHeader.SeeAll>
+          )}
         </TileHeader>
         <div className="relative aspect-[3/4] w-full lg:min-h-[500px] lg:aspect-auto">
-          <Carousel lineups={lineups} />
+          {isLineupEmpty ? (
+            <Tile
+              id={0}
+              opened={false}
+              singer="라인업 공개 전"
+              description="라인업이 공개되지 않았습니다."
+              images={[]}
+              performanceTime={null}
+              festivalDate={null}
+            />
+          ) : (
+            <Carousel lineups={lineups} />
+          )}
         </div>
       </div>
     );

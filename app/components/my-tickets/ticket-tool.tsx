@@ -1,10 +1,11 @@
 'use client';
 
-import { useBottomSheet } from '@/app/hooks';
+import { useBottomSheet } from '@hooks/.';
 import { HiMiniEllipsisHorizontal } from 'react-icons/hi2';
 import { toast } from 'sonner';
 
 import { Keypad } from '../admin';
+import { checkAdminPassword } from '../admin/action';
 import { BottomSheet } from '../common';
 import {
   DropdownMenu,
@@ -18,8 +19,10 @@ import {
 export default function TicketTool({ ticketId }: { ticketId: number }) {
   const [isOpen, open, close] = useBottomSheet();
 
-  const onAdminPasswordSubmit = (password: string) => {
-    if (password === '1234') {
+  const onAdminPasswordSubmit = async (password: string) => {
+    const authorized = await checkAdminPassword(password);
+
+    if (authorized) {
       close();
       toast.info(`티켓 번호: ${ticketId}`, {
         duration: 5000,

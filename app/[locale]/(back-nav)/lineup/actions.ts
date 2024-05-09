@@ -18,20 +18,26 @@ export async function getAllLineupInfo() {
 }
 
 export async function getLineupInfoByDay(day: FestivalDate) {
-  const lineup = await get<LineupInfo[]>(API_ROUTES.lineup.list(day));
-  const withBase64 = await Promise.all(
-    lineup.map(async (lineup) => {
-      if (lineup.images.length === 0) return lineup;
+  try {
+    const lineup = await get<LineupInfo[]>(API_ROUTES.lineup.list(day));
+    if (lineup.length === 0) return [];
 
-      const src = lineup.images[0].url;
-      const buffer = await fetch(src).then(async (res) =>
-        Buffer.from(await res.arrayBuffer()),
-      );
+    const withBase64 = await Promise.all(
+      lineup.map(async (lineup) => {
+        if (lineup.images.length === 0) return lineup;
 
-      const { base64 } = await getPlaiceholder(buffer);
-      return { ...lineup, images: [{ ...lineup.images[0], base64 }] };
-    }),
-  );
+        const src = lineup.images[0].url;
+        const buffer = await fetch(src).then(async (res) =>
+          Buffer.from(await res.arrayBuffer()),
+        );
 
-  return withBase64;
+        const { base64 } = await getPlaiceholder(buffer);
+        return { ...lineup, images: [{ ...lineup.images[0], base64 }] };
+      }),
+    );
+
+    return withBase64;
+  } catch {
+    return [];
+  }
 }
