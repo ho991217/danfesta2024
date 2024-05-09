@@ -46,5 +46,9 @@
     "forgot": "학번/비밀번호 찾기",
     "signup": "회원가입",
     "login": "로그인"
+  },
+  "UnderConstruction": {
+    "title": "Under Construction",
+    "description": "단페스타 2024는 최고의 유저경험을 위해 준비중이에요. <br></br> 2024년 5월 13일에 만나요!"
   }
 }
