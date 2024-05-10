@@ -31,7 +31,7 @@ type InputSubComponents = Omit<InputProps, 'type' | 'name'> & {
   name?: string;
 };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(function (
+const Input = forwardRef<HTMLInputElement, InputProps>(function(
   {
     className,
     name = 'text',
@@ -69,6 +69,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
             }
           }
         }}
+        id={name}
         type={type}
         variants={variants.input}
         initial="initial"
@@ -85,6 +86,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function (
       <AnimatePresence initial>
         {(errors[name]?.message || customError) && (
           <motion.div
+            role="alert"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -130,7 +132,7 @@ export function ID({
 }
 
 export const Password = forwardRef<HTMLInputElement, InputSubComponents>(
-  function ({ name = 'password', ...props }, ref) {
+  function({ name = 'password', ...props }, ref) {
     return <Input ref={ref} type="password" name={name} {...props} />;
   },
 );
