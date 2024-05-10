@@ -11,7 +11,7 @@ import { z } from 'zod';
 
 import { Button, Form, Input } from '../common';
 
-const schema = z.object({
+export const captchaSchema = z.object({
   captchaValue: z.string().trim().min(1, { message: '필수 입력 사항입니다.' }),
 });
 
@@ -21,7 +21,7 @@ export type TicketApplyRequest = {
   captchaValue: string;
 };
 
-type Schema = z.infer<typeof schema>;
+type Schema = z.infer<typeof captchaSchema>;
 
 export default function TicketingForm({
   eventId,
@@ -57,7 +57,7 @@ export default function TicketingForm({
   return (
     <Form
       onSubmit={handleSubmit}
-      schema={schema}
+      schema={captchaSchema}
       className="flex gap-0"
       validateOn="onSubmit"
     >
