@@ -2,7 +2,7 @@ import getUserInfo from '@api/get-is-user-info';
 import { Link } from '@components/common';
 import Logo from '@icons/orbit_logo.png';
 import Universe from '@images/stamp/universe_bg.jpeg';
-import StampBoard from '@images/stamp/스탬프판_문체.png';
+import StampBoard from '@images/stamp/stamp_board.png';
 import { cn } from '@lib/utils';
 import Image from 'next/image';
 

@@ -29,6 +29,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
       API_ROUTES.ticket.reservation(Number(id)),
       {
         token,
+        cache: false,
       },
     );
     isAlreadyTurn = true;
@@ -38,6 +39,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   }
 
   const generateOpenText = () => {
+    if (isAlreadyTurn) return '예약 완료';
     if (isOpen) return '오픈';
     if (now < fromTime) return '오픈 전';
     return '종료';

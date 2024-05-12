@@ -1,7 +1,7 @@
 'use server';
 
-import { get } from '@/app/api';
-import { API_ROUTES } from '@/app/lib/constants';
+import { get } from '@api/.';
+import { API_ROUTES } from '@lib/constants';
 
 export type FestivalEvent = {
   id: number;
@@ -17,6 +17,6 @@ export async function getEvents() {
     });
     return events;
   } catch {
-    return null;
+    return [];
   }
 }
