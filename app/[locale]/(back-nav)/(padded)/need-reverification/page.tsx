@@ -30,7 +30,7 @@ export default function NeedReverificationPage() {
           height={200}
         />
       </AnimatedWrapper>
-      <AnimatedWrapper delay={1} className="fixed w-full bottom-0">
+      <AnimatedWrapper delay={1} bottom>
         <Link
           href={{ pathname: '/verify', query: { reverify: 'true' } }}
           variant="bottom"

@@ -1,5 +1,6 @@
 'use client';
 
+import { If } from '@/app/components/util';
 import {
   ErrorTile,
   Keypad,
@@ -20,6 +21,7 @@ import { toast } from 'sonner';
 import {
   TicketInfo,
   getTicketInfoByAdmin,
+  getTicketInfoById,
   issueTicket,
   resendSMSCode,
 } from './action';
@@ -60,6 +62,17 @@ export default function TicketManage() {
       setError(err.message);
     }
   });
+
+  const getInfo = async (data: string) => {
+    setScannerPaused(true);
+    try {
+      const ticketInfo = await getTicketInfoById(Number(data));
+      setTicketInfo(ticketInfo);
+    } catch (e) {
+      const err = e as Error;
+      setError(err.message);
+    }
+  };
 
   const onSubmit = (value: string) => {
     if (value === ticketInfo?.code) {
@@ -113,18 +126,29 @@ export default function TicketManage() {
           </Button>
         </div>
         <div className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900 lg:row-span-2">
-          <Keypad
-            onSubmit={onSubmit}
-            title="SMS로 받은 인증 코드를 입력 해주세요."
-            button={
-              <Button
-                className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2"
-                onClick={resendSMS}
-              >
-                재전송
-              </Button>
-            }
-          />
+          <If condition={ticketInfo === null}>
+            <If.Then>
+              <Keypad
+                slot={4}
+                onSubmit={getInfo}
+                title="티켓 아이디를 입력해주세요."
+              />
+            </If.Then>
+            <If.Else>
+              <Keypad
+                onSubmit={onSubmit}
+                title="SMS로 받은 인증 코드를 입력 해주세요."
+                button={
+                  <Button
+                    className=" bg-neutral-100 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-300 w-auto px-12 mt-2"
+                    onClick={resendSMS}
+                  >
+                    재전송
+                  </Button>
+                }
+              />
+            </If.Else>
+          </If>
         </div>
         <div className="hidden overflow-hidden rounded-2xl bg-neutral-900 col-span-2 relative lg:flex lg:min-w-full">
           <div className="absolute left-8 top-1/2 -translate-y-1/2 flex gap-3 items-center text-neutral-100">
