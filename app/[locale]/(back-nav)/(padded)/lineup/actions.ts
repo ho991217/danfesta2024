@@ -1,18 +1,28 @@
 'use server';
 
-import { get } from '@/app/api';
-import { API_ROUTES } from '@/app/lib/constants';
+import { get } from '@api/.';
+import { API_ROUTES } from '@lib/constants';
 import { getPlaiceholder } from 'plaiceholder';
 
 import type { FestivalDate, LineupInfo } from './page';
 
-export async function getAllLineupInfo() {
+type GetAllLineupInfoOptions = {
+  random?: boolean;
+  count?: number;
+};
+
+export async function getAllLineupInfo(options?: GetAllLineupInfoOptions) {
   const allDay = ['FIRST_DAY', 'SECOND_DAY', 'THIRD_DAY'] as Readonly<
     FestivalDate[]
   >;
   const allLineupInfo = (
     await Promise.all(allDay.map(getLineupInfoByDay))
   ).flat();
+
+  if (options?.random) {
+    const shuffled = allLineupInfo.sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, options.count ?? 5);
+  }
 
   return allLineupInfo;
 }

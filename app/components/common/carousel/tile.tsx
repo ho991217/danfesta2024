@@ -1,6 +1,6 @@
+import { LineupInfo } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
 import NoLineup from '@images/lineup/no-lineup-image.webp';
 import { parseFestivalDate } from '@lib/utils/parser';
-import { LineupInfo } from '@page/(back-nav)/lineup/page';
 import { useFormatter } from 'next-intl';
 import Image from 'next/image';
 import { FiCalendar, FiClock, FiHeart } from 'react-icons/fi';
