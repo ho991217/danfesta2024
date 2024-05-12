@@ -1,12 +1,27 @@
 'use client';
 
+import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import React, { PropsWithChildren } from 'react';
 
 import IntlProvider from '../intl-provider';
 
-export default function Carousel({ children }: PropsWithChildren) {
-  const [emblaRef] = useEmblaCarousel();
+type CarouselProps = PropsWithChildren<{
+  loop?: boolean;
+  autoplay?: boolean;
+}>;
+
+export default function Carousel({
+  children,
+  loop = false,
+  autoplay = false,
+}: CarouselProps) {
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop,
+    },
+    [...(autoplay ? [Autoplay({ playOnInit: true, delay: 3000 })] : [])],
+  );
 
   return (
     <IntlProvider>
