@@ -62,7 +62,7 @@ export default async function SideNav() {
         className="w-auto h-auto p-1"
       >
         <SheetTrigger asChild>
-          <IoIosMenu size={40} />
+          <IoIosMenu size={40} aria-label="hamburger menu button" />
         </SheetTrigger>
       </Button>
 
