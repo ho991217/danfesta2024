@@ -13,13 +13,14 @@ export default function Block({ ad }: { ad: Ad }) {
       adUrl: ad.bannerUrl,
     });
   };
+
   return (
     <Link
       href={ad.bannerUrl}
       className="relative flex-[0_0_100%] overflow-hidden rounded-xl bg-neutral-500"
-      onClick={onAdClick}
     >
       <Image
+        onClick={onAdClick}
         className="object-cover w-full h-full"
         src={ad.images[0].url}
         alt={ad.images[0].originalName}
