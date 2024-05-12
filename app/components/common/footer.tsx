@@ -43,6 +43,10 @@ export default function Footer() {
         />
         <span className="text-neutral-500 text-sm">U-Mate</span>
       </Block>
+      <div className="text-neutral-500 text-xs flex flex-col items-center my-4">
+        <span>문제가 있나요?</span>
+        <a href="mailto:ho991217@kakao.com">문의하기: ho991217@kakao.com</a>
+      </div>
       <Block
         href="https://github.com/ho991217/danfesta2024"
         className="py-2 my-2"
