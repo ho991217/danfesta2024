@@ -3,7 +3,7 @@ import NoLineup from '@images/lineup/no-lineup-image.webp';
 import { parseFestivalDate } from '@lib/utils/parser';
 import { useFormatter } from 'next-intl';
 import Image from 'next/image';
-import { FiCalendar, FiClock, FiHeart } from 'react-icons/fi';
+import { FiCalendar, FiHeart } from 'react-icons/fi';
 
 export default function Tile({
   images,
@@ -52,15 +52,6 @@ export default function Tile({
             <FiCalendar />
             {performanceTime
               ? format.dateTime(new Date(performanceTime), 'short')
-              : '공개 예정'}
-          </span>
-          <span className="flex items-center justify-center gap-2">
-            <FiClock />
-            {performanceTime
-              ? format.dateTime(new Date(performanceTime), {
-                  hour: 'numeric',
-                  minute: 'numeric',
-                })
               : '공개 예정'}
           </span>
         </div>
