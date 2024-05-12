@@ -76,6 +76,13 @@ export default function useAuth() {
 
       setIsLoggedIn(true);
 
+      const user = await getUserInfo();
+      setUserInfo(user);
+      if (!user?.dkuChecked) {
+        router.push('/need-reverification');
+        return;
+      }
+
       router.replace(redirect ? decodeURIComponent(redirect) : '/');
     } catch (error) {
       const e = error as Error;

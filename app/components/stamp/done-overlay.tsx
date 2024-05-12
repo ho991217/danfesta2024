@@ -31,10 +31,7 @@ export default function DoneOverlay({ isDone }: DoneOverlayProps) {
                 축하합니다! 미션을 완료하셨습니다.
               </AnimatedWrapper>
             </div>
-            <AnimatedWrapper
-              delay={0.75}
-              className="absolute bottom-0 left-0 w-full flex items-center justify-center"
-            >
+            <AnimatedWrapper delay={0.75} bottom>
               <Link variant="bottom" href="/stamp">
                 다른 미션도 하러 가기
               </Link>

@@ -37,20 +37,22 @@ const middleware = async (req: NextRequest) => {
 
   if (isProtectedRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
-    if (!jwt) {
+    if (jwt === undefined || jwt.length === 0) {
       req.nextUrl.pathname = '/login';
+      return i18nMiddleware(req);
     }
-    const { userRole } = jwtDecode<AccessToken>(jwt ?? '');
+    const { userRole } = jwtDecode<AccessToken>(jwt);
     const userRoles = userRole.split(',');
     const isAdmin = userRoles.includes('ROLE_ADMIN');
-
     if (!isAdmin) {
-      return req.nextUrl.pathname === '/';
+      req.nextUrl.pathname = '/';
+      return i18nMiddleware(req);
     }
   } else if (isPrivateRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
-      req.nextUrl.pathname = `/login?redirect=${encodeURIComponent(pathname)}`;
+      req.nextUrl.pathname = `/login?redirect=${encodeURIComponent(pathname.replace(/\/(ko|en)/, ''))}`;
+      return i18nMiddleware(req);
     }
   }
 

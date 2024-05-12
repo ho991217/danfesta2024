@@ -2,7 +2,8 @@
 
 import { Button, Form, ID, Link, Password } from '@components/common';
 import { useAuth } from '@hooks/.';
-import { type Params, type SearchParams } from '@lib/types';
+import { redirect as nextRedirect } from '@lib/navigation';
+import { type SearchParams } from '@lib/types';
 import { APIError } from '@lib/utils/validation';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';

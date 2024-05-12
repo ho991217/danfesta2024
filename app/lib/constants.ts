@@ -120,6 +120,12 @@ export const API_ROUTES = {
      * @returns {LineupInfo[]} 라인업 정보
      */
     list: (date: FestivalDate) => `/line-up?festivalDate=${date}`,
+    /**
+     * @name GET /lineup/date
+     * @description 라인업 날짜 조회
+     * @returns {{"performanceTime": string,"festivalDate": "FIRST_DAY" | "SECOND_DAY" | "THIRD_DAY"}[]} 라인업 날짜
+     */
+    day: '/line-up/date',
   },
   stamp: {
     /**

@@ -1,3 +1,5 @@
+'use client';
+
 import { track } from '@vercel/analytics';
 import Image from 'next/image';
 

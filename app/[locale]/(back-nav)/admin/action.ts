@@ -40,18 +40,15 @@ export async function decodeTicket(qrDate: string) {
   }
 }
 
-export async function getTicketInfoByAdmin(qrDate: string) {
-  const decoded = await decodeTicket(qrDate);
+export async function getTicketInfoByAdmin(qrData: string) {
+  const decoded = await decodeTicket(qrData);
   if (typeof decoded === 'string') {
     throw new CustomError(ErrorCause.INVALID, '유효하지 않은 티켓입니다.');
   }
 
   try {
     const { ticketId } = decoded as Payload;
-    const info = await get<TicketInfo>(API_ROUTES.ticket.info(ticketId), {
-      token: await getServerSideToken(),
-    });
-    return info;
+    return await getTicketInfoById(ticketId);
   } catch (e) {
     const error = e as Error;
     if (error.message === '해당 티켓을 찾을 수 없습니다.') {
@@ -59,6 +56,13 @@ export async function getTicketInfoByAdmin(qrDate: string) {
     }
     return null;
   }
+}
+
+export async function getTicketInfoById(ticketId: number) {
+  const info = await get<TicketInfo>(API_ROUTES.ticket.info(ticketId), {
+    token: await getServerSideToken(),
+  });
+  return info;
 }
 
 export async function resendSMSCode(ticketId: number) {

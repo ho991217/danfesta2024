@@ -5,7 +5,7 @@
     "email": "ho991217@kakao.com",
     "url": "https://github.com/ho991217"
   },
-  "version": "0.2.0",
+  "version": "1.0.0",
   "license": "Proprietary",
   "scripts": {
     "dev": "next dev",

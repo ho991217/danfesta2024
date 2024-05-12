@@ -1,6 +1,7 @@
 'use client';
 
 import { Link } from '@components/common';
+import { NextIntlClientProvider } from 'next-intl';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,14 +14,11 @@ export default function NotFound() {
           <span className="text-sm text-neutral-500">
             홈화면으로 이동해주세요.
           </span>
-
-          <Link
-            variant="bottom"
-            href="/"
-            className="w-full h-full flex items-center justify-center"
-          >
-            홈으로
-          </Link>
+          <NextIntlClientProvider locale="ko">
+            <Link variant="bottom" href="/">
+              홈으로
+            </Link>
+          </NextIntlClientProvider>
         </div>
       </body>
     </html>

@@ -2,15 +2,7 @@ import { IntlProvider, Link } from '@components/common';
 import LocaleSwitcher from '@components/common/locale-switcher';
 import { Card } from '@components/ui/card';
 import { getTranslations } from 'next-intl/server';
-import dynamic from 'next/dynamic';
 import { FaExclamation, FaGear } from 'react-icons/fa6';
-
-const RemainTimer = dynamic(
-  () => import('@components/under-construction/remain-timer'),
-  {
-    ssr: false,
-  },
-);
 
 export default async function UnderConstruction() {
   const t = await getTranslations('UnderConstruction');

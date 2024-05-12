@@ -29,6 +29,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
       API_ROUTES.ticket.reservation(Number(id)),
       {
         token,
+        cache: false,
       },
     );
     isAlreadyTurn = true;
@@ -38,6 +39,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   }
 
   const generateOpenText = () => {
+    if (isAlreadyTurn) return '예약 완료';
     if (isOpen) return '오픈';
     if (now < fromTime) return '오픈 전';
     return '종료';
@@ -54,7 +56,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
         className={twMerge(
           'w-full rounded-2xl transition-colors duration-200 ease-in-out',
           !isOpen &&
-            'bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500',
+            'bg-neutral-100 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-600',
         )}
       >
         <CardHeader className="flex flex-row justify-between items-start min-h-[115px]">
@@ -86,9 +88,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
           </CardDescription>
           <CardDescription className="flex flex-row items-center gap-2">
             <FiClock />
-            <span>
-              {new Date(from).getHours()}시 {new Date(from).getMinutes()}분
-            </span>
+            <span>{new Date(from).getHours()}시부터 신청 가능</span>
           </CardDescription>
         </CardFooter>
       </CardComponent>

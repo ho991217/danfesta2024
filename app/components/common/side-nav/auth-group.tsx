@@ -58,10 +58,12 @@ export default function AuthGroup({ className }: { className?: string }) {
                     </span>
                   </div>
 
+                  
+                  {/* 마이페이지 완성시 활성화
                   <div className="text-neutral-500 text-sm flex items-center justify-end">
                     <IoPersonCircleOutline className="mr-2" /> {t('gotoMypage')}{' '}
                     <IoChevronForwardOutline size={16} />
-                  </div>
+                  </div> */}
                 </div>
               </NavLink>
               <NavLink link="/my-tickets" className={className}>

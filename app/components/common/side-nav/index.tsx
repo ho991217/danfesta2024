@@ -85,9 +85,9 @@ export default async function SideNav() {
             ))}
           </ul>
         </div>
-        {/* <IntlProvider>
+        <IntlProvider>
           <LocaleSwitcher />
-        </IntlProvider> */}
+        </IntlProvider>
       </SheetContent>
     </Sheet>
   );
