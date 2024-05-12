@@ -1,4 +1,6 @@
-import { Carousel } from '@components/common';
+import Tile from '@components/common/carousel/tile';
+import { DateSelector } from '@components/lineup';
+import { SearchParams } from '@lib/types';
 
 import { getLineupInfoByDay } from './actions';
 
@@ -21,12 +23,25 @@ export type LineupInfo = {
   opened: boolean;
 };
 
-export default async function LineupPage() {
-  const lineups = await getLineupInfoByDay('FIRST_DAY');
+export default async function LineupPage({
+  searchParams: { day = 'FIRST_DAY' },
+}: SearchParams<{
+  day?: FestivalDate;
+}>) {
+  const lineups = await getLineupInfoByDay(day);
 
   return (
-    <div className="mb-20 flex flex-col gap-4 px-5">
-      <Carousel lineups={lineups} />
+    <div className="mb-20 flex flex-col gap-4">
+      <DateSelector selectedDay={day} />
+      {lineups.length > 0 ? (
+        lineups.map((lineup, index) => (
+          <Tile key={index} priority={index === 0} {...lineup} />
+        ))
+      ) : (
+        <span className="text-neutral-500 w-full text-center">
+          라인업 정보가 없습니다.
+        </span>
+      )}
     </div>
   );
 }
