@@ -51,7 +51,9 @@ export default function Tile({
           <span className="flex items-center justify-center gap-2">
             <FiCalendar />
             {performanceTime
-              ? format.dateTime(new Date(performanceTime), 'short')
+              ? format.dateTime(new Date(performanceTime), {
+                  dateStyle: 'long',
+                })
               : '공개 예정'}
           </span>
         </div>
