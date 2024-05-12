@@ -1,6 +1,8 @@
-import { get } from '@/app/api';
+import { get } from '@api/.';
 
-import Carousel from './carousel';
+
+import Carousel from '../carousel';
+import Block from './block';
 
 export type Ad = {
   id: number;
@@ -20,7 +22,11 @@ export default async function AdBanner() {
 
   return (
     <div className="w-full relative px-5 aspect-[728/140]">
-      <Carousel ads={ads.sort(() => 0.5 - Math.random())} />
+      <Carousel loop autoplay>
+        {ads.map((ad) => (
+          <Block key={ad.id} ad={ad} />
+        ))}
+      </Carousel>
     </div>
   );
 }

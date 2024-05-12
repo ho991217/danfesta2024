@@ -34,7 +34,11 @@ export default async function LineupTile({
               festivalDate={null}
             />
           ) : (
-            <Carousel lineups={lineups} />
+            <Carousel>
+              {lineups.map((tile, index) => (
+                <Tile key={index} priority={index === 0} {...tile} />
+              ))}
+            </Carousel>
           )}
         </div>
       </div>

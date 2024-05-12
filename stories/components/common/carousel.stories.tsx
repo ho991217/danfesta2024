@@ -100,21 +100,16 @@ type Story = StoryObj<typeof Carousel>;
 
 export const Default: Story = {
   args: {
-    lineups: lineups,
+    children: lineups.map((lineup, index) => (
+      <TileComponent key={index} priority={index === 0} {...lineup} />
+    )),
   },
 };
 
 export const No_Line_Up: Story = {
   args: {
-    lineups: noLineups,
-  },
-};
-
-export const Tile: Story = {
-  args: {
-    lineups: lineups,
-  },
-  render: (args) => {
-    return <TileComponent {...args.lineups[0]} />;
+    children: noLineups.map((lineup, index) => (
+      <TileComponent key={index} priority={index === 0} {...lineup} />
+    )),
   },
 };
