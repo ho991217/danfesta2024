@@ -24,7 +24,7 @@ export type LineupInfo = {
 };
 
 export default async function LineupPage({
-  searchParams: { day = 'SECOND_DAY' },
+  searchParams: { day = 'FIRST_DAY' },
 }: SearchParams<{
   day?: FestivalDate;
 }>) {
