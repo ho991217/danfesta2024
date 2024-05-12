@@ -22,7 +22,7 @@ export default function Tile({
 
   return (
     <div className="relative aspect-[3/4] flex-[0_0_100%] overflow-hidden rounded-2xl bg-neutral-500 lg:flex lg:flex-col lg:aspect-auto lg:overflow-visible lg:dark:bg-[#0C0C0C] lg:bg-[#FFF] lg:max-w-[600px]">
-      <div className="aspect-[3/4] lg:aspect-video lg:relative">
+      <div className="relative aspect-[3/4] lg:aspect-video">
         <Image
           priority={priority}
           src={imageUrl}
