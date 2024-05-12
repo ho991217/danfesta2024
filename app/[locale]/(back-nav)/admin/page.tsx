@@ -129,7 +129,7 @@ export default function TicketManage() {
           <If condition={ticketInfo === null}>
             <If.Then>
               <Keypad
-                slot={4}
+                slot={5}
                 onSubmit={getInfo}
                 title="티켓 아이디를 입력해주세요."
               />
