@@ -50,7 +50,7 @@ const middleware = async (req: NextRequest) => {
   } else if (isPrivateRoute) {
     const jwt = cookies().get(COOKIE_KEYS.accessToken)?.value;
     if (!jwt) {
-      req.nextUrl.pathname = `/login?redirect=${encodeURIComponent(pathname)}`;
+      req.nextUrl.pathname = `/login?redirect=${encodeURIComponent(pathname.replace(/\/(ko|en)/, ''))}`;
     }
   }
 
