@@ -1,5 +1,4 @@
 import { get } from '@/app/api';
-import { track } from '@vercel/analytics';
 
 import Carousel from './carousel';
 
