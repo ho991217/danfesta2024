@@ -2,7 +2,7 @@
 
 import { Button, Form, ID, Link, Password } from '@components/common';
 import { useAuth } from '@hooks/.';
-import { type Params, type SearchParams } from '@lib/types';
+import { type SearchParams } from '@lib/types';
 import { APIError } from '@lib/utils/validation';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
