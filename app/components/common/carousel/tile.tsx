@@ -29,10 +29,10 @@ export default function Tile({
           alt={altText}
           className="absolute bottom-0 left-0 right-0 top-0 object-cover rounded-2xl"
           placeholder="blur"
-          loading="eager"
           quality={100}
           blurDataURL={blurDataUrl}
-          fill
+          width={350}
+          height={467}
         />
       </div>
 
