@@ -31,12 +31,17 @@ export default function NeedReverificationPage() {
         />
       </AnimatedWrapper>
       <AnimatedWrapper delay={1} bottom>
-        <Link
-          href={{ pathname: '/verify', query: { reverify: 'true' } }}
-          variant="bottom"
-        >
-          재학생 인증하기
-        </Link>
+        <div className="absolute bottom-5 mx-auto w-[calc(100%-2.5rem)]">
+          <Link
+            variant="filled"
+            href={{ pathname: '/verify', query: { reverify: 'true' } }}
+          >
+            재학생 인증하기
+          </Link>
+          <Link href="/" variant="transparent">
+            나중에 하기
+          </Link>
+        </div>
       </AnimatedWrapper>
     </>
   );

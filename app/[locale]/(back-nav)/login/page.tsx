@@ -2,6 +2,7 @@
 
 import { Button, Form, ID, Link, Password } from '@components/common';
 import { useAuth } from '@hooks/.';
+import { redirect as nextRedirect } from '@lib/navigation';
 import { type SearchParams } from '@lib/types';
 import { APIError } from '@lib/utils/validation';
 import { useTranslations } from 'next-intl';
