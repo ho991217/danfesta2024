@@ -21,6 +21,7 @@ export default function Link({
   className,
   variant = 'text',
   auth = false,
+  ...props
 }: Props) {
   const { isLoggedIn } = useAuth();
 
@@ -35,6 +36,7 @@ export default function Link({
         'w-full h-full flex justify-center items-center',
         className,
       )}
+      {...props}
     >
       {children}
     </IntlLink>
@@ -47,6 +49,7 @@ export default function Link({
             : { pathname: '/login', query: { redirect: href.toString() } }
         }
         className="w-full h-full flex justify-center items-center"
+        {...props}
       >
         {children}
       </IntlLink>
