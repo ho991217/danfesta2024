@@ -1,10 +1,11 @@
 'use client';
 
 import { FestivalDate } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
-import { useRouter } from '@lib/navigation';
 import { cn } from '@lib/utils';
 import { motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
+
+import { Link } from '../../common';
 
 type DateBlockProps = {
   date: Date;
@@ -22,27 +23,17 @@ export default function DateBlock({
   festivalDate,
 }: DateBlockProps) {
   const locale = useLocale();
-  const router = useRouter();
-
-  const onClick = () => {
-    if (disabled) return;
-
-    router.replace(`/lineup?day=${festivalDate}`);
-  };
 
   return (
-    <motion.div
+    <Link
+      replace
+      href={`/lineup?day=${festivalDate}`}
       className={cn(
         'flex flex-col h-full justify-center items-center rounded-xl flex-1 relative gap-1',
         disabled && 'text-neutral-400 dark:text-neutral-700',
         selected && 'text-white',
         className,
       )}
-      whileTap={{
-        scale: disabled ? 1 : 0.95,
-        transition: { duration: 0.1 },
-      }}
-      onClick={onClick}
     >
       <div className="text-xl font-bold">{date.getDate()}</div>
       <div className="text-xs font-medium">
@@ -55,6 +46,6 @@ export default function DateBlock({
           layoutId="date-block"
         />
       )}
-    </motion.div>
+    </Link>
   );
 }
