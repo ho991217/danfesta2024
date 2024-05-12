@@ -1,7 +1,5 @@
-import { getLocale } from 'next-intl/server';
-import { redirect } from 'next/navigation';
+import { redirect } from '@lib/navigation';
 
 export default async function Page() {
-  const locale = await getLocale();
-  redirect(`/${locale}/verify`);
+  redirect('/verify');
 }

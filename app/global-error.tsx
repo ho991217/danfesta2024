@@ -2,6 +2,7 @@
 
 import { Link } from '@components/common';
 import * as Sentry from '@sentry/nextjs';
+import { NextIntlClientProvider } from 'next-intl';
 import Error from 'next/error';
 import { useEffect } from 'react';
 
@@ -26,13 +27,11 @@ export default function GlobalError({
       <body>
         <div className="flex h-[100dvh] w-full flex-col items-center justify-center">
           <h2 className="text-xl">에러!</h2>
-          <Link
-            href="/login"
-            className="w-full h-full flex items-center justify-center"
-            variant="bottom"
-          >
-            홈으로
-          </Link>
+          <NextIntlClientProvider locale="ko">
+            <Link href="/" variant="bottom">
+              홈으로
+            </Link>
+          </NextIntlClientProvider>
         </div>
       </body>
     </html>
