@@ -19,11 +19,13 @@ export default async function DateSelector({
   const month = new Date(days[0].performanceTime).getMonth();
   const day = new Date(days[0].performanceTime).getDate();
 
+  const beforeTwoDay = new Date(year, month, day - 2);
   const beforeOneDay = new Date(year, month, day - 1);
-  const afterOneDay = new Date(year, month, day + 3);
+  const afterOneDay = new Date(year, month, day + 2);
 
   return (
     <div className="w-full h-16 flex items-center justify-between">
+      <DateBlock date={beforeTwoDay} disabled />
       <DateBlock date={beforeOneDay} disabled />
       {days.map((day, index) => (
         <DateBlock

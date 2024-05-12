@@ -31,8 +31,7 @@ export default function Tile({
           placeholder="blur"
           quality={100}
           blurDataURL={blurDataUrl}
-          width={350}
-          height={467}
+          fill
         />
       </div>
 
