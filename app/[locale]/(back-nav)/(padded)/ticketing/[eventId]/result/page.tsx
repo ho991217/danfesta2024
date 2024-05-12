@@ -1,5 +1,5 @@
 import { get, getServerSideToken } from '@api/.';
-import { AnimatedCheck, AnimatedWrapper, Link } from '@components/common';
+import { AnimatedWrapper, Link } from '@components/common';
 import Confetti from '@components/common/confetti';
 import { API_ROUTES } from '@lib/constants';
 import { type Params } from '@lib/types';
@@ -22,7 +22,6 @@ export default async function Page({
         className="flex items-center justify-center gap-2 mt-10 mb-2"
       >
         <h1 className="text-3xl font-bold">티켓팅이 완료되었습니다.</h1>
-        <AnimatedCheck size={48} color="#0073E5" delay={0.25} />
       </AnimatedWrapper>
       <AnimatedWrapper delay={0.5}>
         <span className="text-neutral-500">

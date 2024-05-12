@@ -2,9 +2,6 @@
 
 import { AnimatedWrapper, Link } from '@components/common';
 import { Header } from '@components/signup';
-import Door from '@icons/Door.png';
-import Magnet from '@icons/maemi_magnet.png';
-import Shield from '@icons/shield.png';
 import Verification from '@icons/verification.png';
 import Image from 'next/image';
 
