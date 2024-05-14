@@ -42,7 +42,7 @@ export default function RootLayout({
 }: PropsWithChildren<Params<{ locale: string }>>) {
   return (
     <html lang={locale ?? 'ko'}>
-      <body className="font-Pretendard bg-primary flex items-center justify-center gap-[5rem]">
+      <body className="font-Pretendard flex items-center justify-center gap-[5rem]">
         <Providers>
           <div className="flex-col items-center justify-center hidden md:flex">
             <h1>
@@ -56,9 +56,7 @@ export default function RootLayout({
               단페스타는 모바일에 최적화 되어있어요!
             </span>
           </div>
-          <div className="relative max-w-[425px] min-w-[320px] w-full h-screen bg-white dark:bg-black">
-            {children}
-          </div>
+          {children}
         </Providers>
       </body>
     </html>
