@@ -1,7 +1,5 @@
-import DanfestaLogo from '@icons/orbit_logo.png';
 import { Params } from '@lib/types';
 import type { Metadata, Viewport } from 'next';
-import Image from 'next/image';
 import { PropsWithChildren } from 'react';
 
 import './globals.css';
@@ -42,22 +40,8 @@ export default function RootLayout({
 }: PropsWithChildren<Params<{ locale: string }>>) {
   return (
     <html lang={locale ?? 'ko'}>
-      <body className="font-Pretendard flex items-center justify-center gap-[5rem]">
-        <Providers>
-          <div className="flex-col items-center justify-center hidden md:flex">
-            <h1>
-              <Image
-                src={DanfestaLogo}
-                className="w-[320px]"
-                alt="단페스타 로고"
-              />
-            </h1>
-            <span className="text-lg font-semibold text-white">
-              단페스타는 모바일에 최적화 되어있어요!
-            </span>
-          </div>
-          {children}
-        </Providers>
+      <body className="font-Pretendard">
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
