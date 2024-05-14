@@ -21,7 +21,7 @@ export default async function AdBanner() {
 
   return (
     ads.length > 0 && (
-      <div className="w-full relative px-5 aspect-[728/140] lg:aspect-[728/70]">
+      <div className="w-full relative px-5 aspect-[728/140]">
         <Carousel loop autoplay>
           {ads.map((ad) => (
             <Block key={ad.id} ad={ad} />

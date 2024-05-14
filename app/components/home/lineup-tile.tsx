@@ -15,14 +15,14 @@ export default async function LineupTile({
     const isLineupEmpty = lineups.length === 0;
 
     return (
-      <div className="w-full lg:max-w-full">
+      <div className="w-full">
         <TileHeader>
           <TileHeader.Head>{t('title')}</TileHeader.Head>
           {!isLineupEmpty && (
             <TileHeader.SeeAll href="/lineup">{t('seeAll')}</TileHeader.SeeAll>
           )}
         </TileHeader>
-        <div className="relative aspect-[3/4] w-full lg:min-h-[500px] lg:aspect-auto">
+        <div className="relative aspect-[3/4] w-full">
           {isLineupEmpty ? (
             <Tile
               id={0}

@@ -80,7 +80,7 @@ export default function BottomSheet({
             variants={variants.bottomSheet.container}
             transition={transition.container}
             className={cn(
-              'z-[999] fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl lg:max-w-[500px] lg:bottom-8 lg:mx-auto',
+              'z-[999] fixed bg-white dark:bg-neutral-900 rounded-2xl bottom-4 left-4 right-4 box-border px-7 transition-[top] overflow-hidden shadow-xl',
               className,
             )}
           >

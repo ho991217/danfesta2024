@@ -21,8 +21,8 @@ export default function Tile({
     images.length > 0 ? images[0].originalName : '아티스트 미공개';
 
   return (
-    <div className="relative aspect-[3/4] flex-[0_0_100%] overflow-hidden rounded-2xl bg-neutral-500 lg:flex lg:flex-col lg:aspect-auto lg:overflow-visible lg:dark:bg-[#0C0C0C] lg:bg-[#FFF] lg:max-w-[600px]">
-      <div className="relative aspect-[3/4] lg:aspect-video">
+    <div className="relative aspect-[3/4] flex-[0_0_100%] overflow-hidden rounded-2xl bg-neutral-500">
+      <div className="relative aspect-[3/4]">
         <Image
           priority={priority}
           src={imageUrl}
@@ -35,7 +35,7 @@ export default function Tile({
         />
       </div>
 
-      <div className="absolute bottom-4 left-4 right-4 flex h-1/3 flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-4 text-white shadow-lg backdrop-blur-xl backdrop-filter lg:w-full lg:left-0 lg:bottom-0 lg:relative lg:backdrop-filter-none lg:backdrop-blur-none lg:text-black lg:shadow-none lg:dark:text-white lg:gap-4">
+      <div className="absolute bottom-4 left-4 right-4 flex h-1/3 flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-4 text-white shadow-lg backdrop-blur-xl backdrop-filter">
         <span className="flex items-center gap-2 text-xs">
           <FiHeart />
           {festivalDate
