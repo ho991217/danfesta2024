@@ -27,21 +27,24 @@ export default function DateBlock({
   return (
     <Link
       replace
-      href={`/lineup?day=${festivalDate}`}
+      tabIndex={disabled ? -1 : 0}
+      aria-disabled={disabled}
+      href={disabled ? '#' : `/lineup?day=${festivalDate}`}
       className={cn(
         'flex flex-col h-full justify-center items-center rounded-xl flex-1 relative gap-1',
-        disabled && 'text-neutral-400 dark:text-neutral-700',
+        disabled &&
+          'text-neutral-400 dark:text-neutral-700 pointer-events-none',
         selected && 'text-white',
         className,
       )}
     >
-      <div className="text-xl font-bold">{date.getDate()}</div>
-      <div className="text-xs font-medium">
+      <div className="text-xl font-bold z-10">{date.getDate()}</div>
+      <div className="text-xs font-medium z-10">
         {date.toLocaleDateString(locale, { weekday: 'short' })}
       </div>
       {selected && (
         <motion.div
-          className="w-full h-full bg-primary-500 rounded-xl absolute top-0 left-0 right-0 bottom-0 bg-primary -z-10"
+          className="w-full h-full bg-primary-500 rounded-xl absolute top-0 left-0 right-0 bottom-0 bg-primary z-0"
           transition={{ duration: 0.25 }}
           layoutId="date-block"
         />
