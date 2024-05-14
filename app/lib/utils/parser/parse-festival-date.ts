@@ -1,4 +1,4 @@
-import { FestivalDate } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
+import { FestivalDate } from '@page/(back-nav)/(padded)/lineup/page';
 
 export default function parseFestivalDate(date: FestivalDate): number {
   switch (date) {
