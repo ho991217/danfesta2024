@@ -29,7 +29,9 @@ export async function getAllLineupInfo(options?: GetAllLineupInfoOptions) {
 
 export async function getLineupInfoByDay(day: FestivalDate) {
   try {
-    const lineup = await get<LineupInfo[]>(API_ROUTES.lineup.list(day));
+    const lineup = await get<LineupInfo[]>(API_ROUTES.lineup.list(day), {
+      cache: true,
+    });
     if (lineup.length === 0) return [];
 
     const withBase64 = await Promise.all(

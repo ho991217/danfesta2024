@@ -1,6 +1,6 @@
-import { LineupInfo } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
 import NoLineup from '@images/lineup/no-lineup-image.webp';
 import { parseFestivalDate } from '@lib/utils/parser';
+import { LineupInfo } from '@page/(back-nav)/(padded)/lineup/page';
 import { useFormatter } from 'next-intl';
 import Image from 'next/image';
 import { FiCalendar, FiHeart } from 'react-icons/fi';
@@ -29,7 +29,7 @@ export default function Tile({
           alt={altText}
           className="absolute bottom-0 left-0 right-0 top-0 object-cover rounded-2xl"
           placeholder="blur"
-          quality={100}
+          quality={80}
           blurDataURL={blurDataUrl}
           fill
         />
