@@ -1,7 +1,7 @@
 'use client';
 
-import { cn } from '@/app/lib/utils';
 import { useRouter } from '@lib/navigation';
+import { cn } from '@lib/utils';
 import { PropsWithChildren } from 'react';
 
 export default function BackButton({
@@ -10,10 +10,7 @@ export default function BackButton({
 }: PropsWithChildren<{ className?: string }>) {
   const router = useRouter();
   return (
-    <button
-      onClick={() => router.back()}
-      className={cn('w-full h-full', className)}
-    >
+    <button onClick={router.back} className={cn('w-full h-full', className)}>
       {children}
     </button>
   );
