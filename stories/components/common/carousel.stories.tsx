@@ -14,8 +14,6 @@ const lineups: LineupInfo[] = [
         url: 'https://image.yes24.com/goods/41793215/XL',
         originalName: 'day6',
         mimeType: 'string',
-        base64:
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAECAIAAADETxJQAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAM0lEQVR4nAEoANf/AP/O0fGvs//SzQD/8OG7jG3/2McAgE5Rm2BOl0xNAEUmJXgXGSsAAPwxE63HH8B2AAAAAElFTkSuQmCC',
       },
     ],
     description: '공개 예정',
@@ -31,8 +29,6 @@ const lineups: LineupInfo[] = [
         url: 'https://image.yes24.com/goods/13116032/XL',
         originalName: '아이유',
         mimeType: 'string',
-        base64:
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAP0lEQVR4nAE0AMv/AP/87m5eSxcOANfWzgDi2MgaAACIckiqoJIAw7qvMCMAuq5phH96AP3279fRsbOrjYyNjZ+VGvTvB8vJAAAAAElFTkSuQmCC',
       },
     ],
     description: '공개 예정',
@@ -48,8 +44,6 @@ const lineups: LineupInfo[] = [
         url: 'https://image.yes24.com/goods/71935476/L',
         originalName: 'TWICE',
         mimeType: 'string',
-        base64:
-          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAP0lEQVR4nAE0AMv/AC+Arn++3XCuykOGowCa19/S797t/uCqvaAAuMeoWlU5V1JCFhwcAAUCACktLhcfJBcrLtSXFipBaicxAAAAAElFTkSuQmCC',
       },
     ],
     description: '공개 예정',
