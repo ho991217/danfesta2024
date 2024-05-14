@@ -1,6 +1,6 @@
 'use server';
 
-import { getServerSideToken, post } from '@api/.';
+import { get, getServerSideToken } from '@api/.';
 import { API_ROUTES } from '@lib/constants';
 
 import { MissionInfo, missionInfo } from './mission-info';
@@ -17,11 +17,9 @@ type StampInfo = {
 
 export async function getStamps(): Promise<boolean[]> {
   try {
-    const response = await post<{}, StampInfo>(
-      API_ROUTES.stamp.list,
-      {},
-      { token: await getServerSideToken() },
-    );
+    const response = await get<StampInfo>(API_ROUTES.stamp.list, {
+      token: await getServerSideToken(),
+    });
 
     return [
       response.mission1,
