@@ -1,8 +1,8 @@
 import getUserInfo from '@api/get-is-user-info';
 import { Link } from '@components/common';
 import Logo from '@icons/orbit_logo.png';
-import Universe from '@images/stamp/universe_bg.jpeg';
 import StampBoard from '@images/stamp/stamp_board.png';
+import Universe from '@images/stamp/universe_bg.jpeg';
 import { cn } from '@lib/utils';
 import Image from 'next/image';
 
@@ -37,7 +37,7 @@ export default async function StampPage() {
       <Image
         src={Universe}
         alt="stamp board"
-        className="h-screen fixed top-0 left-1/2 transform -translate-x-1/2 object-cover -z-10 brightness-50"
+        className="h-screen fixed top-0 left-1/2 transform -translate-x-1/2 object-cover z-0 brightness-50"
       />
       <div className="w-full flex flex-col justify-between rounded-2xl bg-neutral-700 bg-opacity-0 bg-clip-padding p-6 text-white backdrop-blur-xl backdrop-filter gap-2">
         <span className="w-full text-center text-xl font-medium mb-2">
