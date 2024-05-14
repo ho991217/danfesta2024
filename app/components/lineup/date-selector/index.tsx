@@ -23,6 +23,8 @@ export default async function DateSelector({
   const beforeOneDay = new Date(year, month, day - 1);
   const afterOneDay = new Date(year, month, day + 2);
 
+  console.log('days', days);
+
   return (
     <div className="w-full h-16 flex items-center justify-between">
       <DateBlock date={beforeTwoDay} disabled />
