@@ -112,9 +112,9 @@ export default function TicketManage() {
 
   return (
     <>
-      <div className="flex flex-col gap-2 lg:grid lg:w-full lg:max-w-full lg:grid-cols-3 lg:grid-rows-2 lg:gap-4 lg:mb-[65px] lg:px-8">
+      <div className="flex flex-col gap-2">
         <QrReader onScan={onScan} paused={scannerPaused} />
-        <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 lg:p-0 dark:bg-neutral-900 lg:min-w-full flex flex-col justify-between items-center relative">
+        <div className="overflow-hidden rounded-2xl bg-neutral-100 p-4 dark:bg-neutral-900 flex flex-col justify-between items-center relative">
           {!error && <StudentInfo info={ticketInfo} />}
           {error && <ErrorTile error={error} />}
           <Button
@@ -125,7 +125,7 @@ export default function TicketManage() {
             초기화
           </Button>
         </div>
-        <div className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900 lg:row-span-2">
+        <div className="overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-900">
           <If condition={ticketInfo === null}>
             <If.Then>
               <Keypad
@@ -150,7 +150,7 @@ export default function TicketManage() {
             </If.Else>
           </If>
         </div>
-        <div className="hidden overflow-hidden rounded-2xl bg-neutral-900 col-span-2 relative lg:flex lg:min-w-full">
+        <div className="hidden overflow-hidden rounded-2xl bg-neutral-900 col-span-2 relative">
           <div className="absolute left-8 top-1/2 -translate-y-1/2 flex gap-3 items-center text-neutral-100">
             <DanfestaLogo />
             <h1 className="text-4xl font-bold">DANFESTA</h1>

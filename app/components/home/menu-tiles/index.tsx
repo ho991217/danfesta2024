@@ -85,7 +85,7 @@ const tiles: TileInfo[] = [
 
 export default function MenuTiles() {
   return (
-    <div className="w-full grid grid-cols-2 grid-rows-2 gap-4 aspect-square lg:flex lg:max-w-full lg:aspect-auto lg:gap-8">
+    <div className="w-full grid grid-cols-2 grid-rows-2 gap-4 aspect-square">
       {tiles.map(({ privateRoute, ...tile }) => (
         <Link key={tile.id} href={tile.link} auth={privateRoute}>
           <Tile {...tile} />
