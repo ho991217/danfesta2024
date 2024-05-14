@@ -25,8 +25,8 @@ export default function Carousel({
 
   return (
     <IntlProvider>
-      <div className="absolute left-0 right-0 lg:max-w-[600px]" ref={emblaRef}>
-        <div className="flex gap-3 lg:gap lg:max-w-[600px]">{children}</div>
+      <div className="absolute left-0 right-0" ref={emblaRef}>
+        <div className="flex gap-3">{children}</div>
       </div>
     </IntlProvider>
   );

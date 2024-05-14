@@ -14,7 +14,7 @@ export default async function Home() {
   });
 
   return (
-    <div className="mb-20 flex flex-col gap-4 px-5 lg:mx-auto lg:max-w-full lg:px-10 lg:gap-8">
+    <div className="mb-20 flex flex-col gap-4 px-5">
       <NeedReverificationTile />
       <LineupTile lineups={lineups} />
       <AdBanner />
