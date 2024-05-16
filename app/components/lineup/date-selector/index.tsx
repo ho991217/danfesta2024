@@ -1,47 +1,50 @@
-import { get } from '@api/.';
-import { API_ROUTES } from '@lib/constants';
-import { FestivalDate } from '@page/(back-nav)/(padded)/lineup/page';
+'use client';
+
+import { cn } from '@/app/lib/utils';
+import { FestivalDate } from '@lib/types';
+import { LineupDayInfo } from '@page/(back-nav)/(padded)/lineup/actions';
+import dayjs from 'dayjs';
 
 import DateBlock from './date-block';
 
-export default async function DateSelector({
-  selectedDay,
-}: {
+type DateSelectorProps = {
   selectedDay: FestivalDate;
-}) {
-  const days = await get<
-    {
-      performanceTime: string;
-      festivalDate: FestivalDate;
-    }[]
-  >(API_ROUTES.lineup.day);
-  const year = new Date(days[0].performanceTime).getFullYear();
-  const month = new Date(days[0].performanceTime).getMonth();
-  const day = new Date(days[0].performanceTime).getDate();
+  availableDays: LineupDayInfo[];
+};
 
-  const beforeTwoDay = new Date(year, month, day - 2);
-  const beforeOneDay = new Date(year, month, day - 1);
-  const afterOneDay = new Date(year, month, day + 2);
+export default function DateSelector({
+  selectedDay,
+  availableDays,
+}: DateSelectorProps) {
+  const selectedDate = dayjs(
+    availableDays.find(({ festivalDate }) => festivalDate === selectedDay)
+      ?.performanceTime,
+  );
+
+  const daysArr = Array.from({ length: 5 }, (_, i) =>
+    selectedDate.add(i - 2, 'day'),
+  );
 
   return (
-    <div className="w-full h-16 flex items-center justify-between">
-      <DateBlock date={beforeTwoDay} disabled />
-      <DateBlock date={beforeOneDay} disabled />
-      {/* {days.map((day, index) => ( */}
-      <DateBlock
-        // key={index}
-        date={new Date('2024-05-22')}
-        festivalDate={'FIRST_DAY'}
-        selected={selectedDay === 'FIRST_DAY'}
-      />
-      <DateBlock
-        // key={index}
-        date={new Date('2024-05-23')}
-        festivalDate={'SECOND_DAY'}
-        selected={selectedDay === 'SECOND_DAY'}
-      />
-      {/* ))} */}
-      <DateBlock date={afterOneDay} disabled />
+    <div className="w-full h-16 flex items-center justify-between relative">
+      {daysArr.map((date, index) => (
+        <DateBlock
+          key={index}
+          date={date}
+          festivalDate={
+            availableDays.find(({ performanceTime }) =>
+              date.isSame(performanceTime, 'day'),
+            )?.festivalDate
+          }
+          className={cn(date.isSame(selectedDate, 'day') && 'text-white')}
+          disabled={
+            !availableDays.find(({ performanceTime }) =>
+              date.isSame(performanceTime, 'day'),
+            )
+          }
+        />
+      ))}
+      <div className="bg-primary rounded-xl h-full w-[20%] absolute left-1/2 -translate-x-1/2" />
     </div>
   );
 }

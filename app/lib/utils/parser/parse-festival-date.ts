@@ -1,4 +1,5 @@
-import { FestivalDate } from '@page/(back-nav)/(padded)/lineup/page';
+import { FestivalDate } from "../../types";
+
 
 export default function parseFestivalDate(date: FestivalDate): number {
   switch (date) {
