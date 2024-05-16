@@ -1,5 +1,6 @@
-import { type FestivalDate } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
 import { type User } from '@api/.';
+
+import { type FestivalDate } from './types';
 
 export const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 

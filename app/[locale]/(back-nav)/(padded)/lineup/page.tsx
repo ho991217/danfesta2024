@@ -1,10 +1,8 @@
 import Tile from '@components/common/carousel/tile';
 import { DateSelector } from '@components/lineup';
-import { SearchParams } from '@lib/types';
+import type { FestivalDate, SearchParams } from '@lib/types';
 
-import { getLineupInfoByDay } from './actions';
-
-export type FestivalDate = 'FIRST_DAY' | 'SECOND_DAY' | 'THIRD_DAY';
+import { getFestivalDays, getLineupInfoByDay } from './actions';
 
 export type LineupImage = {
   url: string;
@@ -29,10 +27,11 @@ export default async function LineupPage({
   day?: FestivalDate;
 }>) {
   const lineups = await getLineupInfoByDay(day);
+  const availableDays = await getFestivalDays();
 
   return (
     <div className="mb-20 flex flex-col gap-4">
-      <DateSelector selectedDay={day} />
+      <DateSelector selectedDay={day} availableDays={availableDays} />
       {lineups.length > 0 ? (
         lineups.map((lineup, index) => (
           <Tile key={index} priority={index === 0} {...lineup} />

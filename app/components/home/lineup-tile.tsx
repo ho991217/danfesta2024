@@ -1,4 +1,4 @@
-import { LineupInfo } from '@page/(back-nav)/(padded)/lineup/page';
+import { LineupInfo } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
 import { getTranslations } from 'next-intl/server';
 
 import Carousel from '../common/carousel';

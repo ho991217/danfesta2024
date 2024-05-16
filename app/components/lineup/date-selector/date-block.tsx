@@ -1,18 +1,19 @@
 'use client';
 
-import { FestivalDate } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
+import { useRouter } from '@lib/navigation';
+import { FestivalDate } from '@lib/types';
 import { cn } from '@lib/utils';
+import { Dayjs } from 'dayjs';
+import 'dayjs/locale/ko';
 import { motion } from 'framer-motion';
 import { useLocale } from 'next-intl';
 
-import { Link } from '../../common';
-
 type DateBlockProps = {
-  date: Date;
+  date: Dayjs;
   festivalDate?: FestivalDate;
   className?: string;
-  selected?: boolean;
   disabled?: boolean;
+  selected?: boolean;
 };
 
 export default function DateBlock({
@@ -23,32 +24,31 @@ export default function DateBlock({
   festivalDate,
 }: DateBlockProps) {
   const locale = useLocale();
+  const router = useRouter();
+
+  const onClick = () => {
+    if (disabled) return;
+    router.replace(`/lineup?day=${festivalDate}`);
+  };
 
   return (
-    <Link
-      replace
+    <motion.div
       tabIndex={disabled ? -1 : 0}
       aria-disabled={disabled}
-      href={disabled ? '#' : `/lineup?day=${festivalDate}`}
+      onClick={onClick}
+      whileTap={{ scale: disabled ? 1 : 0.95 }}
       className={cn(
         'flex flex-col h-full justify-center items-center rounded-xl flex-1 relative gap-1',
         disabled &&
           'text-neutral-400 dark:text-neutral-700 pointer-events-none',
-        selected && 'text-white',
+        selected && 'text-white bg-primary',
         className,
       )}
     >
-      <div className="text-xl font-bold z-10">{date.getDate()}</div>
+      <div className="text-xl font-bold z-10">{date.date()}</div>
       <div className="text-xs font-medium z-10">
-        {date.toLocaleDateString(locale, { weekday: 'short' })}
+        {date.locale(locale).format('ddd')}
       </div>
-      {selected && (
-        <motion.div
-          className="w-full h-full bg-primary-500 rounded-xl absolute top-0 left-0 right-0 bottom-0 bg-primary z-0"
-          transition={{ duration: 0.25 }}
-          layoutId="date-block"
-        />
-      )}
-    </Link>
+    </motion.div>
   );
 }

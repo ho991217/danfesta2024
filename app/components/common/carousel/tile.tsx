@@ -1,6 +1,6 @@
+import { LineupInfo } from '@/app/[locale]/(back-nav)/(padded)/lineup/page';
 import NoLineup from '@images/lineup/no-lineup-image.webp';
 import { parseFestivalDate } from '@lib/utils/parser';
-import { LineupInfo } from '@page/(back-nav)/(padded)/lineup/page';
 import { useFormatter } from 'next-intl';
 import Image from 'next/image';
 import { FiCalendar, FiHeart } from 'react-icons/fi';
@@ -15,8 +15,6 @@ export default function Tile({
 }: LineupInfo & { priority?: boolean }) {
   const format = useFormatter();
   const imageUrl = images.length > 0 ? images[0].url : NoLineup.src;
-  // const blurDataUrl =
-  //   images.length > 0 ? images[0].blurImage : NoLineup.blurDataURL;
   const altText =
     images.length > 0 ? images[0].originalName : '아티스트 미공개';
 

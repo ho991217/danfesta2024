@@ -2,12 +2,18 @@
 
 import { get } from '@api/.';
 import { API_ROUTES } from '@lib/constants';
+import { FestivalDate } from '@lib/types';
 
-import type { FestivalDate, LineupInfo } from './page';
+import type { LineupInfo } from './page';
 
 type GetAllLineupInfoOptions = {
   random?: boolean;
   count?: number;
+};
+
+export type LineupDayInfo = {
+  performanceTime: string;
+  festivalDate: FestivalDate;
 };
 
 export async function getAllLineupInfo(options?: GetAllLineupInfoOptions) {
@@ -37,4 +43,8 @@ export async function getLineupInfoByDay(day: FestivalDate) {
   } catch {
     return [];
   }
+}
+
+export async function getFestivalDays() {
+  return await get<LineupDayInfo[]>(API_ROUTES.lineup.day);
 }
