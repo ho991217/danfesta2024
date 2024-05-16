@@ -91,6 +91,7 @@ export default function PasswordSetPage({
           }
         } catch (error) {
           const e = error as APIError;
+          console.error(e.message);
           toast.error(e.message);
         } finally {
           setLoading(false);

@@ -1,7 +1,7 @@
 'use client';
 
-import { cn } from '@/app/lib/utils';
 import { FestivalDate } from '@lib/types';
+import { cn } from '@lib/utils';
 import { LineupDayInfo } from '@page/(back-nav)/(padded)/lineup/actions';
 import dayjs from 'dayjs';
 
