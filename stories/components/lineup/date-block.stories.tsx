@@ -1,5 +1,6 @@
 import DateBlock from '@components/lineup/date-selector/date-block';
 import { type Meta, type StoryObj } from '@storybook/react';
+import dayjs from 'dayjs';
 
 const meta: Meta<typeof DateBlock> = {
   title: 'COMPONENTS/Lineup/DateBlock',
@@ -14,6 +15,6 @@ type Story = StoryObj<typeof DateBlock>;
 
 export const Default: Story = {
   args: {
-    date: new Date('2024-05-09T00:00:00Z'),
+    date: dayjs('2024-05-21'),
   },
 };
