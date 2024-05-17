@@ -11,9 +11,7 @@ export default async function TicketingPage({
 }: SearchParams<{ show: 'all' | 'active' }>) {
   const all = await getEvents();
   const events = all.filter((e) =>
-    show === 'active'
-      ? dayjs(e.from).isBefore(dayjs()) && dayjs(e.to).isAfter(dayjs())
-      : true,
+    show === 'active' ? dayjs(e.to).isAfter(dayjs()) : true,
   );
   const t = await getTranslations('Ticketing.page');
   return (
