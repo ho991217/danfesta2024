@@ -9,6 +9,20 @@ export const metadata: Metadata = {
   title: '단페스타 2024',
   description: '단국대학교 대동제 2024 공식 홈페이지 입니다.',
   manifest: '/manifest.json',
+  applicationName: '단페스타 2024',
+  creator: '이호연 <ho991217@kakao.com>',
+  keywords: [
+    '단국대학교',
+    '단페스타',
+    '대동제',
+    '2024',
+    '축제',
+    '대학축제',
+    '단국대',
+    '단국',
+    '대학교',
+    '대학',
+  ],
   viewport:
     'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
   openGraph: {
@@ -25,6 +39,14 @@ export const metadata: Metadata = {
     ],
   },
   metadataBase: new URL('/', 'https://www.danfesta.com/'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export const viewport: Viewport = {
