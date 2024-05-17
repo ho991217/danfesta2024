@@ -63,6 +63,9 @@
     "card": {
       "my-turn": "My Turn",
       "available-from": "Available from"
+    },
+    "show-all": {
+      "label": "Show All"
     }
   }
 }

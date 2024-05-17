@@ -9,6 +9,7 @@ import {
 import { API_ROUTES } from '@lib/constants';
 import { cn } from '@lib/utils';
 import { type FestivalEvent } from '@page/(back-nav)/(padded)/ticketing/action';
+import dayjs from 'dayjs';
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { FiCalendar, FiClock } from 'react-icons/fi';
@@ -16,10 +17,9 @@ import { twMerge } from 'tailwind-merge';
 
 export default async function Card({ id, name, from, to }: FestivalEvent) {
   const token = await getServerSideToken();
-  const fromTime = new Date(from);
-  const toTime = new Date(to);
-  const now = new Date();
-  const isOpen = now >= fromTime && now <= toTime;
+  const [fromTime, toTime, now] = [dayjs(from), dayjs(to), dayjs()];
+  const isOpen = now.isAfter(fromTime) && now.isBefore(toTime);
+  const isEnded = now.isAfter(toTime);
   const locale = await getLocale();
   const formatter = getFormatter();
   const t = await getTranslations('Ticketing.card');
@@ -56,7 +56,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
     >
       <CardComponent
         className={twMerge(
-          'w-full rounded-2xl transition-colors duration-200 ease-in-out',
+          'w-full rounded-2xl transition-colors duration-200 ease-in-out relative overflow-hidden',
           !isOpen &&
             'bg-neutral-100 dark:bg-neutral-900 text-neutral-400 dark:text-neutral-600',
         )}
