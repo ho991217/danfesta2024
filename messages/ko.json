@@ -63,6 +63,9 @@
     "card": {
       "my-turn": "나의 대기 순번",
       "available-from": "예매 가능 시간: "
+    },
+    "show-all": {
+      "label": "모든 이벤트 보기"
     }
   }
 }
