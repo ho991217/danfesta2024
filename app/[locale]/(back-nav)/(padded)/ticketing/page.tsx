@@ -1,9 +1,12 @@
 import { Card } from '@components/ticketing';
+import { SearchParams } from '@lib/types';
 import { getTranslations } from 'next-intl/server';
 
 import { getEvents } from './action';
 
-export default async function Page() {
+export default async function TicketingPage({
+  searchParams: { show },
+}: SearchParams<{ show: 'all' | 'active' }>) {
   const events = await getEvents();
   const t = await getTranslations('Ticketing.page');
   return (
