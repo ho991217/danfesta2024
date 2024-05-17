@@ -9,7 +9,7 @@ import {
 import { API_ROUTES } from '@lib/constants';
 import { cn } from '@lib/utils';
 import { type FestivalEvent } from '@page/(back-nav)/(padded)/ticketing/action';
-import { getLocale } from 'next-intl/server';
+import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { FiCalendar, FiClock } from 'react-icons/fi';
 import { twMerge } from 'tailwind-merge';
@@ -21,6 +21,8 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const now = new Date();
   const isOpen = now >= fromTime && now <= toTime;
   const locale = await getLocale();
+  const formatter = getFormatter();
+  const t = await getTranslations('Ticketing.card');
   let isAlreadyTurn = false;
   let myTurn = -1;
 
@@ -72,11 +74,11 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
               className="flex flex-col items-center justify-center gap-1"
               style={{ marginTop: 0 }}
             >
-              <div className="text-2xl rounded-full bg-neutral-200 dark:bg-neutral-800 w-12 h-12 grid place-content-center">
+              <div className="rounded-full bg-neutral-200 dark:bg-neutral-800 w-12 h-12 grid place-content-center">
                 {myTurn}
               </div>
               <span className="text-[10px] text-neutral-400 dark:text-neutral-600">
-                내 대기 순번
+                {t('my-turn')}
               </span>
             </div>
           )}
@@ -84,11 +86,16 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
         <CardFooter className="flex justify-between border-t-[1px] pt-5 dark:border-neutral-700">
           <CardDescription className="flex flex-row items-center gap-2">
             <FiCalendar />
-            <span>{new Date(from).toLocaleDateString()}</span>
+            <span>{(await formatter).dateTime(new Date(from))}</span>
           </CardDescription>
           <CardDescription className="flex flex-row items-center gap-2">
             <FiClock />
-            <span>{new Date(from).getHours()}시부터 신청 가능</span>
+            <span>
+              {t('available-from')}{' '}
+              {(await formatter).dateTime(new Date(from), {
+                hour: 'numeric',
+              })}
+            </span>
           </CardDescription>
         </CardFooter>
       </CardComponent>

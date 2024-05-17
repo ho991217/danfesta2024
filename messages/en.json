@@ -57,5 +57,12 @@
     "title": "Under Construction",
     "description": "Danfesta 2024 is under construction to provide better user experience.",
     "notice": "All services including sign-up will be available from May 13, 2024."
+  },
+  "Ticketing": {
+    "page": { "no-event": "No event available" },
+    "card": {
+      "my-turn": "My Turn",
+      "available-from": "Available from"
+    }
   }
 }

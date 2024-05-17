@@ -57,5 +57,12 @@
     "title": "Under Construction",
     "description": "단페스타 2024는 최고의 유저경험을 위해 준비중이에요.",
     "notice": "회원가입을 포함한 모든 서비스는 2024년 5월 13일부터 이용 가능해요."
+  },
+  "Ticketing": {
+    "page": { "no-event": "티켓팅 이벤트가 없습니다." },
+    "card": {
+      "my-turn": "나의 대기 순번",
+      "available-from": "예매 가능 시간: "
+    }
   }
 }
