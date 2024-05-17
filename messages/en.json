@@ -20,7 +20,13 @@
     "notice": "Notice"
   },
   "Home": {
-    "description": "DKU festa 2024"
+    "description": "DKU festa 2024",
+    "menu-tiles": {
+      "ticketing": "Book your<br></br>tickets",
+      "stamp": "Check your<br></br>stamps",
+      "events": "Check out<br></br>events",
+      "notice": "Notice"
+    }
   },
   "LineupTile": {
     "title": "Check Out Line-Ups",

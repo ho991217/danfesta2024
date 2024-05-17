@@ -20,7 +20,13 @@
     "notice": "공지사항"
   },
   "Home": {
-    "description": "단국대학교 2024 대동제"
+    "description": "단국대학교 2024 대동제",
+    "menu-tiles": {
+      "ticketing": "단국존<br></br>사전 티켓팅",
+      "stamp": "스탬프<br></br>확인하기",
+      "events": "이벤트<br></br>확인하기",
+      "notice": "축제 관련<br></br>공지사항"
+    }
   },
   "LineupTile": {
     "title": "라인업 알아보기",
