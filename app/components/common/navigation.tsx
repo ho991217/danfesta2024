@@ -16,13 +16,13 @@ export default function Navigation({ hasBackButton = false, scheme }: Props) {
   return (
     <nav
       className={cn(
-        'flex w-full justify-between items-start px-5',
+        'flex w-full justify-between items-start px-5 ',
         hasBackButton ? 'py-5' : 'h-[100px] pt-5',
       )}
     >
       <If condition={hasBackButton}>
         <If.Then>
-          <BackButton>
+          <BackButton className="z-[9999] w-auto">
             <IoArrowBackOutline
               size={25}
               className={cn(
