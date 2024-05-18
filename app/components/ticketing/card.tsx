@@ -9,6 +9,7 @@ import {
 import { API_ROUTES } from '@lib/constants';
 import { cn } from '@lib/utils';
 import { type FestivalEvent } from '@page/(back-nav)/(padded)/ticketing/action';
+import { get as getEdgeConfig } from '@vercel/edge-config';
 import dayjs from 'dayjs';
 import { getFormatter, getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
@@ -17,8 +18,17 @@ import { twMerge } from 'tailwind-merge';
 
 export default async function Card({ id, name, from, to }: FestivalEvent) {
   const token = await getServerSideToken();
+  const isFirstTicketingOpen =
+    (await getEdgeConfig<boolean>('isFirstTicketingOpen')) ?? false;
+  const isSecondTicketingOpen =
+    (await getEdgeConfig<boolean>('isSecondTicketingOpen')) ?? false;
+  const isFirstTicketing = id === 59363;
+  const isSecondTicketing = id === 58336;
   const [fromTime, toTime, now] = [dayjs(from), dayjs(to), dayjs()];
-  const isOpen = now.isAfter(fromTime) && now.isBefore(toTime);
+  const isOpen: boolean =
+    (now.isAfter(fromTime) && now.isBefore(toTime)) ||
+    (isFirstTicketing && isFirstTicketingOpen) ||
+    (isSecondTicketing && isSecondTicketingOpen);
   const isEnded = now.isAfter(toTime);
   const locale = await getLocale();
   const formatter = getFormatter();
