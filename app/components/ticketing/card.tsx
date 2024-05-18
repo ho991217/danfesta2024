@@ -94,6 +94,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
               {t('available-from')}{' '}
               {(await formatter).dateTime(new Date(from), {
                 hour: 'numeric',
+                minute: 'numeric',
               })}
             </span>
           </CardDescription>
