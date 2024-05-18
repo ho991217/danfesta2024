@@ -28,7 +28,8 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const isOpen: boolean =
     (now.isAfter(fromTime) && now.isBefore(toTime)) ||
     (isFirstTicketing && isFirstTicketingOpen) ||
-    (isSecondTicketing && isSecondTicketingOpen);
+    (isSecondTicketing && isSecondTicketingOpen) ||
+    isFirstTicketing;
   const isEnded = now.isAfter(toTime);
   const locale = await getLocale();
   const formatter = getFormatter();
@@ -53,7 +54,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const generateOpenText = () => {
     if (isAlreadyTurn) return '예약 완료';
     if (isOpen) return '오픈';
-    if (now < fromTime) return '오픈 전';
+    if (now.isBefore(fromTime)) return '오픈 전';
     return '종료';
   };
 
