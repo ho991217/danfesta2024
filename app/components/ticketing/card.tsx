@@ -28,8 +28,7 @@ export default async function Card({ id, name, from, to }: FestivalEvent) {
   const isOpen: boolean =
     (now.isAfter(fromTime) && now.isBefore(toTime)) ||
     (isFirstTicketing && isFirstTicketingOpen) ||
-    (isSecondTicketing && isSecondTicketingOpen) ||
-    isFirstTicketing;
+    (isSecondTicketing && isSecondTicketingOpen);
   const isEnded = now.isAfter(toTime);
   const locale = await getLocale();
   const formatter = getFormatter();
