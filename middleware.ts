@@ -1,4 +1,3 @@
-import { get } from '@vercel/edge-config';
 import { jwtDecode } from 'jwt-decode';
 import createMiddleware from 'next-intl/middleware';
 import { cookies } from 'next/headers';
@@ -26,7 +25,7 @@ const middleware = async (req: NextRequest) => {
     pathname.includes(route),
   );
 
-  const isMaintenance = await get('is_maintenance');
+  const isMaintenance = false;
   if (
     isMaintenance &&
     !pathname.includes('under-construction') &&

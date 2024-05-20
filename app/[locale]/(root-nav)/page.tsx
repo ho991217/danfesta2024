@@ -6,7 +6,6 @@ import {
   NeedReverificationTile,
   NoticeTile,
 } from '@components/home';
-import { get } from '@vercel/edge-config';
 import { getTranslations } from 'next-intl/server';
 import { BsBellFill, BsTicketFill } from 'react-icons/bs';
 import { FaStamp } from 'react-icons/fa';
@@ -21,7 +20,6 @@ export default async function Home() {
   });
   const t = await getTranslations('Home.menu-tiles');
   const rich = (key: string) => t.rich(key, { br: () => <br /> });
-  const notice = await get<string>('notice');
 
   const tiles: TileInfo[] = [
     {
@@ -63,11 +61,6 @@ export default async function Home() {
 
   return (
     <div className="mb-20 flex flex-col gap-4 px-5">
-      {!!notice && (
-        <NoticeTile>
-          <span>{notice}</span>
-        </NoticeTile>
-      )}
       <NeedReverificationTile />
       <LineupTile lineups={lineups} />
       <AdBanner />
